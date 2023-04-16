@@ -1,5 +1,6 @@
 import type { Config } from 'jest';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const jestConfig = {
 	roots: ['<rootDir>'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],

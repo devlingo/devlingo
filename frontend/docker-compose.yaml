@@ -5,6 +5,8 @@ services:
             dockerfile: Dockerfile
             context: .
             target: install
+            args:
+                NODE_ENV: "development"
         volumes:
             -   .:/app/:cached
         command: ["pnpm", "run", "dev"]
