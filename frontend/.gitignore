@@ -1,0 +1,10 @@
+*.log
+.DS_Store
+.idea/sonarlint/
+.jest/
+.next/
+.vscode/
+coverage/
+dist/
+node_modules/
+**/.env*

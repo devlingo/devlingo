@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    app:
+        build:
+            dockerfile: Dockerfile
+            context: .
+            target: install
+        volumes:
+            -   .:/app/:cached
+        command: ["pnpm", "run", "dev"]
