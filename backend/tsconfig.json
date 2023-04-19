@@ -1,0 +1,27 @@
+{
+	"include": ["**/*.ts"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"module": "CommonJS",
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"target": "ESNext",
+		"paths": {
+			"config/*": ["apps/config/src/*"],
+			"shared/*": ["shared/src/*"]
+		}
+	}
+}

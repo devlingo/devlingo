@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+    db:
+        image: postgres:latest
+        volumes:
+            - db:/var/lib/postrgresql/data/
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_PASSWORD: devlingo
+            POSTGRES_DB: devlingo
+            POSTGRES_USER: devlingo
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U postgres']
+            interval: 30s
+            timeout: 5s
+            retries: 5
+            start_period: 5s
+    config:
+        depends_on:
+            db:
+                condition: service_healthy
+        build:
+            dockerfile: Dockerfile
+            context: .
+            target: install
+            args:
+                - SERVER_PORT=3000
+                - TARGET=config
+        volumes:
+            - ./apps/config:/app/apps/config:cached
+            - ./shared:/app/shared:cached
+            - ./prisma:/app/prisma:cached
+        environment:
+            SERVER_PORT: 3000
+            DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
+        env_file:
+            - .env.development
+        ports:
+            - '3000:3000'
+        command: ['pnpm', 'run', 'nest:start-config']
+
+volumes:
+    db:
