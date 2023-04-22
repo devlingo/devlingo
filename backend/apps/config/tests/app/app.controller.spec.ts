@@ -1,23 +1,27 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from 'config/app';
 import { Messages } from 'shared/constants';
-import request from 'supertest';
+import type { SuperTest } from 'supertest';
+import { bootstrapIntegrationTest } from 'testing/testing.utils';
 
 describe('App Controller Tests', () => {
 	let app: INestApplication;
+	let request: SuperTest<any>;
 
-	beforeEach(async () => {
-		const moduleFixture: TestingModule = await Test.createTestingModule({
+	beforeAll(async () => {
+		const bootstrap = await bootstrapIntegrationTest({
 			imports: [AppModule],
-		}).compile();
+		});
+		request = bootstrap.request;
+		app = bootstrap.app;
+	});
 
-		app = moduleFixture.createNestApplication();
-		await app.init();
+	afterAll(async () => {
+		await app.close();
 	});
 
 	it('/ (GET)', async () => {
-		const response = await request(app.getHttpServer()).get('/');
+		const response = await request.get('/');
 		expect(response.statusCode).toBe(HttpStatus.OK);
 		expect(response.text).toBe(Messages.HEALTH_CHECK);
 	});

@@ -19,6 +19,7 @@ const jestConfig = {
 	coverageDirectory: 'coverage',
 	testEnvironment: 'node',
 	cacheDirectory: '.jest/cache',
+	testTimeout: 10000,
 } satisfies Config;
 
 export default jestConfig;

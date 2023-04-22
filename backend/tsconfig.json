@@ -21,7 +21,8 @@
 		"target": "ESNext",
 		"paths": {
 			"config/*": ["apps/config/src/*"],
-			"shared/*": ["shared/src/*"]
+			"shared/*": ["shared/src/*"],
+			"testing/*": ["testing/*"]
 		}
 	}
 }

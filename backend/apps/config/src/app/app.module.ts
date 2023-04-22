@@ -8,8 +8,8 @@ import { AppService } from './app.service';
 
 @Module({
 	imports: [
-		ConfigModule.forRoot({ isGlobal: true }),
 		PrismaModule,
+		ConfigModule.forRoot({ isGlobal: true }),
 		...API_MODULES,
 	],
 	controllers: [AppController],

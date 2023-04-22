@@ -16,12 +16,12 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: 19
+                  node-version: 19
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
               with:
-                version: 8
+                  version: 8
             - name: Get pnpm store directory
               id: pnpm-cache
               run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
@@ -45,12 +45,12 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: 19
+                  node-version: 19
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
               with:
-                version: 8
+                  version: 8
             - name: Get pnpm store directory
               id: pnpm-cache
               run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT

@@ -10,7 +10,8 @@ CREATE TABLE "Project" (
 -- CreateTable
 CREATE TABLE "ConfigSchema" (
     "id" TEXT NOT NULL,
-    "version" TEXT NOT NULL,
+    "version" SERIAL NOT NULL,
+    "schema" JSONB NOT NULL,
     "projectId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -20,10 +21,10 @@ CREATE TABLE "ConfigSchema" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ConfigSchema_projectId_key" ON "ConfigSchema"("projectId");
-
--- CreateIndex
 CREATE INDEX "ConfigSchema_version_idx" ON "ConfigSchema"("version");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "ConfigSchema_version_projectId_key" ON "ConfigSchema"("version", "projectId");
+
 -- AddForeignKey
-ALTER TABLE "ConfigSchema" ADD CONSTRAINT "ConfigSchema_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ConfigSchema" ADD CONSTRAINT "ConfigSchema_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;

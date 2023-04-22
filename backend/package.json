@@ -30,8 +30,8 @@
 		"@prisma/client": "^4.13.0",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.0",
+		"dayjs": "^1.11.7",
 		"express": "^4.18.2",
-		"interface-forge": "^1.5.1",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "^7.8.0"
 	},
@@ -42,8 +42,8 @@
 		"@nestjs/testing": "^9.4.0",
 		"@tool-belt/eslint-config": "^2.0.0",
 		"@types/express": "^4.17.17",
-		"@types/jest": "29.5.0",
-		"@types/node": "^18.15.11",
+		"@types/jest": "29.5.1",
+		"@types/node": "^18.15.12",
 		"@types/supertest": "^2.0.12",
 		"@typescript-eslint/eslint-plugin": "^5.59.0",
 		"@typescript-eslint/parser": "^5.59.0",
@@ -51,6 +51,7 @@
 		"eslint-import-resolver-typescript": "^3.5.5",
 		"eslint-plugin-jest": "^27.2.1",
 		"husky": "^8.0.3",
+		"interface-forge": "^1.5.1",
 		"jest": "29.5.0",
 		"lint-staged": "^13.2.1",
 		"prettier": "^2.8.7",
@@ -62,7 +63,7 @@
 		"ts-node": "^10.9.1",
 		"tsconfig-paths": "4.2.0",
 		"typescript": "^5.0.4",
-		"webpack": "^5.79.0"
+		"webpack": "^5.80.0"
 	},
 	"lint-staged": {
 		"*.ts": "eslint --fix",
