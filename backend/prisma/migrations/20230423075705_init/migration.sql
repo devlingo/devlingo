@@ -14,8 +14,6 @@ CREATE TABLE "ConfigSchema" (
     "schema" JSONB NOT NULL,
     "projectId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "ConfigSchema_pkey" PRIMARY KEY ("id")
 );

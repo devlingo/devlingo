@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadata.interface';
 import { Test } from '@nestjs/testing';
-import { PrismaExceptionFilter } from 'shared/exceptionFilters/prisma-exceptino.filter';
+import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
 import { setupValidationPipe } from 'shared/utils/configuration.utils';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';

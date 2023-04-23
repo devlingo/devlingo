@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ApiVersions } from 'shared/constants';
-import { PrismaExceptionFilter } from 'shared/exceptionFilters/prisma-exceptino.filter';
+import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
 import { PrismaService } from 'shared/modules/prisma.service';
 import {
 	setupSwagger,

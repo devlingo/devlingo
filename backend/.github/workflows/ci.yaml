@@ -10,6 +10,22 @@ env:
 jobs:
     test:
         runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:latest
+                env:
+                    POSTGRES_PASSWORD: devlingo
+                    POSTGRES_DB: devlingo
+                    POSTGRES_USER: devlingo
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    - 5432:5432
+        env:
+            DATABASE_URL: postgresql://devlingo:devlingo@localhost:5432/devlingo
         steps:
             - name: Checkout
               uses: actions/checkout@v3
@@ -33,6 +49,8 @@ jobs:
                   restore-keys: ${{ runner.os }}-pnpm-store-
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
+            - name: Prisma Migrate
+              run: pnpm run prisma:migrate:deploy
             - name: Prisma Generate
               run: pnpm run prisma:generate
             - name: Test with Coverage

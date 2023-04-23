@@ -14,6 +14,4 @@ export const ConfigSchemaFactory = new TypeFactory<ConfigSchema>((i) => ({
 	projectId: faker.datatype.uuid(),
 	schema: '{}',
 	createdAt: new Date(),
-	updatedAt: new Date(),
-	deletedAt: null,
 }));
