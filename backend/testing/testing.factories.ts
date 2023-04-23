@@ -4,6 +4,7 @@ import { TypeFactory } from 'interface-forge';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
 	id: faker.datatype.uuid(),
+	name: faker.company.name(),
 	createdAt: new Date(),
 	updatedAt: new Date(),
 }));

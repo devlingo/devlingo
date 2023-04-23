@@ -1,4 +1,4 @@
-// This is your Prisma configuration-options file,
+// This is your Prisma configuration-option file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -12,6 +12,7 @@ datasource db {
 
 model Project {
   id                String          @default(uuid()) @id
+  name              String
   configSchemas     ConfigurationOption[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt

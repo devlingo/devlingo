@@ -20,9 +20,11 @@ describe('App Controller Tests', () => {
 		await app.close();
 	});
 
-	it('/ (GET)', async () => {
-		const response = await request.get('/');
-		expect(response.statusCode).toBe(HttpStatus.OK);
-		expect(response.text).toBe(Messages.HEALTH_CHECK);
+	describe('GET /', () => {
+		it('returns a health check message', async () => {
+			const response = await request.get('/');
+			expect(response.statusCode).toBe(HttpStatus.OK);
+			expect(response.text).toBe(Messages.HEALTH_CHECK);
+		});
 	});
 });

@@ -9,20 +9,23 @@ import {
 	Post,
 } from '@nestjs/common';
 import { ConfigurationOption } from '@prisma/client';
-import { Key, ProjectId, SchemaBody } from 'shared/parameters/schema.dto';
+import { ConfigurationOptionCreateDTO } from 'shared/dtos/body.dto';
+import { Key, ProjectId } from 'shared/dtos/parameter.dto';
 
-import { ConfigurationOptionsService } from './configuration-options.service';
+import { ConfigurationOptionService } from './configuration-option.service';
 
 @Controller('configuration-options')
-export class ConfigurationOptionsController {
-	constructor(private readonly schemaService: ConfigurationOptionsService) {}
+export class ConfigurationOptionController {
+	constructor(
+		private readonly configurationOptionService: ConfigurationOptionService,
+	) {}
 
 	@Post(':projectId')
 	async createConfigurationOption(
 		@Param() projectId: ProjectId,
-		@Body() data: SchemaBody,
-	) {
-		return await this.schemaService.createConfigurationOption({
+		@Body() data: ConfigurationOptionCreateDTO,
+	): Promise<ConfigurationOption> {
+		return await this.configurationOptionService.createConfigurationOption({
 			...projectId,
 			...data,
 		});
@@ -32,7 +35,7 @@ export class ConfigurationOptionsController {
 	async getProjectConfigurationOptions(
 		@Param() projectId: ProjectId,
 	): Promise<ConfigurationOption[]> {
-		return await this.schemaService.retrieveProjectConfigurationOptions(
+		return await this.configurationOptionService.retrieveProjectConfigurationOptions(
 			projectId,
 		);
 	}
@@ -42,10 +45,12 @@ export class ConfigurationOptionsController {
 		@Param() projectId: ProjectId,
 		@Param() key: Key,
 	): Promise<ConfigurationOption> {
-		return await this.schemaService.retrieveConfigurationOption({
-			...projectId,
-			...key,
-		});
+		return await this.configurationOptionService.retrieveConfigurationOption(
+			{
+				...projectId,
+				...key,
+			},
+		);
 	}
 
 	@HttpCode(HttpStatus.NO_CONTENT)
@@ -53,8 +58,8 @@ export class ConfigurationOptionsController {
 	async deleteConfigurationOption(
 		@Param() projectId: ProjectId,
 		@Param() key: Key,
-	) {
-		await this.schemaService.deleteConfigurationOption({
+	): Promise<void> {
+		await this.configurationOptionService.deleteConfigurationOption({
 			...projectId,
 			...key,
 		});

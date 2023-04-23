@@ -1,6 +1,6 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { ConfigurationOption, PrismaClient, Project } from '@prisma/client';
-import { ConfigurationOptionsModule } from 'apps/config/src/api/configuration-options';
+import { ConfigurationOptionModule } from 'apps/config/src/api/configuration-option';
 import { AppModule } from 'config/app';
 import type { SuperTest } from 'supertest';
 import {
@@ -18,7 +18,7 @@ describe('Configuration Options Controller Tests', () => {
 
 	beforeAll(async () => {
 		const bootstrap = await bootstrapIntegrationTest({
-			imports: [AppModule, ConfigurationOptionsModule],
+			imports: [AppModule, ConfigurationOptionModule],
 		});
 		request = bootstrap.request;
 		app = bootstrap.app;
@@ -39,7 +39,7 @@ describe('Configuration Options Controller Tests', () => {
 		await prisma.configurationOption.deleteMany();
 	});
 
-	describe('POST configuration-options/:projectId', () => {
+	describe('POST configuration-option/:projectId', () => {
 		it('creates and returns a configuration option', async () => {
 			const key = 'test';
 			const description = 'a b c';
@@ -55,10 +55,12 @@ describe('Configuration Options Controller Tests', () => {
 			const response = await request
 				.post(`/configuration-options/${project.id}`)
 				.send({ schema, key, description });
+
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			const configurationOption = JSON.parse(
 				response.text,
 			) as ConfigurationOption;
+
 			expect(configurationOption.key).toEqual(key);
 			expect(configurationOption.description).toEqual(description);
 			expect(JSON.stringify(configurationOption.schema)).toEqual(
@@ -67,8 +69,8 @@ describe('Configuration Options Controller Tests', () => {
 		});
 	});
 
-	describe('GET configuration-options/:projectId', () => {
-		it('retrieves the configuration options for a project using the projectId', async () => {
+	describe('GET configuration-option/:projectId', () => {
+		it('retrieves the configuration options for a project', async () => {
 			const configurationOptions = await ConfigurationOptionFactory.batch(
 				3,
 				{
@@ -82,6 +84,7 @@ describe('Configuration Options Controller Tests', () => {
 			const response = await request.get(
 				`/configuration-options/${project.id}/`,
 			);
+
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 
 			const responseData = JSON.parse(response.text);
@@ -93,7 +96,7 @@ describe('Configuration Options Controller Tests', () => {
 		});
 	});
 
-	describe('GET configuration-options/:projectId/:key', () => {
+	describe('GET configuration-option/:projectId/:key', () => {
 		it('retrieves a configuration option using the key parameter', async () => {
 			const configurationOption = await prisma.configurationOption.create(
 				{
@@ -105,14 +108,16 @@ describe('Configuration Options Controller Tests', () => {
 			const response = await request.get(
 				`/configuration-options/${project.id}/${configurationOption.key}`,
 			);
+
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 			expect(response.text).toEqual(JSON.stringify(configurationOption));
 		});
 
-		it('returns an informative error message when no matches are found for the key', async () => {
+		it('returns an informative error message', async () => {
 			const response = await request.get(
 				`/configuration-options/${project.id}/1`,
 			);
+
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(JSON.parse(response.text).message).toEqual(
 				'No ConfigurationOption found',
@@ -120,7 +125,7 @@ describe('Configuration Options Controller Tests', () => {
 		});
 	});
 
-	describe('DELETE configuration-options/:projectId/:key', () => {
+	describe('DELETE configuration-option/:projectId/:key', () => {
 		it('deletes a configuration option using the key parameter', async () => {
 			const configurationOption = await prisma.configurationOption.create(
 				{
@@ -131,7 +136,6 @@ describe('Configuration Options Controller Tests', () => {
 			);
 
 			expect(await prisma.configurationOption.findFirst()).toBeTruthy();
-
 			const response = await request.delete(
 				`/configuration-options/${project.id}/${configurationOption.key}`,
 			);

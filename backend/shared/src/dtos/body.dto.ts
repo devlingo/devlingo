@@ -4,21 +4,17 @@ import {
 	IsObject,
 	IsOptional,
 	IsString,
-	IsUUID,
+	Matches,
 } from 'class-validator';
 
-export class ProjectId {
-	@IsUUID('4')
+export class ProjectCreateDTO {
+	@Matches(/[a-zA-Z0-9 \-_]+/)
+	@IsString()
 	@IsNotEmpty()
-	projectId!: string;
+	name!: string;
 }
 
-export class Key {
-	@IsAlphanumeric()
-	@IsNotEmpty()
-	key!: string;
-}
-export class SchemaBody {
+export class ConfigurationOptionCreateDTO {
 	@IsObject()
 	schema!: Record<string, any>;
 

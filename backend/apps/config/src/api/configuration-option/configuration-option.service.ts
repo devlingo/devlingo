@@ -3,7 +3,7 @@ import { ConfigurationOption } from '@prisma/client';
 import { PrismaService } from 'shared/modules/prisma.service';
 
 @Injectable()
-export class ConfigurationOptionsService {
+export class ConfigurationOptionService {
 	constructor(private prisma: PrismaService) {}
 
 	async deleteConfigurationOption({

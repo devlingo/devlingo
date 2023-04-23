@@ -3,6 +3,7 @@
     <node-interpreter value="project" />
     <jest-package value="$PROJECT_DIR$/node_modules/jest" />
     <working-dir value="$PROJECT_DIR$" />
+    <jest-options value="--runInBand" />
     <envs>
       <env name="DATABASE_URL" value="postgresql://devlingo:devlingo@0.0.0.0:5432/devlingo" />
     </envs>

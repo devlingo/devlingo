@@ -16,7 +16,7 @@
 		"nest:start-config": "nest start",
 		"nest:start-config:debug": "nest start --debug --watch",
 		"nest:start-config:dev": "nest start --watch",
-		"test": "jest"
+		"test": "jest --runInBand"
 	},
 	"keywords": [],
 	"author": "DevLingo",
