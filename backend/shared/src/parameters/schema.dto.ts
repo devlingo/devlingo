@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsObject, IsUUID } from 'class-validator';
+import {
+	IsAlphanumeric,
+	IsNotEmpty,
+	IsObject,
+	IsOptional,
+	IsString,
+	IsUUID,
+} from 'class-validator';
 
 export class ProjectId {
 	@IsUUID('4')
@@ -6,12 +13,20 @@ export class ProjectId {
 	projectId!: string;
 }
 
-export class Version {
-	@IsNumber()
-	version!: number;
+export class Key {
+	@IsAlphanumeric()
+	@IsNotEmpty()
+	key!: string;
 }
-
 export class SchemaBody {
 	@IsObject()
 	schema!: Record<string, any>;
+
+	@IsString()
+	@IsOptional()
+	description?: string;
+
+	@IsAlphanumeric()
+	@IsNotEmpty()
+	key!: string;
 }

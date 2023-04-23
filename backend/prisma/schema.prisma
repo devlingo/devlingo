@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+// This is your Prisma configuration-options file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -12,19 +12,23 @@ datasource db {
 
 model Project {
   id                String          @default(uuid()) @id
-  configSchemas     ConfigSchema[]
+  configSchemas     ConfigurationOption[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 }
 
-model ConfigSchema {
+
+model ConfigurationOption {
   id                String          @default(uuid()) @id
-  version           Int             @default(autoincrement())
+  key               String
+  description       String?
   schema            Json
-  project           Project         @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  isEnabled         Boolean         @default(true)
+  project           Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId         String
   createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 
-  @@index([version])
-  @@unique([version, projectId])
+  @@index([key, isEnabled])
+  @@unique([key, projectId])
 }
