@@ -1,22 +1,43 @@
-import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {
+	Background,
+	BackgroundVariant,
+	Controls,
+	Node,
+	ReactFlow,
+	ReactFlowProvider,
+	useNodesState,
+} from 'reactflow';
 
 export async function getStaticProps({ locale }: { locale: string }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['home'])),
+			...(await serverSideTranslations(locale, ['home', 'navbar'])),
 		},
 	};
 }
 
-export default function Home() {
-	const { t } = useTranslation('home');
+const initialNodes: Node[] = [
+	{
+		id: '1',
+		data: { label: 'Node 1' },
+		position: { x: 50, y: 50 },
+	},
+];
+
+export default function Flow() {
+	const [nodes, , onNodesChange] = useNodesState(initialNodes);
 
 	return (
-		<main>
-			<div>
-				<span>{t('placeholder')}</span>
-			</div>
-		</main>
+		<ReactFlowProvider>
+			<ReactFlow
+				nodes={nodes}
+				onNodesChange={onNodesChange}
+				proOptions={{ hideAttribution: true }}
+			>
+				<Controls />
+				<Background variant={BackgroundVariant.Dots} />
+			</ReactFlow>
+		</ReactFlowProvider>
 	);
 }
