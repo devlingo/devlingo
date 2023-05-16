@@ -1,8 +1,13 @@
-import { BackgroundVariant } from '@reactflow/background';
-import { ConnectionMode, Edge, Node, ReactFlowInstance } from '@reactflow/core';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
+import {
+	BackgroundVariant,
+	ConnectionMode,
+	Edge,
+	Node,
+	ReactFlowInstance,
+} from 'reactflow';
 
 import { Drawer } from '@/components/drawer-menu/drawer';
 import { MenuItem } from '@/components/drawer-menu/menu-item';
@@ -10,6 +15,7 @@ import { FlowContainer } from '@/components/flow/flow-container';
 import { initialEdges, initialNodes } from '@/components/flow/initial-data';
 import { NodeWithIconData } from '@/components/flow/nodes/node-with-icon';
 import { Footer } from '@/components/footer';
+import { NodeForm, NodeFormProps } from '@/components/forms/node-form';
 import { DefaultNavbar, InternalNodeNavbar } from '@/components/navbar';
 import { NodeType } from '@/constants';
 import { DropTargetData, NodeData } from '@/types';
@@ -64,18 +70,28 @@ function useBoundedDrop(): [
 }
 
 export default function Index() {
+	const [edges, setEdges] = useState<Edge[]>([]);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [nodeData, setNodeData] = useState<NodeData | null>(null);
+	const [nodeFormProps, setNodeFormProps] = useState<NodeFormProps | null>(
+		null,
+	);
+	const [nodes, setNodes] = useState<Node[]>([]);
 	const [reactFlowInstance, setReactFlowInstance] =
 		useState<ReactFlowInstance | null>(null);
-
-	const [nodes, setNodes] = useState<Node[]>([]);
-	const [edges, setEdges] = useState<Edge[]>([]);
 
 	const [dropData, ref] = useBoundedDrop();
 
 	const expandNodeHandler = (nodeData: NodeData) => {
 		setNodeData(nodeData);
+	};
+
+	const configurationMenuHandler = (nodeType: NodeType): void => {
+		if (isSidebarOpen) {
+			setIsSidebarOpen(false);
+		}
+		console.log('called');
+		setNodeFormProps({ nodeType });
 	};
 
 	useEffect(() => {
@@ -85,9 +101,9 @@ export default function Index() {
 		} else {
 			setNodes(
 				initialNodes.map((node: Node<NodeWithIconData>) => {
-					node.data.expandNodeHandler = (nodeData: NodeData) => {
-						setNodeData(nodeData);
-					};
+					node.data.expandNodeHandler = expandNodeHandler;
+					node.data.configurationMenuHandler =
+						configurationMenuHandler;
 					return node;
 				}),
 			);
@@ -101,7 +117,7 @@ export default function Index() {
 				...nodes,
 				createNode({
 					...dropData,
-					data: { expandNodeHandler },
+					data: { expandNodeHandler, configurationMenuHandler },
 					reactFlowInstance,
 				}),
 			]);
@@ -125,63 +141,66 @@ export default function Index() {
 	};
 
 	return (
-		<>
-			<div className="bg-base-300 mx-auto h-full w-full">
-				{nodeData ? (
-					<InternalNodeNavbar
-						name={nodeData.name}
-						type={nodeData.type}
-						onBurgerIconClick={handleBurgerIconClick}
-						collapseCanvasHandler={() => {
-							setNodeData(null);
-						}}
-						NodeIcon={nodeData.NodeIcon}
-					/>
-				) : (
-					<DefaultNavbar
-						projectName="Backend Example"
-						onBurgerIconClick={handleBurgerIconClick}
-						onSaveIconClick={handleSaveIconClick}
-						onUserIconClick={handleUserIconClick}
-						onDownloadIconClick={handleDownloadIconClick}
-						onShareIconClick={handleShareIconClick}
-					/>
-				)}
-				<main className="h-full w-full">
-					<div className="flex gap-0">
-						<Drawer isOpen={isSidebarOpen}>
-							<ul>
-								<MenuItem type={NodeType.NestJs} />
-								<MenuItem type={NodeType.NextJs} />
-							</ul>
-						</Drawer>
-						<div
-							ref={ref}
-							className={`h-full transition-all duration-300 ease-in-out w-full min-w-[67%]`}
-						>
-							<FlowContainer
-								backgroundVariant={
-									nodeData
-										? BackgroundVariant.Cross
-										: BackgroundVariant.Dots
-								}
-								connectionMode={
-									nodeData
-										? ConnectionMode.Strict
-										: ConnectionMode.Loose
-								}
-								edges={edges}
-								nodes={nodes}
-								setEdges={setEdges}
-								setNodes={setNodes}
-								setReactFlowInstance={setReactFlowInstance}
-								color={nodeData ? 'green' : 'yellow'}
-							/>
-						</div>
+		<div className="bg-base-300 mx-auto h-full w-full">
+			{nodeData ? (
+				<InternalNodeNavbar
+					name={nodeData.name}
+					type={nodeData.type}
+					onBurgerIconClick={handleBurgerIconClick}
+					collapseCanvasHandler={() => {
+						setNodeData(null);
+					}}
+					NodeIcon={nodeData.NodeIcon}
+				/>
+			) : (
+				<DefaultNavbar
+					projectName="Backend Example"
+					onBurgerIconClick={handleBurgerIconClick}
+					onSaveIconClick={handleSaveIconClick}
+					onUserIconClick={handleUserIconClick}
+					onDownloadIconClick={handleDownloadIconClick}
+					onShareIconClick={handleShareIconClick}
+				/>
+			)}
+			<main className="h-full w-full">
+				<div className="flex gap-0">
+					<Drawer isOpen={isSidebarOpen}>
+						<ul>
+							<MenuItem type={NodeType.NestJs} />
+							<MenuItem type={NodeType.NextJs} />
+						</ul>
+					</Drawer>
+					<div
+						ref={ref}
+						className={`h-full transition-all duration-300 ease-in-out w-full min-w-[67%]`}
+					>
+						<FlowContainer
+							backgroundVariant={
+								nodeData
+									? BackgroundVariant.Cross
+									: BackgroundVariant.Dots
+							}
+							connectionMode={
+								nodeData
+									? ConnectionMode.Strict
+									: ConnectionMode.Loose
+							}
+							edges={edges}
+							nodes={nodes}
+							setEdges={setEdges}
+							setNodes={setNodes}
+							setReactFlowInstance={setReactFlowInstance}
+							color={nodeData ? 'green' : 'yellow'}
+						/>
 					</div>
-				</main>
-				<Footer />
-			</div>
-		</>
+				</div>
+				{nodeFormProps && (
+					<div className="absolute inset-1 w-5/10 h-full z-10 flex justify-center">
+						<NodeForm {...nodeFormProps} />
+					</div>
+				)}
+			</main>
+			<Footer />
+		</div>
 	);
 }

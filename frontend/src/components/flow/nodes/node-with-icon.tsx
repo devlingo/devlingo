@@ -10,6 +10,10 @@ import { NodeData } from '@/types';
 export interface NodeWithIconData {
 	Icon: React.ComponentType<IconProps>;
 	expandNodeHandler?: (nodeData: NodeData) => void;
+	configurationMenuHandler?: (
+		nodeType: NodeType,
+		formData?: Record<string, any>,
+	) => void;
 	internalEdges: Edge[];
 	internalNodes: Node[];
 	name: string;
@@ -21,6 +25,7 @@ export function NodeWithIcon({
 	data: {
 		Icon,
 		expandNodeHandler,
+		configurationMenuHandler,
 		internalEdges,
 		internalNodes,
 		name,
@@ -64,12 +69,21 @@ export function NodeWithIcon({
 			</div>
 			<div
 				className={`flex justify-end gap-2 ${
-					expandNodeHandler ? 'pr-2' : 'pr-3'
+					!expandNodeHandler || !configurationMenuHandler
+						? 'pr-3'
+						: 'pr-2'
 				}`}
 			>
-				<button>
-					<Cog8ToothIcon className="h-5 w-5 text-neutral-content hover:text-accent" />
-				</button>
+				{configurationMenuHandler && (
+					<button>
+						<Cog8ToothIcon
+							className="h-5 w-5 text-neutral-content hover:text-accent"
+							onClick={() => {
+								configurationMenuHandler(type);
+							}}
+						/>
+					</button>
+				)}
 				{expandNodeHandler && (
 					<button>
 						<ChevronRightIcon

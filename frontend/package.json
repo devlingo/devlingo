@@ -22,6 +22,9 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",
+		"@jsonforms/core": "^3.0.0",
+		"@jsonforms/react": "^3.0.0",
+		"@jsonforms/vanilla-renderers": "^3.0.0",
 		"@reactflow/background": "^11.2.1",
 		"@reactflow/controls": "^11.1.12",
 		"@reactflow/core": "^11.7.1",
