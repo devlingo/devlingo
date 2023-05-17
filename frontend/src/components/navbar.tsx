@@ -6,9 +6,42 @@ import {
 	ShareIcon,
 	UserCircleIcon,
 } from '@heroicons/react/24/solid';
-import { MouseEvent } from 'react';
+import { MouseEvent, useContext } from 'react';
 
 import { IconProps } from '@/assets';
+import { ThemeContext } from '@/utils/context';
+
+const daisyUIThemes = [
+	'light',
+	'dark',
+	'cupcake',
+	'bumblebee',
+	'emerald',
+	'corporate',
+	'synthwave',
+	'retro',
+	'cyberpunk',
+	'valentine',
+	'halloween',
+	'garden',
+	'forest',
+	'aqua',
+	'lofi',
+	'pastel',
+	'fantasy',
+	'wireframe',
+	'black',
+	'luxury',
+	'dracula',
+	'cmyk',
+	'autumn',
+	'business',
+	'acid',
+	'lemonade',
+	'night',
+	'coffee',
+	'winter',
+];
 
 export interface NavbarProps {
 	onBurgerIconClick: (event: MouseEvent) => void;
@@ -38,6 +71,7 @@ export function DefaultNavbar({
 	onDownloadIconClick,
 	onShareIconClick,
 }: DefaultNavbarProps) {
+	const themeContext = useContext(ThemeContext);
 	return (
 		<header className="navbar bg-base-100 border-b-2 border-base-200">
 			<div className="flex-none mr-2 ml-2">
@@ -53,6 +87,16 @@ export function DefaultNavbar({
 					{projectName}
 				</a>
 			</div>
+			<select
+				className="select select-bordered select-xs w-5/10 max-w-xs"
+				onChange={(event) => themeContext.setTheme(event.target.value)}
+			>
+				{daisyUIThemes.map((theme, i) => (
+					<option value={theme} key={i}>
+						{theme}
+					</option>
+				))}
+			</select>
 			<NavbarButton
 				Icon={UserCircleIcon}
 				onClickHandler={onUserIconClick}

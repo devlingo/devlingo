@@ -8,6 +8,7 @@ import {
 	Node,
 	ReactFlowInstance,
 } from 'reactflow';
+import { themeChange } from 'theme-change';
 
 import { Drawer } from '@/components/drawer-menu/drawer';
 import { MenuItem } from '@/components/drawer-menu/menu-item';
@@ -81,6 +82,11 @@ export default function Index() {
 		useState<ReactFlowInstance | null>(null);
 
 	const [dropData, ref] = useBoundedDrop();
+
+	useEffect(() => {
+		// see: https://github.com/saadeghi/theme-change
+		themeChange(false);
+	}, []);
 
 	const expandNodeHandler = (nodeData: NodeData) => {
 		setNodeData(nodeData);

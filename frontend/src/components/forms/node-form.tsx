@@ -1,63 +1,53 @@
-import 'tailwindcss/tailwind.css';
-
-import { JsonForms } from '@jsonforms/react';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import {
-	JsonFormsStyleContext,
-	vanillaCells,
-	vanillaRenderers,
-	vanillaStyles,
-} from '@jsonforms/vanilla-renderers';
-import { StyleDef } from '@jsonforms/vanilla-renderers/src/styles/styles';
+	materialCells,
+	materialRenderers,
+} from '@jsonforms/material-renderers';
+import { JsonForms } from '@jsonforms/react';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 
 import { typeSchemaMap } from '@/components/forms/form-schemas';
 import { typeUISchemaMap } from '@/components/forms/ui-schemas';
 import { NodeType } from '@/constants';
 
-// see: https://github.com/eclipsesource/jsonforms/blob/b11f04c87adf7d1ecf90ed72b929cf54e3266e39/packages/vanilla-renderers/src/styles/styles.ts#L39
-// for all the vanilla styles
-const styles: StyleDef[] = [
-	...vanillaStyles,
-	{
-		name: 'control.input',
-		classNames: ['input input-bordered input-sm w-full max-w-xs'],
-	},
-	{
-		name: 'control.label',
-		classNames: ['text-neutral-content text-sm pr-2'],
-	},
-	{
-		name: 'control.select',
-		classNames: ['select select-sm w-full max-w-xs'],
-	},
-	{
-		name: 'control.radio',
-		classNames: ['radio radio-primary radio-sm'],
-	},
-];
-
 export interface NodeFormProps {
 	formData?: Record<string, any>;
 	nodeType: NodeType;
 }
 
+const darkTheme = createTheme({
+	palette: {
+		mode: 'dark',
+	},
+});
+
 export function NodeForm({ formData, nodeType }: NodeFormProps) {
 	const [data, setData] = useState(formData ?? {});
 
 	return (
-		<div className="rounded m-auto p-4 bg-gray-500">
-			<JsonFormsStyleContext.Provider value={{ styles }}>
+		<div className="rounded m-auto p-4 bg-base-100 text-base-content">
+			<ThemeProvider theme={darkTheme}>
 				<JsonForms
 					schema={typeSchemaMap[nodeType]}
 					uischema={typeUISchemaMap[nodeType]}
 					data={data}
-					renderers={vanillaRenderers}
-					cells={vanillaCells}
+					renderers={materialRenderers}
+					cells={materialCells}
 					onChange={({ data }) => {
 						setData(data as Record<string, any>);
 					}}
 				/>
-			</JsonFormsStyleContext.Provider>
+			</ThemeProvider>
+			<div className="button-group btn-group-horizontal">
+				<button className="text-success">
+					<CheckCircleIcon width={32} height={32} />
+				</button>
+				<button className="text-warning">
+					<XCircleIcon width={32} height={32} />
+				</button>
+			</div>
 		</div>
 	);
 }

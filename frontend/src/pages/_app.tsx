@@ -6,12 +6,17 @@ import '@/styles/react-flow.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
+import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+import { ThemeContext } from '@/utils/context';
+
 function App({ Component, pageProps }: AppProps) {
+	const [theme, setTheme] = useState('dracula');
+
 	return (
-		<div data-theme="dracula">
+		<div data-theme={theme}>
 			<Head>
 				<title>DevLingo</title>
 				<link rel="shortcut icon" href="/favicon.ico" />
@@ -19,7 +24,9 @@ function App({ Component, pageProps }: AppProps) {
 			</Head>
 			{/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
 			<DndProvider backend={HTML5Backend}>
-				<Component {...pageProps} />
+				<ThemeContext.Provider value={{ setTheme }}>
+					<Component {...pageProps} />
+				</ThemeContext.Provider>
 			</DndProvider>
 		</div>
 	);
