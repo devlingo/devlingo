@@ -6,7 +6,7 @@ services:
             context: .
             target: install
             args:
-                NODE_ENV: "development"
+                NODE_ENV: 'development'
         volumes:
-            -   .:/app/:cached
-        command: ["pnpm", "run", "dev"]
+            - .:/app/:cached
+        command: ['pnpm', 'run', 'dev']

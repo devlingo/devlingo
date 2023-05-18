@@ -1,5 +1,5 @@
 /* istanbul ignore next */
-import 'reactflow/dist/style.css';
+import 'reactflow/dist/base.css';
 import '@/styles/globals.css';
 import '@/styles/react-flow.css';
 

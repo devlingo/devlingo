@@ -1,6 +1,7 @@
 {
-  "nest-service": "NestJS Service",
-  "nest-service-logo-alt": "NestJS Logo",
-  "next-service": "NextJS Service",
-  "next-service-logo-alt": "NextJS Logo"
+	"nest-service": "NestJS Service",
+	"next-service": "NextJS Service",
+	"controller": "Controller",
+	"service": "Service",
+	"endpoint": "Endpoint"
 }

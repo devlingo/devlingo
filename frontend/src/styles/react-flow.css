@@ -1,7 +1,3 @@
-.react-flow {
-    min-height: 90vh;
-}
-
 /* stylelint-disable  selector-class-pattern */
 .react-flow__controls-button {
     border: none;

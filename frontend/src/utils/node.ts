@@ -2,34 +2,24 @@ import { ReactFlowInstance } from '@reactflow/core';
 import { nanoid } from 'nanoid';
 import { Node } from 'reactflow';
 
-import { NestJSIcon, NextJSIcon } from '@/assets';
-import { NodeType } from '@/constants';
+import { ServiceNodeType } from '@/constants';
+import { ServiceNodeData } from '@/types';
 
 export function createNode({
-	data,
 	reactFlowInstance,
-	type,
+	data: { nodeType, allowExpansion = false, formData = {} },
 	x,
 	y,
 }: {
-	data: Record<string, any>;
 	reactFlowInstance: ReactFlowInstance;
-	type: NodeType;
 	x: number;
 	y: number;
+	data: Partial<ServiceNodeData> & { nodeType: ServiceNodeType };
 }): Node {
 	return {
 		id: nanoid(),
-		type: 'NodeWithIcon',
-		data: {
-			Icon: type === NodeType.NestJs ? NestJSIcon : NextJSIcon,
-			tag: type === NodeType.NestJs ? 'nest-service' : 'next-service',
-			name: 'My Service',
-			type,
-			internalNodes: [],
-			internalEdges: [],
-			...data,
-		},
+		type: 'ServiceNode',
+		data: { nodeType, allowExpansion, formData },
 		position: reactFlowInstance.project({ x, y }),
 	};
 }

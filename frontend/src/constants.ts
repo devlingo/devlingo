@@ -1,16 +1,23 @@
-import { IconProps, NestJSIcon, NextJSIcon } from '@/assets';
-
-export enum NodeType {
+export enum ServiceNodeType {
 	NestJs = 'NestJS',
 	NextJs = 'NextJS',
 }
 
-export const TypeTagMap: Record<NodeType, string> = {
-	[NodeType.NestJs]: 'nest-service',
-	[NodeType.NextJs]: 'next-service',
+export enum InternalNodeType {
+	Controller = 'Controller',
+	Service = 'Service',
+	Endpoint = 'Endpoint',
+}
+
+export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
+	[ServiceNodeType.NestJs]: 'nest-service',
+	[ServiceNodeType.NextJs]: 'next-service',
+	[InternalNodeType.Controller]: 'controller',
+	[InternalNodeType.Service]: 'service',
+	[InternalNodeType.Endpoint]: 'endpoint',
 };
 
-export const TypeIconMap: Record<NodeType, React.ComponentType<IconProps>> = {
-	[NodeType.NestJs]: NestJSIcon,
-	[NodeType.NextJs]: NextJSIcon,
-};
+export const REM = 16;
+
+export const NAV_BAR_HEIGHT_PIXELS = 56;
+export const FOOTER_HEIGHT_PIXELS = 40;

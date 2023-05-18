@@ -22,5 +22,6 @@ module.exports = {
 	},
 	rules: {
 		'testing-library/no-wait-for-side-effects': 0,
+		'react-hooks/exhaustive-deps': 0,
 	},
 };

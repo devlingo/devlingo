@@ -4,17 +4,18 @@ import {
 	materialRenderers,
 } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
-import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 
 import { typeSchemaMap } from '@/components/forms/form-schemas';
 import { typeUISchemaMap } from '@/components/forms/ui-schemas';
-import { NodeType } from '@/constants';
+import { NodeType } from '@/types';
 
 export interface NodeFormProps {
-	formData?: Record<string, any>;
+	formData: Record<string, any>;
 	nodeType: NodeType;
+	saveFormDataHandler: (formData: Record<string, any>) => void;
+	closeMenuHandler: () => void;
 }
 
 const darkTheme = createTheme({
@@ -23,8 +24,13 @@ const darkTheme = createTheme({
 	},
 });
 
-export function NodeForm({ formData, nodeType }: NodeFormProps) {
-	const [data, setData] = useState(formData ?? {});
+export function NodeForm({
+	formData,
+	nodeType,
+	saveFormDataHandler,
+	closeMenuHandler,
+}: NodeFormProps) {
+	const [data, setData] = useState(formData);
 
 	return (
 		<div className="rounded m-auto p-4 bg-base-100 text-base-content">
@@ -42,10 +48,18 @@ export function NodeForm({ formData, nodeType }: NodeFormProps) {
 			</ThemeProvider>
 			<div className="button-group btn-group-horizontal">
 				<button className="text-success">
-					<CheckCircleIcon width={32} height={32} />
+					<CheckCircleIcon
+						width={32}
+						height={32}
+						onClick={() => saveFormDataHandler(data)}
+					/>
 				</button>
 				<button className="text-warning">
-					<XCircleIcon width={32} height={32} />
+					<XCircleIcon
+						width={32}
+						height={32}
+						onClick={closeMenuHandler}
+					/>
 				</button>
 			</div>
 		</div>

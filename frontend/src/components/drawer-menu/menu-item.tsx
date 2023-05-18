@@ -1,23 +1,24 @@
 import { useTranslation } from 'next-i18next';
 import { useDrag } from 'react-dnd';
 
-import { NodeType, TypeIconMap, TypeTagMap } from '@/constants';
+import { TypeSVGMap } from '@/assets';
+import { ServiceNodeType, TypeTagMap } from '@/constants';
 
 export interface MenuItemProps {
-	type: NodeType;
+	nodeType: ServiceNodeType;
 }
 
-export function MenuItem({ type }: MenuItemProps) {
+export function MenuItem({ nodeType }: MenuItemProps) {
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: 'MenuItem',
-		item: { type },
+		item: { nodeType },
 		collect: (monitor) => ({ isDragging: monitor.isDragging() }),
 	}));
 
 	const { t } = useTranslation('assets');
 
-	const Icon = TypeIconMap[type];
-	const tag = TypeTagMap[type];
+	const { SVG, props } = TypeSVGMap[nodeType];
+	const tag = TypeTagMap[nodeType];
 
 	return (
 		<li className="p-2">
@@ -28,7 +29,7 @@ export function MenuItem({ type }: MenuItemProps) {
 				}`}
 			>
 				<figure>
-					<Icon width={16} height={16} alt={t(`${tag}-logo-alt`)} />
+					<SVG height={16} width={16} {...props} />
 				</figure>
 
 				<h2 className="text-xs text-base-content">{t(tag)}</h2>
