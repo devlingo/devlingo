@@ -1,14 +1,17 @@
 import { act, render, RenderOptions } from '@testing-library/react';
 import i18next from 'i18next';
+import { TestBackend } from 'react-dnd-test-backend';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
-import enHome from '../public/locales/en/home.json';
+import { AppWrapper } from '@/wrapper';
 
-const defaultNS = 'home';
+import enAssets from '../public/locales/en/assets.json';
+
+const defaultNS = 'common';
 
 const resources = {
 	en: {
-		home: enHome,
+		assets: enAssets,
 	},
 };
 
@@ -20,7 +23,11 @@ i18next.use(initReactI18next).init({
 });
 
 const Wrapper = ({ children }: any) => {
-	return <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
+	return (
+		<I18nextProvider i18n={i18next}>
+			<AppWrapper dndBackend={TestBackend}>{children}</AppWrapper>
+		</I18nextProvider>
+	);
 };
 
 const customRender = (ui: any, options?: RenderOptions<any, any, any>) =>

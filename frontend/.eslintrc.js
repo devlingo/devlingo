@@ -3,11 +3,7 @@ module.exports = {
 	parserOptions: {
 		project: 'tsconfig.json',
 	},
-	extends: [
-		'@tool-belt/eslint-config/react',
-		'next/core-web-vitals',
-		'plugin:jest/recommended',
-	],
+	extends: ['@tool-belt/eslint-config/react', 'next/core-web-vitals'],
 	ignorePatterns: ['.eslintrc.js', '*.js'],
 	settings: {
 		'import/resolver': {
@@ -17,10 +13,19 @@ module.exports = {
 		},
 		'react': { version: '18' },
 	},
-	env: {
-		'jest/globals': true,
-	},
+	overrides: [
+		{
+			files: [
+				'**/*.spec.ts',
+				'**/*.spec.tsx',
+				'**/tests/*.*',
+				'__mocks__/**/*.*',
+			],
+			extends: ['@tool-belt/eslint-config', 'plugin:vitest/recommended'],
+		},
+	],
 	rules: {
 		'testing-library/no-wait-for-side-effects': 0,
+		'react-hooks/exhaustive-deps': 0,
 	},
 };

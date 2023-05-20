@@ -1,5 +1,5 @@
 {
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["*.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
@@ -12,7 +12,7 @@
 		"lib": ["dom", "dom.iterable", "ESNext"],
 		"module": "ESNext",
 		"incremental": true,
-		"moduleResolution": "node",
+		"moduleResolution": "Node",
 		"noEmit": true,
 		"noImplicitAny": true,
 		"noUnusedLocals": true,
@@ -30,6 +30,7 @@
 		"paths": {
 			"@/*": ["src/*"],
 			"tests/*": ["tests/*"]
-		}
+		},
+		"types": ["vitest/globals", "@testing-library/jest-dom"]
 	}
 }

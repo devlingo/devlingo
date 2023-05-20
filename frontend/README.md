@@ -10,13 +10,13 @@ The repository uses [pnpm](https://pnpm.io/) as a package manager, install it wi
 npm i -g pnpm
 ```
 
-You can then update the dependencies with 
+You can then update the dependencies with
 
 ```shell
 pnpm install
 ```
 
-And update dependency versions with 
+And update dependency versions with
 
 ```shell
 pnpm up
@@ -30,7 +30,7 @@ pnpm up --latest
 
 ### Development
 
-You can run the application in development mode with: 
+You can run the application in development mode with:
 
 ```shell
 pnpm run dev
@@ -63,7 +63,6 @@ docker compose up --build
 
 You can execute the following commands to lint the project:
 
-
 #### EsLint
 
 ```shell
@@ -82,7 +81,7 @@ pnpm run lint:style
 pnpm run format
 ```
 
-Notes: There are pre-commit hooks that will execute these commands on pertinent code before its being committed. 
+Notes: There are pre-commit hooks that will execute these commands on pertinent code before its being committed.
 
 ## Testing
 

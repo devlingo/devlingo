@@ -1,0 +1,7 @@
+{
+	"nest-service": "NestJS Service",
+	"next-service": "NextJS Service",
+	"controller": "Controller",
+	"service": "Service",
+	"endpoint": "Endpoint"
+}
