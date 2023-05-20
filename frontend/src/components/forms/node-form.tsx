@@ -5,7 +5,7 @@ import {
 } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { typeSchemaMap } from '@/components/forms/form-schemas';
 import { typeUISchemaMap } from '@/components/forms/ui-schemas';
