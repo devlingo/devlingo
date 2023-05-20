@@ -11,15 +11,15 @@ export function createNode({
 	x,
 	y,
 }: {
+	data: Partial<ServiceNodeData> & { nodeType: ServiceNodeType };
 	reactFlowInstance: ReactFlowInstance;
 	x: number;
 	y: number;
-	data: Partial<ServiceNodeData> & { nodeType: ServiceNodeType };
 }): Node {
 	return {
-		id: nanoid(),
-		type: 'ServiceNode',
 		data: { nodeType, allowExpansion, formData },
+		id: nanoid(),
 		position: reactFlowInstance.project({ x, y }),
+		type: 'ServiceNode',
 	};
 }

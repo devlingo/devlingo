@@ -8,13 +8,13 @@ export const ThemeContext = createContext<{
 }>({ setTheme: () => undefined });
 
 export const NodeContext = createContext<{
+	childNodes: Node<InternalNodeData>[];
+	expandedNode: Node<ServiceNodeData> | null;
 	handleNodeConfig: (nodeId: string | null) => void;
 	handleNodeExpand: (nodeId: string | null) => void;
-	expandedNode: Node<ServiceNodeData> | null;
-	childNodes: Node<InternalNodeData>[];
 }>({
+	childNodes: [],
+	expandedNode: null,
 	handleNodeConfig: () => undefined,
 	handleNodeExpand: () => undefined,
-	expandedNode: null,
-	childNodes: [],
 });

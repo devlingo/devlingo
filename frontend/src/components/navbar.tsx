@@ -11,53 +11,53 @@ import { NAV_BAR_HEIGHT_PIXELS } from '@/constants';
 import { ThemeContext } from '@/utils/context';
 
 const daisyUIThemes = [
-	'light',
-	'dark',
-	'cupcake',
-	'bumblebee',
-	'emerald',
-	'corporate',
-	'synthwave',
-	'retro',
-	'cyberpunk',
-	'valentine',
-	'halloween',
-	'garden',
-	'forest',
-	'aqua',
-	'lofi',
-	'pastel',
-	'fantasy',
-	'wireframe',
-	'black',
-	'luxury',
-	'dracula',
-	'cmyk',
-	'autumn',
-	'business',
 	'acid',
-	'lemonade',
-	'night',
+	'aqua',
+	'autumn',
+	'black',
+	'bumblebee',
+	'business',
+	'cmyk',
 	'coffee',
+	'corporate',
+	'cupcake',
+	'cyberpunk',
+	'dark',
+	'dracula',
+	'emerald',
+	'fantasy',
+	'forest',
+	'garden',
+	'halloween',
+	'lemonade',
+	'light',
+	'lofi',
+	'luxury',
+	'night',
+	'pastel',
+	'retro',
+	'synthwave',
+	'valentine',
 	'winter',
+	'wireframe',
 ];
 
 export interface NavbarProps {
-	projectName: string;
 	onBurgerIconClick: () => void;
-	onUserIconClick: (event: MouseEvent) => void;
-	onSaveIconClick: (event: MouseEvent) => void;
 	onDownloadIconClick: (event: MouseEvent) => void;
+	onSaveIconClick: (event: MouseEvent) => void;
 	onShareIconClick: (event: MouseEvent) => void;
+	onUserIconClick: (event: MouseEvent) => void;
+	projectName: string;
 }
 
 export function Navbar({
-	projectName,
 	onBurgerIconClick,
-	onUserIconClick,
-	onSaveIconClick,
 	onDownloadIconClick,
+	onSaveIconClick,
 	onShareIconClick,
+	onUserIconClick,
+	projectName,
 }: NavbarProps) {
 	const themeContext = useContext(ThemeContext);
 

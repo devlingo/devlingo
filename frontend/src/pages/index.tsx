@@ -8,11 +8,7 @@ import { Navbar } from '@/components/navbar';
 export async function getStaticProps({ locale }: { locale: string }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, [
-				'home',
-				'navbar',
-				'assets',
-			])),
+			...(await serverSideTranslations(locale, ['assets'])),
 		},
 	};
 }
@@ -24,27 +20,27 @@ export default function Index() {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
 	const handleSaveIconClick = () => {
-		console.log('save icon clicked');
+		return;
 	};
 	const handleShareIconClick = () => {
-		console.log('share icon clicked');
+		return;
 	};
 	const handleUserIconClick = () => {
-		console.log('user icon clicked');
+		return;
 	};
 	const handleDownloadIconClick = () => {
-		console.log('download icon clicked');
+		return;
 	};
 
 	return (
 		<div className="mx-auto">
 			<Navbar
-				projectName="Backend Example"
 				onBurgerIconClick={handleBurgerIconClick}
-				onSaveIconClick={handleSaveIconClick}
-				onUserIconClick={handleUserIconClick}
 				onDownloadIconClick={handleDownloadIconClick}
+				onSaveIconClick={handleSaveIconClick}
 				onShareIconClick={handleShareIconClick}
+				onUserIconClick={handleUserIconClick}
+				projectName="Backend Example"
 			/>
 			<FlowContainer isSidebarOpen={isSidebarOpen} />
 			<Footer />

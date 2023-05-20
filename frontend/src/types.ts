@@ -23,8 +23,8 @@ export interface ServiceNodeData<
 	T extends Record<string, any> = Record<string, any>,
 > extends NodeData<ServiceNodeType, T> {
 	allowExpansion: boolean;
-	childNodes: Node<InternalNodeData>[];
 	childEdges: Edge[];
+	childNodes: Node<InternalNodeData>[];
 }
 
 export interface InternalNodeData<

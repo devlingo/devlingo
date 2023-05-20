@@ -1,5 +1,11 @@
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
-import { ReactFlowInstance } from '@reactflow/core';
+import {
+	OnConnect,
+	OnEdgesChange,
+	OnEdgeUpdateFunc,
+	OnNodesChange,
+	ReactFlowInstance,
+} from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import {
 	memo,
@@ -75,62 +81,64 @@ interface FlowProps {
 	connectionMode: ConnectionMode;
 	displayEdges: Edge[];
 	displayNodes: Node[];
+	minHeightPixels: number;
+	minWidthPixels: number;
+	ref: (element: HTMLDivElement) => void;
 	setDisplayEdges: (edges: Edge[] | ((values: any) => Edge[])) => void;
 	setDisplayNodes: (nodes: Node[] | ((values: any) => Node[])) => void;
 	setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
 	showBackground: boolean;
-	minHeightPixels: number;
-	minWidthPixels: number;
-	ref: (element: HTMLDivElement) => void;
 }
 
 function Flow({
 	connectionMode,
 	displayEdges,
 	displayNodes,
+	minHeightPixels,
+	minWidthPixels,
+	ref,
 	setDisplayEdges,
 	setDisplayNodes,
 	setReactFlowInstance,
 	showBackground,
-	ref,
-	minHeightPixels,
-	minWidthPixels,
 }: FlowProps) {
+	const onConnectHandler: OnConnect = (params) => {
+		setDisplayEdges((els: Edge[]) => addEdge(params, els));
+	};
+	const onEdgesChangeHandler: OnEdgesChange = (edgeChanges) => {
+		setDisplayEdges(applyEdgeChanges(edgeChanges, displayEdges));
+	};
+	const onNodesChangeHandler: OnNodesChange = (nodeChanges) => {
+		setDisplayNodes(applyNodeChanges(nodeChanges, displayNodes));
+	};
+	const onEdgeUpdateHandler: OnEdgeUpdateFunc = (oldEdge, newConnections) => {
+		setDisplayEdges((els: Edge[]) =>
+			updateEdge(oldEdge, newConnections, els),
+		);
+	};
 	return (
 		<div ref={ref}>
 			<ReactFlowProvider>
 				<ReactFlow
-					style={{
-						minWidth: minWidthPixels,
-						minHeight: minHeightPixels,
-					}}
-					edges={displayEdges}
+					connectionMode={connectionMode}
 					edgeTypes={edgeTypes}
-					snapToGrid={true}
+					edges={displayEdges}
 					fitView={true}
 					nodeTypes={nodeTypes}
 					nodes={displayNodes}
-					onConnect={(params) => {
-						setDisplayEdges((els: Edge[]) => addEdge(params, els));
-					}}
-					onEdgesChange={(edgeChanges) => {
-						setDisplayEdges(
-							applyEdgeChanges(edgeChanges, displayEdges),
-						);
-					}}
-					onNodesChange={(nodeChanges) => {
-						setDisplayNodes(
-							applyNodeChanges(nodeChanges, displayNodes),
-						);
-					}}
-					onEdgeUpdate={(oldEdge, newConnections) => {
-						setDisplayEdges((els: Edge[]) =>
-							updateEdge(oldEdge, newConnections, els),
-						);
-					}}
+					onConnect={onConnectHandler}
+					onEdgeUpdate={onEdgeUpdateHandler}
+					onEdgesChange={onEdgesChangeHandler}
 					onInit={setReactFlowInstance}
+					onNodesChange={onNodesChangeHandler}
 					proOptions={{ hideAttribution: true }}
-					connectionMode={connectionMode}
+					snapToGrid={true}
+					style={{
+						// NOTE: we are forced to pass style here because reactflow has issues with setting the container heights
+						// using classes. These values are calculated in the parent to be responsive to window size changes.
+						minWidth: minWidthPixels,
+						minHeight: minHeightPixels,
+					}}
 				>
 					<Controls className="bg-accent focus:bg-accent-content border-black" />
 					{showBackground && (
@@ -186,7 +194,6 @@ export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
 
 export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	const [windowHeight, windowWidth] = useWindowsDimensions();
-
 	const [flowHeight, setFlowHeight] = useState(
 		calculateFlowHeight(windowHeight, false),
 	);
@@ -213,6 +220,11 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 
 	const [dndDropData, ref] = useBoundedDrop();
 
+	// flow container sizing
+	useEffect(() => {
+		setFlowHeight(calculateFlowHeight(windowHeight, !!expandedNode));
+	}, [windowHeight, expandedNode]);
+
 	// node expansion
 	useEffect(() => {
 		if (expandedNode) {
@@ -224,6 +236,36 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 			setDisplayEdges(edges);
 		}
 	}, [expandedNode]);
+
+	useEffect(() => {
+		if (expandedNode) {
+			setNodes(
+				nodes.map((n) => {
+					if (n.id === expandedNode.id) {
+						n.data.childNodes = displayNodes;
+					}
+					return n;
+				}),
+			);
+		} else {
+			setNodes(displayNodes);
+		}
+	}, [displayNodes]);
+
+	useEffect(() => {
+		if (expandedNode) {
+			setNodes(
+				nodes.map((n) => {
+					if (n.id === expandedNode.id) {
+						n.data.childEdges = displayEdges;
+					}
+					return n;
+				}),
+			);
+		} else {
+			setEdges(displayEdges);
+		}
+	}, [displayEdges]);
 
 	// drag and drop
 	useEffect(() => {
@@ -263,40 +305,6 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 		},
 		[nodes],
 	);
-
-	useEffect(() => {
-		setFlowHeight(calculateFlowHeight(windowHeight, !!expandedNode));
-	}, [windowHeight, expandedNode]);
-
-	useEffect(() => {
-		if (expandedNode) {
-			setNodes(
-				nodes.map((n) => {
-					if (n.id === expandedNode.id) {
-						n.data.childNodes = displayNodes;
-					}
-					return n;
-				}),
-			);
-		} else {
-			setNodes(displayNodes);
-		}
-	}, [displayNodes]);
-
-	useEffect(() => {
-		if (expandedNode) {
-			setNodes(
-				nodes.map((n) => {
-					if (n.id === expandedNode.id) {
-						n.data.childEdges = displayEdges;
-					}
-					return n;
-				}),
-			);
-		} else {
-			setEdges(displayEdges);
-		}
-	}, [displayEdges]);
 
 	return (
 		<main className="grow h-full w-full">
