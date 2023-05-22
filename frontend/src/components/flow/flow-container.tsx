@@ -81,9 +81,9 @@ interface FlowProps {
 	connectionMode: ConnectionMode;
 	displayEdges: Edge[];
 	displayNodes: Node[];
+	dndRef: (element: HTMLDivElement) => void;
 	minHeightPixels: number;
 	minWidthPixels: number;
-	ref: (element: HTMLDivElement) => void;
 	setDisplayEdges: (edges: Edge[] | ((values: any) => Edge[])) => void;
 	setDisplayNodes: (nodes: Node[] | ((values: any) => Node[])) => void;
 	setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
@@ -94,9 +94,9 @@ function Flow({
 	connectionMode,
 	displayEdges,
 	displayNodes,
+	dndRef,
 	minHeightPixels,
 	minWidthPixels,
-	ref,
 	setDisplayEdges,
 	setDisplayNodes,
 	setReactFlowInstance,
@@ -117,7 +117,7 @@ function Flow({
 		);
 	};
 	return (
-		<div ref={ref}>
+		<div ref={dndRef}>
 			<ReactFlowProvider>
 				<ReactFlow
 					connectionMode={connectionMode}
@@ -218,7 +218,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	const [reactFlowInstance, setReactFlowInstance] =
 		useState<ReactFlowInstance | null>(null);
 
-	const [dndDropData, ref] = useBoundedDrop();
+	const [dndDropData, dndRef] = useBoundedDrop();
 
 	// flow container sizing
 	useEffect(() => {
@@ -351,7 +351,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 							setReactFlowInstance={setReactFlowInstance}
 							minHeightPixels={flowHeight}
 							minWidthPixels={windowWidth}
-							ref={ref}
+							dndRef={dndRef}
 						/>
 					</div>
 				</div>
