@@ -29,6 +29,7 @@ export function NodeForm({
 }: NodeFormProps) {
 	const [data, setData] = useState(formData);
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	let schemas = typeSchemaMap[nodeType] ?? DefaultSchemas;
 
 	if (parentNodeType && !Array.isArray(schemas)) {

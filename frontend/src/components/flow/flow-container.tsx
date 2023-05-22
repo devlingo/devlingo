@@ -30,8 +30,6 @@ import {
 } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
-import { Drawer } from '@/components/drawer-menu/drawer';
-import { MenuItem } from '@/components/drawer-menu/menu-item';
 import { HttpRestEdge } from '@/components/flow/edges/http-rest-edge';
 import { initialEdges, initialNodes } from '@/components/flow/initial-data';
 import {
@@ -40,10 +38,12 @@ import {
 	ServiceNode,
 } from '@/components/flow/nodes';
 import { NodeForm } from '@/components/forms/node-form';
+import { NavRail } from '@/components/side-menu/rail';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	FOOTER_HEIGHT_PIXELS,
 	NAV_BAR_HEIGHT_PIXELS,
+	RAIL_WIDTH_PIXELS,
 	REM,
 	ServiceNodeType,
 	TypeTagMap,
@@ -64,6 +64,15 @@ const calculateFlowHeight = (
 			: NAV_BAR_HEIGHT_PIXELS + FOOTER_HEIGHT_PIXELS / 2);
 
 	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
+};
+
+const calculateFlowWidth = (
+	windowWidth: number,
+	isSideRailExpanded: boolean,
+): number => {
+	const flowWidth =
+		windowWidth - (isSideRailExpanded ? RAIL_WIDTH_PIXELS * 2 : REM);
+	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
 };
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -207,10 +216,16 @@ export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
 	);
 }
 
-export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
+export function FlowContainer() {
+	/* Menu Display and flow dimensions */
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
 	const [windowHeight, windowWidth] = useWindowsDimensions();
 	const [flowHeight, setFlowHeight] = useState(
 		calculateFlowHeight(windowHeight, false),
+	);
+	const [flowWidth, setFlowWidth] = useState(
+		calculateFlowWidth(windowWidth, false),
 	);
 
 	const [configuredNode, setNodeToConfigure] = useState<AnyNode | null>(null);
@@ -237,6 +252,10 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	useEffect(() => {
 		setFlowHeight(calculateFlowHeight(windowHeight, !!expandedNode));
 	}, [windowHeight, expandedNode]);
+
+	useEffect(() => {
+		setFlowWidth(calculateFlowWidth(windowWidth, isMenuOpen));
+	}, [windowWidth, isMenuOpen]);
 
 	// node expansion
 	useEffect(() => {
@@ -361,11 +380,12 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	};
 
 	const handleEdgesDelete = (edges: Edge[]) => {
+		// eslint-disable-next-line no-console
 		console.log(edges);
 	};
 
 	return (
-		<main className="grow h-full w-full">
+		<main className="h-full w-full flex">
 			<NodeContext.Provider
 				value={{
 					displayNodes,
@@ -374,42 +394,37 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 					handleNodeExpand,
 				}}
 			>
-				<div className="flex gap-0">
-					<Drawer isOpen={isSidebarOpen}>
-						<ul className={`p-2 mx-auto w-48`}>
-							<MenuItem nodeType={ServiceNodeType.NestJs} />
-							<MenuItem nodeType={ServiceNodeType.NextJs} />
-						</ul>
-					</Drawer>
-
-					<div
-						className={`h-full transition-all duration-300 ease-in-out grow ${
-							expandedNode
-								? 'bg-base-100 rounded border-2 border-neutral'
-								: 'bg-base-300'
-						}`}
-					>
-						{expandedNode && (
-							<InternalFlowHeader {...expandedNode.data} />
-						)}
-						{flowHeight && windowWidth && (
-							<Flow
-								connectionMode={ConnectionMode.Loose}
-								displayEdges={displayEdges}
-								displayNodes={displayNodes}
-								dndRef={dndRef}
-								handleEdgeConnect={handleEdgeConnect}
-								handleEdgeUpdate={handleEdgeUpdate}
-								handleEdgesDelete={handleEdgesDelete}
-								containerHeight={flowHeight}
-								containerWidth={windowWidth}
-								setDisplayEdges={setDisplayEdges}
-								setDisplayNodes={setDisplayNodes}
-								setReactFlowInstance={setReactFlowInstance}
-								showBackground={!expandedNode}
-							/>
-						)}
-					</div>
+				<NavRail
+					isMenuOpen={isMenuOpen}
+					setIsMenuOpen={setIsMenuOpen}
+				/>
+				<div
+					className={`h-full transition-all duration-300 ease-in-out ${
+						expandedNode
+							? 'bg-base-100 rounded border-2 border-neutral'
+							: 'bg-base-300'
+					}`}
+				>
+					{expandedNode && (
+						<InternalFlowHeader {...expandedNode.data} />
+					)}
+					{flowHeight && windowWidth && (
+						<Flow
+							connectionMode={ConnectionMode.Loose}
+							displayEdges={displayEdges}
+							displayNodes={displayNodes}
+							dndRef={dndRef}
+							handleEdgeConnect={handleEdgeConnect}
+							handleEdgeUpdate={handleEdgeUpdate}
+							handleEdgesDelete={handleEdgesDelete}
+							containerHeight={flowHeight}
+							containerWidth={flowWidth}
+							setDisplayEdges={setDisplayEdges}
+							setDisplayNodes={setDisplayNodes}
+							setReactFlowInstance={setReactFlowInstance}
+							showBackground={!expandedNode}
+						/>
+					)}
 				</div>
 				{configuredNode && (
 					<div className="absolute inset-1 w-5/10 h-full z-10 flex justify-center">

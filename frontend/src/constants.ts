@@ -4,6 +4,26 @@ export const NAV_BAR_HEIGHT_PIXELS = 56;
 export const FOOTER_HEIGHT_PIXELS = 40;
 export const DEFAULT_FLOW_HEIGHT = 1024;
 
+export const RAIL_WIDTH_PIXELS = 160;
+
+export enum MenuItemType {
+	Frontend = 'Frontend',
+	Backend = 'Backend',
+	Database = 'Database',
+	Cloud = 'Cloud',
+	Marketing = 'Marketing',
+	API = 'API',
+}
+
+export const MenuItemTags: Record<MenuItemType, string> = {
+	[MenuItemType.Frontend]: 'frontend',
+	[MenuItemType.Backend]: 'backend',
+	[MenuItemType.Database]: 'database',
+	[MenuItemType.Cloud]: 'cloud',
+	[MenuItemType.Marketing]: 'marketing',
+	[MenuItemType.API]: 'api',
+};
+
 export enum ServiceNodeType {
 	NestJs = 'NestJS',
 	NextJs = 'NextJS',
@@ -29,6 +49,15 @@ export enum ServiceNodeType {
 	Django = 'Django',
 	Flask = 'Flask',
 	FastAPI = 'FastAPI',
+	Angular = 'Angular',
+	React = 'React',
+	Solid = 'Solid',
+	Svelte = 'Svelte',
+	Vue = 'Vue',
+	Android = 'Android',
+	IOS = 'IOS',
+	Flutter = 'Flutter',
+	ReactNative = 'ReactNative',
 }
 
 export enum ContainerNodeType {
@@ -46,7 +75,17 @@ export const TypeTagMap: Record<
 	string
 > = {
 	[ServiceNodeType.NextJs]: 'nextjs',
-	//db-nosql
+	[ServiceNodeType.Angular]: 'angular',
+	[ServiceNodeType.React]: 'react',
+	[ServiceNodeType.Solid]: 'solid',
+	[ServiceNodeType.Svelte]: 'svelte',
+	[ServiceNodeType.Vue]: 'vue',
+	// mobile frameworks
+	[ServiceNodeType.ReactNative]: 'react-native',
+	[ServiceNodeType.Flutter]: 'flutter',
+	[ServiceNodeType.IOS]: 'ios',
+	[ServiceNodeType.Android]: 'android',
+	// db-nosql
 	[ServiceNodeType.MongoDB]: 'mongo',
 	[ServiceNodeType.Firestore]: 'firestore',
 	[ServiceNodeType.Cassandra]: 'cassandra',
@@ -54,7 +93,7 @@ export const TypeTagMap: Record<
 	[ServiceNodeType.Redis]: 'redis',
 	[ServiceNodeType.Hbase]: 'hbase',
 	[ServiceNodeType.CosmosDB]: 'cosmos',
-	//db-sql
+	// db-sql
 	[ServiceNodeType.MySQL]: 'mysql',
 	[ServiceNodeType.PostgresSQL]: 'postgres',
 	[ServiceNodeType.MicrosoftSQL]: 'sqlserver',
@@ -62,7 +101,7 @@ export const TypeTagMap: Record<
 	[ServiceNodeType.Firebird]: 'firebird',
 	[ServiceNodeType.SQLite]: 'sqlite',
 	[ServiceNodeType.Oracle]: 'oracle',
-	//server js
+	// server js
 	[ServiceNodeType.NestJs]: 'nest',
 	[ServiceNodeType.ExpressJs]: 'express',
 	[ServiceNodeType.KoaJs]: 'koa',
@@ -77,44 +116,18 @@ export const TypeTagMap: Record<
 	[InternalNodeType.Controller]: 'controller',
 	[InternalNodeType.Service]: 'service',
 	[InternalNodeType.Endpoint]: 'endpoint',
+	// container
 	[ContainerNodeType.Module]: 'module',
 };
 
 export const ServiceNodeAllowedInternalNodesMap: Record<
-	ServiceNodeType,
-	(InternalNodeType | ContainerNodeType)[] | null
+	string,
+	(InternalNodeType | ContainerNodeType)[] | undefined
 > = {
-	[ServiceNodeType.NextJs]: null,
-	//db-nosql
-	[ServiceNodeType.MongoDB]: null,
-	[ServiceNodeType.Firestore]: null,
-	[ServiceNodeType.Cassandra]: null,
-	[ServiceNodeType.DynamoDB]: null,
-	[ServiceNodeType.Redis]: null,
-	[ServiceNodeType.Hbase]: null,
-	[ServiceNodeType.CosmosDB]: null,
-	//db-sql
-	[ServiceNodeType.MySQL]: null,
-	[ServiceNodeType.PostgresSQL]: null,
-	[ServiceNodeType.MicrosoftSQL]: null,
-	[ServiceNodeType.MariaDB]: null,
-	[ServiceNodeType.Firebird]: null,
-	[ServiceNodeType.SQLite]: null,
-	[ServiceNodeType.Oracle]: null,
-	//server js
 	[ServiceNodeType.NestJs]: [
 		ContainerNodeType.Module,
 		InternalNodeType.Controller,
 		InternalNodeType.Service,
 		InternalNodeType.Endpoint,
 	],
-	[ServiceNodeType.ExpressJs]: null,
-	[ServiceNodeType.KoaJs]: null,
-	[ServiceNodeType.HapiJs]: null,
-	[ServiceNodeType.Fastify]: null,
-	// server Python
-	[ServiceNodeType.Litestar]: null,
-	[ServiceNodeType.Django]: null,
-	[ServiceNodeType.Flask]: null,
-	[ServiceNodeType.FastAPI]: null,
 };

@@ -3,6 +3,14 @@ import Controller from '@/assets/internal-nodes/controller.svg';
 import Endpoint from '@/assets/internal-nodes/endpoint.svg';
 import Module from '@/assets/internal-nodes/module.svg';
 import Service from '@/assets/internal-nodes/service.svg';
+import API from '@/assets/menu-icons/api.svg';
+import ArrowLeft from '@/assets/menu-icons/arrow-left.svg';
+import Backend from '@/assets/menu-icons/backend.svg';
+import Cloud from '@/assets/menu-icons/cloud.svg';
+import Database from '@/assets/menu-icons/database.svg';
+import Frontend from '@/assets/menu-icons/frontend.svg';
+import Marketing from '@/assets/menu-icons/marketing.svg';
+import Plus from '@/assets/menu-icons/plus.svg';
 import ExpressJS from '@/assets/services-nodes/backend-frameworks/js/expressjs.svg';
 import Fastify from '@/assets/services-nodes/backend-frameworks/js/fastifyjs.svg';
 import HapiJS from '@/assets/services-nodes/backend-frameworks/js/hapijs.svg';
@@ -26,17 +34,34 @@ import Oracle from '@/assets/services-nodes/databases/sql/oracle.svg';
 import PostgresSQL from '@/assets/services-nodes/databases/sql/postgresql.svg';
 import MicrosoftSQL from '@/assets/services-nodes/databases/sql/sql-server.svg';
 import SQLite from '@/assets/services-nodes/databases/sql/sqlite.svg';
+import Angular from '@/assets/services-nodes/frontend-frameworks/js/angular.svg';
 import NextJS from '@/assets/services-nodes/frontend-frameworks/js/nextjs.svg';
+import ReactLogo from '@/assets/services-nodes/frontend-frameworks/js/react.svg';
+import Solid from '@/assets/services-nodes/frontend-frameworks/js/solid.svg';
+import Svelte from '@/assets/services-nodes/frontend-frameworks/js/svelte.svg';
+import Vue from '@/assets/services-nodes/frontend-frameworks/js/vue.svg';
+import Android from '@/assets/services-nodes/mobile-frameworks/android.svg';
+import Flutter from '@/assets/services-nodes/mobile-frameworks/flutter.svg';
+import Ios from '@/assets/services-nodes/mobile-frameworks/ios.svg';
+import ReactNative from '@/assets/services-nodes/mobile-frameworks/reactnative.svg';
 import {
 	ContainerNodeType,
 	InternalNodeType,
+	MenuItemType,
 	ServiceNodeType,
 } from '@/constants';
 
 export {
+	Android,
+	Angular,
+	API,
+	ArrowLeft,
+	Backend,
 	Cassandra,
+	Cloud,
 	Controller,
 	CosmosDB,
+	Database,
 	Django,
 	DynamoDB,
 	Endpoint,
@@ -44,9 +69,13 @@ export {
 	Firebird,
 	Firestore,
 	Flask,
+	Flutter,
+	Frontend,
 	Hbase,
+	Ios,
 	Litestar,
 	MariaDB,
+	Marketing,
 	MicrosoftSQL,
 	Module,
 	MongoDB,
@@ -54,20 +83,44 @@ export {
 	NestJS,
 	NextJS,
 	Oracle,
+	Plus,
 	PostgresSQL,
+	ReactLogo,
+	ReactNative,
 	Redis,
 	Service,
+	Solid,
 	SQLite,
+	Svelte,
+	Vue,
 };
 
 export const TypeSVGMap: Record<
-	ServiceNodeType | InternalNodeType | ContainerNodeType,
+	MenuItemType | ServiceNodeType | InternalNodeType | ContainerNodeType,
 	{
 		SVG: React.ComponentType<React.SVGProps<SVGElement>>;
 		props?: Partial<React.SVGProps<SVGElement>>;
 	}
 > = {
+	//menu items
+	[MenuItemType.Frontend]: { SVG: Frontend },
+	[MenuItemType.Backend]: { SVG: Backend },
+	[MenuItemType.Database]: { SVG: Database },
+	[MenuItemType.Cloud]: { SVG: Cloud },
+	[MenuItemType.Marketing]: { SVG: Marketing },
+	[MenuItemType.API]: { SVG: API },
+	//front js
 	[ServiceNodeType.NextJs]: { SVG: NextJS },
+	[ServiceNodeType.Angular]: { SVG: Angular },
+	[ServiceNodeType.React]: { SVG: ReactLogo },
+	[ServiceNodeType.Solid]: { SVG: Solid },
+	[ServiceNodeType.Svelte]: { SVG: Svelte },
+	[ServiceNodeType.Vue]: { SVG: Vue },
+	//front mobile
+	[ServiceNodeType.ReactNative]: { SVG: ReactNative },
+	[ServiceNodeType.Flutter]: { SVG: Flutter },
+	[ServiceNodeType.IOS]: { SVG: Ios },
+	[ServiceNodeType.Android]: { SVG: Android },
 	// db-nosql
 	[ServiceNodeType.MongoDB]: { SVG: MongoDB },
 	[ServiceNodeType.Firestore]: { SVG: Firestore },

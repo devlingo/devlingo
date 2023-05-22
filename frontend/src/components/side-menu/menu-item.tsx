@@ -17,22 +17,22 @@ export function MenuItem({ nodeType }: MenuItemProps) {
 
 	const { t } = useTranslation('assets');
 
-	const { SVG, props } = TypeSVGMap[nodeType];
+	const { SVG } = TypeSVGMap[nodeType];
 	const tag = TypeTagMap[nodeType];
 
 	return (
-		<li className="p-2">
+		<li className="p-2 list-none">
 			<div
 				ref={drag}
-				className={`flex justify-between p-2 bg-neutral ${
+				className={`flex justify-start p-2 bg-transparent hover:bg-neutral	 hover:text-neutral-content rounded-2xl  ${
 					isDragging ? 'opacity-60' : 'opacity-100'
 				}`}
 			>
 				<figure>
-					<SVG height={16} width={16} {...props} />
+					<SVG height={16} width={16} />
 				</figure>
 
-				<h2 className="text-xs text-base-content">{t(tag)}</h2>
+				<h2 className="text-xs pl-2 overflow:hidden">{t(tag)}</h2>
 			</div>
 		</li>
 	);

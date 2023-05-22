@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer utilities {
+  .collapse {
+    visibility: visible;
+  }
+}

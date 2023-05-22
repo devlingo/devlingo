@@ -1,8 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useState } from 'react';
 
 import { FlowContainer } from '@/components/flow/flow-container';
-import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -14,10 +12,8 @@ export async function getStaticProps({ locale }: { locale: string }) {
 }
 
 export default function Index() {
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
 	const handleBurgerIconClick = () => {
-		setIsSidebarOpen(!isSidebarOpen);
+		return;
 	};
 	const handleSaveIconClick = () => {
 		return;
@@ -42,8 +38,7 @@ export default function Index() {
 				onUserIconClick={handleUserIconClick}
 				projectName="Backend Example"
 			/>
-			<FlowContainer isSidebarOpen={isSidebarOpen} />
-			<Footer />
+			<FlowContainer />
 		</div>
 	);
 }

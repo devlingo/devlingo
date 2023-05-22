@@ -5,9 +5,72 @@ import { createNode } from '@/utils/node';
 
 export const initialNodes: Node[] = [
 	createNode({
-		position: { x: 1000, y: 50 },
+		position: { x: 1300, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.NextJs,
+			formData: { nodeName: 'Frontend' },
+		},
+	}),
+	createNode({
+		position: { x: 1300, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.IOS,
+			formData: { nodeName: 'Mobile' },
+		},
+	}),
+	createNode({
+		position: { x: 1300, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.Android,
+			formData: { nodeName: 'Mobile' },
+		},
+	}),
+	createNode({
+		position: { x: 1300, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.Flutter,
+			formData: { nodeName: 'Mobile' },
+		},
+	}),
+	createNode({
+		position: { x: 1300, y: 650 },
+		data: {
+			nodeType: ServiceNodeType.ReactNative,
+			formData: { nodeName: 'Mobile' },
+		},
+	}),
+	createNode({
+		position: { x: 1000, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.React,
+			formData: { nodeName: 'Frontend' },
+		},
+	}),
+	createNode({
+		position: { x: 1000, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.Angular,
+			formData: { nodeName: 'Frontend' },
+		},
+	}),
+	createNode({
+		position: { x: 1000, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.Vue,
+			formData: { nodeName: 'Frontend' },
+		},
+	}),
+	createNode({
+		position: { x: 1000, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.Svelte,
+			formData: { nodeName: 'Frontend' },
+		},
+	}),
+	createNode({
+		position: { x: 1000, y: 650 },
+		data: {
+			nodeType: ServiceNodeType.Solid,
 			formData: { nodeName: 'Frontend' },
 		},
 	}),

@@ -32,23 +32,25 @@ export function Navbar({
 
 	return (
 		<header
-			className={`bg-base-100 border-b-2 border-base-200 h-[${NAV_BAR_HEIGHT_PIXELS}px] m-h-fit flex items-center flex-none`}
+			// border-b-2 border-base-200
+			className={`bg-base-100 h-[${NAV_BAR_HEIGHT_PIXELS}px] m-h-fit flex items-center flex-none`}
 		>
-			<div className="flex-none mr-2 ml-2">
+			<div className="flex-none mr-2 ml-3">
 				<button
-					className="btn btn-square btn-ghost"
+					className="btn btn-square btn-ghost opacity-60 hover:opacity-100"
 					onClick={onBurgerIconClick}
 				>
 					<Bars4Icon className="h-7 w-7" />
 				</button>
+				{/*<p className="test-xs leading-tight font-serif ">Devlingo</p>*/}
 			</div>
 			<div className="flex-1 ml-2">
-				<a className="btn btn-ghost normal-case text-lg text-base-content">
+				<a className="btn btn-ghost normal-case text-lg text-base-content ">
 					{projectName}
 				</a>
 			</div>
 			<select
-				className="select select-bordered select-xs w-5/10 max-w-xs"
+				className="select select-bordered select-xs w-5/10 max-w-xs opacity-60 hover:opacity-100"
 				onChange={(event) => themeContext.setTheme(event.target.value)}
 			>
 				{daisyUIThemes.map((theme, i) => (
@@ -84,7 +86,7 @@ function NavbarButton({
 	return (
 		<div className="flex-none mr-2 ml-2">
 			<button
-				className="btn btn-square btn-ghost"
+				className="btn btn-square btn-ghost opacity-60 hover:opacity-100"
 				onClick={onClickHandler}
 			>
 				<Icon className="h-7 w-7 text-base-content" />
