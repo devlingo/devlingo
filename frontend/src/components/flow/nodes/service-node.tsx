@@ -1,4 +1,8 @@
-import { ChevronRightIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
+import {
+	ChevronRightIcon,
+	Cog8ToothIcon,
+	ListBulletIcon,
+} from '@heroicons/react/24/solid';
 import { Edge } from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import { useContext } from 'react';
@@ -44,7 +48,7 @@ export function ServiceNode({
 				id={`${nodeId}-source-${Position.Bottom}`}
 				className="bg-accent rounded"
 			/>
-			<div className="flex justify-between p-4 border-b-2 border-b-neutral gap-4">
+			<div className="flex justify-start p-4 border-b-2 border-b-neutral gap-8">
 				<figure>
 					<SVG
 						className="max-w-12 max-h-12 h-full w-full"
@@ -52,25 +56,30 @@ export function ServiceNode({
 					/>
 				</figure>
 				<div>
-					<h2 className="text-base-content text-md">
+					<h2 className="text-base-content text-lg">
 						{formData.nodeName}
 					</h2>
 					{formData.nodeName && (
-						<p className="text-base-content text-xs">
+						<p className="text-base-content text-sm">
 							{t(TypeTagMap[nodeType])}
 						</p>
 					)}
 				</div>
 			</div>
-			<div className="flex justify-end gap-2 p-4">
-				<button>
-					<Cog8ToothIcon
-						className="h-5 w-5 text-base-content hover:text-primary"
-						onClick={() => {
-							nodeContext.handleNodeConfig(nodeId);
-						}}
-					/>
-				</button>
+			<div className="flex justify-between p-4">
+				<div className="btn-group btn-group-horizontal gap-2">
+					<button>
+						<ListBulletIcon className="h-5 w-5 text-base-content hover:text-primary" />
+					</button>
+					<button>
+						<Cog8ToothIcon
+							className="h-5 w-5 text-base-content hover:text-primary"
+							onClick={() => {
+								nodeContext.handleNodeConfig(nodeId);
+							}}
+						/>
+					</button>
+				</div>
 				{allowExpansion && (
 					<button>
 						<ChevronRightIcon
