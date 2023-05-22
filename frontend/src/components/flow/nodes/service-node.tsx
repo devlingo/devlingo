@@ -16,41 +16,48 @@ export function ServiceNode({
 	const nodeId = useNodeId()!;
 
 	const { t } = useTranslation('assets');
-	const { SVG } = TypeSVGMap[nodeType];
+	const { SVG, props } = TypeSVGMap[nodeType];
 
 	return (
-		<div className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral min-h-34 min-w-60">
+		<div className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral h-34 w-60">
 			<Handle
 				type="source"
 				position={Position.Top}
 				id={`${nodeId}-source-${Position.Top}`}
+				className="bg-accent rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Right}
 				id={`${nodeId}-source-${Position.Right}`}
+				className="bg-accent rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Left}
 				id={`${nodeId}-source-${Position.Left}`}
+				className="bg-accent rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Bottom}
 				id={`${nodeId}-source-${Position.Bottom}`}
+				className="bg-accent rounded"
 			/>
 			<div className="flex justify-between p-4 border-b-2 border-b-neutral gap-4">
 				<figure>
-					<SVG className="w-12 h-12" />
+					<SVG
+						className="max-w-12 max-h-12 h-full w-full"
+						{...props}
+					/>
 				</figure>
 				<div>
 					<h2 className="text-base-content text-md">
-						{t(TypeTagMap[nodeType])}
+						{formData.nodeName}
 					</h2>
 					{formData.nodeName && (
-						<p className="text-base-content text-sm">
-							{formData.nodeName}
+						<p className="text-base-content text-xs">
+							{t(TypeTagMap[nodeType])}
 						</p>
 					)}
 				</div>

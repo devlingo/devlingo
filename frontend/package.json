@@ -8,7 +8,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"format": "prettier --write '**/*.{yml,yaml,json,md,ts,html}'",
+		"format": "prettier --write '**/*.{yml,yaml,json,md,ts,html,svg,xml}'",
 		"lint:code": "eslint --fix '**/*.{ts,tsx}' --max-warnings 0",
 		"check:code": "eslint '**/*.{ts,tsx}' --max-warnings 0",
 		"lint:style": "stylelint --fix '**/*.css'",
@@ -17,7 +17,7 @@
 		"postinstall": "husky install"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "DevLingo",
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",
@@ -44,6 +44,7 @@
 		"reactflow": "^11.7.2"
 	},
 	"devDependencies": {
+		"@prettier/plugin-xml": "^2.2.0",
 		"@svgr/webpack": "^8.0.1",
 		"@tailwindcss/typography": "^0.5.9",
 		"@testing-library/dom": "^9.3.0",
@@ -74,7 +75,7 @@
 	},
 	"lint-staged": {
 		"*.{d.ts, ts, tsx}": "eslint --fix",
-		"*.{js, md, json, yaml, yml}": "prettier --write",
+		"*.{js, md, json, yaml, yml, xml, svg}": "prettier --write",
 		"*.css": "stylelint --fix"
 	},
 	"engines": {

@@ -50,11 +50,11 @@ export function InternalNode({
 				</figure>
 				<div className="flex-col gap-0">
 					<h2 className="text-accent-content text-sm">
-						{t(TypeTagMap[nodeType])}{' '}
+						{formData.nodeName}
 					</h2>
 					{formData.nodeName && (
 						<span className="text-accent-content text-xs">
-							{formData.nodeName}
+							{t(TypeTagMap[nodeType])}
 						</span>
 					)}
 				</div>

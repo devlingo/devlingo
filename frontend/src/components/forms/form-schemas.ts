@@ -23,4 +23,30 @@ export const typeSchemaMap: Record<NodeType, JsonSchema> = {
 	[InternalNodeType.Service]: {},
 	[InternalNodeType.Controller]: {},
 	[InternalNodeType.Endpoint]: {},
+	//db-nosql
+	[ServiceNodeType.MongoDB]: exampleSchema,
+	[ServiceNodeType.Firestore]: exampleSchema,
+	[ServiceNodeType.Cassandra]: exampleSchema,
+	[ServiceNodeType.DynamoDB]: exampleSchema,
+	[ServiceNodeType.Redis]: exampleSchema,
+	[ServiceNodeType.Hbase]: exampleSchema,
+	[ServiceNodeType.CosmosDB]: exampleSchema,
+	//db-sql
+	[ServiceNodeType.MySQL]: exampleSchema,
+	[ServiceNodeType.PostgresSQL]: exampleSchema,
+	[ServiceNodeType.MicrosoftSQL]: exampleSchema,
+	[ServiceNodeType.MariaDB]: exampleSchema,
+	[ServiceNodeType.Firebird]: exampleSchema,
+	[ServiceNodeType.SQLite]: exampleSchema,
+	[ServiceNodeType.Oracle]: exampleSchema,
+	//server js
+	[ServiceNodeType.ExpressJs]: exampleSchema,
+	[ServiceNodeType.KoaJs]: exampleSchema,
+	[ServiceNodeType.HapiJs]: exampleSchema,
+	[ServiceNodeType.Fastify]: exampleSchema,
+	// server Python
+	[ServiceNodeType.Litestar]: exampleSchema,
+	[ServiceNodeType.Django]: exampleSchema,
+	[ServiceNodeType.Flask]: exampleSchema,
+	[ServiceNodeType.FastAPI]: exampleSchema,
 };

@@ -1,6 +1,28 @@
 export enum ServiceNodeType {
 	NestJs = 'NestJS',
 	NextJs = 'NextJS',
+	MongoDB = 'MongoDB',
+	Firestore = 'Firestore',
+	Cassandra = 'Cassandra',
+	DynamoDB = 'DynamoDB',
+	Redis = 'Redis',
+	Hbase = 'Hbase',
+	CosmosDB = 'CosmosDB',
+	MySQL = 'MySQL',
+	PostgresSQL = 'PostgresSQL',
+	MicrosoftSQL = 'SQL Server',
+	MariaDB = 'MariaDB',
+	Firebird = 'Firebird',
+	SQLite = 'SQLite',
+	Oracle = 'Oracle',
+	ExpressJs = 'Express.js',
+	KoaJs = 'Koa.js',
+	HapiJs = 'Hapi.js',
+	Fastify = 'Fastify',
+	Litestar = 'Litestar',
+	Django = 'Django',
+	Flask = 'Flask',
+	FastAPI = 'FastAPI',
 }
 
 export enum InternalNodeType {
@@ -10,8 +32,35 @@ export enum InternalNodeType {
 }
 
 export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
-	[ServiceNodeType.NestJs]: 'nest-service',
-	[ServiceNodeType.NextJs]: 'next-service',
+	[ServiceNodeType.NextJs]: 'nextjs',
+	//db-nosql
+	[ServiceNodeType.MongoDB]: 'mongo',
+	[ServiceNodeType.Firestore]: 'firestore',
+	[ServiceNodeType.Cassandra]: 'cassandra',
+	[ServiceNodeType.DynamoDB]: 'dynamo',
+	[ServiceNodeType.Redis]: 'redis',
+	[ServiceNodeType.Hbase]: 'hbase',
+	[ServiceNodeType.CosmosDB]: 'cosmos',
+	//db-sql
+	[ServiceNodeType.MySQL]: 'mysql',
+	[ServiceNodeType.PostgresSQL]: 'postgres',
+	[ServiceNodeType.MicrosoftSQL]: 'sqlserver',
+	[ServiceNodeType.MariaDB]: 'mariadb',
+	[ServiceNodeType.Firebird]: 'firebird',
+	[ServiceNodeType.SQLite]: 'sqlite',
+	[ServiceNodeType.Oracle]: 'oracle',
+	//server js
+	[ServiceNodeType.NestJs]: 'nest',
+	[ServiceNodeType.ExpressJs]: 'express',
+	[ServiceNodeType.KoaJs]: 'koa',
+	[ServiceNodeType.HapiJs]: 'hapi',
+	[ServiceNodeType.Fastify]: 'fastify',
+	// server Python
+	[ServiceNodeType.Litestar]: 'litestar',
+	[ServiceNodeType.Django]: 'django',
+	[ServiceNodeType.Flask]: 'flask',
+	[ServiceNodeType.FastAPI]: 'fastapi',
+	// internal
 	[InternalNodeType.Controller]: 'controller',
 	[InternalNodeType.Service]: 'service',
 	[InternalNodeType.Endpoint]: 'endpoint',
