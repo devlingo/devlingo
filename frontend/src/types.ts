@@ -17,6 +17,7 @@ export interface NodeData<
 > {
 	formData: T;
 	nodeType: N;
+	nodeName: string;
 }
 
 export interface ServiceNodeData<

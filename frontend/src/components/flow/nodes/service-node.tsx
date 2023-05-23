@@ -14,7 +14,7 @@ import { InternalNodeData, ServiceNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function ServiceNode({
-	data: { nodeType, allowExpansion, formData },
+	data: { nodeType, allowExpansion, nodeName },
 }: NodeProps<ServiceNodeData>) {
 	const nodeContext = useContext(NodeContext);
 	const nodeId = useNodeId()!;
@@ -56,14 +56,10 @@ export function ServiceNode({
 					/>
 				</figure>
 				<div>
-					<h2 className="text-base-content text-lg">
-						{formData.nodeName}
-					</h2>
-					{formData.nodeName && (
-						<p className="text-base-content text-sm">
-							{t(TypeTagMap[nodeType])}
-						</p>
-					)}
+					<h2 className="text-base-content text-lg">{nodeName}</h2>
+					<p className="text-base-content text-sm">
+						{t(TypeTagMap[nodeType])}
+					</p>
 				</div>
 			</div>
 			<div className="flex justify-between p-4">
@@ -96,22 +92,31 @@ export function ServiceNode({
 }
 
 export function createServiceNode({
-	props,
-	nodeType,
-	formData = {},
 	allowExpansion = true,
-	childNodes = [],
 	childEdges = [],
+	childNodes = [],
+	formData = {},
+	nodeName,
+	nodeType,
+	props,
 }: {
-	props: Omit<Node, 'data' | 'type' | 'className'>;
-	nodeType: ServiceNodeType;
-	formData: Record<string, any>;
 	allowExpansion?: boolean;
-	childNodes?: Node<InternalNodeData>[];
 	childEdges?: Edge[];
+	childNodes?: Node<InternalNodeData>[];
+	formData: Record<string, any>;
+	nodeName: string;
+	nodeType: ServiceNodeType;
+	props: Omit<Node, 'data' | 'type' | 'className'>;
 }): Node<ServiceNodeData, 'ServiceNode'> {
 	return {
-		data: { nodeType, formData, allowExpansion, childNodes, childEdges },
+		data: {
+			nodeType,
+			formData,
+			allowExpansion,
+			childNodes,
+			childEdges,
+			nodeName,
+		},
 		type: 'ServiceNode',
 		...props,
 	};
