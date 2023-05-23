@@ -27,8 +27,9 @@ export enum ServiceNodeType {
 
 export enum InternalNodeType {
 	Controller = 'Controller',
-	Service = 'Service',
 	Endpoint = 'Endpoint',
+	Module = 'Module',
+	Service = 'Service',
 }
 
 export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
@@ -64,6 +65,7 @@ export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
 	[InternalNodeType.Controller]: 'controller',
 	[InternalNodeType.Service]: 'service',
 	[InternalNodeType.Endpoint]: 'endpoint',
+	[InternalNodeType.Module]: 'module',
 };
 
 export const REM = 16;

@@ -16,6 +16,7 @@
 	"koa": "Koa",
 	"litestar": "Litestar",
 	"mariadb": "MariaDB",
+	"module": "Module",
 	"mongo": "MongoDB",
 	"mysql": "MySQL",
 	"nest": "NestJS",

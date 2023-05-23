@@ -18,36 +18,39 @@ const nestJSServiceUISchema: UISchemaElement = exampleUISchema;
 const nextJSServiceUISchema: UISchemaElement = exampleUISchema;
 
 export const typeUISchemaMap: Record<NodeType, UISchemaElement> = {
-	[ServiceNodeType.NestJs]: nestJSServiceUISchema,
+	// frontend frameworks
 	[ServiceNodeType.NextJs]: nextJSServiceUISchema,
-	[InternalNodeType.Service]: exampleUISchema,
+	// db nosql
+	[ServiceNodeType.Cassandra]: exampleUISchema,
+	[ServiceNodeType.CosmosDB]: exampleUISchema,
+	[ServiceNodeType.DynamoDB]: exampleUISchema,
+	[ServiceNodeType.Firestore]: exampleUISchema,
+	[ServiceNodeType.Hbase]: exampleUISchema,
+	[ServiceNodeType.MongoDB]: exampleUISchema,
+	[ServiceNodeType.Redis]: exampleUISchema,
+	// db-sql
+	[ServiceNodeType.Firebird]: exampleUISchema,
+	[ServiceNodeType.MariaDB]: exampleUISchema,
+	[ServiceNodeType.MicrosoftSQL]: exampleUISchema,
+	[ServiceNodeType.MySQL]: exampleUISchema,
+	[ServiceNodeType.Oracle]: exampleUISchema,
+	[ServiceNodeType.PostgresSQL]: exampleUISchema,
+	[ServiceNodeType.SQLite]: exampleUISchema,
+	// server js
+	[ServiceNodeType.ExpressJs]: exampleUISchema,
+	[ServiceNodeType.Fastify]: exampleUISchema,
+	[ServiceNodeType.HapiJs]: exampleUISchema,
+	[ServiceNodeType.KoaJs]: exampleUISchema,
+	[ServiceNodeType.NestJs]: exampleUISchema,
+	[ServiceNodeType.NestJs]: nestJSServiceUISchema,
+	// server py
+	[ServiceNodeType.Django]: exampleUISchema,
+	[ServiceNodeType.FastAPI]: exampleUISchema,
+	[ServiceNodeType.Flask]: exampleUISchema,
+	[ServiceNodeType.Litestar]: exampleUISchema,
+	// internal nodes
 	[InternalNodeType.Controller]: exampleUISchema,
 	[InternalNodeType.Endpoint]: exampleUISchema,
-	//db-nosql
-	[ServiceNodeType.MongoDB]: exampleUISchema,
-	[ServiceNodeType.Firestore]: exampleUISchema,
-	[ServiceNodeType.Cassandra]: exampleUISchema,
-	[ServiceNodeType.DynamoDB]: exampleUISchema,
-	[ServiceNodeType.Redis]: exampleUISchema,
-	[ServiceNodeType.Hbase]: exampleUISchema,
-	[ServiceNodeType.CosmosDB]: exampleUISchema,
-	//db-sql
-	[ServiceNodeType.MySQL]: exampleUISchema,
-	[ServiceNodeType.PostgresSQL]: exampleUISchema,
-	[ServiceNodeType.MicrosoftSQL]: exampleUISchema,
-	[ServiceNodeType.MariaDB]: exampleUISchema,
-	[ServiceNodeType.Firebird]: exampleUISchema,
-	[ServiceNodeType.SQLite]: exampleUISchema,
-	[ServiceNodeType.Oracle]: exampleUISchema,
-	//server js
-	[ServiceNodeType.NestJs]: exampleUISchema,
-	[ServiceNodeType.ExpressJs]: exampleUISchema,
-	[ServiceNodeType.KoaJs]: exampleUISchema,
-	[ServiceNodeType.HapiJs]: exampleUISchema,
-	[ServiceNodeType.Fastify]: exampleUISchema,
-	// server Python
-	[ServiceNodeType.Litestar]: exampleUISchema,
-	[ServiceNodeType.Django]: exampleUISchema,
-	[ServiceNodeType.Flask]: exampleUISchema,
-	[ServiceNodeType.FastAPI]: exampleUISchema,
+	[InternalNodeType.Module]: exampleUISchema,
+	[InternalNodeType.Service]: exampleUISchema,
 };

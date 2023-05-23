@@ -18,12 +18,9 @@ const nestJSServiceSchema: JsonSchema = exampleSchema;
 const nextJSServiceSchema: JsonSchema = exampleSchema;
 
 export const typeSchemaMap: Record<NodeType, JsonSchema> = {
-	[ServiceNodeType.NestJs]: nestJSServiceSchema,
+	// frontend frameworks
 	[ServiceNodeType.NextJs]: nextJSServiceSchema,
-	[InternalNodeType.Service]: {},
-	[InternalNodeType.Controller]: {},
-	[InternalNodeType.Endpoint]: {},
-	//db-nosql
+	// db nosql
 	[ServiceNodeType.MongoDB]: exampleSchema,
 	[ServiceNodeType.Firestore]: exampleSchema,
 	[ServiceNodeType.Cassandra]: exampleSchema,
@@ -31,7 +28,7 @@ export const typeSchemaMap: Record<NodeType, JsonSchema> = {
 	[ServiceNodeType.Redis]: exampleSchema,
 	[ServiceNodeType.Hbase]: exampleSchema,
 	[ServiceNodeType.CosmosDB]: exampleSchema,
-	//db-sql
+	// db sql
 	[ServiceNodeType.MySQL]: exampleSchema,
 	[ServiceNodeType.PostgresSQL]: exampleSchema,
 	[ServiceNodeType.MicrosoftSQL]: exampleSchema,
@@ -39,14 +36,20 @@ export const typeSchemaMap: Record<NodeType, JsonSchema> = {
 	[ServiceNodeType.Firebird]: exampleSchema,
 	[ServiceNodeType.SQLite]: exampleSchema,
 	[ServiceNodeType.Oracle]: exampleSchema,
-	//server js
+	// server js
 	[ServiceNodeType.ExpressJs]: exampleSchema,
-	[ServiceNodeType.KoaJs]: exampleSchema,
-	[ServiceNodeType.HapiJs]: exampleSchema,
 	[ServiceNodeType.Fastify]: exampleSchema,
-	// server Python
+	[ServiceNodeType.HapiJs]: exampleSchema,
+	[ServiceNodeType.KoaJs]: exampleSchema,
+	[ServiceNodeType.NestJs]: nestJSServiceSchema,
+	// server py
 	[ServiceNodeType.Litestar]: exampleSchema,
 	[ServiceNodeType.Django]: exampleSchema,
 	[ServiceNodeType.Flask]: exampleSchema,
 	[ServiceNodeType.FastAPI]: exampleSchema,
+	// internal nodes
+	[InternalNodeType.Controller]: {},
+	[InternalNodeType.Endpoint]: {},
+	[InternalNodeType.Module]: {},
+	[InternalNodeType.Service]: {},
 };

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Controller from '@/assets/internal-nodes/controller.svg';
 import Endpoint from '@/assets/internal-nodes/endpoint.svg';
+import Module from '@/assets/internal-nodes/module.svg';
 import Service from '@/assets/internal-nodes/service.svg';
 import ExpressJS from '@/assets/services-nodes/backend-frameworks/js/expressjs.svg';
 import Fastify from '@/assets/services-nodes/backend-frameworks/js/fastifyjs.svg';
@@ -43,6 +44,7 @@ export {
 	Litestar,
 	MariaDB,
 	MicrosoftSQL,
+	Module,
 	MongoDB,
 	MySQL,
 	NestJS,
@@ -92,8 +94,9 @@ export const TypeSVGMap: Record<
 	[ServiceNodeType.Django]: { SVG: Django },
 	[ServiceNodeType.Flask]: { SVG: Flask },
 	[ServiceNodeType.FastAPI]: { SVG: FastAPI },
-	// internal
+	// internal nodes
 	[InternalNodeType.Controller]: { SVG: Controller },
 	[InternalNodeType.Endpoint]: { SVG: Endpoint },
 	[InternalNodeType.Service]: { SVG: Service },
+	[InternalNodeType.Module]: { SVG: Module },
 };
