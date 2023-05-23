@@ -19,48 +19,54 @@ export function InternalNode({
 	const { SVG, props } = TypeSVGMap[nodeType];
 
 	return (
-		<div className="bg-accent shadow-xl w-48 h-24 flex justify-between p-4 gap-4 rounded">
+		<div className="bg-accent shadow-xl w-48 h-24 flex-col rounded border-neutral border-2">
 			<Handle
 				type="source"
 				position={Position.Top}
 				id={`${nodeId}-source-${Position.Top}`}
+				className="bg-accent-content rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Right}
 				id={`${nodeId}-source-${Position.Right}`}
+				className="bg-accent-content rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Left}
 				id={`${nodeId}-source-${Position.Left}`}
+				className="bg-accent-content rounded"
 			/>
 			<Handle
 				type="source"
 				position={Position.Bottom}
 				id={`${nodeId}-source-${Position.Bottom}`}
+				className="bg-accent-content rounded"
 			/>
-			<figure className="mx-auto mt-auto mb-auto">
-				<SVG className="text-accent-content w-10 h-10" {...props} />
-			</figure>
-			<div className="flex-col gap-0">
-				<h2 className="text-accent-content text-sm">
-					{t(TypeTagMap[nodeType])}{' '}
-				</h2>
-				{formData.nodeName && (
-					<span className="text-accent-content text-xs">
+			<div className="flex justify-evenly border-b border-neutral gap-10 p-2">
+				<figure>
+					<SVG className="text-accent-content w-10 h-10" {...props} />
+				</figure>
+				<div className="flex-col gap-0">
+					<h2 className="text-accent-content text-sm">
 						{formData.nodeName}
+					</h2>
+					<span className="text-accent-content text-xs">
+						{t(TypeTagMap[nodeType])}
 					</span>
-				)}
+				</div>
 			</div>
-			<button>
-				<Cog8ToothIcon
-					className="h-5 w-5 text-accent-content hover:text-neutral-content"
-					onClick={() => {
-						nodeContext.handleNodeConfig(nodeId);
-					}}
-				/>
-			</button>
+			<div className="flex justify-end pr-3 pt-1">
+				<button>
+					<Cog8ToothIcon
+						className="h-5 w-5 text-accent-content hover:text-neutral-content"
+						onClick={() => {
+							nodeContext.handleNodeConfig(nodeId);
+						}}
+					/>
+				</button>
+			</div>
 		</div>
 	);
 }

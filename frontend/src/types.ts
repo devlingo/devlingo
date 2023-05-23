@@ -11,24 +11,22 @@ export interface DropTargetData {
 
 export type NodeType = ServiceNodeType | InternalNodeType;
 
-export interface NodeData<
-	N extends NodeType,
-	T extends Record<string, any> = Record<string, any>,
-> {
-	formData: T;
-	nodeType: N;
+export interface FormData {
+	nodeName: string;
+	[key: string]: any;
 }
 
-export interface ServiceNodeData<
-	T extends Record<string, any> = Record<string, any>,
-> extends NodeData<ServiceNodeType, T> {
+export interface NodeData<N extends NodeType> {
+	nodeType: N;
+	formData: FormData;
+}
+
+export interface ServiceNodeData extends NodeData<ServiceNodeType> {
 	allowExpansion: boolean;
 	childEdges: Edge[];
 	childNodes: Node<InternalNodeData>[];
 }
 
-export interface InternalNodeData<
-	T extends Record<string, any> = Record<string, any>,
-> extends NodeData<InternalNodeType, T> {
+export interface InternalNodeData extends NodeData<InternalNodeType> {
 	parentNodeType: ServiceNodeType;
 }

@@ -46,7 +46,7 @@ import {
 	TypeTagMap,
 } from '@/constants';
 import { InternalNodeData, ServiceNodeData } from '@/types';
-import { NodeContext } from '@/utils/context';
+import { NodeContext, ThemeContext } from '@/utils/context';
 import { useBoundedDrop, useWindowsDimensions } from '@/utils/hooks';
 import { createNode } from '@/utils/node';
 
@@ -81,9 +81,9 @@ interface FlowProps {
 	connectionMode: ConnectionMode;
 	displayEdges: Edge[];
 	displayNodes: Node[];
+	dndRef: (element: HTMLDivElement) => void;
 	minHeightPixels: number;
 	minWidthPixels: number;
-	ref: (element: HTMLDivElement) => void;
 	setDisplayEdges: (edges: Edge[] | ((values: any) => Edge[])) => void;
 	setDisplayNodes: (nodes: Node[] | ((values: any) => Node[])) => void;
 	setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
@@ -94,14 +94,28 @@ function Flow({
 	connectionMode,
 	displayEdges,
 	displayNodes,
+	dndRef,
 	minHeightPixels,
 	minWidthPixels,
-	ref,
 	setDisplayEdges,
 	setDisplayNodes,
 	setReactFlowInstance,
 	showBackground,
 }: FlowProps) {
+	const theme = useContext(ThemeContext);
+
+	const [backgroundColor, setBackgroundColor] = useState('yellow');
+
+	useEffect(() => {
+		/*
+		We have to access the document to get the active theme css values.
+		We access the 'secondary' color value using --s.
+		* */
+		const root = document.querySelector(':root');
+		const color = root && getComputedStyle(root).getPropertyValue('--s');
+		setBackgroundColor(color ? `hsl(${color})` : 'yellow');
+	}, [theme.currentTheme]);
+
 	const onConnectHandler: OnConnect = (params) => {
 		setDisplayEdges((els: Edge[]) => addEdge(params, els));
 	};
@@ -117,7 +131,7 @@ function Flow({
 		);
 	};
 	return (
-		<div ref={ref}>
+		<div ref={dndRef}>
 			<ReactFlowProvider>
 				<ReactFlow
 					connectionMode={connectionMode}
@@ -144,7 +158,8 @@ function Flow({
 					{showBackground && (
 						<Background
 							variant={BackgroundVariant.Dots}
-							color="yellow"
+							color={backgroundColor}
+							size={1.5}
 						/>
 					)}
 				</ReactFlow>
@@ -218,7 +233,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	const [reactFlowInstance, setReactFlowInstance] =
 		useState<ReactFlowInstance | null>(null);
 
-	const [dndDropData, ref] = useBoundedDrop();
+	const [dndDropData, dndRef] = useBoundedDrop();
 
 	// flow container sizing
 	useEffect(() => {
@@ -313,9 +328,6 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 					handleNodeConfig,
 					handleNodeExpand,
 					expandedNode,
-					childNodes: nodes.filter(
-						(n) => n.parentNode,
-					) as unknown as Node<InternalNodeData>[],
 				}}
 			>
 				<div className="flex gap-0">
@@ -351,7 +363,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 							setReactFlowInstance={setReactFlowInstance}
 							minHeightPixels={flowHeight}
 							minWidthPixels={windowWidth}
-							ref={ref}
+							dndRef={dndRef}
 						/>
 					</div>
 				</div>
