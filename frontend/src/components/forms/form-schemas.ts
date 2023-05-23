@@ -3,7 +3,7 @@ import { JsonSchema } from '@jsonforms/core';
 import { InternalNodeType, ServiceNodeType } from '@/constants';
 import { NodeType } from '@/types';
 
-const exampleSchema = {
+export const NodeNameFormSchema = {
 	type: 'object',
 	properties: {
 		nodeName: {
@@ -14,39 +14,39 @@ const exampleSchema = {
 	required: ['nodeName'],
 };
 
-const nestJSServiceSchema: JsonSchema = exampleSchema;
-const nextJSServiceSchema: JsonSchema = exampleSchema;
+const nestJSServiceSchema: JsonSchema = NodeNameFormSchema;
+const nextJSServiceSchema: JsonSchema = NodeNameFormSchema;
 
 export const typeSchemaMap: Record<NodeType, JsonSchema> = {
 	// frontend frameworks
 	[ServiceNodeType.NextJs]: nextJSServiceSchema,
 	// db nosql
-	[ServiceNodeType.MongoDB]: exampleSchema,
-	[ServiceNodeType.Firestore]: exampleSchema,
-	[ServiceNodeType.Cassandra]: exampleSchema,
-	[ServiceNodeType.DynamoDB]: exampleSchema,
-	[ServiceNodeType.Redis]: exampleSchema,
-	[ServiceNodeType.Hbase]: exampleSchema,
-	[ServiceNodeType.CosmosDB]: exampleSchema,
+	[ServiceNodeType.MongoDB]: NodeNameFormSchema,
+	[ServiceNodeType.Firestore]: NodeNameFormSchema,
+	[ServiceNodeType.Cassandra]: NodeNameFormSchema,
+	[ServiceNodeType.DynamoDB]: NodeNameFormSchema,
+	[ServiceNodeType.Redis]: NodeNameFormSchema,
+	[ServiceNodeType.Hbase]: NodeNameFormSchema,
+	[ServiceNodeType.CosmosDB]: NodeNameFormSchema,
 	// db sql
-	[ServiceNodeType.MySQL]: exampleSchema,
-	[ServiceNodeType.PostgresSQL]: exampleSchema,
-	[ServiceNodeType.MicrosoftSQL]: exampleSchema,
-	[ServiceNodeType.MariaDB]: exampleSchema,
-	[ServiceNodeType.Firebird]: exampleSchema,
-	[ServiceNodeType.SQLite]: exampleSchema,
-	[ServiceNodeType.Oracle]: exampleSchema,
+	[ServiceNodeType.MySQL]: NodeNameFormSchema,
+	[ServiceNodeType.PostgresSQL]: NodeNameFormSchema,
+	[ServiceNodeType.MicrosoftSQL]: NodeNameFormSchema,
+	[ServiceNodeType.MariaDB]: NodeNameFormSchema,
+	[ServiceNodeType.Firebird]: NodeNameFormSchema,
+	[ServiceNodeType.SQLite]: NodeNameFormSchema,
+	[ServiceNodeType.Oracle]: NodeNameFormSchema,
 	// server js
-	[ServiceNodeType.ExpressJs]: exampleSchema,
-	[ServiceNodeType.Fastify]: exampleSchema,
-	[ServiceNodeType.HapiJs]: exampleSchema,
-	[ServiceNodeType.KoaJs]: exampleSchema,
+	[ServiceNodeType.ExpressJs]: NodeNameFormSchema,
+	[ServiceNodeType.Fastify]: NodeNameFormSchema,
+	[ServiceNodeType.HapiJs]: NodeNameFormSchema,
+	[ServiceNodeType.KoaJs]: NodeNameFormSchema,
 	[ServiceNodeType.NestJs]: nestJSServiceSchema,
 	// server py
-	[ServiceNodeType.Litestar]: exampleSchema,
-	[ServiceNodeType.Django]: exampleSchema,
-	[ServiceNodeType.Flask]: exampleSchema,
-	[ServiceNodeType.FastAPI]: exampleSchema,
+	[ServiceNodeType.Litestar]: NodeNameFormSchema,
+	[ServiceNodeType.Django]: NodeNameFormSchema,
+	[ServiceNodeType.Flask]: NodeNameFormSchema,
+	[ServiceNodeType.FastAPI]: NodeNameFormSchema,
 	// internal nodes
 	[InternalNodeType.Controller]: {},
 	[InternalNodeType.Endpoint]: {},

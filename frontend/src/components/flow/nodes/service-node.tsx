@@ -10,11 +10,11 @@ import { Handle, Node, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
 import { ServiceNodeType, TypeTagMap } from '@/constants';
-import { InternalNodeData, ServiceNodeData } from '@/types';
+import { FormData, InternalNodeData, ServiceNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function ServiceNode({
-	data: { nodeType, allowExpansion, nodeName },
+	data: { nodeType, allowExpansion, formData },
 }: NodeProps<ServiceNodeData>) {
 	const nodeContext = useContext(NodeContext);
 	const nodeId = useNodeId()!;
@@ -56,7 +56,9 @@ export function ServiceNode({
 					/>
 				</figure>
 				<div>
-					<h2 className="text-base-content text-lg">{nodeName}</h2>
+					<h2 className="text-base-content text-lg">
+						{formData.nodeName}
+					</h2>
 					<p className="text-base-content text-sm">
 						{t(TypeTagMap[nodeType])}
 					</p>
@@ -95,27 +97,24 @@ export function createServiceNode({
 	allowExpansion = true,
 	childEdges = [],
 	childNodes = [],
-	formData = {},
-	nodeName,
+	formData,
 	nodeType,
 	props,
 }: {
 	allowExpansion?: boolean;
 	childEdges?: Edge[];
 	childNodes?: Node<InternalNodeData>[];
-	formData: Record<string, any>;
-	nodeName: string;
+	formData: FormData;
 	nodeType: ServiceNodeType;
 	props: Omit<Node, 'data' | 'type' | 'className'>;
 }): Node<ServiceNodeData, 'ServiceNode'> {
 	return {
 		data: {
-			nodeType,
-			formData,
 			allowExpansion,
-			childNodes,
 			childEdges,
-			nodeName,
+			childNodes,
+			formData,
+			nodeType,
 		},
 		type: 'ServiceNode',
 		...props,

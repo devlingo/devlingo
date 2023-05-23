@@ -9,38 +9,7 @@ import { MouseEvent, useContext } from 'react';
 
 import { NAV_BAR_HEIGHT_PIXELS } from '@/constants';
 import { ThemeContext } from '@/utils/context';
-
-const daisyUIThemes = [
-	'acid',
-	'aqua',
-	'autumn',
-	'black',
-	'bumblebee',
-	'business',
-	'cmyk',
-	'coffee',
-	'corporate',
-	'cupcake',
-	'cyberpunk',
-	'dark',
-	'dracula',
-	'emerald',
-	'fantasy',
-	'forest',
-	'garden',
-	'halloween',
-	'lemonade',
-	'light',
-	'lofi',
-	'luxury',
-	'night',
-	'pastel',
-	'retro',
-	'synthwave',
-	'valentine',
-	'winter',
-	'wireframe',
-];
+import { daisyUIThemes } from '@/wrapper';
 
 export interface NavbarProps {
 	onBurgerIconClick: () => void;

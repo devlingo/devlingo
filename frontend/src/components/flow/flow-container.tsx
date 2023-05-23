@@ -46,7 +46,7 @@ import {
 	TypeTagMap,
 } from '@/constants';
 import { InternalNodeData, ServiceNodeData } from '@/types';
-import { NodeContext } from '@/utils/context';
+import { NodeContext, ThemeContext } from '@/utils/context';
 import { useBoundedDrop, useWindowsDimensions } from '@/utils/hooks';
 import { createNode } from '@/utils/node';
 
@@ -102,6 +102,20 @@ function Flow({
 	setReactFlowInstance,
 	showBackground,
 }: FlowProps) {
+	const theme = useContext(ThemeContext);
+
+	const [backgroundColor, setBackgroundColor] = useState('yellow');
+
+	useEffect(() => {
+		/*
+		We have to access the document to get the active theme css values.
+		We access the 'secondary' color value using --s.
+		* */
+		const root = document.querySelector(':root');
+		const color = root && getComputedStyle(root).getPropertyValue('--s');
+		setBackgroundColor(color ? `hsl(${color})` : 'yellow');
+	}, [theme.currentTheme]);
+
 	const onConnectHandler: OnConnect = (params) => {
 		setDisplayEdges((els: Edge[]) => addEdge(params, els));
 	};
@@ -144,7 +158,8 @@ function Flow({
 					{showBackground && (
 						<Background
 							variant={BackgroundVariant.Dots}
-							color="yellow"
+							color={backgroundColor}
+							size={1.5}
 						/>
 					)}
 				</ReactFlow>
@@ -313,9 +328,6 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 					handleNodeConfig,
 					handleNodeExpand,
 					expandedNode,
-					childNodes: nodes.filter(
-						(n) => n.parentNode,
-					) as unknown as Node<InternalNodeData>[],
 				}}
 			>
 				<div className="flex gap-0">

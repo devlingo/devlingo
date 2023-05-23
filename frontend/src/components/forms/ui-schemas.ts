@@ -3,7 +3,7 @@ import { UISchemaElement } from '@jsonforms/core';
 import { InternalNodeType, ServiceNodeType } from '@/constants';
 import { NodeType } from '@/types';
 
-const exampleUISchema = {
+export const NodeNameFormUISchema = {
 	type: 'VerticalLayout',
 	elements: [
 		{
@@ -14,43 +14,43 @@ const exampleUISchema = {
 	],
 };
 
-const nestJSServiceUISchema: UISchemaElement = exampleUISchema;
-const nextJSServiceUISchema: UISchemaElement = exampleUISchema;
+const nestJSServiceUISchema: UISchemaElement = NodeNameFormUISchema;
+const nextJSServiceUISchema: UISchemaElement = NodeNameFormUISchema;
 
 export const typeUISchemaMap: Record<NodeType, UISchemaElement> = {
 	// frontend frameworks
 	[ServiceNodeType.NextJs]: nextJSServiceUISchema,
 	// db nosql
-	[ServiceNodeType.Cassandra]: exampleUISchema,
-	[ServiceNodeType.CosmosDB]: exampleUISchema,
-	[ServiceNodeType.DynamoDB]: exampleUISchema,
-	[ServiceNodeType.Firestore]: exampleUISchema,
-	[ServiceNodeType.Hbase]: exampleUISchema,
-	[ServiceNodeType.MongoDB]: exampleUISchema,
-	[ServiceNodeType.Redis]: exampleUISchema,
+	[ServiceNodeType.Cassandra]: NodeNameFormUISchema,
+	[ServiceNodeType.CosmosDB]: NodeNameFormUISchema,
+	[ServiceNodeType.DynamoDB]: NodeNameFormUISchema,
+	[ServiceNodeType.Firestore]: NodeNameFormUISchema,
+	[ServiceNodeType.Hbase]: NodeNameFormUISchema,
+	[ServiceNodeType.MongoDB]: NodeNameFormUISchema,
+	[ServiceNodeType.Redis]: NodeNameFormUISchema,
 	// db-sql
-	[ServiceNodeType.Firebird]: exampleUISchema,
-	[ServiceNodeType.MariaDB]: exampleUISchema,
-	[ServiceNodeType.MicrosoftSQL]: exampleUISchema,
-	[ServiceNodeType.MySQL]: exampleUISchema,
-	[ServiceNodeType.Oracle]: exampleUISchema,
-	[ServiceNodeType.PostgresSQL]: exampleUISchema,
-	[ServiceNodeType.SQLite]: exampleUISchema,
+	[ServiceNodeType.Firebird]: NodeNameFormUISchema,
+	[ServiceNodeType.MariaDB]: NodeNameFormUISchema,
+	[ServiceNodeType.MicrosoftSQL]: NodeNameFormUISchema,
+	[ServiceNodeType.MySQL]: NodeNameFormUISchema,
+	[ServiceNodeType.Oracle]: NodeNameFormUISchema,
+	[ServiceNodeType.PostgresSQL]: NodeNameFormUISchema,
+	[ServiceNodeType.SQLite]: NodeNameFormUISchema,
 	// server js
-	[ServiceNodeType.ExpressJs]: exampleUISchema,
-	[ServiceNodeType.Fastify]: exampleUISchema,
-	[ServiceNodeType.HapiJs]: exampleUISchema,
-	[ServiceNodeType.KoaJs]: exampleUISchema,
-	[ServiceNodeType.NestJs]: exampleUISchema,
+	[ServiceNodeType.ExpressJs]: NodeNameFormUISchema,
+	[ServiceNodeType.Fastify]: NodeNameFormUISchema,
+	[ServiceNodeType.HapiJs]: NodeNameFormUISchema,
+	[ServiceNodeType.KoaJs]: NodeNameFormUISchema,
+	[ServiceNodeType.NestJs]: NodeNameFormUISchema,
 	[ServiceNodeType.NestJs]: nestJSServiceUISchema,
 	// server py
-	[ServiceNodeType.Django]: exampleUISchema,
-	[ServiceNodeType.FastAPI]: exampleUISchema,
-	[ServiceNodeType.Flask]: exampleUISchema,
-	[ServiceNodeType.Litestar]: exampleUISchema,
+	[ServiceNodeType.Django]: NodeNameFormUISchema,
+	[ServiceNodeType.FastAPI]: NodeNameFormUISchema,
+	[ServiceNodeType.Flask]: NodeNameFormUISchema,
+	[ServiceNodeType.Litestar]: NodeNameFormUISchema,
 	// internal nodes
-	[InternalNodeType.Controller]: exampleUISchema,
-	[InternalNodeType.Endpoint]: exampleUISchema,
-	[InternalNodeType.Module]: exampleUISchema,
-	[InternalNodeType.Service]: exampleUISchema,
+	[InternalNodeType.Controller]: NodeNameFormUISchema,
+	[InternalNodeType.Endpoint]: NodeNameFormUISchema,
+	[InternalNodeType.Module]: NodeNameFormUISchema,
+	[InternalNodeType.Service]: NodeNameFormUISchema,
 };

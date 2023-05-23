@@ -7,7 +7,7 @@ import { ServiceNodeData } from '@/types';
 
 export function createNode({
 	reactFlowInstance,
-	data: { nodeType, allowExpansion = false, formData = {} },
+	data: { nodeType, allowExpansion = false, formData },
 	x,
 	y,
 }: {

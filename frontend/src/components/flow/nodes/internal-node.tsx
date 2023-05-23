@@ -9,7 +9,7 @@ import { InternalNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function InternalNode({
-	data: { nodeType, nodeName },
+	data: { nodeType, formData },
 }: NodeProps<InternalNodeData>) {
 	const nodeContext = useContext(NodeContext);
 
@@ -49,7 +49,9 @@ export function InternalNode({
 					<SVG className="text-accent-content w-10 h-10" {...props} />
 				</figure>
 				<div className="flex-col gap-0">
-					<h2 className="text-accent-content text-sm">{nodeName}</h2>
+					<h2 className="text-accent-content text-sm">
+						{formData.nodeName}
+					</h2>
 					<span className="text-accent-content text-xs">
 						{t(TypeTagMap[nodeType])}
 					</span>
