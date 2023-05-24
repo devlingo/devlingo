@@ -1,10 +1,11 @@
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import {
-	OnConnect,
+	addEdge,
+	Connection,
 	OnEdgesChange,
-	OnEdgeUpdateFunc,
 	OnNodesChange,
 	ReactFlowInstance,
+	updateEdge,
 } from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import {
@@ -16,7 +17,6 @@ import {
 	useState,
 } from 'react';
 import {
-	addEdge,
 	applyEdgeChanges,
 	applyNodeChanges,
 	Background,
@@ -27,7 +27,6 @@ import {
 	Node,
 	ReactFlow,
 	ReactFlowProvider,
-	updateEdge,
 } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
@@ -39,6 +38,7 @@ import { InternalNode } from '@/components/flow/nodes/internal-node';
 import { ServiceNode } from '@/components/flow/nodes/service-node';
 import { NodeForm } from '@/components/forms/node-form';
 import {
+	DEFAULT_FLOW_HEIGHT,
 	FOOTER_HEIGHT_PIXELS,
 	NAV_BAR_HEIGHT_PIXELS,
 	REM,
@@ -54,18 +54,14 @@ const calculateFlowHeight = (
 	windowHeight: number,
 	isExpandedNode: boolean,
 ): number => {
-	const flowHeight =
+	let flowHeight =
 		windowHeight - (NAV_BAR_HEIGHT_PIXELS + FOOTER_HEIGHT_PIXELS / 2);
 
 	if (isExpandedNode) {
-		return (
-			flowHeight -
-			NAV_BAR_HEIGHT_PIXELS -
-			(FOOTER_HEIGHT_PIXELS - REM / 2)
-		);
+		flowHeight -= NAV_BAR_HEIGHT_PIXELS - (FOOTER_HEIGHT_PIXELS - REM / 2);
 	}
 
-	return flowHeight;
+	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -82,8 +78,11 @@ interface FlowProps {
 	displayEdges: Edge[];
 	displayNodes: Node[];
 	dndRef: (element: HTMLDivElement) => void;
-	minHeightPixels: number;
-	minWidthPixels: number;
+	handleEdgeConnect: (connection: Connection) => void;
+	handleEdgeUpdate: (edge: Edge, connection: Connection) => void;
+	handleEdgesDelete: (edges: Edge[]) => void;
+	containerHeight: number;
+	containerWidth: number;
 	setDisplayEdges: (edges: Edge[] | ((values: any) => Edge[])) => void;
 	setDisplayNodes: (nodes: Node[] | ((values: any) => Node[])) => void;
 	setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
@@ -95,8 +94,11 @@ function Flow({
 	displayEdges,
 	displayNodes,
 	dndRef,
-	minHeightPixels,
-	minWidthPixels,
+	handleEdgeConnect,
+	handleEdgeUpdate,
+	handleEdgesDelete,
+	containerHeight,
+	containerWidth,
 	setDisplayEdges,
 	setDisplayNodes,
 	setReactFlowInstance,
@@ -116,23 +118,23 @@ function Flow({
 		setBackgroundColor(color ? `hsl(${color})` : 'yellow');
 	}, [theme.currentTheme]);
 
-	const onConnectHandler: OnConnect = (params) => {
-		setDisplayEdges((els: Edge[]) => addEdge(params, els));
-	};
 	const onEdgesChangeHandler: OnEdgesChange = (edgeChanges) => {
 		setDisplayEdges(applyEdgeChanges(edgeChanges, displayEdges));
 	};
 	const onNodesChangeHandler: OnNodesChange = (nodeChanges) => {
 		setDisplayNodes(applyNodeChanges(nodeChanges, displayNodes));
 	};
-	const onEdgeUpdateHandler: OnEdgeUpdateFunc = (oldEdge, newConnections) => {
-		setDisplayEdges((els: Edge[]) =>
-			updateEdge(oldEdge, newConnections, els),
-		);
-	};
 	return (
-		<div ref={dndRef}>
-			<ReactFlowProvider>
+		<ReactFlowProvider>
+			<div
+				ref={dndRef}
+				style={{
+					// NOTE: we are forced to pass style here because reactflow has issues with setting the container heights
+					// using classes. These values are calculated in the parent to be responsive to window size changes.
+					height: containerHeight,
+					width: containerWidth,
+				}}
+			>
 				<ReactFlow
 					connectionMode={connectionMode}
 					edgeTypes={edgeTypes}
@@ -140,19 +142,14 @@ function Flow({
 					fitView={true}
 					nodeTypes={nodeTypes}
 					nodes={displayNodes}
-					onConnect={onConnectHandler}
-					onEdgeUpdate={onEdgeUpdateHandler}
+					onConnect={handleEdgeConnect}
+					onEdgeUpdate={handleEdgeUpdate}
 					onEdgesChange={onEdgesChangeHandler}
+					onEdgesDelete={handleEdgesDelete}
 					onInit={setReactFlowInstance}
 					onNodesChange={onNodesChangeHandler}
 					proOptions={{ hideAttribution: true }}
 					snapToGrid={true}
-					style={{
-						// NOTE: we are forced to pass style here because reactflow has issues with setting the container heights
-						// using classes. These values are calculated in the parent to be responsive to window size changes.
-						minWidth: minWidthPixels,
-						minHeight: minHeightPixels,
-					}}
 				>
 					<Controls className="bg-accent focus:bg-accent-content border-black" />
 					{showBackground && (
@@ -163,8 +160,8 @@ function Flow({
 						/>
 					)}
 				</ReactFlow>
-			</ReactFlowProvider>
-		</div>
+			</div>
+		</ReactFlowProvider>
 	);
 }
 
@@ -298,10 +295,20 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	}, [dndDropData, nodes, reactFlowInstance]);
 
 	const handleNodeConfig = useCallback(
-		(nodeId: string | null) => {
+		(nodeId: string | null, parentNodeId?: string | null) => {
 			if (nodeId) {
-				const node = nodes.find((n) => n.id === nodeId)!;
-				setNodeToConfigure(node);
+				if (parentNodeId) {
+					const parentNode = nodes.find(
+						(n) => n.id === parentNodeId,
+					)!;
+					const node = parentNode.data.childNodes.find(
+						(n) => n.id === nodeId,
+					)!;
+					setNodeToConfigure(node);
+				} else {
+					const node = nodes.find((n) => n.id === nodeId)!;
+					setNodeToConfigure(node);
+				}
 			} else {
 				setNodeToConfigure(null);
 			}
@@ -320,6 +327,18 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 		},
 		[nodes],
 	);
+
+	const handleEdgeConnect = (connection: Connection) => {
+		setDisplayEdges((els: Edge[]) => addEdge(connection, els));
+	};
+
+	const handleEdgeUpdate = (edge: Edge, connection: Connection) => {
+		setDisplayEdges((els: Edge[]) => updateEdge(edge, connection, els));
+	};
+
+	const handleEdgesDelete = (edges: Edge[]) => {
+		console.log(edges);
+	};
 
 	return (
 		<main className="grow h-full w-full">
@@ -348,23 +367,23 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 						{expandedNode && (
 							<InternalFlowHeader {...expandedNode.data} />
 						)}
-
-						<Flow
-							showBackground={!expandedNode}
-							connectionMode={
-								expandedNode
-									? ConnectionMode.Strict
-									: ConnectionMode.Loose
-							}
-							displayNodes={displayNodes}
-							displayEdges={displayEdges}
-							setDisplayEdges={setDisplayEdges}
-							setDisplayNodes={setDisplayNodes}
-							setReactFlowInstance={setReactFlowInstance}
-							minHeightPixels={flowHeight}
-							minWidthPixels={windowWidth}
-							dndRef={dndRef}
-						/>
+						{flowHeight && windowWidth && (
+							<Flow
+								connectionMode={ConnectionMode.Loose}
+								displayEdges={displayEdges}
+								displayNodes={displayNodes}
+								dndRef={dndRef}
+								handleEdgeConnect={handleEdgeConnect}
+								handleEdgeUpdate={handleEdgeUpdate}
+								handleEdgesDelete={handleEdgesDelete}
+								containerHeight={flowHeight}
+								containerWidth={windowWidth}
+								setDisplayEdges={setDisplayEdges}
+								setDisplayNodes={setDisplayNodes}
+								setReactFlowInstance={setReactFlowInstance}
+								showBackground={!expandedNode}
+							/>
+						)}
 					</div>
 				</div>
 				{configuredNode && (

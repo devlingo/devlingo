@@ -10,7 +10,10 @@ export const ThemeContext = createContext<{
 
 export const NodeContext = createContext<{
 	expandedNode: Node<ServiceNodeData> | null;
-	handleNodeConfig: (nodeId: string | null) => void;
+	handleNodeConfig: (
+		nodeId: string | null,
+		parentNodeId?: string | null,
+	) => void;
 	handleNodeExpand: (nodeId: string | null) => void;
 }>({
 	expandedNode: null,

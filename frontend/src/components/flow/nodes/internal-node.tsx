@@ -9,7 +9,7 @@ import { InternalNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function InternalNode({
-	data: { nodeType, formData },
+	data: { nodeType, formData, parentNodeId },
 }: NodeProps<InternalNodeData>) {
 	const nodeContext = useContext(NodeContext);
 
@@ -62,7 +62,7 @@ export function InternalNode({
 					<Cog8ToothIcon
 						className="h-5 w-5 text-accent-content hover:text-neutral-content"
 						onClick={() => {
-							nodeContext.handleNodeConfig(nodeId);
+							nodeContext.handleNodeConfig(nodeId, parentNodeId);
 						}}
 					/>
 				</button>

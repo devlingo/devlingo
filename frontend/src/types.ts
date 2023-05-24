@@ -28,5 +28,6 @@ export interface ServiceNodeData extends NodeData<ServiceNodeType> {
 }
 
 export interface InternalNodeData extends NodeData<InternalNodeType> {
+	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
 }

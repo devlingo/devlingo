@@ -72,3 +72,4 @@ export const REM = 16;
 
 export const NAV_BAR_HEIGHT_PIXELS = 56;
 export const FOOTER_HEIGHT_PIXELS = 40;
+export const DEFAULT_FLOW_HEIGHT = 1024;

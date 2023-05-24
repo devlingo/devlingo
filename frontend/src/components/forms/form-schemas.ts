@@ -48,8 +48,8 @@ export const typeSchemaMap: Record<NodeType, JsonSchema> = {
 	[ServiceNodeType.Flask]: NodeNameFormSchema,
 	[ServiceNodeType.FastAPI]: NodeNameFormSchema,
 	// internal nodes
-	[InternalNodeType.Controller]: {},
-	[InternalNodeType.Endpoint]: {},
-	[InternalNodeType.Module]: {},
-	[InternalNodeType.Service]: {},
+	[InternalNodeType.Controller]: NodeNameFormSchema,
+	[InternalNodeType.Endpoint]: NodeNameFormSchema,
+	[InternalNodeType.Module]: NodeNameFormSchema,
+	[InternalNodeType.Service]: NodeNameFormSchema,
 };
