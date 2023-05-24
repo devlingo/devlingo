@@ -1,14 +1,10 @@
-import { nanoid } from 'nanoid';
 import { Edge, Node } from 'reactflow';
 
 import { ServiceNodeType } from '@/constants';
 import { createNode } from '@/utils/node';
 
-const nestParentId = nanoid();
-
 export const initialNodes: Node[] = [
 	createNode({
-		id: nanoid(),
 		position: { x: 1000, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.NextJs,
@@ -16,7 +12,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nestParentId,
 		position: { x: 700, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.NestJs,
@@ -24,7 +19,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 700, y: 200 },
 		data: {
 			nodeType: ServiceNodeType.ExpressJs,
@@ -32,7 +26,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 700, y: 350 },
 		data: {
 			nodeType: ServiceNodeType.Fastify,
@@ -40,7 +33,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 700, y: 500 },
 		data: {
 			nodeType: ServiceNodeType.KoaJs,
@@ -48,7 +40,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 700, y: 650 },
 		data: {
 			nodeType: ServiceNodeType.HapiJs,
@@ -56,7 +47,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 400, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.Litestar,
@@ -64,7 +54,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 400, y: 200 },
 		data: {
 			nodeType: ServiceNodeType.Flask,
@@ -72,7 +61,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 400, y: 350 },
 		data: {
 			nodeType: ServiceNodeType.Django,
@@ -80,7 +68,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 400, y: 500 },
 		data: {
 			nodeType: ServiceNodeType.FastAPI,
@@ -88,7 +75,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.MongoDB,
@@ -96,7 +82,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 200 },
 		data: {
 			nodeType: ServiceNodeType.Firestore,
@@ -104,7 +89,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 350 },
 		data: {
 			nodeType: ServiceNodeType.Cassandra,
@@ -112,7 +96,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 500 },
 		data: {
 			nodeType: ServiceNodeType.DynamoDB,
@@ -121,7 +104,6 @@ export const initialNodes: Node[] = [
 	}),
 	// child nodes
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 650 },
 		data: {
 			nodeType: ServiceNodeType.Redis,
@@ -129,7 +111,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 800 },
 		data: {
 			nodeType: ServiceNodeType.Hbase,
@@ -137,7 +118,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: 100, y: 950 },
 		data: {
 			nodeType: ServiceNodeType.CosmosDB,
@@ -145,7 +125,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 50 },
 		data: {
 			nodeType: ServiceNodeType.MySQL,
@@ -153,7 +132,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 200 },
 		data: {
 			nodeType: ServiceNodeType.PostgresSQL,
@@ -161,7 +139,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 350 },
 		data: {
 			nodeType: ServiceNodeType.MicrosoftSQL,
@@ -169,7 +146,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 500 },
 		data: {
 			nodeType: ServiceNodeType.MariaDB,
@@ -177,7 +153,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 650 },
 		data: {
 			nodeType: ServiceNodeType.Firebird,
@@ -185,7 +160,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 800 },
 		data: {
 			nodeType: ServiceNodeType.SQLite,
@@ -193,7 +167,6 @@ export const initialNodes: Node[] = [
 		},
 	}),
 	createNode({
-		id: nanoid(),
 		position: { x: -200, y: 950 },
 		data: {
 			nodeType: ServiceNodeType.Oracle,
