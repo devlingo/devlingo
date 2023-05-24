@@ -1,253 +1,204 @@
 import { nanoid } from 'nanoid';
 import { Edge, Node } from 'reactflow';
 
-import { createServiceNode } from '@/components/flow/nodes/service-node';
-import { InternalNodeType, ServiceNodeType } from '@/constants';
-import { InternalNodeData } from '@/types';
+import { ServiceNodeType } from '@/constants';
+import { createNode } from '@/utils/node';
 
 const nestParentId = nanoid();
 
 export const initialNodes: Node[] = [
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 1000, y: 50 },
+	createNode({
+		id: nanoid(),
+		position: { x: 1000, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.NextJs,
+			formData: { nodeName: 'Frontend' },
 		},
-		nodeType: ServiceNodeType.NextJs,
-		formData: { nodeName: 'Frontend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nestParentId,
-			position: { x: 700, y: 50 },
+	createNode({
+		id: nestParentId,
+		position: { x: 700, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.NestJs,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.NestJs,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
-		childNodes: [
-			{
-				id: nanoid(),
-				type: 'InternalNode',
-				data: {
-					formData: { nodeName: 'Users' },
-					nodeType: InternalNodeType.Controller,
-					parentNodeType: ServiceNodeType.NestJs,
-					parentNodeId: nestParentId,
-				} satisfies InternalNodeData,
-				position: { x: 100, y: 0 },
-			},
-			{
-				id: nanoid(),
-				type: 'InternalNode',
-				data: {
-					formData: { nodeName: 'Purchase' },
-					nodeType: InternalNodeType.Service,
-					parentNodeType: ServiceNodeType.NestJs,
-					parentNodeId: nestParentId,
-				} satisfies InternalNodeData,
-				position: { x: 500, y: 0 },
-			},
-		],
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 700, y: 200 },
+	createNode({
+		id: nanoid(),
+		position: { x: 700, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.ExpressJs,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.ExpressJs,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 700, y: 350 },
+	createNode({
+		id: nanoid(),
+		position: { x: 700, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.Fastify,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.Fastify,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 700, y: 500 },
+	createNode({
+		id: nanoid(),
+		position: { x: 700, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.KoaJs,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.KoaJs,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 700, y: 650 },
+	createNode({
+		id: nanoid(),
+		position: { x: 700, y: 650 },
+		data: {
+			nodeType: ServiceNodeType.HapiJs,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.HapiJs,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 400, y: 50 },
+	createNode({
+		id: nanoid(),
+		position: { x: 400, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.Litestar,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.Litestar,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 400, y: 200 },
+	createNode({
+		id: nanoid(),
+		position: { x: 400, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.Flask,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.Flask,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 400, y: 350 },
+	createNode({
+		id: nanoid(),
+		position: { x: 400, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.Django,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.Django,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 400, y: 500 },
+	createNode({
+		id: nanoid(),
+		position: { x: 400, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.FastAPI,
+			formData: { nodeName: 'Backend' },
 		},
-		nodeType: ServiceNodeType.FastAPI,
-		formData: { nodeName: 'Backend' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 50 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.MongoDB,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.MongoDB,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 200 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.Firestore,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Firestore,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 350 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.Cassandra,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Cassandra,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 500 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.DynamoDB,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.DynamoDB,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
 	// child nodes
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 650 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 650 },
+		data: {
+			nodeType: ServiceNodeType.Redis,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Redis,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 800 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 800 },
+		data: {
+			nodeType: ServiceNodeType.Hbase,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Hbase,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: 100, y: 950 },
+	createNode({
+		id: nanoid(),
+		position: { x: 100, y: 950 },
+		data: {
+			nodeType: ServiceNodeType.CosmosDB,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.CosmosDB,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 50 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 50 },
+		data: {
+			nodeType: ServiceNodeType.MySQL,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.MySQL,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 200 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 200 },
+		data: {
+			nodeType: ServiceNodeType.PostgresSQL,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.PostgresSQL,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 350 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 350 },
+		data: {
+			nodeType: ServiceNodeType.MicrosoftSQL,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.MicrosoftSQL,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 500 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 500 },
+		data: {
+			nodeType: ServiceNodeType.MariaDB,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.MariaDB,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 650 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 650 },
+		data: {
+			nodeType: ServiceNodeType.Firebird,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Firebird,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 800 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 800 },
+		data: {
+			nodeType: ServiceNodeType.SQLite,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.SQLite,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
-	createServiceNode({
-		props: {
-			id: nanoid(),
-			position: { x: -200, y: 950 },
+	createNode({
+		id: nanoid(),
+		position: { x: -200, y: 950 },
+		data: {
+			nodeType: ServiceNodeType.Oracle,
+			formData: { nodeName: 'Database' },
 		},
-		nodeType: ServiceNodeType.Oracle,
-		formData: { nodeName: 'Database' },
-		allowExpansion: true,
 	}),
 ];
 

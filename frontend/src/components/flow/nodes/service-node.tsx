@@ -3,24 +3,25 @@ import {
 	Cog8ToothIcon,
 	ListBulletIcon,
 } from '@heroicons/react/24/solid';
-import { Edge } from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import { useContext } from 'react';
-import { Handle, Node, NodeProps, Position, useNodeId } from 'reactflow';
+import { Handle, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
-import { ServiceNodeType, TypeTagMap } from '@/constants';
-import { FormData, InternalNodeData, ServiceNodeData } from '@/types';
+import { ServiceNodeAllowedInternalNodesMap, TypeTagMap } from '@/constants';
+import { ServiceNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function ServiceNode({
-	data: { nodeType, allowExpansion, formData },
+	data: { nodeType, formData },
 }: NodeProps<ServiceNodeData>) {
 	const nodeContext = useContext(NodeContext);
 	const nodeId = useNodeId()!;
 
 	const { t } = useTranslation('assets');
 	const { SVG, props } = TypeSVGMap[nodeType];
+
+	const internalNodeTypes = ServiceNodeAllowedInternalNodesMap[nodeType];
 
 	return (
 		<div className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral h-34 w-60">
@@ -78,7 +79,7 @@ export function ServiceNode({
 						/>
 					</button>
 				</div>
-				{allowExpansion && (
+				{internalNodeTypes?.length && (
 					<button>
 						<ChevronRightIcon
 							className="h-5 w-5 text-base-content hover:text-primary"
@@ -91,32 +92,4 @@ export function ServiceNode({
 			</div>
 		</div>
 	);
-}
-
-export function createServiceNode({
-	allowExpansion = true,
-	childEdges = [],
-	childNodes = [],
-	formData,
-	nodeType,
-	props,
-}: {
-	allowExpansion?: boolean;
-	childEdges?: Edge[];
-	childNodes?: Node<InternalNodeData>[];
-	formData: FormData;
-	nodeType: ServiceNodeType;
-	props: Omit<Node, 'data' | 'type' | 'className'>;
-}): Node<ServiceNodeData, 'ServiceNode'> {
-	return {
-		data: {
-			allowExpansion,
-			childEdges,
-			childNodes,
-			formData,
-			nodeType,
-		},
-		type: 'ServiceNode',
-		...props,
-	};
 }

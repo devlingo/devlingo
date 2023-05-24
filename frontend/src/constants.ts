@@ -1,3 +1,9 @@
+export const REM = 16;
+
+export const NAV_BAR_HEIGHT_PIXELS = 56;
+export const FOOTER_HEIGHT_PIXELS = 40;
+export const DEFAULT_FLOW_HEIGHT = 1024;
+
 export enum ServiceNodeType {
 	NestJs = 'NestJS',
 	NextJs = 'NextJS',
@@ -68,8 +74,41 @@ export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
 	[InternalNodeType.Module]: 'module',
 };
 
-export const REM = 16;
-
-export const NAV_BAR_HEIGHT_PIXELS = 56;
-export const FOOTER_HEIGHT_PIXELS = 40;
-export const DEFAULT_FLOW_HEIGHT = 1024;
+export const ServiceNodeAllowedInternalNodesMap: Record<
+	ServiceNodeType,
+	InternalNodeType[] | null
+> = {
+	[ServiceNodeType.NextJs]: null,
+	//db-nosql
+	[ServiceNodeType.MongoDB]: null,
+	[ServiceNodeType.Firestore]: null,
+	[ServiceNodeType.Cassandra]: null,
+	[ServiceNodeType.DynamoDB]: null,
+	[ServiceNodeType.Redis]: null,
+	[ServiceNodeType.Hbase]: null,
+	[ServiceNodeType.CosmosDB]: null,
+	//db-sql
+	[ServiceNodeType.MySQL]: null,
+	[ServiceNodeType.PostgresSQL]: null,
+	[ServiceNodeType.MicrosoftSQL]: null,
+	[ServiceNodeType.MariaDB]: null,
+	[ServiceNodeType.Firebird]: null,
+	[ServiceNodeType.SQLite]: null,
+	[ServiceNodeType.Oracle]: null,
+	//server js
+	[ServiceNodeType.NestJs]: [
+		InternalNodeType.Module,
+		InternalNodeType.Controller,
+		InternalNodeType.Service,
+		InternalNodeType.Endpoint,
+	],
+	[ServiceNodeType.ExpressJs]: null,
+	[ServiceNodeType.KoaJs]: null,
+	[ServiceNodeType.HapiJs]: null,
+	[ServiceNodeType.Fastify]: null,
+	// server Python
+	[ServiceNodeType.Litestar]: null,
+	[ServiceNodeType.Django]: null,
+	[ServiceNodeType.Flask]: null,
+	[ServiceNodeType.FastAPI]: null,
+};

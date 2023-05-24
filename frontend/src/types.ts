@@ -16,18 +16,21 @@ export interface FormData {
 	[key: string]: any;
 }
 
-export interface NodeData<N extends NodeType> {
+export interface BaseNodeData<N extends NodeType> {
 	nodeType: N;
 	formData: FormData;
 }
 
-export interface ServiceNodeData extends NodeData<ServiceNodeType> {
-	allowExpansion: boolean;
-	childEdges: Edge[];
-	childNodes: Node<InternalNodeData>[];
+export interface ServiceNodeData extends BaseNodeData<ServiceNodeType> {
+	childEdges?: Edge[];
+	childNodes?: Node<InternalNodeData>[];
 }
 
-export interface InternalNodeData extends NodeData<InternalNodeType> {
+export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
 	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
 }
+
+export type NodeData<T> = T extends ServiceNodeType
+	? ServiceNodeData
+	: InternalNodeData;

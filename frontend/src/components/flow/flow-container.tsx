@@ -241,8 +241,8 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	useEffect(() => {
 		if (expandedNode) {
 			const { childNodes, childEdges } = expandedNode.data;
-			setDisplayNodes(childNodes);
-			setDisplayEdges(childEdges);
+			setDisplayNodes(childNodes ?? []);
+			setDisplayEdges(childEdges ?? []);
 		} else {
 			setDisplayNodes(nodes);
 			setDisplayEdges(edges);
@@ -282,13 +282,12 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	// drag and drop
 	useEffect(() => {
 		if (dndDropData && reactFlowInstance) {
-			const { nodeType, ...rest } = dndDropData;
+			const { nodeType, x, y } = dndDropData;
 			setDisplayNodes([
 				...displayNodes,
 				createNode({
-					...rest,
-					reactFlowInstance,
-					data: { nodeType },
+					position: reactFlowInstance.project({ x, y }),
+					data: { nodeType, formData: { nodeName: 'Unnamed' } },
 				}),
 			]);
 		}
@@ -301,7 +300,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 					const parentNode = nodes.find(
 						(n) => n.id === parentNodeId,
 					)!;
-					const node = parentNode.data.childNodes.find(
+					const node = parentNode.data.childNodes!.find(
 						(n) => n.id === nodeId,
 					)!;
 					setNodeToConfigure(node);
