@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 import { InternalNodeType, ServiceNodeType } from '@/constants';
 import { createNode } from '@/utils/node';
 
@@ -15,6 +17,16 @@ describe('Node Utils Tests', () => {
 			expect(node.type).toBe('ServiceNode');
 			expect(node.data.nodeType).toEqual(ServiceNodeType.NextJs);
 			expect(node.position).toEqual({ x: 1000, y: 50 });
+		});
+		it('creates default childNodes for a ServiceNode correctly', () => {
+			const node = createNode<ServiceNodeType>({
+				position: { x: 1000, y: 50 },
+				data: {
+					nodeType: ServiceNodeType.NestJs,
+					formData: { nodeName: 'Frontend' },
+				},
+			});
+			expect(node.data.childNodes).toHaveLength(1);
 		});
 		it('creates an InternalNode correctly', () => {
 			const node = createNode({

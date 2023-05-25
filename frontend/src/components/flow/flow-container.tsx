@@ -34,8 +34,7 @@ import { Drawer } from '@/components/drawer-menu/drawer';
 import { MenuItem } from '@/components/drawer-menu/menu-item';
 import { HttpRestEdge } from '@/components/flow/edges/http-rest-edge';
 import { initialEdges, initialNodes } from '@/components/flow/initial-data';
-import { InternalNode } from '@/components/flow/nodes/internal-node';
-import { ServiceNode } from '@/components/flow/nodes/service-node';
+import { InternalNode, ServiceNode } from '@/components/flow/nodes';
 import { NodeForm } from '@/components/forms/node-form';
 import {
 	DEFAULT_FLOW_HEIGHT,

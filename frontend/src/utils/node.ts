@@ -4,15 +4,15 @@ import { Node } from 'reactflow';
 import { InternalNodeType, ServiceNodeType } from '@/constants';
 import { InternalNodeData, NodeData, NodeType, ServiceNodeData } from '@/types';
 
-export function createNode<T extends NodeType, D extends NodeData<T>>({
+export function createNode<T extends NodeType>({
 	id,
 	data,
 	position,
 	...props
 }: {
-	data: D;
+	data: NodeData<T> & { nodeType: T };
 	position: { x: number; y: number };
-} & Omit<Partial<Node>, 'data' | 'type' | 'className'>): Node<D> {
+} & Omit<Partial<Node>, 'data' | 'type' | 'className'>): Node<NodeData<T>> {
 	id ??= nanoid();
 	const isServiceNode = Object.values(ServiceNodeType).includes(
 		data.nodeType as ServiceNodeType,

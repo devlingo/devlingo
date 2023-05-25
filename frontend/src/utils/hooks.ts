@@ -9,6 +9,7 @@ export function useBoundedDrop(): [
 	(element: HTMLDivElement) => void,
 ] {
 	const ref = useRef<HTMLDivElement>();
+	// noinspection JSUnusedGlobalSymbols
 	const [dropData, dropRef] = useDrop<any, any, DropTargetData | null>(
 		() => ({
 			accept: 'MenuItem',

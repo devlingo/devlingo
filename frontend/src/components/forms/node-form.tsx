@@ -26,32 +26,34 @@ export function NodeForm({
 	const [data, setData] = useState(formData);
 
 	return (
-		<div className="rounded m-auto p-4 bg-base-100 text-base-content">
-			<JsonForms
-				schema={typeSchemaMap[nodeType]}
-				uischema={typeUISchemaMap[nodeType]}
-				data={data}
-				renderers={materialRenderers}
-				cells={materialCells}
-				onChange={({ data }) => {
-					setData(data as FormData);
-				}}
-			/>
+		<div className="rounded h-fit w-fit m-auto p-4 bg-base-300 text-base-content border-2 border-accent">
+			<div data-testid={`node-form-${nodeType}`} className="p-2">
+				<JsonForms
+					schema={typeSchemaMap[nodeType]}
+					uischema={typeUISchemaMap[nodeType]}
+					data={data}
+					renderers={materialRenderers}
+					cells={materialCells}
+					onChange={({ data }) => {
+						setData(data as FormData);
+					}}
+				/>
+			</div>
 			<div className="flex justify-end">
 				<div className="btn-group btn-group-horizontal">
-					<button className="text-success">
-						<CheckCircleIcon
-							width={32}
-							height={32}
-							onClick={() => saveFormDataHandler(data)}
-						/>
+					<button
+						className="text-success"
+						onClick={() => saveFormDataHandler(data)}
+						data-testid={`node-form-save-button-${nodeType}`}
+					>
+						<CheckCircleIcon width={32} height={32} />
 					</button>
-					<button className="text-warning">
-						<XCircleIcon
-							width={32}
-							height={32}
-							onClick={closeMenuHandler}
-						/>
+					<button
+						className="text-warning"
+						onClick={closeMenuHandler}
+						data-testid={`node-form-cancel-button-${nodeType}`}
+					>
+						<XCircleIcon width={32} height={32} />
 					</button>
 				</div>
 			</div>
