@@ -15,6 +15,7 @@ describe('NodeForm tests', () => {
 				closeMenuHandler={() => undefined}
 				nodeType={nodeType}
 				saveFormDataHandler={(_: any) => undefined}
+				parentNodeType={ServiceNodeType.NestJs}
 			/>,
 		);
 		expect(screen.getByTestId(`node-form-${nodeType}`)).toBeInTheDocument();

@@ -3,13 +3,14 @@ import {
 	Cog8ToothIcon,
 	ListBulletIcon,
 } from '@heroicons/react/24/solid';
+import { NodeResizer } from '@reactflow/node-resizer';
 import { useTranslation } from 'next-i18next';
 import { useContext } from 'react';
 import { Handle, HandleProps, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
 import { ServiceNodeAllowedInternalNodesMap, TypeTagMap } from '@/constants';
-import { InternalNodeData, ServiceNodeData } from '@/types';
+import { ContainerNodeData, InternalNodeData, ServiceNodeData } from '@/types';
 import { NodeContext } from '@/utils/context';
 
 export function NodeHandles({
@@ -60,17 +61,15 @@ function NodeButton({
 export function ServiceNode({
 	data: { nodeType, formData },
 }: Partial<NodeProps<ServiceNodeData>> & { data: ServiceNodeData }) {
+	const internalNodeTypes = ServiceNodeAllowedInternalNodesMap[nodeType];
 	const nodeContext = useContext(NodeContext);
 	const nodeId = useNodeId()!;
-
-	const { t } = useTranslation('assets');
 	const { SVG, props } = TypeSVGMap[nodeType];
-
-	const internalNodeTypes = ServiceNodeAllowedInternalNodesMap[nodeType];
+	const { t } = useTranslation('assets');
 
 	return (
 		<div
-			className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral h-34 w-60"
+			className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral h-32 w-60"
 			data-testid={`node-${nodeId}`}
 		>
 			<NodeHandles nodeId={nodeId} />
@@ -94,7 +93,7 @@ export function ServiceNode({
 					</p>
 				</div>
 			</div>
-			<div className="flex justify-between p-4">
+			<div className="flex justify-between p-3">
 				<div className="btn-group btn-group-horizontal gap-2">
 					<NodeButton
 						Icon={ListBulletIcon}
@@ -122,19 +121,82 @@ export function ServiceNode({
 	);
 }
 
+export function ContainerNode({
+	selected,
+	data: { nodeType, formData, parentNodeId },
+}: Partial<NodeProps<ContainerNodeData>> & { data: ContainerNodeData }) {
+	const nodeContext = useContext(NodeContext);
+	const nodeId = useNodeId()!;
+	const { SVG, props } = TypeSVGMap[nodeType];
+	const { t } = useTranslation('assets');
+
+	const { width: minWidth, height: minHeight } =
+		(nodeContext.displayNodes.find((n) => n.id === nodeId)?.style ?? {
+			width: 208,
+			height: 96,
+		}) as {
+			width: number;
+			height: number;
+		};
+
+	return (
+		<div
+			className="bg-base-300 shadow-xl flex-col rounded border-neutral border-2 p-1 h-full w-full"
+			data-testid={`node-${nodeId}`}
+		>
+			<NodeResizer
+				isVisible={selected}
+				keepAspectRatio
+				minWidth={minWidth}
+				minHeight={minHeight}
+			/>
+			<NodeHandles nodeId={nodeId} />
+			<div className="flex justify-evenly items-end border-b border-neutral gap-10 p-2">
+				<figure>
+					<SVG
+						className="text-base-content w-12 h-12"
+						data-testid={`svg-${nodeId}`}
+						{...props}
+					/>
+				</figure>
+				<div className="flex-col gap-0">
+					<h2 className="text-base-content text-md truncate">
+						{formData.nodeName}
+					</h2>
+					<span
+						className="text-base-content text-sm"
+						data-testid={`type-tag-${nodeId}`}
+					>
+						{t(TypeTagMap[nodeType])}
+					</span>
+				</div>
+				<div className="flex-end">
+					<NodeButton
+						Icon={Cog8ToothIcon}
+						color="text-base-content"
+						data-testid={`config-btn-${nodeId}`}
+						hoverColor="text-neutral-content"
+						onClick={() => {
+							nodeContext.handleNodeConfig(nodeId, parentNodeId);
+						}}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+}
+
 export function InternalNode({
 	data: { nodeType, formData, parentNodeId },
 }: Partial<NodeProps<InternalNodeData>> & { data: InternalNodeData }) {
 	const nodeContext = useContext(NodeContext);
-
 	const nodeId = useNodeId()!;
-	const { t } = useTranslation('assets');
-
 	const { SVG, props } = TypeSVGMap[nodeType];
+	const { t } = useTranslation('assets');
 
 	return (
 		<div
-			className="bg-accent shadow-xl w-48 h-24 flex-col rounded border-neutral border-2"
+			className="bg-accent shadow-xl flex-col rounded border-neutral border-2 p-1 h-24 w-52"
 			data-testid={`node-${nodeId}`}
 		>
 			<NodeHandles nodeId={nodeId} />
@@ -147,7 +209,7 @@ export function InternalNode({
 					/>
 				</figure>
 				<div className="flex-col gap-0">
-					<h2 className="text-accent-content text-sm">
+					<h2 className="text-accent-content text-sm truncate">
 						{formData.nodeName}
 					</h2>
 					<span

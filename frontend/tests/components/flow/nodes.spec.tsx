@@ -187,6 +187,7 @@ describe('Node components tests', () => {
 						handleNodeConfig,
 						handleNodeExpand: vi.fn(),
 						expandedNode: null,
+						displayNodes: [],
 					}}
 				>
 					<ReactFlowProvider>
@@ -212,6 +213,7 @@ describe('Node components tests', () => {
 						handleNodeConfig: vi.fn(),
 						handleNodeExpand,
 						expandedNode: null,
+						displayNodes: [],
 					}}
 				>
 					<ReactFlowProvider>
@@ -241,7 +243,7 @@ describe('Node components tests', () => {
 							parentNodeId: nodeId,
 							parentNodeType: ServiceNodeType.NextJs,
 							formData: { nodeName },
-							nodeType: InternalNodeType.Module,
+							nodeType: InternalNodeType.Controller,
 						}}
 					/>
 				</ReactFlowProvider>,
@@ -301,7 +303,7 @@ describe('Node components tests', () => {
 							parentNodeId: nodeId,
 							parentNodeType: ServiceNodeType.NextJs,
 							formData: { nodeName },
-							nodeType: InternalNodeType.Module,
+							nodeType: InternalNodeType.Controller,
 						}}
 					/>
 				</ReactFlowProvider>,
@@ -318,6 +320,7 @@ describe('Node components tests', () => {
 						handleNodeConfig,
 						handleNodeExpand: vi.fn(),
 						expandedNode: null,
+						displayNodes: [],
 					}}
 				>
 					<ReactFlowProvider>
@@ -328,7 +331,7 @@ describe('Node components tests', () => {
 								parentNodeId: nodeId,
 								parentNodeType: ServiceNodeType.NextJs,
 								formData: { nodeName },
-								nodeType: InternalNodeType.Module,
+								nodeType: InternalNodeType.Controller,
 							}}
 						/>
 					</ReactFlowProvider>

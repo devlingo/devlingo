@@ -34,7 +34,11 @@ import { Drawer } from '@/components/drawer-menu/drawer';
 import { MenuItem } from '@/components/drawer-menu/menu-item';
 import { HttpRestEdge } from '@/components/flow/edges/http-rest-edge';
 import { initialEdges, initialNodes } from '@/components/flow/initial-data';
-import { InternalNode, ServiceNode } from '@/components/flow/nodes';
+import {
+	ContainerNode,
+	InternalNode,
+	ServiceNode,
+} from '@/components/flow/nodes';
 import { NodeForm } from '@/components/forms/node-form';
 import {
 	DEFAULT_FLOW_HEIGHT,
@@ -44,21 +48,20 @@ import {
 	ServiceNodeType,
 	TypeTagMap,
 } from '@/constants';
-import { InternalNodeData, ServiceNodeData } from '@/types';
+import { AnyNode, InternalNodeData, ServiceNodeData } from '@/types';
 import { NodeContext, ThemeContext } from '@/utils/context';
 import { useBoundedDrop, useWindowsDimensions } from '@/utils/hooks';
-import { createNode } from '@/utils/node';
+import { calculateNodeArea, createNode } from '@/utils/node';
 
 const calculateFlowHeight = (
 	windowHeight: number,
 	isExpandedNode: boolean,
 ): number => {
-	let flowHeight =
-		windowHeight - (NAV_BAR_HEIGHT_PIXELS + FOOTER_HEIGHT_PIXELS / 2);
-
-	if (isExpandedNode) {
-		flowHeight -= NAV_BAR_HEIGHT_PIXELS - (FOOTER_HEIGHT_PIXELS - REM / 2);
-	}
+	const flowHeight =
+		windowHeight -
+		(isExpandedNode
+			? NAV_BAR_HEIGHT_PIXELS * 2 + FOOTER_HEIGHT_PIXELS + REM
+			: NAV_BAR_HEIGHT_PIXELS + FOOTER_HEIGHT_PIXELS / 2);
 
 	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };
@@ -66,6 +69,7 @@ const calculateFlowHeight = (
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
 	ServiceNode: memo(ServiceNode),
 	InternalNode: memo(InternalNode),
+	ContainerNode: memo(ContainerNode),
 };
 
 const edgeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -209,9 +213,7 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 		calculateFlowHeight(windowHeight, false),
 	);
 
-	const [configuredNode, setNodeToConfigure] = useState<Node<
-		ServiceNodeData | InternalNodeData
-	> | null>(null);
+	const [configuredNode, setNodeToConfigure] = useState<AnyNode | null>(null);
 	const [expandedNode, setNodeToExpand] =
 		useState<Node<ServiceNodeData> | null>(null);
 
@@ -239,8 +241,32 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 	// node expansion
 	useEffect(() => {
 		if (expandedNode) {
-			const { childNodes, childEdges } = expandedNode.data;
-			setDisplayNodes(childNodes ?? []);
+			const { childNodes = [], childEdges } = expandedNode.data;
+			const containedNodes = childNodes.filter(
+				(n) => n.parentNode,
+			) as Node<InternalNodeData>[];
+
+			const containingNodeIds = new Set(
+				containedNodes.map((n) => n.parentNode),
+			);
+
+			if (containingNodeIds.size) {
+				setDisplayNodes(
+					childNodes.map((node) => {
+						if (containingNodeIds.has(node.id)) {
+							node.style = calculateNodeArea(
+								containedNodes.filter(
+									(n) => n.parentNode === node.id,
+								),
+							);
+						}
+						return node;
+					}),
+				);
+			} else {
+				setDisplayNodes(childNodes);
+			}
+
 			setDisplayEdges(childEdges ?? []);
 		} else {
 			setDisplayNodes(nodes);
@@ -342,9 +368,10 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 		<main className="grow h-full w-full">
 			<NodeContext.Provider
 				value={{
+					displayNodes,
+					expandedNode,
 					handleNodeConfig,
 					handleNodeExpand,
-					expandedNode,
 				}}
 			>
 				<div className="flex gap-0">

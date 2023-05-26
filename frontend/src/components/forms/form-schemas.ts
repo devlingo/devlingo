@@ -1,6 +1,6 @@
 import { JsonSchema, UISchemaElement } from '@jsonforms/core';
 
-import { InternalNodeType, ServiceNodeType } from '@/constants';
+import { ContainerNodeType, ServiceNodeType } from '@/constants';
 
 export const NodeNameFormSchema = {
 	type: 'object',
@@ -134,7 +134,7 @@ export const typeSchemaMap: Record<
 	| [JsonSchema, UISchemaElement]
 	| Record<string, [JsonSchema, UISchemaElement]>
 > = {
-	[InternalNodeType.Module]: {
+	[ContainerNodeType.Module]: {
 		[ServiceNodeType.NestJs]: [
 			NestControllerSchema,
 			NestControllerUISchema,

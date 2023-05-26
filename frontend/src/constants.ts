@@ -31,14 +31,20 @@ export enum ServiceNodeType {
 	FastAPI = 'FastAPI',
 }
 
+export enum ContainerNodeType {
+	Module = 'Module',
+}
+
 export enum InternalNodeType {
 	Controller = 'Controller',
 	Endpoint = 'Endpoint',
-	Module = 'Module',
 	Service = 'Service',
 }
 
-export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
+export const TypeTagMap: Record<
+	ServiceNodeType | InternalNodeType | ContainerNodeType,
+	string
+> = {
 	[ServiceNodeType.NextJs]: 'nextjs',
 	//db-nosql
 	[ServiceNodeType.MongoDB]: 'mongo',
@@ -71,12 +77,12 @@ export const TypeTagMap: Record<ServiceNodeType | InternalNodeType, string> = {
 	[InternalNodeType.Controller]: 'controller',
 	[InternalNodeType.Service]: 'service',
 	[InternalNodeType.Endpoint]: 'endpoint',
-	[InternalNodeType.Module]: 'module',
+	[ContainerNodeType.Module]: 'module',
 };
 
 export const ServiceNodeAllowedInternalNodesMap: Record<
 	ServiceNodeType,
-	InternalNodeType[] | null
+	(InternalNodeType | ContainerNodeType)[] | null
 > = {
 	[ServiceNodeType.NextJs]: null,
 	//db-nosql
@@ -97,7 +103,7 @@ export const ServiceNodeAllowedInternalNodesMap: Record<
 	[ServiceNodeType.Oracle]: null,
 	//server js
 	[ServiceNodeType.NestJs]: [
-		InternalNodeType.Module,
+		ContainerNodeType.Module,
 		InternalNodeType.Controller,
 		InternalNodeType.Service,
 		InternalNodeType.Endpoint,

@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { Node } from 'reactflow';
 
-import { ServiceNodeData } from '@/types';
+import { InternalNodeData, ServiceNodeData } from '@/types';
 
 export const ThemeContext = createContext<{
 	currentTheme: string;
@@ -9,6 +9,7 @@ export const ThemeContext = createContext<{
 }>({ currentTheme: 'dracula', setTheme: () => undefined });
 
 export const NodeContext = createContext<{
+	displayNodes: Node<ServiceNodeData | InternalNodeData>[];
 	expandedNode: Node<ServiceNodeData> | null;
 	handleNodeConfig: (
 		nodeId: string | null,
@@ -16,6 +17,7 @@ export const NodeContext = createContext<{
 	) => void;
 	handleNodeExpand: (nodeId: string | null) => void;
 }>({
+	displayNodes: [],
 	expandedNode: null,
 	handleNodeConfig: () => undefined,
 	handleNodeExpand: () => undefined,

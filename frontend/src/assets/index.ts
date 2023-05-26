@@ -27,7 +27,11 @@ import PostgresSQL from '@/assets/services-nodes/databases/sql/postgresql.svg';
 import MicrosoftSQL from '@/assets/services-nodes/databases/sql/sql-server.svg';
 import SQLite from '@/assets/services-nodes/databases/sql/sqlite.svg';
 import NextJS from '@/assets/services-nodes/frontend-frameworks/js/nextjs.svg';
-import { InternalNodeType, ServiceNodeType } from '@/constants';
+import {
+	ContainerNodeType,
+	InternalNodeType,
+	ServiceNodeType,
+} from '@/constants';
 
 export {
 	Cassandra,
@@ -57,7 +61,7 @@ export {
 };
 
 export const TypeSVGMap: Record<
-	ServiceNodeType | InternalNodeType,
+	ServiceNodeType | InternalNodeType | ContainerNodeType,
 	{
 		SVG: React.ComponentType<React.SVGProps<SVGElement>>;
 		props?: Partial<React.SVGProps<SVGElement>>;
@@ -98,5 +102,5 @@ export const TypeSVGMap: Record<
 	[InternalNodeType.Controller]: { SVG: Controller },
 	[InternalNodeType.Endpoint]: { SVG: Endpoint },
 	[InternalNodeType.Service]: { SVG: Service },
-	[InternalNodeType.Module]: { SVG: Module },
+	[ContainerNodeType.Module]: { SVG: Module },
 };

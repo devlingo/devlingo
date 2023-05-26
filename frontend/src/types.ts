@@ -1,6 +1,10 @@
 import { Edge, Node } from 'reactflow';
 
-import { InternalNodeType, ServiceNodeType } from '@/constants';
+import {
+	ContainerNodeType,
+	InternalNodeType,
+	ServiceNodeType,
+} from '@/constants';
 
 export interface DropTargetData {
 	dropEffect: string;
@@ -9,7 +13,10 @@ export interface DropTargetData {
 	y: number;
 }
 
-export type NodeType = ServiceNodeType | InternalNodeType;
+export type NodeType = ServiceNodeType | InternalNodeType | ContainerNodeType;
+export type AnyNode = Node<
+	InternalNodeData | ContainerNodeData | ServiceNodeData
+>;
 
 export interface FormData {
 	nodeName: string;
@@ -23,7 +30,12 @@ export interface BaseNodeData<N extends NodeType> {
 
 export interface ServiceNodeData extends BaseNodeData<ServiceNodeType> {
 	childEdges?: Edge[];
-	childNodes?: Node<InternalNodeData>[];
+	childNodes?: Node<InternalNodeData | ContainerNodeData>[];
+}
+
+export interface ContainerNodeData extends BaseNodeData<ContainerNodeType> {
+	parentNodeId: string;
+	parentNodeType: ServiceNodeType;
 }
 
 export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
@@ -33,4 +45,6 @@ export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
 
 export type NodeData<T> = T extends ServiceNodeType
 	? ServiceNodeData
-	: InternalNodeData;
+	: T extends InternalNodeType
+	? InternalNodeData
+	: ContainerNodeData;
