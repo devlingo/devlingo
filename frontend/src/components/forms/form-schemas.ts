@@ -1,7 +1,6 @@
-import { JsonSchema } from '@jsonforms/core';
+import { JsonSchema, UISchemaElement } from '@jsonforms/core';
 
 import { InternalNodeType, ServiceNodeType } from '@/constants';
-import { NodeType } from '@/types';
 
 export const NodeNameFormSchema = {
 	type: 'object',
@@ -14,42 +13,131 @@ export const NodeNameFormSchema = {
 	required: ['nodeName'],
 };
 
-const nestJSServiceSchema: JsonSchema = NodeNameFormSchema;
-const nextJSServiceSchema: JsonSchema = NodeNameFormSchema;
+export const NodeNameFormUISchema = {
+	type: 'VerticalLayout',
+	elements: [
+		{
+			type: 'Control',
+			label: 'name',
+			scope: '#/properties/nodeName',
+		},
+	],
+};
 
-export const typeSchemaMap: Record<NodeType, JsonSchema> = {
-	// frontend frameworks
-	[ServiceNodeType.NextJs]: nextJSServiceSchema,
-	// db nosql
-	[ServiceNodeType.MongoDB]: NodeNameFormSchema,
-	[ServiceNodeType.Firestore]: NodeNameFormSchema,
-	[ServiceNodeType.Cassandra]: NodeNameFormSchema,
-	[ServiceNodeType.DynamoDB]: NodeNameFormSchema,
-	[ServiceNodeType.Redis]: NodeNameFormSchema,
-	[ServiceNodeType.Hbase]: NodeNameFormSchema,
-	[ServiceNodeType.CosmosDB]: NodeNameFormSchema,
-	// db sql
-	[ServiceNodeType.MySQL]: NodeNameFormSchema,
-	[ServiceNodeType.PostgresSQL]: NodeNameFormSchema,
-	[ServiceNodeType.MicrosoftSQL]: NodeNameFormSchema,
-	[ServiceNodeType.MariaDB]: NodeNameFormSchema,
-	[ServiceNodeType.Firebird]: NodeNameFormSchema,
-	[ServiceNodeType.SQLite]: NodeNameFormSchema,
-	[ServiceNodeType.Oracle]: NodeNameFormSchema,
-	// server js
-	[ServiceNodeType.ExpressJs]: NodeNameFormSchema,
-	[ServiceNodeType.Fastify]: NodeNameFormSchema,
-	[ServiceNodeType.HapiJs]: NodeNameFormSchema,
-	[ServiceNodeType.KoaJs]: NodeNameFormSchema,
-	[ServiceNodeType.NestJs]: nestJSServiceSchema,
-	// server py
-	[ServiceNodeType.Litestar]: NodeNameFormSchema,
-	[ServiceNodeType.Django]: NodeNameFormSchema,
-	[ServiceNodeType.Flask]: NodeNameFormSchema,
-	[ServiceNodeType.FastAPI]: NodeNameFormSchema,
-	// internal nodes
-	[InternalNodeType.Controller]: NodeNameFormSchema,
-	[InternalNodeType.Endpoint]: NodeNameFormSchema,
-	[InternalNodeType.Module]: NodeNameFormSchema,
-	[InternalNodeType.Service]: NodeNameFormSchema,
+export const DefaultSchemas = [NodeNameFormSchema, NodeNameFormUISchema];
+
+export const NestControllerSchema = {
+	type: 'object',
+	properties: {
+		nodeName: {
+			type: 'string',
+			minLength: 1,
+		},
+		path: {
+			type: 'string',
+			nullable: true,
+		},
+		endpoints: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						minLength: 1,
+					},
+					method: {
+						type: 'string',
+						enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'],
+						default: 'GET',
+					},
+					path: {
+						type: 'string',
+						nullable: true,
+					},
+					statusCode: {
+						type: 'number',
+						default: 200,
+					},
+					parameters: {
+						type: 'array',
+						items: {
+							type: 'object',
+							properties: {
+								name: {
+									type: 'string',
+									minLength: 1,
+								},
+								parameterType: {
+									type: 'string',
+									enum: [
+										'PATH',
+										'QUERY',
+										'BODY',
+										'HEADER',
+										'COOKIE',
+									],
+									default: 'QUERY',
+								},
+								valueTypes: {
+									type: 'string',
+									enum: [
+										'boolean',
+										'data',
+										'date-time',
+										'duration',
+										'email',
+										'integer',
+										'number',
+										'string',
+										'time',
+										'uuid',
+									],
+									default: 'string',
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+	required: ['nodeName'],
+};
+
+export const NestControllerUISchema = {
+	type: 'VerticalLayout',
+	elements: [
+		{
+			type: 'Control',
+			label: 'name',
+			scope: '#/properties/nodeName',
+		},
+		{
+			type: 'Control',
+			scope: '#/properties/path',
+		},
+		{
+			type: 'HorizontalLayout',
+			elements: [
+				{
+					type: 'Control',
+					scope: '#/properties/endpoints',
+				},
+			],
+		},
+	],
+};
+
+export const typeSchemaMap: Record<
+	string,
+	| [JsonSchema, UISchemaElement]
+	| Record<string, [JsonSchema, UISchemaElement]>
+> = {
+	[InternalNodeType.Module]: {
+		[ServiceNodeType.NestJs]: [
+			NestControllerSchema,
+			NestControllerUISchema,
+		],
+	},
 };

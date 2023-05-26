@@ -389,6 +389,12 @@ export function FlowContainer({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 						<NodeForm
 							nodeType={configuredNode.data.nodeType}
 							formData={configuredNode.data.formData}
+							parentNodeType={
+								Reflect.get(
+									configuredNode.data,
+									'parentNodeType',
+								) as ServiceNodeType | undefined
+							}
 							saveFormDataHandler={(formData) => {
 								setDisplayNodes(
 									nodes.map((node) => {
