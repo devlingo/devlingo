@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Project } from '@prisma/client';
 import { ProjectCreateDTO } from 'shared/dtos/body.dto';
-import { ProjectId } from 'shared/dtos/parameter.dto';
+import { ProjectIdParam } from 'shared/dtos/parameter.dto';
 
 import { ProjectService } from './project.service';
 
@@ -29,13 +29,13 @@ export class ProjectController {
 	}
 
 	@Get(':projectId')
-	async getProject(@Param() projectId: ProjectId): Promise<Project> {
+	async getProject(@Param() projectId: ProjectIdParam): Promise<Project> {
 		return await this.projectService.retrieveProject(projectId);
 	}
 
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@Delete(':projectId')
-	async deleteProject(@Param() projectId: ProjectId): Promise<void> {
+	async deleteProject(@Param() projectId: ProjectIdParam): Promise<void> {
 		await this.projectService.deleteProject(projectId);
 	}
 }

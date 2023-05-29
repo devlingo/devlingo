@@ -1,9 +1,11 @@
 import {
 	IsAlphanumeric,
+	IsInt,
 	IsNotEmpty,
 	IsObject,
-	IsOptional,
+	IsPositive,
 	IsString,
+	IsUUID,
 	Matches,
 } from 'class-validator';
 
@@ -18,11 +20,25 @@ export class DesignVersionDTO {
 	@IsObject()
 	data!: Record<string, any>;
 
-	@IsString()
-	@IsOptional()
-	description?: string;
-
 	@IsAlphanumeric()
 	@IsNotEmpty()
 	name!: string;
+}
+
+export class PromptRequestDTO {
+	@IsAlphanumeric()
+	@IsNotEmpty()
+	name!: string;
+
+	@IsInt()
+	@IsPositive()
+	version!: number;
+
+	@IsUUID('4')
+	@IsNotEmpty()
+	projectId!: string;
+
+	@IsString()
+	@IsNotEmpty()
+	promptContent!: string;
 }

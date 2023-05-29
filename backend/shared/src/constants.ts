@@ -5,3 +5,7 @@ export enum ApiVersions {
 export enum Messages {
 	HEALTH_CHECK = 'healthy',
 }
+
+export enum PromptProvider {
+	OPENAI = 'openai',
+}

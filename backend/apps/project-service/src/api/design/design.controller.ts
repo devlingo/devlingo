@@ -10,7 +10,11 @@ import {
 } from '@nestjs/common';
 import { Design } from '@prisma/client';
 import { DesignVersionDTO } from 'shared/dtos/body.dto';
-import { Name, ProjectId, Version } from 'shared/dtos/parameter.dto';
+import {
+	NameParam,
+	ProjectIdParam,
+	VersionParam,
+} from 'shared/dtos/parameter.dto';
 
 import { DesignService } from './design.service';
 
@@ -20,7 +24,7 @@ export class DesignController {
 
 	@Post(':projectId')
 	async createDesignVersion(
-		@Param() projectId: ProjectId,
+		@Param() projectId: ProjectIdParam,
 		@Body() data: DesignVersionDTO,
 	): Promise<Design> {
 		return await this.designService.createDesignVersion({
@@ -31,7 +35,7 @@ export class DesignController {
 
 	@Get(':projectId')
 	async getProjectDesignVersions(
-		@Param() projectId: ProjectId,
+		@Param() projectId: ProjectIdParam,
 	): Promise<{ name: string; version: number }[]> {
 		return await this.designService.retrieveProjectDesignVersions(
 			projectId,
@@ -40,9 +44,9 @@ export class DesignController {
 
 	@Get(':projectId/:name/:version')
 	async getDesignVersion(
-		@Param() projectId: ProjectId,
-		@Param() name: Name,
-		@Param() version: Version,
+		@Param() projectId: ProjectIdParam,
+		@Param() name: NameParam,
+		@Param() version: VersionParam,
 	): Promise<Design> {
 		return await this.designService.retrieveDesignVersion({
 			...projectId,
@@ -54,9 +58,9 @@ export class DesignController {
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@Delete(':projectId/:name/:version')
 	async deleteDesignVersion(
-		@Param() projectId: ProjectId,
-		@Param() name: Name,
-		@Param() version: Version,
+		@Param() projectId: ProjectIdParam,
+		@Param() name: NameParam,
+		@Param() version: VersionParam,
 	): Promise<void> {
 		await this.designService.deleteDesignVersion({
 			...projectId,

@@ -1,3 +1,3 @@
-import { OpenAIModule } from './openai';
+import { PromptModule } from './prompt-service';
 
-export const API_MODULES = [OpenAIModule];
+export const API_MODULES = [PromptModule];
