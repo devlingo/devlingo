@@ -38,26 +38,18 @@ describe('Design Controller Tests', () => {
 
 	describe('POST design/:projectId', () => {
 		it('creates and returns a design', async () => {
-			const name = 'test';
-			const description = 'a b c';
-			const schema = {
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					bar: { type: 'string' },
-					foo: { type: 'integer' },
-				},
-				additionalProperties: false,
-			};
+			const name = 'abc';
+			const data = { a: 'b' };
+
 			const response = await request
 				.post(`/design/${project.id}`)
-				.send({ schema, name, description });
+				.send({ name, data });
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			const design = JSON.parse(response.text) as Design;
 
 			expect(design.name).toEqual(name);
-			expect(JSON.stringify(design.data)).toEqual(JSON.stringify(schema));
+			expect(JSON.stringify(design.data)).toEqual(JSON.stringify(data));
 		});
 	});
 
@@ -76,20 +68,27 @@ describe('Design Controller Tests', () => {
 
 			const responseData = JSON.parse(response.text);
 			expect(
-				(responseData as Design[]).map((schema) => schema.name),
-			).toEqual(designs.map((schema) => schema.name).sort());
+				(responseData as { name: string; version: number }[]).map(
+					({ name }) => name,
+				),
+			).toEqual(designs.map(({ name }) => name).sort());
+			expect(
+				(responseData as { name: string; version: number }[]).map(
+					({ version }) => version,
+				),
+			).toEqual(designs.map(({ version }) => version).sort());
 		});
 	});
 
 	describe('GET design/:projectId/:name/:version', () => {
 		it('retrieves a design using the name and version parameters', async () => {
+			const name = 'abc';
+			const data = { a: 'b' };
 			const design = await prisma.design.create({
-				data: (await DesignFactory.build({
-					projectId: project.id,
-				})) as unknown as any,
+				data: { data, name, projectId: project.id },
 			});
 			const response = await request.get(
-				`/design/${project.id}/${design.name}`,
+				`/design/${project.id}/${design.name}/${design.version}`,
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
@@ -97,7 +96,7 @@ describe('Design Controller Tests', () => {
 		});
 
 		it('returns an informative error message', async () => {
-			const response = await request.get(`/design/${project.id}/1/2`);
+			const response = await request.get(`/design/${project.id}/abc/2`);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(JSON.parse(response.text).message).toEqual(
@@ -108,10 +107,10 @@ describe('Design Controller Tests', () => {
 
 	describe('DELETE design/:projectId/:name/:version', () => {
 		it('deletes a design version using the name and version parameters', async () => {
+			const name = 'abc';
+			const data = { a: 'b' };
 			const design = await prisma.design.create({
-				data: (await DesignFactory.build({
-					projectId: project.id,
-				})) as unknown as any,
+				data: { data, name, projectId: project.id },
 			});
 
 			expect(await prisma.design.findFirst()).toBeTruthy();

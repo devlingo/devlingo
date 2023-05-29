@@ -3,7 +3,7 @@ import { Design, Project } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
-	id: faker.datatype.uuid(),
+	id: faker.string.uuid(),
 	name: faker.company.name(),
 	createdAt: new Date(),
 	updatedAt: new Date(),
@@ -11,9 +11,9 @@ export const ProjectFactory = new TypeFactory<Project>(() => ({
 
 export const DesignFactory = new TypeFactory<Design>((i) => ({
 	id: faker.datatype.uuid(),
-	name: `key${i}`,
+	name: `design-${i}`,
 	version: i + 1,
-	projectId: faker.datatype.uuid(),
+	projectId: faker.string.uuid(),
 	data: '{}',
 	createdAt: new Date(),
 	updatedAt: new Date(),

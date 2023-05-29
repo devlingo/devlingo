@@ -53,8 +53,6 @@ export class DesignService {
 		data: Record<string, any>;
 		name: string;
 	}) {
-		return await this.prisma.design.create({
-			data,
-		});
+		return await this.prisma.design.create({ data });
 	}
 }

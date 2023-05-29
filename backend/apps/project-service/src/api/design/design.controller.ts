@@ -14,7 +14,7 @@ import { Name, ProjectId, Version } from 'shared/dtos/parameter.dto';
 
 import { DesignService } from './design.service';
 
-@Controller('configuration-options')
+@Controller('design')
 export class DesignController {
 	constructor(private readonly designService: DesignService) {}
 
@@ -30,7 +30,7 @@ export class DesignController {
 	}
 
 	@Get(':projectId')
-	async getProjectDesignVersion(
+	async getProjectDesignVersions(
 		@Param() projectId: ProjectId,
 	): Promise<{ name: string; version: number }[]> {
 		return await this.designService.retrieveProjectDesignVersions(
@@ -38,7 +38,7 @@ export class DesignController {
 		);
 	}
 
-	@Get(':projectId/:name:/:version')
+	@Get(':projectId/:name/:version')
 	async getDesignVersion(
 		@Param() projectId: ProjectId,
 		@Param() name: Name,
