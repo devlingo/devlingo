@@ -1,4 +1,10 @@
-import { IsAlphanumeric, IsNotEmpty, IsUUID } from 'class-validator';
+import {
+	IsAlphanumeric,
+	IsInt,
+	IsNotEmpty,
+	IsPositive,
+	IsUUID,
+} from 'class-validator';
 
 export class ProjectId {
 	@IsUUID('4')
@@ -6,8 +12,14 @@ export class ProjectId {
 	projectId!: string;
 }
 
-export class Key {
+export class Name {
 	@IsAlphanumeric()
 	@IsNotEmpty()
-	key!: string;
+	name!: string;
+}
+
+export class Version {
+	@IsPositive()
+	@IsInt()
+	version!: number;
 }

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { ConfigurationOption, Project } from '@prisma/client';
+import { Design, Project } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
@@ -9,15 +9,12 @@ export const ProjectFactory = new TypeFactory<Project>(() => ({
 	updatedAt: new Date(),
 }));
 
-export const ConfigurationOptionFactory = new TypeFactory<ConfigurationOption>(
-	(i) => ({
-		id: faker.datatype.uuid(),
-		key: `key${i}`,
-		description: faker.lorem.sentence(),
-		isEnabled: true,
-		projectId: faker.datatype.uuid(),
-		schema: '{}',
-		createdAt: new Date(),
-		updatedAt: new Date(),
-	}),
-);
+export const DesignFactory = new TypeFactory<Design>((i) => ({
+	id: faker.datatype.uuid(),
+	name: `key${i}`,
+	version: i + 1,
+	projectId: faker.datatype.uuid(),
+	data: '{}',
+	createdAt: new Date(),
+	updatedAt: new Date(),
+}));

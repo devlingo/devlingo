@@ -20,6 +20,7 @@
 		"strictPropertyInitialization": true,
 		"target": "ESNext",
 		"paths": {
+			"ai-service/*": ["apps/ai-service/src/*"],
 			"project-service/*": ["apps/project-service/src/*"],
 			"shared/*": ["shared/src/*"],
 			"testing/*": ["testing/*"]

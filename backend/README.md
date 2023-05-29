@@ -54,3 +54,29 @@ You can use the docker compose `profiles` to build and run only one of the servi
 -   `pnpm dlx prisma migrate resolve --applied 20221031120318_init` - To mark a migration as applied so that prisma will skip over it and will run the rest of the migrations
 -   `pnpm dlx prisma migrate dev` - To apply the created migrations
 -   `pnpm dlx prisma format` - To format the prisma schema file according to prisma standards
+
+## How to migrate locally?
+
+Start by running the container for the DB locally with:
+
+```shell
+docker compose up db --detach
+```
+
+Then export the env variables for the DB connection:
+
+```shell
+export DATABASE_URL=postgresql://devlingo:devlingo@0.0.0.0:5432/devlingo
+```
+
+And now execute the migration commands:
+
+```shell
+pnpm run prisma:migrate:dev
+```
+
+Followed by:
+
+```shell
+pnpm run prisma:generate
+```

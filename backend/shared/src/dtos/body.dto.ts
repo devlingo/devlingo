@@ -14,9 +14,9 @@ export class ProjectCreateDTO {
 	name!: string;
 }
 
-export class ConfigurationOptionCreateDTO {
+export class DesignVersionDTO {
 	@IsObject()
-	schema!: Record<string, any>;
+	data!: Record<string, any>;
 
 	@IsString()
 	@IsOptional()
@@ -24,5 +24,5 @@ export class ConfigurationOptionCreateDTO {
 
 	@IsAlphanumeric()
 	@IsNotEmpty()
-	key!: string;
+	name!: string;
 }

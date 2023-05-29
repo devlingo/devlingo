@@ -21,11 +21,10 @@ import { AppModule } from './app';
 	app.enableCors();
 
 	setupValidationPipe(app);
-
 	setupSwagger({
 		version: ApiVersions.V1,
-		title: 'Project Service API',
-		description: 'An API that allows interacting with project data',
+		title: 'Design Service API',
+		description: 'An API for interacting with Generative AI services',
 	})(app);
 
 	app.useGlobalFilters(new PrismaExceptionFilter());

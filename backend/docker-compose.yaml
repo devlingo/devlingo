@@ -16,7 +16,7 @@ services:
             timeout: 5s
             retries: 5
             start_period: 5s
-    config:
+    project-service:
         depends_on:
             db:
                 condition: service_healthy
@@ -26,9 +26,9 @@ services:
             target: install
             args:
                 - SERVER_PORT=3000
-                - TARGET=config
+                - TARGET=project-service
         volumes:
-            - ./apps/config:/app/apps/config:cached
+            - ./apps/project-service:/app/apps/project-service:cached
             - ./shared:/app/shared:cached
             - ./prisma:/app/prisma:cached
         environment:
@@ -38,7 +38,30 @@ services:
             - .env.development
         ports:
             - '3000:3000'
-        command: ['pnpm', 'run', 'nest:start-config']
+        command: ['pnpm', 'run', 'nest:start-project-service']
+    ai-service:
+        depends_on:
+            db:
+                condition: service_healthy
+        build:
+            dockerfile: Dockerfile
+            context: .
+            target: install
+            args:
+                - SERVER_PORT=3005
+                - TARGET=ai-service
+        volumes:
+            - ./apps/ai-service:/app/apps/ai-service:cached
+            - ./shared:/app/shared:cached
+            - ./prisma:/app/prisma:cached
+        environment:
+            SERVER_PORT: 3005
+            DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
+        env_file:
+            - .env.development
+        ports:
+            - '3005:3005'
+        command: ['pnpm', 'run', 'nest:start-ai-service']
 
 volumes:
     db:
