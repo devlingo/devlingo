@@ -30,7 +30,7 @@ import {
 } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
-import { HttpRestEdge } from '@/components/flow/edges/http-rest-edge';
+import { ConnectionLine, HttpRestEdge } from '@/components/flow/edges';
 import { initialEdges, initialNodes } from '@/components/flow/initial-data';
 import {
 	ContainerNode,
@@ -160,6 +160,7 @@ function Flow({
 					onEdgesDelete={handleEdgesDelete}
 					onInit={setReactFlowInstance}
 					onNodesChange={onNodesChangeHandler}
+					connectionLineComponent={ConnectionLine}
 					proOptions={{ hideAttribution: true }}
 					snapToGrid={true}
 				>
