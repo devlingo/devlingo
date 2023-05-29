@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { ProjectModule } from 'apps/config/src/api/project';
-import { AppModule } from 'config/app';
+import { ProjectModule } from 'project-service/api/project';
+import { AppModule } from 'project-service/app';
 import type { SuperTest } from 'supertest';
 import { ProjectFactory } from 'testing/testing.factories';
 import { bootstrapIntegrationTest } from 'testing/testing.utils';

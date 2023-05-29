@@ -51,6 +51,9 @@ devDependencies:
     '@nestjs/testing':
         specifier: ^9.4.2
         version: 9.4.2(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(@nestjs/platform-express@9.4.2)
+    '@prettier/plugin-xml':
+        specifier: ^2.2.0
+        version: 2.2.0
     '@tool-belt/eslint-config':
         specifier: ^2.1.1
         version: 2.1.1(@typescript-eslint/eslint-plugin@5.59.7)(@typescript-eslint/parser@5.59.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.41.0)(prettier@2.8.8)(typescript@5.0.4)
@@ -1417,6 +1420,16 @@ packages:
             tslib: 2.5.2
         dev: true
 
+    /@prettier/plugin-xml@2.2.0:
+        resolution:
+            {
+                integrity: sha512-UWRmygBsyj4bVXvDiqSccwT1kmsorcwQwaIy30yVh8T+Gspx4OlC0shX1y+ZuwXZvgnafmpRYKks0bAu9urJew==,
+            }
+        dependencies:
+            '@xml-tools/parser': 1.0.11
+            prettier: 2.8.8
+        dev: true
+
     /@prisma/client@4.14.1(prisma@4.14.1):
         resolution:
             {
@@ -2144,6 +2157,15 @@ packages:
         dependencies:
             '@webassemblyjs/ast': 1.11.6
             '@xtuc/long': 4.2.2
+        dev: true
+
+    /@xml-tools/parser@1.0.11:
+        resolution:
+            {
+                integrity: sha512-aKqQ077XnR+oQtHJlrAflaZaL7qZsulWc/i/ZEooar5JiWj1eLt0+Wg28cpa+XLney107wXqneC+oG1IZvxkTA==,
+            }
+        dependencies:
+            chevrotain: 7.1.1
         dev: true
 
     /@xtuc/ieee754@1.2.0:
@@ -2886,6 +2908,15 @@ packages:
             {
                 integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==,
             }
+        dev: true
+
+    /chevrotain@7.1.1:
+        resolution:
+            {
+                integrity: sha512-wy3mC1x4ye+O+QkEinVJkPf5u2vsrDIYW9G7ZuwFl6v/Yu0LwUuT2POsb+NUWApebyxfkQq6+yDfRExbnI5rcw==,
+            }
+        dependencies:
+            regexp-to-ast: 0.5.0
         dev: true
 
     /chokidar@3.5.3:
@@ -7330,6 +7361,13 @@ packages:
         resolution:
             {
                 integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==,
+            }
+        dev: true
+
+    /regexp-to-ast@0.5.0:
+        resolution:
+            {
+                integrity: sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw==,
             }
         dev: true
 

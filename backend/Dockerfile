@@ -1,4 +1,4 @@
-FROM node:19-slim as base
+FROM node:20-slim as base
 RUN npm i -g pnpm
 RUN apt-get update  \
     && apt-get upgrade -y \

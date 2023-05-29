@@ -1,5 +1,5 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { AppModule } from 'config/app';
+import { AppModule } from 'project-service/app';
 import { Messages } from 'shared/constants';
 import type { SuperTest } from 'supertest';
 import { bootstrapIntegrationTest } from 'testing/testing.utils';

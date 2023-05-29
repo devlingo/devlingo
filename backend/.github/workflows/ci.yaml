@@ -32,7 +32,7 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 19
+                  node-version: 20
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
@@ -63,7 +63,7 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 19
+                  node-version: 20
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
@@ -81,8 +81,8 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
             - name: Apply Prettier
-              run: pnpm run code:format
+              run: pnpm run format
             - name: Prisma Generate
               run: pnpm run prisma:generate
             - name: Eslint
-              run: pnpm run code:check
+              run: pnpm run check

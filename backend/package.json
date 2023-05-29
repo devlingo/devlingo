@@ -5,17 +5,17 @@
 	"description": "Backend monorepo",
 	"scripts": {
 		"build": "nest build",
-		"code:check": "eslint '**/*.ts' --max-warnings 0",
-		"code:format": "prettier --write '**/*.{js,md,json,yaml,yml}'",
-		"code:lint": "eslint --fix '**/*.ts' --max-warnings 0",
-		"postinstall": "husky install",
-		"prepare": "husky install",
-		"prisma:generate": "prisma generate",
-		"prisma:migrate:dev": "prisma migrate dev",
-		"prisma:migrate:deploy": "prisma migrate deploy",
+		"check": "eslint '**/*.ts' --max-warnings 0",
+		"format": "prettier --write '**/*.{js,md,json,yaml,yml,xml}'",
+		"lint": "eslint --fix '**/*.ts' --max-warnings 0",
 		"nest:start-config": "nest start",
 		"nest:start-config:debug": "nest start --debug --watch",
 		"nest:start-config:dev": "nest start --watch",
+		"postinstall": "husky install",
+		"prepare": "husky install",
+		"prisma:generate": "prisma generate",
+		"prisma:migrate:deploy": "prisma migrate deploy",
+		"prisma:migrate:dev": "prisma migrate dev",
 		"test": "jest --runInBand"
 	},
 	"keywords": [],
@@ -40,6 +40,7 @@
 		"@nestjs/cli": "^9.5.0",
 		"@nestjs/schematics": "^9.2.0",
 		"@nestjs/testing": "^9.4.2",
+		"@prettier/plugin-xml": "^2.2.0",
 		"@tool-belt/eslint-config": "^2.1.1",
 		"@types/express": "^4.17.17",
 		"@types/jest": "29.5.1",
@@ -67,6 +68,6 @@
 	},
 	"lint-staged": {
 		"*.ts": "eslint --fix",
-		"*.{js,md,json,yaml,yml}": "prettier --write"
+		"*.{js,md,json,yaml,yml,xml}": "prettier --write"
 	}
 }

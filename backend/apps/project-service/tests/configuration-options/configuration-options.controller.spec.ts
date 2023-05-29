@@ -1,13 +1,14 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { ConfigurationOption, PrismaClient, Project } from '@prisma/client';
-import { ConfigurationOptionModule } from 'apps/config/src/api/configuration-option';
-import { AppModule } from 'config/app';
+import { AppModule } from 'project-service/app';
 import type { SuperTest } from 'supertest';
 import {
 	ConfigurationOptionFactory,
 	ProjectFactory,
 } from 'testing/testing.factories';
 import { bootstrapIntegrationTest } from 'testing/testing.utils';
+
+import { ConfigurationOptionModule } from '../../src/api/configuration-option';
 
 describe('Configuration Options Controller Tests', () => {
 	const prisma = new PrismaClient();

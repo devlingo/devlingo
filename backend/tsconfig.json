@@ -20,7 +20,7 @@
 		"strictPropertyInitialization": true,
 		"target": "ESNext",
 		"paths": {
-			"config/*": ["apps/config/src/*"],
+			"project-service/*": ["apps/project-service/src/*"],
 			"shared/*": ["shared/src/*"],
 			"testing/*": ["testing/*"]
 		}

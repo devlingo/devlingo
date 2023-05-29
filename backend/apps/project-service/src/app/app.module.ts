@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { API_MODULES } from 'config/api';
+import { API_MODULES } from 'project-service/api';
 import { PrismaModule } from 'shared/modules/prisma.module';
 
 import { AppController } from './app.controller';
