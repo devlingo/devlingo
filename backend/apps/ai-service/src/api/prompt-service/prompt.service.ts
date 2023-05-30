@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Design } from '@prisma/client';
 import { getOpenAIChain } from 'ai-service/utils/prompt.utils';
 import { PromptRequestDTO } from 'shared/dtos/body.dto';
@@ -8,6 +8,7 @@ import { Configuration } from 'shared/types';
 
 @Injectable()
 export class PromptService {
+	private readonly logger = new Logger(PromptService.name);
 	constructor(
 		private configuration: Configuration,
 		private prisma: PrismaService,
@@ -27,13 +28,15 @@ export class PromptService {
 	}
 
 	async handleOpenAIChain(design: Design, promptContent: string) {
-		const chain = getOpenAIChain({
+		const getChainParams = {
 			sessionId: `${design.projectId}-${design.name}`,
 			openAIApiKey: this.configuration.get<string>('OPENAI_KEY'),
 			redisConnectionString: this.configuration.get<string>(
 				'REDIS_CONNECTION_STRING',
 			),
-		});
+		};
+		this.logger.verbose(getChainParams);
+		const chain = getOpenAIChain(getChainParams);
 
 		return await chain.call({
 			designData: design.data,

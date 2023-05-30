@@ -2,6 +2,7 @@ import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Logger } from 'nestjs-pino';
 import { ApiVersions } from 'shared/constants';
 import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
 import { PrismaService } from 'shared/modules/prisma.service';
@@ -14,7 +15,11 @@ import {
 import { AppModule } from './app';
 
 (async () => {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		bufferLogs: true,
+	});
+	app.useLogger(app.get(Logger));
+
 	app.enableVersioning({
 		type: VersioningType.URI,
 		defaultVersion: ApiVersions.V1,

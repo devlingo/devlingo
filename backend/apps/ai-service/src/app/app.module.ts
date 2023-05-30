@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { API_MODULES } from 'ai-service/api';
+import { LoggerModule } from 'nestjs-pino';
 import { PrismaModule } from 'shared/modules/prisma.module';
 
 import { AppController } from './app.controller';
@@ -8,6 +9,7 @@ import { AppService } from './app.service';
 
 @Module({
 	imports: [
+		LoggerModule.forRoot(),
 		PrismaModule,
 		ConfigModule.forRoot({
 			isGlobal: true,
