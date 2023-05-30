@@ -5,6 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ApiVersions } from 'shared/constants';
 import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
 import { PrismaService } from 'shared/modules/prisma.service';
+import { ConfigurationVars } from 'shared/types';
 import {
 	setupSwagger,
 	setupValidationPipe,
@@ -32,7 +33,7 @@ import { AppModule } from './app';
 	const prismaService = app.get(PrismaService);
 	await prismaService.enableShutdownHooks(app);
 
-	const configService = app.get(ConfigService);
+	const configService = app.get(ConfigService<ConfigurationVars, true>);
 	const port = configService.get<number>('SERVER_PORT')!;
 
 	await app.listen(port);

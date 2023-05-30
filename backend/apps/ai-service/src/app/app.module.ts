@@ -9,7 +9,11 @@ import { AppService } from './app.service';
 @Module({
 	imports: [
 		PrismaModule,
-		ConfigModule.forRoot({ isGlobal: true }),
+		ConfigModule.forRoot({
+			isGlobal: true,
+			ignoreEnvFile: true,
+			cache: true,
+		}),
 		...API_MODULES,
 	],
 	controllers: [AppController],

@@ -1,5 +1,10 @@
 version: '3.9'
 services:
+    redis:
+        image: redis:latest
+        restart: always
+        ports:
+            - '6379:6379'
     db:
         image: postgres:latest
         volumes:
@@ -43,6 +48,8 @@ services:
         depends_on:
             db:
                 condition: service_healthy
+            redis:
+                condition: service_healthy
         build:
             dockerfile: Dockerfile
             context: .
@@ -57,6 +64,7 @@ services:
         environment:
             SERVER_PORT: 3005
             DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
+            REDIS_CONNECTION_STRING: redis://redis:6379
         env_file:
             - .env.development
         ports:
