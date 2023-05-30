@@ -11,7 +11,7 @@ services:
             POSTGRES_DB: devlingo
             POSTGRES_USER: devlingo
         healthcheck:
-            test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U postgres']
+            test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U devlingo']
             interval: 30s
             timeout: 5s
             retries: 5

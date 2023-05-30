@@ -2,7 +2,7 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"declaration": false,
-		"outDir": "../../dist/apps/config"
+		"outDir": "../../dist/apps/ai-service"
 	},
 	"include": ["src/**/*"],
 	"exclude": ["tests"]

@@ -1,4 +1,4 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 RUN npm i -g pnpm
 RUN apt-get update  \
     && apt-get upgrade -y \
@@ -8,20 +8,21 @@ RUN apt-get update  \
     && rm -rf /var/apt/lists/* \
     && rm -rf /var/cache/apt/*
 
-FROM base as install
+FROM base AS install
 WORKDIR /app/
 ARG TARGET
-COPY package.json pnpm-lock.yaml tsconfig.json nest-cli.json .npmrc ./
+COPY package.json pnpm*.yaml tsconfig.json nest-cli.json .npmrc ./
+COPY apps/${TARGET}/package.json apps/${TARGET}/package.json
+COPY apps/${TARGET}/pnpm-lock.yaml apps/${TARGET}/pnpm-lock.yaml
+COPY apps/${TARGET}/tsconfig.app.json apps/${TARGET}/tsconfig.app.json
 COPY prisma prisma
 RUN pnpm install --frozen-lockfile --ignore-scripts
 RUN pnpm run prisma:generate
 
-
-FROM install as build
+FROM install AS build
 WORKDIR /app/
 ARG TARGET
 COPY apps/shared apps/shared
-COPY apps/${TARGET}/tsconfig.app.json apps/${TARGET}/tsconfig.app.json
 COPY apps/${TARGET}/src apps/${TARGET}/src
 RUN pnpm run build ${TARGET}
 
