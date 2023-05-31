@@ -10,12 +10,9 @@ export class PromptController {
 
 	@Post(':promptProvider')
 	async createPrompt(
-		@Param() promptProvider: PromptProviderParam,
+		@Param() _: PromptProviderParam,
 		@Body() data: PromptRequestDTO,
 	): Promise<Record<string, any>> {
-		return await this.promptService.requestPrompt({
-			...promptProvider,
-			...data,
-		});
+		return await this.promptService.requestPrompt(data);
 	}
 }

@@ -29,7 +29,7 @@ import { AppModule } from './app';
 	setupValidationPipe(app);
 	setupSwagger({
 		version: ApiVersions.V1,
-		title: 'Design Service API',
+		title: 'AI Service API',
 		description: 'An API for interacting with Generative AI services',
 	})(app);
 

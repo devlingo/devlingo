@@ -1,5 +1,6 @@
 import {
 	IsAlphanumeric,
+	IsArray,
 	IsInt,
 	IsNotEmpty,
 	IsObject,
@@ -41,4 +42,20 @@ export class PromptRequestDTO {
 	@IsString()
 	@IsNotEmpty()
 	promptContent!: string;
+
+	@IsObject()
+	@IsNotEmpty()
+	designData!: Record<string, any>;
+
+	@IsObject()
+	@IsNotEmpty()
+	exampleData!: Record<string, any>;
+
+	@IsArray()
+	@IsNotEmpty()
+	nodeTypes!: string[];
+
+	@IsArray()
+	@IsNotEmpty()
+	edgeTypes!: string[];
 }
