@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { PromptRequestDTO } from 'shared/dtos/body.dto';
-import { PromptProviderParam } from 'shared/dtos/parameter.dto';
+import { DesignIdParam, ProjectIdParam } from 'shared/dtos/parameter.dto';
 
 import { PromptService } from './prompt.service';
 
@@ -8,11 +8,19 @@ import { PromptService } from './prompt.service';
 export class PromptController {
 	constructor(private readonly promptService: PromptService) {}
 
-	@Post(':promptProvider')
+	@Post(':projectId/:designId')
 	async createPrompt(
-		@Param() _: PromptProviderParam,
+		@Param() projectId: ProjectIdParam,
+		@Param() designId: DesignIdParam,
 		@Body() data: PromptRequestDTO,
-	): Promise<Record<string, any>> {
-		return await this.promptService.requestPrompt(data);
+	): Promise<{
+		answer: string;
+		design: Record<string, any>;
+	}> {
+		return await this.promptService.requestPrompt({
+			...data,
+			...projectId,
+			...designId,
+		});
 	}
 }

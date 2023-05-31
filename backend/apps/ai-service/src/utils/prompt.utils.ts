@@ -1,3 +1,5 @@
+import { RequestPromptParams } from 'ai-service/api/prompt-service/prompt.service';
+import { createHash } from 'crypto';
 import { ConversationChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { BufferMemory } from 'langchain/memory';
@@ -39,6 +41,7 @@ export function getOrCreateSessionMemory({
 					sessionTTL: ONE_HOUR_IN_SECONDS,
 					config: { url: redisConnectionString },
 				}),
+				returnMessages: true,
 			}),
 		);
 	}
@@ -73,8 +76,22 @@ export function getOpenAIChain({
 	modelName,
 	openAIApiKey,
 	redisConnectionString,
-	sessionId,
-}: SessionMemoryParams & OpenAIModelParams) {
+	designId,
+	nodeTypes,
+	edgeTypes,
+	projectId,
+}: Pick<SessionMemoryParams, 'redisConnectionString'> &
+	OpenAIModelParams &
+	Omit<RequestPromptParams, 'designData' | 'promptContent'>) {
+	const stringifiedNodeTypes = nodeTypes.join(',');
+	const stringifiedEdgeTypes = edgeTypes.join(',');
+
+	const sessionId = createHash('md5')
+		.update(
+			`${projectId}-${designId}-${stringifiedNodeTypes}-${stringifiedEdgeTypes}`,
+		)
+		.digest('hex');
+
 	if (!openAIChains.has(sessionId)) {
 		const llm = getOpenAIModel({ modelName, openAIApiKey });
 		const memory = getOrCreateSessionMemory({
@@ -85,14 +102,14 @@ export function getOpenAIChain({
 			SystemMessagePromptTemplate.fromTemplate(
 				`You are a helpful system architecture design assistant. 
 				The design system uses json nodes and connection edges. 
-				The node types available for use are {nodeOptions} and the edge types available for use are {edgeOptions}. 
-				This is an example design {exampleData}. When proposing changes, make sure to keep the format similar to the 
-				example and return only json.`,
+				The node types available for use are ${stringifiedNodeTypes}. The edge types available for use are ${stringifiedEdgeTypes}.`,
 			),
+			HumanMessagePromptTemplate.fromTemplate('{input}'),
 			SystemMessagePromptTemplate.fromTemplate(
-				`This is the existing design {designData}, if the design is not empty, answer relative to it.`,
+				`Please answer the prompt made by the user with one paragraph explaining the proposed changes and the 
+				reasoning for them, and a second paragraph that includes only the JSON result.  
+				When proposing changes, make sure to keep the format similar to the JSON object provided by the user.`,
 			),
-			HumanMessagePromptTemplate.fromTemplate('{promptContent}'),
 		]);
 
 		openAIChains.set(
