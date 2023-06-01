@@ -7,7 +7,7 @@
 
 To update dependencies:
 
--   run `pnpm up`
+-   run `pnpm up -r --latest`
 
 To lunch the dev environment, use docker - `docker compose up`.
 Make sure to have an up to date `.env` file in the root of your repository.
@@ -22,8 +22,8 @@ Note: `.env` files must be .gitignored.
 
 ### Linting commands:
 
-`pnpm run code:lint` - lint with auto fix using ESLint.
-`pnpm run code:check` - lint with only check using ESLint.
+`pnpm run lint` - lint with auto fix using ESLint.
+`pnpm run check` - lint with only check using ESLint.
 `pnpm run format` - format all supported files using prettier.
 
 ### Nest commands:
@@ -36,26 +36,13 @@ This applies to the other commands in the package.json that use nest. For exampl
 
 ### Docker Compose Commands:
 
-`docker compose up --build <servicename>` - bring up the service and build the images.
-`docker compose up --detach <servicename>` - runs docker in the background and returns the terminal.
+Here are some example commands:
 
-You can use the docker compose `profiles` to build and run only one of the services, e.g. `docker-compose up --profile backend`.
+`docker compose --profile <servicename> up --build` - brings up the service and builds the image.
+`docker compose --profile <servicename> up --detach` - runs docker in the background and returns the terminal.
+`docker compose --profile all up --build --detach` - brings up all services, builds the images and returns control of the shell.
 
-### Prisma ORM
-
--   `pnpm dlx prisma init` - To initialise the prisma model from scratch
--   `pnpm dlx prisma db pull` - To generate the schema into the `schema.prisma` file from an already existing database
--   `pnpm dlx prisma generate` - you will need to run this command every time there is a change in the schema so that Prisma can build its client.
-
-#### Prisma Migration Commands
-
--   `pnpm dlx prisma migrate dev --name initial-migration --create-only` - To create an initial migration. --create will only create the migration without applying it
--   `pnpm dlx prisma migrate dev --name added_job_title` - To create a migration and apply it too
--   `pnpm dlx prisma migrate resolve --applied 20221031120318_init` - To mark a migration as applied so that prisma will skip over it and will run the rest of the migrations
--   `pnpm dlx prisma migrate dev` - To apply the created migrations
--   `pnpm dlx prisma format` - To format the prisma schema file according to prisma standards
-
-## How to migrate locally?
+## How to migrate the DB locally?
 
 Start by running the container for the DB locally with:
 

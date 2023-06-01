@@ -3,6 +3,7 @@ import {
 	IsArray,
 	IsNotEmpty,
 	IsObject,
+	IsOptional,
 	IsString,
 	Matches,
 } from 'class-validator';
@@ -39,4 +40,8 @@ export class PromptRequestDTO {
 	@IsArray()
 	@IsNotEmpty()
 	edgeTypes!: string[];
+
+	@IsString()
+	@IsOptional()
+	modelName = 'gpt-3.5-turbo';
 }

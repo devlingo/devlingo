@@ -34,7 +34,7 @@ describe('Project Controller Tests', () => {
 			const response = await request.post('/projects').send({ name });
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
-			const project = JSON.parse(response.text);
+			const project = response.body;
 			expect(project.name).toEqual(name);
 
 			await prisma.project.delete({ where: { id: project.id } });
@@ -49,7 +49,7 @@ describe('Project Controller Tests', () => {
 			const response = await request.get('/projects');
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
-			expect(JSON.parse(response.text)).toHaveLength(3);
+			expect(response.body).toHaveLength(3);
 		});
 	});
 
@@ -70,9 +70,7 @@ describe('Project Controller Tests', () => {
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
-			expect(JSON.parse(response.text).message).toEqual(
-				'No Project found',
-			);
+			expect(response.body.message).toEqual('No Project found');
 		});
 	});
 

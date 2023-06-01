@@ -46,7 +46,7 @@ describe('Design Controller Tests', () => {
 				.send({ name, data });
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
-			const design = JSON.parse(response.text) as Design;
+			const design = response.body as Design;
 
 			expect(design.name).toEqual(name);
 			expect(JSON.stringify(design.data)).toEqual(JSON.stringify(data));
@@ -66,7 +66,7 @@ describe('Design Controller Tests', () => {
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 
-			const responseData = JSON.parse(response.text);
+			const responseData = response.body;
 			expect(
 				(responseData as { name: string; version: number }[]).map(
 					({ name }) => name,
@@ -99,9 +99,7 @@ describe('Design Controller Tests', () => {
 			const response = await request.get(`/design/${project.id}/abc/2`);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
-			expect(JSON.parse(response.text).message).toEqual(
-				'No Design found',
-			);
+			expect(response.body.message).toEqual('No Design found');
 		});
 	});
 

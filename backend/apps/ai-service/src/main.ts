@@ -1,42 +1,17 @@
-import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { Logger } from 'nestjs-pino';
 import { ApiVersions } from 'shared/constants';
-import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
-import { PrismaService } from 'shared/modules/prisma.service';
 import { ConfigurationVars } from 'shared/types';
-import {
-	setupSwagger,
-	setupValidationPipe,
-} from 'shared/utils/configuration.utils';
+import { createNestApp } from 'shared/utils/configuration.utils';
 
 import { AppModule } from './app';
 
 (async () => {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-		bufferLogs: true,
-	});
-	app.useLogger(app.get(Logger));
-
-	app.enableVersioning({
-		type: VersioningType.URI,
-		defaultVersion: ApiVersions.V1,
-	});
-	app.enableCors();
-
-	setupValidationPipe(app);
-	setupSwagger({
+	const app = await createNestApp({
+		appModule: AppModule,
 		version: ApiVersions.V1,
 		title: 'AI Service API',
 		description: 'An API for interacting with Generative AI services',
-	})(app);
-
-	app.useGlobalFilters(new PrismaExceptionFilter());
-
-	const prismaService = app.get(PrismaService);
-	await prismaService.enableShutdownHooks(app);
+	});
 
 	const configService = app.get(ConfigService<ConfigurationVars, true>);
 	const port = configService.get<number>('SERVER_PORT')!;

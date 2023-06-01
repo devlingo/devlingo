@@ -6,8 +6,8 @@ settings:
 
 dependencies:
     langchain:
-        specifier: ^0.0.85
-        version: 0.0.85
+        specifier: ^0.0.88
+        version: 0.0.88
 
 packages:
     /@anthropic-ai/sdk@0.4.3:
@@ -185,10 +185,10 @@ packages:
         engines: { node: '>=0.10.0' }
         dev: false
 
-    /langchain@0.0.85:
+    /langchain@0.0.88:
         resolution:
             {
-                integrity: sha512-GssYCXYJtsBhBSBGxMEZB9e3OdCAWMWDpiqcHjzMlDi5vxWs47NZERjRIkc5b7qG03EeWVK6XuDGFNt6egCafw==,
+                integrity: sha512-D0SVfXhZejI/mLM4LG6WGGJlROp2/LLXqPq6W5P5/Zq7Z1sbKQBza3ywXPRevjKe+PtIbQ4VOLtynmuGIqy9xg==,
             }
         engines: { node: '>=18' }
         peerDependencies:
@@ -204,6 +204,7 @@ packages:
             '@opensearch-project/opensearch': '*'
             '@pinecone-database/pinecone': '*'
             '@qdrant/js-client-rest': ^1.2.0
+            '@supabase/postgrest-js': ^1.1.1
             '@supabase/supabase-js': ^2.10.0
             '@tensorflow-models/universal-sentence-encoder': '*'
             '@tensorflow/tfjs-converter': '*'
@@ -224,9 +225,9 @@ packages:
             html-to-text: ^9.0.5
             ignore: ^5.2.0
             mammoth: '*'
-            meriyah: '*'
             mongodb: ^5.2.0
             pdf-parse: 1.1.1
+            peggy: ^3.0.2
             pickleparser: ^0.1.0
             playwright: ^1.32.1
             puppeteer: ^19.7.2
@@ -259,6 +260,8 @@ packages:
             '@pinecone-database/pinecone':
                 optional: true
             '@qdrant/js-client-rest':
+                optional: true
+            '@supabase/postgrest-js':
                 optional: true
             '@supabase/supabase-js':
                 optional: true
@@ -300,11 +303,11 @@ packages:
                 optional: true
             mammoth:
                 optional: true
-            meriyah:
-                optional: true
             mongodb:
                 optional: true
             pdf-parse:
+                optional: true
+            peggy:
                 optional: true
             pickleparser:
                 optional: true
@@ -330,7 +333,7 @@ packages:
             flat: 5.0.2
             js-tiktoken: 1.0.6
             jsonpointer: 5.0.1
-            ml-distance: 4.0.0
+            ml-distance: 4.0.1
             object-hash: 3.0.0
             openai: 3.2.1
             p-queue: 6.6.2
@@ -387,10 +390,10 @@ packages:
             }
         dev: false
 
-    /ml-distance@4.0.0:
+    /ml-distance@4.0.1:
         resolution:
             {
-                integrity: sha512-zj7+UGZpHk3uL7n79XTfGNUjIGnhLn8xVvrxYvBHvXFxo3jq1q+/UjP311hZxnLVhbxbXCjUniThX8gozjacYA==,
+                integrity: sha512-feZ5ziXs01zhyFUUUeZV5hwc0f5JW0Sh0ckU1koZe/wdVkJdGxcP06KNQuF0WBTj8FttQUzcvQcpcrOp/XrlEw==,
             }
         dependencies:
             ml-array-mean: 1.1.6
