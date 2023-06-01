@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 
 import { ArrowLeft, Plus, TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/side-menu/menu-item';
-import { MenuItemType, ServiceNodeType } from '@/constants';
+import {
+	MenuItemType,
+	NAV_BAR_HEIGHT_PIXELS,
+	ServiceNodeType,
+} from '@/constants';
 
 const menuItems = [
 	{
@@ -115,12 +119,14 @@ const menuItems = [
 	},
 ];
 
-export function NavRail({
+export function SideRail({
 	isMenuOpen,
 	setIsMenuOpen,
+	togglePromptModal,
 }: {
 	isMenuOpen: boolean;
 	setIsMenuOpen: (isOpen: boolean) => void;
+	togglePromptModal: () => void;
 }) {
 	const [activeItem, setActiveItem] = useState<number>(0);
 
@@ -129,20 +135,24 @@ export function NavRail({
 		setIsMenuOpen(true);
 	};
 
-	const closeMenu = () => {
-		setIsMenuOpen(false);
-	};
-
 	return (
-		<div className="flex border-r-2 h-full bg-base-100 border-base-200 grow">
+		<div
+			className={`flex border-r-2 h-[calc(100vh-${NAV_BAR_HEIGHT_PIXELS})] bg-base-100 border-base-200 grow`}
+		>
 			<div className="flex flex-col">
 				<button
-					className="btn-primary p-2 rounded-lg shadow-md mx-auto mt-2"
-					onMouseEnter={closeMenu}
+					className="btn-primary p-2 my-6 mt-8 rounded-lg shadow-md mx-auto	"
+					onClick={() => {
+						if (isMenuOpen) {
+							setIsMenuOpen(false);
+						}
+						togglePromptModal();
+					}}
 				>
 					<Plus className="w-5 h-5 text-primary-content" />
 				</button>
-				<ul className="menu p-2 rounded-box">
+
+				<ul className="menu p-2 rounded-box grow">
 					{menuItems.map((item, i) => (
 						<li key={i} tabIndex={0}>
 							<a
@@ -160,7 +170,7 @@ export function NavRail({
 				</ul>
 			</div>
 			{isMenuOpen && (
-				<div className="mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full">
+				<div className=" flex flex-col mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto">
 					{menuItems[activeItem].subItems.map((subItem, j) => (
 						<div
 							key={j}
@@ -181,7 +191,9 @@ export function NavRail({
 					))}
 					<button
 						className="btn btn-xs btn-ghost btn-natural h-fit w-fit"
-						onClick={closeMenu}
+						onClick={() => {
+							setIsMenuOpen(false);
+						}}
 					>
 						<ArrowLeft className="h-3 w-3" />
 					</button>

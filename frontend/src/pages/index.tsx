@@ -6,7 +6,11 @@ import { Navbar } from '@/components/navbar';
 export async function getStaticProps({ locale }: { locale: string }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['assets'])),
+			...(await serverSideTranslations(locale, [
+				'assets',
+				'prompt',
+				'common',
+			])),
 		},
 	};
 }

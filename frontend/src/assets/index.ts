@@ -3,6 +3,7 @@ import Controller from '@/assets/internal-nodes/controller.svg';
 import Endpoint from '@/assets/internal-nodes/endpoint.svg';
 import Module from '@/assets/internal-nodes/module.svg';
 import Service from '@/assets/internal-nodes/service.svg';
+import Ai from '@/assets/menu-icons/ai.svg';
 import API from '@/assets/menu-icons/api.svg';
 import ArrowLeft from '@/assets/menu-icons/arrow-left.svg';
 import Backend from '@/assets/menu-icons/backend.svg';
@@ -52,6 +53,7 @@ import {
 } from '@/constants';
 
 export {
+	Ai,
 	Android,
 	Angular,
 	API,
@@ -109,6 +111,8 @@ export const TypeSVGMap: Record<
 	[MenuItemType.Cloud]: { SVG: Cloud },
 	[MenuItemType.Marketing]: { SVG: Marketing },
 	[MenuItemType.API]: { SVG: API },
+	[MenuItemType.Ai]: { SVG: Ai },
+
 	//front js
 	[ServiceNodeType.NextJs]: { SVG: NextJS },
 	[ServiceNodeType.Angular]: { SVG: Angular },

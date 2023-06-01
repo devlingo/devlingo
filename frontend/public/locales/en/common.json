@@ -1,1 +1,6 @@
-{}
+{
+	"submit": "Submit",
+	"cancel": "Cancel",
+	"accept": "Accept",
+	"decline": "Decline"
+}

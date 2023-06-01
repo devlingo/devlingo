@@ -38,7 +38,8 @@ import {
 	ServiceNode,
 } from '@/components/flow/nodes';
 import { NodeForm } from '@/components/forms/node-form';
-import { NavRail } from '@/components/side-menu/rail';
+import { PromptContainer } from '@/components/prompt/prompt-container';
+import { SideRail } from '@/components/side-menu/side-rail';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	FOOTER_HEIGHT_PIXELS,
@@ -136,6 +137,7 @@ function Flow({
 	const onNodesChangeHandler: OnNodesChange = (nodeChanges) => {
 		setDisplayNodes(applyNodeChanges(nodeChanges, displayNodes));
 	};
+
 	return (
 		<ReactFlowProvider>
 			<div
@@ -219,7 +221,8 @@ export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
 
 export function FlowContainer() {
 	/* Menu Display and flow dimensions */
-	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+	const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+	const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
 
 	const [windowHeight, windowWidth] = useWindowsDimensions();
 	const [flowHeight, setFlowHeight] = useState(
@@ -255,8 +258,8 @@ export function FlowContainer() {
 	}, [windowHeight, expandedNode]);
 
 	useEffect(() => {
-		setFlowWidth(calculateFlowWidth(windowWidth, isMenuOpen));
-	}, [windowWidth, isMenuOpen]);
+		setFlowWidth(calculateFlowWidth(windowWidth, isSideMenuOpen));
+	}, [windowWidth, isSideMenuOpen]);
 
 	// node expansion
 	useEffect(() => {
@@ -384,9 +387,24 @@ export function FlowContainer() {
 		// eslint-disable-next-line no-console
 		console.log(edges);
 	};
+	// handling AI prompt sending
 
 	return (
 		<main className="h-full w-full flex">
+			<PromptContainer
+				displayEdges={displayEdges}
+				displayNodes={displayNodes}
+				closePromptModal={() => {
+					setIsPromptModalOpen(false);
+				}}
+				handleDisplayEdges={() => {
+					setDisplayEdges(edges);
+				}}
+				handleDisplayNodes={() => {
+					setDisplayNodes(nodes);
+				}}
+				isPromptModalOpen={isPromptModalOpen}
+			/>
 			<NodeContext.Provider
 				value={{
 					displayNodes,
@@ -395,9 +413,12 @@ export function FlowContainer() {
 					handleNodeExpand,
 				}}
 			>
-				<NavRail
-					isMenuOpen={isMenuOpen}
-					setIsMenuOpen={setIsMenuOpen}
+				<SideRail
+					isMenuOpen={isSideMenuOpen}
+					setIsMenuOpen={setIsSideMenuOpen}
+					togglePromptModal={() => {
+						setIsPromptModalOpen(!isPromptModalOpen);
+					}}
 				/>
 				<div
 					className={`h-full transition-all duration-300 ease-in-out ${
