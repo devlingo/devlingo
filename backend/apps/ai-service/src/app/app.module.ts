@@ -1,36 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { API_MODULES } from 'ai-service/api';
-import { LoggerModule } from 'nestjs-pino';
-import { PrismaModule } from 'shared/modules/prisma.module';
+import { DEFAULT_MODULES } from 'shared/modules';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-	imports: [
-		LoggerModule.forRoot({
-			pinoHttp: {
-				level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-				transport:
-					process.env.NODE_ENV !== 'production'
-						? {
-								target: 'pino-pretty',
-								options: {
-									singleLine: true,
-								},
-						  }
-						: undefined,
-			},
-		}),
-		PrismaModule,
-		ConfigModule.forRoot({
-			isGlobal: true,
-			ignoreEnvFile: true,
-			cache: true,
-		}),
-		...API_MODULES,
-	],
+	imports: [...DEFAULT_MODULES, ...API_MODULES],
 	controllers: [AppController],
 	providers: [AppService],
 })

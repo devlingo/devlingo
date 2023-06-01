@@ -66,7 +66,7 @@ describe('Project Controller Tests', () => {
 
 		it('returns an informative error message', async () => {
 			const response = await request.get(
-				`/projects/${faker.datatype.uuid()}`,
+				`/projects/${faker.string.uuid()}`,
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);

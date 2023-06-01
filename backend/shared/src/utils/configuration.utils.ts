@@ -9,7 +9,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 import { ApiVersions } from 'shared/constants';
 import { PrismaExceptionFilter } from 'shared/exception-filters/prisma-exceptino.filter';
-import { PrismaService } from 'shared/modules/prisma.service';
+import { PrismaService } from 'shared/modules/prisma/prisma.service';
 import { isProduction } from 'shared/utils/predicate.utils';
 
 interface SetupSwaggerOptions {

@@ -10,7 +10,7 @@ export const ProjectFactory = new TypeFactory<Project>(() => ({
 }));
 
 export const DesignFactory = new TypeFactory<Design>((i) => ({
-	id: faker.datatype.uuid(),
+	id: faker.string.uuid(),
 	name: `design-${i}`,
 	version: i + 1,
 	projectId: faker.string.uuid(),
