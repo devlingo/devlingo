@@ -16,7 +16,7 @@ COPY apps/${TARGET}/package.json apps/${TARGET}/package.json
 COPY apps/${TARGET}/pnpm-lock.yaml apps/${TARGET}/pnpm-lock.yaml
 COPY apps/${TARGET}/tsconfig.app.json apps/${TARGET}/tsconfig.app.json
 COPY prisma prisma
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install -r --frozen-lockfile --ignore-scripts
 RUN pnpm run prisma:generate
 
 FROM install AS build
