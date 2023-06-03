@@ -141,7 +141,7 @@ export function SideRail({
 		>
 			<div className="flex flex-col">
 				<button
-					className="btn-primary p-2 my-6 mt-8 rounded-lg shadow-md mx-auto	"
+					className="btn-primary p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
 					onClick={() => {
 						if (isMenuOpen) {
 							setIsMenuOpen(false);

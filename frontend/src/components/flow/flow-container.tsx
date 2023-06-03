@@ -42,7 +42,6 @@ import { PromptContainer } from '@/components/prompt/prompt-container';
 import { SideRail } from '@/components/side-menu/side-rail';
 import {
 	DEFAULT_FLOW_HEIGHT,
-	FOOTER_HEIGHT_PIXELS,
 	NAV_BAR_HEIGHT_PIXELS,
 	RAIL_WIDTH_PIXELS,
 	REM,
@@ -61,8 +60,8 @@ const calculateFlowHeight = (
 	const flowHeight =
 		windowHeight -
 		(isExpandedNode
-			? NAV_BAR_HEIGHT_PIXELS * 2 + FOOTER_HEIGHT_PIXELS + REM
-			: NAV_BAR_HEIGHT_PIXELS + FOOTER_HEIGHT_PIXELS / 2);
+			? NAV_BAR_HEIGHT_PIXELS * 2 + REM
+			: NAV_BAR_HEIGHT_PIXELS);
 
 	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };

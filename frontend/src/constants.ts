@@ -1,7 +1,6 @@
 export const REM = 16;
 
 export const NAV_BAR_HEIGHT_PIXELS = 56;
-export const FOOTER_HEIGHT_PIXELS = 0;
 export const DEFAULT_FLOW_HEIGHT = 1024;
 
 export const RAIL_WIDTH_PIXELS = 160;
@@ -15,18 +14,7 @@ export enum MenuItemType {
 	Cloud = 'Cloud',
 	Marketing = 'Marketing',
 	API = 'API',
-	Ai = 'Ai',
 }
-
-export const MenuItemTags: Record<MenuItemType, string> = {
-	[MenuItemType.Frontend]: 'frontend',
-	[MenuItemType.Backend]: 'backend',
-	[MenuItemType.Database]: 'database',
-	[MenuItemType.Cloud]: 'cloud',
-	[MenuItemType.Marketing]: 'marketing',
-	[MenuItemType.API]: 'api',
-	[MenuItemType.Ai]: 'ai',
-};
 
 export enum ServiceNodeType {
 	NestJs = 'NestJS',
