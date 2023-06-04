@@ -1,4 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import { Position } from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import { assign } from 'radash';
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { Edge, Node } from 'reactflow';
 import { PromptModal } from '@/components/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
 import { requestPrompt } from '@/utils/api';
+import { positionHandle } from '@/utils/edge';
 import { wait } from '@/utils/time';
 
 export function PromptAnswerDialogue({
@@ -179,20 +181,31 @@ export function PromptContainer({
 				nodes: displayNodes,
 				promptContent,
 				//FIXME: replace designId and projectId with real values
-				designId: '31ca5283-e104-4759-99a5-092958c3ddec',
-				projectId: 'aba8a2ea-1fb3-4575-b3a4-d42099822164',
+				designId: '31ca5283-e104-4759-99a6-092958c3ddec',
+				projectId: 'aba8a2ea-1fb3-4575-b3a4-d42099822165',
 			});
 
-			const remappedNodes = design.nodes.map((node) => {
+			const updatedNodes = design.nodes.map((node) => {
 				const existingNode = displayNodes.find(
 					(displayNode) => displayNode.id === node.id,
 				);
 				return existingNode ? assign(existingNode, node) : node;
 			});
 
-			setDisplayNodes(remappedNodes);
-			setDisplayEdges(design.edges);
+			const updatedEdges = design.edges.map((edge) => {
+				edge.sourceHandle = positionHandle(
+					edge.source,
+					edge.sourceHandle ?? Position.Right,
+				);
+				edge.targetHandle = positionHandle(
+					edge.target,
+					edge.targetHandle ?? Position.Right,
+				);
+				return edge;
+			});
 
+			setDisplayNodes(updatedNodes);
+			setDisplayEdges(updatedEdges);
 			setPromptAnswer(answer);
 		} catch {
 			setPromptState(PromptState.Error);
