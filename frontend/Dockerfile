@@ -1,7 +1,7 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 RUN npm i -g pnpm
 
-FROM base as install
+FROM base AS install
 WORKDIR /app/
 ARG NODE_ENV="production"
 ENV NODE_ENV=${NODE_ENV}
@@ -9,7 +9,7 @@ COPY package.json pnpm-lock.yaml tsconfig.json .npmrc next.config.js next-i18nex
 RUN pnpm install --frozen-lockfile --ignore-scripts
 RUN pnpm add -D @swc/cli @swc/core @next/swc-linux-arm64-gnu @next/swc-linux-arm64-musl
 
-FROM install as build
+FROM install AS build
 WORKDIR /app/
 COPY src src
 RUN pnpm run build

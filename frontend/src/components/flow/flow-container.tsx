@@ -396,12 +396,8 @@ export function FlowContainer() {
 				closePromptModal={() => {
 					setIsPromptModalOpen(false);
 				}}
-				handleDisplayEdges={() => {
-					setDisplayEdges(edges);
-				}}
-				handleDisplayNodes={() => {
-					setDisplayNodes(nodes);
-				}}
+				setDisplayEdges={setDisplayEdges}
+				setDisplayNodes={setDisplayNodes}
 				isPromptModalOpen={isPromptModalOpen}
 			/>
 			<NodeContext.Provider

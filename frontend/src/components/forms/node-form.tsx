@@ -54,7 +54,7 @@ export function NodeForm({
 				/>
 			</div>
 			<div className="flex justify-end">
-				<div className="btn-group btn-group-horizontal">
+				<div className="join join-horizontal">
 					<button
 						className="text-success"
 						onClick={() => saveFormDataHandler(data)}

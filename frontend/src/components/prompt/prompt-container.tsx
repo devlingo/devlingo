@@ -19,24 +19,13 @@ export function PromptAnswerDialogue({
 	promptAnswer: string;
 }) {
 	const { t } = useTranslation('prompt');
-	const [isDialogueOpen, setIsDialogueOpen] = useState(false);
+	const [isDialogueOpen, setIsDialogueOpen] = useState(true);
 
 	return (
-		<div className="shadow-lg max-w-xl bg-base-200 rounded-2xl">
-			<div className="alert ">
-				<button
-					onClick={() => {
-						setIsDialogueOpen(!isDialogueOpen);
-					}}
-				>
-					{isDialogueOpen ? (
-						<ChevronUpIcon className="w-5" />
-					) : (
-						<ChevronDownIcon className="w-5" />
-					)}
-					<span>{t('accept_changes_question')}</span>
-				</button>
-				<div className="flex-none">
+		<div className="modal modal-open sm:modal-bottom">
+			<div className="modal-box bg-base-100">
+				<h2 className="pb-2 pt-1">{t('accept_changes_question')}</h2>
+				<div className="join join-horizontal gap-4">
 					<button
 						className="btn btn-sm btn-ghost"
 						onClick={() => {
@@ -54,12 +43,21 @@ export function PromptAnswerDialogue({
 						{t('accept')}
 					</button>
 				</div>
-			</div>
-			{isDialogueOpen && (
-				<div className="flex">
-					<p className="indent-8 m-6">&quot;{promptAnswer}&quot;</p>
+				<div className="pt-3">
+					<button
+						onClick={() => {
+							setIsDialogueOpen(!isDialogueOpen);
+						}}
+					>
+						{isDialogueOpen ? (
+							<ChevronUpIcon className="w-5" />
+						) : (
+							<ChevronDownIcon className="w-5" />
+						)}
+					</button>
+					{isDialogueOpen && <div>&quot;{promptAnswer}&quot;</div>}
 				</div>
-			)}
+			</div>
 		</div>
 	);
 }
@@ -148,21 +146,21 @@ export enum PromptState {
 }
 
 export interface PromptContainerProps {
+	closePromptModal: () => void;
 	displayEdges: Edge[];
 	displayNodes: Node[];
-	closePromptModal: () => void;
-	handleDisplayEdges: (edges: Edge[]) => void;
-	handleDisplayNodes: (nodes: Node[]) => void;
 	isPromptModalOpen: boolean;
+	setDisplayNodes: (nodes: Node[]) => void;
+	setDisplayEdges: (edges: Edge[]) => void;
 }
 
 export function PromptContainer({
+	closePromptModal,
 	displayEdges,
 	displayNodes,
-	closePromptModal,
-	handleDisplayEdges,
-	handleDisplayNodes,
 	isPromptModalOpen,
+	setDisplayEdges,
+	setDisplayNodes,
 }: PromptContainerProps) {
 	const [promptState, setPromptState] = useState(PromptState.Hidden);
 	const [promptAnswer, setPromptAnswer] = useState<string | null>(null);
@@ -185,15 +183,15 @@ export function PromptContainer({
 				projectId: 'aba8a2ea-1fb3-4575-b3a4-d42099822164',
 			});
 
-			handleDisplayNodes(
-				design.nodes.map((node) => {
-					const existingNode = displayNodes.find(
-						(displayNode) => displayNode.id === node.id,
-					);
-					return existingNode ? assign(existingNode, node) : node;
-				}),
-			);
-			handleDisplayEdges(design.edges);
+			const remappedNodes = design.nodes.map((node) => {
+				const existingNode = displayNodes.find(
+					(displayNode) => displayNode.id === node.id,
+				);
+				return existingNode ? assign(existingNode, node) : node;
+			});
+
+			setDisplayNodes(remappedNodes);
+			setDisplayEdges(design.edges);
 
 			setPromptAnswer(answer);
 		} catch {
@@ -210,8 +208,8 @@ export function PromptContainer({
 		setPromptState(decision);
 
 		if (decision === PromptState.Decline) {
-			handleDisplayNodes(existingDesigns.nodes);
-			handleDisplayEdges(existingDesigns.edges);
+			setDisplayNodes(existingDesigns.nodes);
+			setDisplayEdges(existingDesigns.edges);
 		}
 
 		await wait(ONE_SECOND_IN_MILLISECONDS * 2);

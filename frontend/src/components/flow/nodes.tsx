@@ -94,7 +94,7 @@ export function ServiceNode({
 				</div>
 			</div>
 			<div className="flex justify-between p-3">
-				<div className="btn-group btn-group-horizontal gap-2">
+				<div className="join join-horizontal gap-2">
 					<NodeButton
 						Icon={ListBulletIcon}
 						data-testid={`todo-btn-${nodeId}`}
