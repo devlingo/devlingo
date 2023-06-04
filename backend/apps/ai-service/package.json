@@ -7,6 +7,6 @@
 	"author": "DevLingo",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"langchain": "^0.0.88"
+		"langchain": "^0.0.90"
 	}
 }

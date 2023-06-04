@@ -6,6 +6,7 @@ import { BufferMemory } from 'langchain/memory';
 import {
 	ChatPromptTemplate,
 	HumanMessagePromptTemplate,
+	MessagesPlaceholder,
 	SystemMessagePromptTemplate,
 } from 'langchain/prompts';
 import { RedisChatMessageHistory } from 'langchain/stores/message/redis';
@@ -68,20 +69,27 @@ export function createOpenAIChain({
 			config: { url: redisConnectionString },
 		}),
 		returnMessages: true,
+		memoryKey: 'history',
 	});
 
 	const prompt = ChatPromptTemplate.fromPromptMessages([
 		SystemMessagePromptTemplate.fromTemplate(
-			`You are a helpful system architecture design assistant. 
-				The design system uses json nodes and connection edges. 
-				The node types available for use are ${nodeTypes}. The edge types available for use are ${edgeTypes}.`,
+			`You are a system architecture design assistant working with JSON nodes and connection edges. 
+			Choose from the following node types: ${nodeTypes}. The available edge types are: ${edgeTypes}.`,
 		),
-		HumanMessagePromptTemplate.fromTemplate('{input}'),
 		SystemMessagePromptTemplate.fromTemplate(
-			`Please answer the prompt made by the user with one paragraph explaining the proposed changes and the 
-				reasoning for them, and a second paragraph that includes only the JSON result.  
-				When proposing changes, make sure to keep the format similar to the JSON object provided by the user.`,
+			`Nodes are positioned on a 2D plane with X and Y coordinates. Each node has a fixed width of 250 and 
+			height of 120 and has four connection handles (top, bottom, left and right).`,
 		),
+		SystemMessagePromptTemplate.fromTemplate(`When adding new nodes, position them to not
+			intersect existing edges. And connect them to the correct handle relative to their position.`),
+		SystemMessagePromptTemplate.fromTemplate(`Provide a concise paragraph explaining the proposed changes and 
+		the reasoning behind them, and a second paragraph containing only the JSON result.`),
+		SystemMessagePromptTemplate.fromTemplate(`Ensure that any modifications maintain the 
+			format of the JSON object provided by the user and preserve all data, unless specifically instructed to 
+			remove nodes or edges.`),
+		new MessagesPlaceholder('history'),
+		HumanMessagePromptTemplate.fromTemplate('{input}'),
 	]);
 
 	return new ConversationChain({ llm, memory, prompt });

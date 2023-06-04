@@ -6,8 +6,8 @@ settings:
 
 dependencies:
     langchain:
-        specifier: ^0.0.88
-        version: 0.0.88
+        specifier: ^0.0.90
+        version: 0.0.90
 
 packages:
     /@anthropic-ai/sdk@0.4.3:
@@ -185,10 +185,10 @@ packages:
         engines: { node: '>=0.10.0' }
         dev: false
 
-    /langchain@0.0.88:
+    /langchain@0.0.90:
         resolution:
             {
-                integrity: sha512-D0SVfXhZejI/mLM4LG6WGGJlROp2/LLXqPq6W5P5/Zq7Z1sbKQBza3ywXPRevjKe+PtIbQ4VOLtynmuGIqy9xg==,
+                integrity: sha512-epspekRrpQnyXhjBCrcsWrmOg6ofaYch/vneyv10gPFhp3OhYWD6D9fsUaJHUFJuoXAB0Y4nyOAC6jzeTwBU5A==,
             }
         engines: { node: '>=18' }
         peerDependencies:
@@ -215,7 +215,7 @@ packages:
             apify-client: ^2.7.1
             axios: '*'
             cheerio: ^1.0.0-rc.12
-            chromadb: ^1.4.2
+            chromadb: ^1.5.2
             cohere-ai: ^5.0.2
             d3-dsv: ^2.0.0
             epub2: ^3.0.1
@@ -226,8 +226,10 @@ packages:
             ignore: ^5.2.0
             mammoth: '*'
             mongodb: ^5.2.0
+            mysql2: ^3.3.3
             pdf-parse: 1.1.1
             peggy: ^3.0.2
+            pg: ^8.11.0
             pickleparser: ^0.1.0
             playwright: ^1.32.1
             puppeteer: ^19.7.2
@@ -305,9 +307,13 @@ packages:
                 optional: true
             mongodb:
                 optional: true
+            mysql2:
+                optional: true
             pdf-parse:
                 optional: true
             peggy:
+                optional: true
+            pg:
                 optional: true
             pickleparser:
                 optional: true
