@@ -32,7 +32,7 @@ export function NodeHandles({
 				<Handle
 					data-testid={`handle-${nodeId}-source-${position}`}
 					className={className}
-					id={`${nodeId}-source-${position}`}
+					id={position}
 					key={i}
 					position={position}
 					type="source"

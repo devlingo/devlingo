@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import { deepmerge } from 'deepmerge-ts';
 import { useTranslation } from 'next-i18next';
-import { assign } from 'radash';
 import { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +13,6 @@ import {
 	useSetEdges,
 	useSetNodes,
 } from '@/hooks/use-store';
-import { positionHandle } from '@/utils/edge';
 import { log } from '@/utils/logging';
 import { wait } from '@/utils/time';
 
@@ -200,7 +199,10 @@ export function PromptContainer({
 		closePromptModal();
 		setPromptState(PromptState.Loading);
 		try {
-			const { answer, design } = await requestPrompt({
+			const {
+				answer,
+				design: { nodes, edges },
+			} = await requestPrompt({
 				edges: displayEdges,
 				nodes: displayNodes,
 				promptContent,
@@ -209,38 +211,22 @@ export function PromptContainer({
 				projectId: uuidv4(),
 			});
 
-			const updatedNodes = design.nodes.map((node) => {
+			log('displayNodes', { displayNodes });
+
+			const updatedNodes = nodes.map((node) => {
 				const existingNode = displayNodes.find(
 					(displayNode) => displayNode.id === node.id,
 				);
-				return existingNode ? assign(existingNode, node) : node;
-			});
 
-			const updatedEdges = design.edges.map((edge) => {
-				const existingEdge = displayEdges.find(
-					(displayEdge) => displayEdge.id === edge.id,
-				);
-				if (!existingEdge) {
-					edge.sourceHandle = positionHandle(
-						edge.source,
-						edge.sourceHandle,
-					);
-					edge.targetHandle = positionHandle(
-						edge.target,
-						edge.targetHandle,
-					);
-					return edge;
+				if (existingNode) {
+					return deepmerge(existingNode, node);
 				}
-				return existingEdge;
-			});
 
-			log('setting new design', {
-				updatedNodes,
-				updatedEdges,
+				return node;
 			});
 
 			setNodes(updatedNodes);
-			setEdges(updatedEdges);
+			setEdges(edges);
 			setPromptAnswer(answer);
 			await wait(ONE_SECOND_IN_MILLISECONDS);
 		} catch {

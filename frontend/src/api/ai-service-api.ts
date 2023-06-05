@@ -1,7 +1,6 @@
 import { Edge, Node } from 'reactflow';
 
 import { AI_SERVICE_BASE_URL, EdgeTypes, ServiceNodeType } from '@/constants';
-import { log } from '@/utils/logging';
 
 export interface PromptRequest {
 	promptContent: string;
@@ -90,20 +89,9 @@ export async function requestPrompt({
 		},
 	} satisfies RequestInit;
 
-	log('sending request', {
-		url,
-		request,
-	});
-
 	const response = await fetch(url, request);
 
 	const body = (await response.json()) as Record<string, any>;
-
-	log('received response', {
-		status: response.status,
-		error: !response.ok,
-		body,
-	});
 
 	if (!response.ok) {
 		throw new Error(

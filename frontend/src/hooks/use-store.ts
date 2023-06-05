@@ -1,5 +1,5 @@
 import { OnEdgeUpdateFunc } from '@reactflow/core';
-import { assign } from 'radash';
+import { deepmerge } from 'deepmerge-ts';
 import {
 	addEdge,
 	applyEdgeChanges,
@@ -131,7 +131,7 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 	},
 	updateNodeData(nodeId: string, data: Record<string, any>) {
 		const nodeToUpdate = get().nodes.find((n) => n.id === nodeId)!;
-		const mergedData = assign(nodeToUpdate.data, data);
+		const mergedData = deepmerge(nodeToUpdate.data, data);
 		const nodes = (get().expandedNode ? get().nodes : get().allNodes).map(
 			(node) => {
 				if (node.id === nodeId) {
