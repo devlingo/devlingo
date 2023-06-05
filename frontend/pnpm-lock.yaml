@@ -39,23 +39,20 @@ dependencies:
         specifier: ^8.12.0
         version: 8.12.0
     daisyui:
-        specifier: ^3.0.1
-        version: 3.0.1(postcss@8.4.24)
+        specifier: ^3.0.3
+        version: 3.0.3(postcss@8.4.24)
     dnd-core:
         specifier: ^16.0.1
         version: 16.0.1
     i18next:
         specifier: ^22.5.0
         version: 22.5.0
-    nanoid:
-        specifier: ^4.0.2
-        version: 4.0.2
     next:
         specifier: 13.4.4
         version: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)
     next-i18next:
-        specifier: ^13.2.2
-        version: 13.2.2(i18next@22.5.0)(next@13.4.4)(react-i18next@12.3.1)(react@18.2.0)
+        specifier: ^13.3.0
+        version: 13.3.0(i18next@22.5.0)(next@13.4.4)(react-i18next@12.3.1)(react@18.2.0)
     radash:
         specifier: ^10.8.1
         version: 10.8.1
@@ -77,6 +74,12 @@ dependencies:
     reactflow:
         specifier: ^11.7.2
         version: 11.7.2(react-dom@18.2.0)(react@18.2.0)
+    uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+    zustand:
+        specifier: ^4.3.8
+        version: 4.3.8(react@18.2.0)
 
 devDependencies:
     '@prettier/plugin-xml':
@@ -94,6 +97,9 @@ devDependencies:
     '@testing-library/react':
         specifier: ^14.0.0
         version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
+    '@testing-library/user-event':
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@9.3.0)
     '@tool-belt/eslint-config':
         specifier: ^2.1.1
         version: 2.1.1(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3)
@@ -109,6 +115,9 @@ devDependencies:
     '@types/testing-library__jest-dom':
         specifier: ^5.14.6
         version: 5.14.6
+    '@types/uuid':
+        specifier: ^9.0.1
+        version: 9.0.1
     '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.8
         version: 5.59.8(@typescript-eslint/parser@5.59.8)(eslint@8.42.0)(typescript@5.1.3)
@@ -3361,7 +3370,7 @@ packages:
             '@babel/core': 7.22.1
             '@svgr/babel-preset': 8.0.0(@babel/core@7.22.1)
             camelcase: 6.3.0
-            cosmiconfig: 8.1.3
+            cosmiconfig: 8.2.0
             snake-case: 3.0.4
         transitivePeerDependencies:
             - supports-color
@@ -3406,7 +3415,7 @@ packages:
             '@svgr/core': '*'
         dependencies:
             '@svgr/core': 8.0.0
-            cosmiconfig: 8.1.3
+            cosmiconfig: 8.2.0
             deepmerge: 4.3.1
             svgo: 3.0.2
         dev: true
@@ -3504,6 +3513,18 @@ packages:
             '@types/react-dom': 18.2.4
             react: 18.2.0
             react-dom: 18.2.0(react@18.2.0)
+        dev: true
+
+    /@testing-library/user-event@14.4.3(@testing-library/dom@9.3.0):
+        resolution:
+            {
+                integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==,
+            }
+        engines: { node: '>=12', npm: '>=6' }
+        peerDependencies:
+            '@testing-library/dom': '>=7.21.4'
+        dependencies:
+            '@testing-library/dom': 9.3.0
         dev: true
 
     /@tool-belt/eslint-config@2.1.1(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3):
@@ -4007,6 +4028,13 @@ packages:
             }
         dependencies:
             '@types/jest': 29.5.2
+
+    /@types/uuid@9.0.1:
+        resolution:
+            {
+                integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==,
+            }
+        dev: true
 
     /@types/yargs-parser@21.0.0:
         resolution:
@@ -4566,7 +4594,7 @@ packages:
             postcss: ^8.1.0
         dependencies:
             browserslist: 4.21.7
-            caniuse-lite: 1.0.30001492
+            caniuse-lite: 1.0.30001494
             fraction.js: 4.2.0
             normalize-range: 0.1.2
             picocolors: 1.0.0
@@ -4733,7 +4761,7 @@ packages:
         engines: { node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7 }
         hasBin: true
         dependencies:
-            caniuse-lite: 1.0.30001492
+            caniuse-lite: 1.0.30001494
             electron-to-chromium: 1.4.419
             node-releases: 2.0.12
             update-browserslist-db: 1.0.11(browserslist@4.21.7)
@@ -4817,10 +4845,10 @@ packages:
         engines: { node: '>=10' }
         dev: true
 
-    /caniuse-lite@1.0.30001492:
+    /caniuse-lite@1.0.30001494:
         resolution:
             {
-                integrity: sha512-2efF8SAZwgAX1FJr87KWhvuJxnGJKOnctQa8xLOskAXNXq8oiuqgl6u1kk3fFpsp3GgvzlRjiK1sl63hNtFADw==,
+                integrity: sha512-sY2B5Qyl46ZzfYDegrl8GBCzdawSLT4ThM9b9F+aDYUrAG2zCOyMbd2Tq34mS1g4ZKBfjRlzOohQMxx28x6wJg==,
             }
 
     /chai@4.3.7:
@@ -5116,10 +5144,10 @@ packages:
             yaml: 1.10.2
         dev: false
 
-    /cosmiconfig@8.1.3:
+    /cosmiconfig@8.2.0:
         resolution:
             {
-                integrity: sha512-/UkO2JKI18b5jVMJUp0lvKFMpa/Gye+ZgZjKD+DGEN9y7NRcf/nK1A0sp67ONmKtnDCNMS44E6jrk0Yc3bDuUw==,
+                integrity: sha512-3rTMnFJA1tCOPwRxtgF4wd7Ab2qvDbL8jX+3smjIbS4HlZBagTlpERbdN7iAbWlrfxE3M8c27kTwTawQ7st+OQ==,
             }
         engines: { node: '>=14' }
         dependencies:
@@ -5371,10 +5399,10 @@ packages:
             d3-transition: 3.0.1(d3-selection@3.0.0)
         dev: false
 
-    /daisyui@3.0.1(postcss@8.4.24):
+    /daisyui@3.0.3(postcss@8.4.24):
         resolution:
             {
-                integrity: sha512-UJQ90ffDRgIEsDYdYpsFuEwc1fDXejm64oK2JFNNgmUyxbOgYveM1EphCLhxPj85nNGybBoHWx87Kua+24iT8w==,
+                integrity: sha512-RSbXsEBj2LonvjOKEI0I64F5xFJrFrthPgxRNeAZKmACQ3NoIoP45lO6UXLW3bm8PVOUGpKf1Br2SWwc1NqnHQ==,
             }
         peerDependencies:
             postcss: ^8
@@ -8131,15 +8159,6 @@ packages:
         engines: { node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1 }
         hasBin: true
 
-    /nanoid@4.0.2:
-        resolution:
-            {
-                integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==,
-            }
-        engines: { node: ^14 || ^16 || >=18 }
-        hasBin: true
-        dev: false
-
     /natural-compare-lite@1.4.0:
         resolution:
             {
@@ -8154,10 +8173,10 @@ packages:
             }
         dev: true
 
-    /next-i18next@13.2.2(i18next@22.5.0)(next@13.4.4)(react-i18next@12.3.1)(react@18.2.0):
+    /next-i18next@13.3.0(i18next@22.5.0)(next@13.4.4)(react-i18next@12.3.1)(react@18.2.0):
         resolution:
             {
-                integrity: sha512-t0WU6K+HJoq2nVQ0n6OiiEZja9GyMqtDSU74FmOafgk4ljns+iZ18bsNJiI8rOUXfFfkW96ea1N7D5kbMyT+PA==,
+                integrity: sha512-X4kgi51BCOoGdKbv87eZ8OU7ICQDg5IP+T5fNjqDY3os9ea0OKTY4YpAiVFiwcI9XimcUmSPbKO4a9jFUyYSgg==,
             }
         engines: { node: '>=14' }
         peerDependencies:
@@ -8201,7 +8220,7 @@ packages:
             '@next/env': 13.4.4
             '@swc/helpers': 0.5.1
             busboy: 1.6.0
-            caniuse-lite: 1.0.30001492
+            caniuse-lite: 1.0.30001494
             postcss: 8.4.14
             react: 18.2.0
             react-dom: 18.2.0(react@18.2.0)
@@ -9299,10 +9318,10 @@ packages:
             glob: 7.2.3
         dev: true
 
-    /rollup@3.23.0:
+    /rollup@3.23.1:
         resolution:
             {
-                integrity: sha512-h31UlwEi7FHihLe1zbk+3Q7z1k/84rb9BSwmBSr/XjOCEaBJ2YyedQDuM0t/kfOS0IxM+vk1/zI9XxYj9V+NJQ==,
+                integrity: sha512-ybRdFVHOoljGEFILHLd2g/qateqUdjE6YS41WXq4p3C/WwD3xtWxV4FYWETA1u9TeXQc5K8L8zHE5d/scOvrOQ==,
             }
         engines: { node: '>=14.18.0', npm: '>=8.0.0' }
         hasBin: true
@@ -9845,7 +9864,7 @@ packages:
             '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.13)
             balanced-match: 2.0.0
             colord: 2.9.3
-            cosmiconfig: 8.1.3
+            cosmiconfig: 8.2.0
             css-functions-list: 3.1.0
             css-tree: 2.3.1
             debug: 4.3.4
@@ -10422,6 +10441,14 @@ packages:
                 integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==,
             }
 
+    /uuid@9.0.0:
+        resolution:
+            {
+                integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==,
+            }
+        hasBin: true
+        dev: false
+
     /v8-compile-cache@2.3.0:
         resolution:
             {
@@ -10508,7 +10535,7 @@ packages:
             '@types/node': 20.2.5
             esbuild: 0.17.19
             postcss: 8.4.24
-            rollup: 3.23.0
+            rollup: 3.23.1
         optionalDependencies:
             fsevents: 2.3.2
         dev: true

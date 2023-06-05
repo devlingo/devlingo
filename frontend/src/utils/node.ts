@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import { Node } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
 	ContainerNodeType,
@@ -8,49 +8,44 @@ import {
 	ServiceNodeType,
 } from '@/constants';
 import {
+	AnyNode,
 	ContainerNodeData,
 	InternalNodeData,
-	NodeData,
-	NodeType,
-	ServiceNodeData,
+	NodeDataType,
 } from '@/types';
+import { isInternalNode, isServiceNode } from '@/utils/predicates';
 
-export function createNode<T extends NodeType>({
+export type CreateNodeParams<T extends NodeDataType> = {
+	data: T;
+	position: { x: number; y: number };
+} & Omit<Partial<Node<T>>, 'data' | 'type' | 'className'>;
+
+export function createNode<T extends NodeDataType>({
 	id,
 	data,
 	position,
 	...props
-}: {
-	data: NodeData<T> & { nodeType: T };
-	position: { x: number; y: number };
-} & Omit<Partial<Node>, 'data' | 'type' | 'className'>): Node<NodeData<T>> {
-	id ??= nanoid();
-	const isServiceNode = Object.values(ServiceNodeType).includes(
-		data.nodeType as ServiceNodeType,
-	);
+}: CreateNodeParams<T>): Node<T> {
+	const node = {
+		data,
+		id: id ?? uuidv4(),
+		position,
+		...props,
+	} as unknown as AnyNode;
 
-	const type = isServiceNode
-		? 'ServiceNode'
-		: Object.values(InternalNodeType).includes(
-				data.nodeType as InternalNodeType,
-		  )
-		? 'InternalNode'
-		: 'ContainerNode';
-
-	if (isServiceNode) {
-		(data as ServiceNodeData).childNodes ??= createDefaultInternalNodes(
-			data.nodeType as ServiceNodeType,
-			id,
+	if (isServiceNode(node)) {
+		node.type = 'ServiceNode';
+		node.data.childNodes ??= createDefaultInternalNodes(
+			node.data.nodeType,
+			node.id,
 		);
+	} else if (isInternalNode(node)) {
+		node.type = 'InternalNode';
+	} else {
+		node.type = 'ContainerNode';
 	}
 
-	return {
-		data,
-		id,
-		position,
-		type,
-		...props,
-	};
+	return node as Node<T>;
 }
 
 /*

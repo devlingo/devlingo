@@ -1,6 +1,6 @@
 import { Position } from '@reactflow/core';
-import { nanoid } from 'nanoid';
 import { Edge, Node } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ServiceNodeType } from '@/constants';
 import { createNode } from '@/utils/node';
@@ -33,14 +33,14 @@ export const initialNodes: Node[] = [nestService, nextService, flutterService];
 
 export const initialEdges: Edge[] = [
 	{
-		id: nanoid(),
+		id: uuidv4(),
 		source: nextService.id,
 		target: nestService.id,
 		sourceHandle: `${nextService.id}-source-${Position.Left}`,
 		targetHandle: `${nestService.id}-source-${Position.Right}`,
 	},
 	{
-		id: nanoid(),
+		id: uuidv4(),
 		source: flutterService.id,
 		target: nestService.id,
 		sourceHandle: `${flutterService.id}-source-${Position.Left}`,

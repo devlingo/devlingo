@@ -1,14 +1,20 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
-import { Position } from '@reactflow/core';
 import { useTranslation } from 'next-i18next';
 import { assign } from 'radash';
-import { useState } from 'react';
-import { Edge, Node } from 'reactflow';
+import { useMemo, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
+import { requestPrompt } from '@/api/ai-service-api';
 import { PromptModal } from '@/components/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
-import { requestPrompt } from '@/utils/api';
+import {
+	useDisplayEdges,
+	useDisplayNodes,
+	useSetEdges,
+	useSetNodes,
+} from '@/hooks/use-store';
 import { positionHandle } from '@/utils/edge';
+import { log } from '@/utils/logging';
 import { wait } from '@/utils/time';
 
 export function PromptAnswerDialogue({
@@ -24,11 +30,15 @@ export function PromptAnswerDialogue({
 	const [isDialogueOpen, setIsDialogueOpen] = useState(true);
 
 	return (
-		<div className="modal modal-open sm:modal-bottom">
+		<div
+			className="modal modal-open sm:modal-bottom"
+			data-testid="prompt-response-dialogue"
+		>
 			<div className="modal-box bg-base-100">
 				<h2 className="pb-2 pt-1">{t('accept_changes_question')}</h2>
 				<div className="join join-horizontal gap-4">
 					<button
+						data-testid="prompt-decline-changes-button"
 						className="btn btn-sm btn-ghost"
 						onClick={() => {
 							void handleUserDecision(PromptState.Decline);
@@ -37,6 +47,7 @@ export function PromptAnswerDialogue({
 						{t('decline')}
 					</button>
 					<button
+						data-testid="prompt-accept-changes-button"
 						className="btn btn-sm btn-primary"
 						onClick={() => {
 							void handleUserDecision(PromptState.Accept);
@@ -47,6 +58,7 @@ export function PromptAnswerDialogue({
 				</div>
 				<div className="pt-3">
 					<button
+						data-testid="prompt-toggle-answer-button"
 						onClick={() => {
 							setIsDialogueOpen(!isDialogueOpen);
 						}}
@@ -74,11 +86,17 @@ export function PromptStatusPopup({
 	return (
 		<div className="z-30 fixed left-16">
 			{promptState === PromptState.Loading ? (
-				<div className="alert shadow-lg">
+				<div
+					className="alert shadow-lg"
+					data-testid="prompt-loading-alert"
+				>
 					<progress className="progress progress-secondary w-56" />
 				</div>
 			) : promptState === PromptState.Error ? (
-				<div className="alert alert-error shadow-lg">
+				<div
+					className="alert alert-error shadow-lg"
+					data-testid="prompt-error-alert"
+				>
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +115,10 @@ export function PromptStatusPopup({
 					</div>
 				</div>
 			) : promptState === PromptState.Accept ? (
-				<div className="alert alert-success shadow-lg">
+				<div
+					className="alert alert-success shadow-lg"
+					data-testid="prompt-accept-alert"
+				>
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +137,10 @@ export function PromptStatusPopup({
 					</div>
 				</div>
 			) : (
-				<div className="alert shadow-lg">
+				<div
+					className="alert shadow-lg"
+					data-testid="prompt-decline-alert"
+				>
 					<div>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -149,28 +173,28 @@ export enum PromptState {
 
 export interface PromptContainerProps {
 	closePromptModal: () => void;
-	displayEdges: Edge[];
-	displayNodes: Node[];
 	isPromptModalOpen: boolean;
-	setDisplayNodes: (nodes: Node[]) => void;
-	setDisplayEdges: (edges: Edge[]) => void;
 }
 
 export function PromptContainer({
 	closePromptModal,
-	displayEdges,
-	displayNodes,
 	isPromptModalOpen,
-	setDisplayEdges,
-	setDisplayNodes,
 }: PromptContainerProps) {
+	const setNodes = useSetNodes();
+	const setEdges = useSetEdges();
+	const displayNodes = useDisplayNodes();
+	const displayEdges = useDisplayEdges();
+
 	const [promptState, setPromptState] = useState(PromptState.Hidden);
 	const [promptAnswer, setPromptAnswer] = useState<string | null>(null);
 
-	const existingDesigns = {
-		edges: [...displayEdges],
-		nodes: [...displayNodes],
-	};
+	const existingDesigns = useMemo(
+		() => ({
+			edges: [...displayEdges],
+			nodes: [...displayNodes],
+		}),
+		[displayEdges, displayNodes],
+	);
 
 	const handlePromptSubmit = async (promptContent: string) => {
 		closePromptModal();
@@ -181,8 +205,8 @@ export function PromptContainer({
 				nodes: displayNodes,
 				promptContent,
 				//FIXME: replace designId and projectId with real values
-				designId: '31ca5283-e104-4759-99a6-092958c3ddec',
-				projectId: 'aba8a2ea-1fb3-4575-b3a4-d42099822165',
+				designId: uuidv4(),
+				projectId: uuidv4(),
 			});
 
 			const updatedNodes = design.nodes.map((node) => {
@@ -193,20 +217,32 @@ export function PromptContainer({
 			});
 
 			const updatedEdges = design.edges.map((edge) => {
-				edge.sourceHandle = positionHandle(
-					edge.source,
-					edge.sourceHandle ?? Position.Right,
+				const existingEdge = displayEdges.find(
+					(displayEdge) => displayEdge.id === edge.id,
 				);
-				edge.targetHandle = positionHandle(
-					edge.target,
-					edge.targetHandle ?? Position.Right,
-				);
-				return edge;
+				if (!existingEdge) {
+					edge.sourceHandle = positionHandle(
+						edge.source,
+						edge.sourceHandle,
+					);
+					edge.targetHandle = positionHandle(
+						edge.target,
+						edge.targetHandle,
+					);
+					return edge;
+				}
+				return existingEdge;
 			});
 
-			setDisplayNodes(updatedNodes);
-			setDisplayEdges(updatedEdges);
+			log('setting new design', {
+				updatedNodes,
+				updatedEdges,
+			});
+
+			setNodes(updatedNodes);
+			setEdges(updatedEdges);
 			setPromptAnswer(answer);
+			await wait(ONE_SECOND_IN_MILLISECONDS);
 		} catch {
 			setPromptState(PromptState.Error);
 			await wait(ONE_SECOND_IN_MILLISECONDS * 2);
@@ -221,8 +257,8 @@ export function PromptContainer({
 		setPromptState(decision);
 
 		if (decision === PromptState.Decline) {
-			setDisplayNodes(existingDesigns.nodes);
-			setDisplayEdges(existingDesigns.edges);
+			setNodes(existingDesigns.nodes);
+			setEdges(existingDesigns.edges);
 		}
 
 		await wait(ONE_SECOND_IN_MILLISECONDS * 2);

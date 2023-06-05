@@ -8,7 +8,7 @@ import {
 import { MouseEvent, useContext } from 'react';
 
 import { NAV_BAR_HEIGHT_PIXELS } from '@/constants';
-import { ThemeContext } from '@/utils/context';
+import { ThemeContext } from '@/context';
 import { daisyUIThemes } from '@/wrapper';
 
 export interface NavbarProps {
