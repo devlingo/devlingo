@@ -38,11 +38,10 @@ export interface ServiceNodeData extends BaseNodeData<ServiceNodeType> {
 }
 
 export interface ContainerNodeData extends BaseNodeData<ContainerNodeType> {
-	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
+	isAreaCalculated?: boolean;
 }
 
 export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
-	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
 }

@@ -54,7 +54,6 @@ describe('predicate util tests', () => {
 					data: {
 						nodeType,
 						formData: { nodeName: 'test' },
-						parentNodeId: 'abc',
 						parentNodeType: ServiceNodeType.NestJs,
 					},
 				};
@@ -72,7 +71,6 @@ describe('predicate util tests', () => {
 				data: {
 					nodeType,
 					formData: { nodeName: 'test' },
-					parentNodeId: 'abc',
 					parentNodeType: ServiceNodeType.NestJs,
 				},
 			};
@@ -90,7 +88,6 @@ describe('predicate util tests', () => {
 					data: {
 						nodeType,
 						formData: { nodeName: 'test' },
-						parentNodeId: 'abc',
 						parentNodeType: ServiceNodeType.NestJs,
 					},
 				};

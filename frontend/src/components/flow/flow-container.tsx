@@ -18,9 +18,7 @@ import {
 	useConfiguredNode,
 	useExpandedNode,
 	useInsertNode,
-	useSetExpandedNode,
 	useUnsetConfiguredNode,
-	useUnsetExpandedNode,
 } from '@/hooks/use-store';
 import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
 import { createNode } from '@/utils/node';
@@ -43,7 +41,8 @@ const calculateFlowWidth = (
 	isSideRailExpanded: boolean,
 ): number => {
 	const flowWidth =
-		windowWidth - (isSideRailExpanded ? RAIL_WIDTH_PIXELS * 2 : REM);
+		windowWidth -
+		(isSideRailExpanded ? RAIL_WIDTH_PIXELS * 2 : RAIL_WIDTH_PIXELS);
 	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
 };
 
@@ -51,9 +50,7 @@ export function FlowContainer() {
 	const insertNode = useInsertNode();
 	const configuredNode = useConfiguredNode();
 	const expandedNode = useExpandedNode();
-	const setExpandedNode = useSetExpandedNode();
 	const unsetConfiguredNode = useUnsetConfiguredNode();
-	const unsetExpandedNode = useUnsetExpandedNode();
 
 	/* Menu Display and flow dimensions */
 	const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -87,14 +84,6 @@ export function FlowContainer() {
 	}, [windowWidth, isSideMenuOpen]);
 
 	// node expansion
-
-	useEffect(() => {
-		if (expandedNode) {
-			setExpandedNode(expandedNode.id);
-		} else {
-			unsetExpandedNode();
-		}
-	}, [expandedNode]);
 
 	// drag and drop
 	useEffect(() => {

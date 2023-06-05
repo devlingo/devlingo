@@ -36,7 +36,6 @@ describe('Node Utils Tests', () => {
 					formData: { nodeName: 'App Module' },
 					nodeType: ContainerNodeType.Module,
 					parentNodeType: ServiceNodeType.NestJs,
-					parentNodeId: 'abc',
 				},
 			});
 			expect(node.id).toBeTypeOf('string');

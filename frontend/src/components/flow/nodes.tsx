@@ -128,7 +128,7 @@ export function ServiceNode({
 
 export function ContainerNode({
 	selected,
-	data: { nodeType, formData, parentNodeId },
+	data: { nodeType, formData },
 }: Partial<NodeProps<ContainerNodeData>> & { data: ContainerNodeData }) {
 	const displayNodes = useDisplayNodes();
 	const setConfiguredNode = useSetConfiguredNode();
@@ -185,7 +185,7 @@ export function ContainerNode({
 						data-testid={`config-btn-${nodeId}`}
 						hoverColor="text-neutral-content"
 						onClick={() => {
-							setConfiguredNode(nodeId, parentNodeId);
+							setConfiguredNode(nodeId);
 						}}
 					/>
 				</div>
@@ -195,7 +195,7 @@ export function ContainerNode({
 }
 
 export function InternalNode({
-	data: { nodeType, formData, parentNodeId },
+	data: { nodeType, formData },
 }: Partial<NodeProps<InternalNodeData>> & { data: InternalNodeData }) {
 	const setConfiguredNode = useSetConfiguredNode();
 
@@ -236,7 +236,7 @@ export function InternalNode({
 					data-testid={`config-btn-${nodeId}`}
 					hoverColor="text-neutral-content"
 					onClick={() => {
-						setConfiguredNode(nodeId, parentNodeId);
+						setConfiguredNode(nodeId);
 					}}
 				/>
 			</div>

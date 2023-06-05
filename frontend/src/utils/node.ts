@@ -9,11 +9,17 @@ import {
 } from '@/constants';
 import {
 	AnyNode,
+	ContainerNode,
 	ContainerNodeData,
+	InternalNode,
 	InternalNodeData,
 	NodeDataType,
 } from '@/types';
-import { isInternalNode, isServiceNode } from '@/utils/predicates';
+import {
+	isContainerNode,
+	isInternalNode,
+	isServiceNode,
+} from '@/utils/predicates';
 
 export type CreateNodeParams<T extends NodeDataType> = {
 	data: T;
@@ -35,10 +41,7 @@ export function createNode<T extends NodeDataType>({
 
 	if (isServiceNode(node)) {
 		node.type = 'ServiceNode';
-		node.data.childNodes ??= createDefaultInternalNodes(
-			node.data.nodeType,
-			node.id,
-		);
+		node.data.childNodes ??= createDefaultInternalNodes(node.data.nodeType);
 	} else if (isInternalNode(node)) {
 		node.type = 'InternalNode';
 	} else {
@@ -55,7 +58,6 @@ export function createNode<T extends NodeDataType>({
 */
 export function createDefaultInternalNodes(
 	parentNodeType: ServiceNodeType,
-	parentNodeId: string,
 ): Node<InternalNodeData | ContainerNodeData>[] {
 	if (parentNodeType === ServiceNodeType.NestJs) {
 		const moduleNode = createNode({
@@ -64,7 +66,6 @@ export function createDefaultInternalNodes(
 				formData: { nodeName: 'App Module' },
 				nodeType: ContainerNodeType.Module,
 				parentNodeType,
-				parentNodeId,
 			},
 		});
 		return [
@@ -77,7 +78,6 @@ export function createDefaultInternalNodes(
 					formData: { nodeName: 'App Controller' },
 					nodeType: InternalNodeType.Controller,
 					parentNodeType,
-					parentNodeId,
 				},
 			}),
 			createNode({
@@ -88,7 +88,6 @@ export function createDefaultInternalNodes(
 					formData: { nodeName: 'App Service' },
 					nodeType: InternalNodeType.Service,
 					parentNodeType,
-					parentNodeId,
 				},
 			}),
 		];
@@ -97,7 +96,7 @@ export function createDefaultInternalNodes(
 }
 
 export function calculateNodeArea(
-	childNodes: Node<InternalNodeData>[],
+	childNodes: InternalNode[],
 	baseHeight = 105,
 	baseWidth = 208,
 ) {
@@ -122,4 +121,31 @@ export function calculateNodeArea(
 		height: maxY + baseHeight + REM,
 		width: maxX + baseWidth + minX,
 	};
+}
+
+export function setContainerNodesStyle(
+	childNodes: (InternalNode | ContainerNode)[],
+) {
+	const containedNodes = childNodes.reduce<
+		Record<string, InternalNode[] | undefined>
+	>((acc, cur) => {
+		if (isInternalNode(cur) && cur.parentNode) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			acc[cur.parentNode] ??= [];
+			acc[cur.parentNode]?.push(cur);
+		}
+		return acc;
+	}, {});
+	return childNodes.map((node) => {
+		const internalNodes = containedNodes[node.id];
+		if (
+			isContainerNode(node) &&
+			!node.data.isAreaCalculated &&
+			internalNodes?.length
+		) {
+			node.style = calculateNodeArea(internalNodes);
+			node.data.isAreaCalculated = true;
+		}
+		return node;
+	});
 }

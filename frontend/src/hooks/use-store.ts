@@ -7,7 +7,6 @@ import {
 	Connection,
 	Edge,
 	EdgeChange,
-	Node,
 	NodeChange,
 	OnConnect,
 	OnEdgesChange,
@@ -21,11 +20,11 @@ import {
 	AnyNode,
 	ContainerNode,
 	InternalNode,
-	InternalNodeData,
 	NodeDataType,
 	ServiceNode,
 } from '@/types';
-import { calculateNodeArea } from '@/utils/node';
+import { setContainerNodesStyle } from '@/utils/node';
+import { isContainerNode } from '@/utils/predicates';
 
 export interface FlowStoreState {
 	allEdges: Edge[];
@@ -39,7 +38,7 @@ export interface FlowStoreState {
 	onEdgeUpdate: OnEdgeUpdateFunc;
 	onEdgesChange: OnEdgesChange;
 	onNodesChange: OnNodesChange;
-	setConfiguredNode: (nodeId: string, parentNodeId?: string | null) => void;
+	setConfiguredNode: (nodeId: string) => void;
 	setEdges: (edges: Edge[]) => void;
 	setExpandedNode: (nodeId: string) => void;
 	setNodes: (nodes: AnyNode[]) => void;
@@ -49,12 +48,12 @@ export interface FlowStoreState {
 }
 
 export const useStore = create<FlowStoreState>((set, get) => ({
-	allEdges: initialEdges,
-	allNodes: initialNodes,
-	edges: initialEdges,
-	expandedNode: null,
+	edges: [...initialEdges],
+	nodes: [...initialNodes],
+	allEdges: [...initialEdges],
+	allNodes: [...initialNodes],
 	configuredNode: null,
-	nodes: initialNodes,
+	expandedNode: null,
 	setNodes(nodes: AnyNode[]) {
 		const expandedNode = get().expandedNode;
 
@@ -62,7 +61,7 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 			expandedNode.data.childNodes = nodes;
 
 			set({
-				expandedNode: structuredClone(expandedNode),
+				//expandedNode: structuredClone(expandedNode),
 				nodes: [...nodes],
 				allNodes: get().allNodes.map((node) => {
 					if (node.id === expandedNode.id) {
@@ -101,57 +100,27 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 			});
 		}
 	},
-	onNodesChange: (changes: NodeChange[]) => {
-		const nodes = get().expandedNode
-			? applyNodeChanges(changes, get().nodes)
-			: applyNodeChanges(changes, get().allNodes);
-
-		get().setNodes(nodes);
-	},
-	onEdgesChange: (changes: EdgeChange[]) => {
-		set({
-			edges: applyEdgeChanges(changes, get().edges),
-		});
-	},
-	onConnect: (connection: Connection) => {
-		set({
-			edges: addEdge(connection, get().edges),
-		});
-	},
-	onEdgeUpdate: (edge: Edge, connection: Connection) => {
-		set({ edges: updateEdge(edge, connection, get().edges) });
-	},
 	setExpandedNode: (nodeId: string) => {
 		const expandedNode = get().allNodes.find((n) => n.id === nodeId)!;
 		const { childNodes = [], childEdges = [] } = expandedNode.data;
-		const containedNodes = childNodes.filter(
-			(n) => n.parentNode,
-		) as Node<InternalNodeData>[];
-		const containingNodeIds = new Set(
-			containedNodes.map((n) => n.parentNode),
+
+		set({
+			expandedNode: structuredClone(expandedNode),
+		});
+
+		const shouldSetContaineNodeStyle = childNodes.some(
+			(n) => isContainerNode(n) && !n.data.isAreaCalculated,
 		);
 
-		if (containingNodeIds.size) {
-			const nodes = childNodes.map((node) => {
-				if (containingNodeIds.has(node.id)) {
-					node.style = calculateNodeArea(
-						containedNodes.filter((n) => n.parentNode === node.id),
-					);
-				}
-				return node;
-			});
-			set({
-				edges: [...childEdges],
-				expandedNode: structuredClone(expandedNode),
-				nodes,
-			});
-		} else {
-			set({
-				edges: [...childEdges],
-				expandedNode: structuredClone(expandedNode),
-				nodes: [...childNodes],
-			});
-		}
+		get().setNodes(
+			shouldSetContaineNodeStyle
+				? setContainerNodesStyle(
+						childNodes as (InternalNode | ContainerNode)[],
+				  )
+				: childNodes,
+		);
+
+		get().setEdges(childEdges);
 	},
 	unsetExpandedNode() {
 		set({
@@ -176,6 +145,26 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 		);
 		get().setNodes(nodes);
 	},
+	onNodesChange: (changes: NodeChange[]) => {
+		const nodes = get().expandedNode
+			? applyNodeChanges(changes, get().nodes)
+			: applyNodeChanges(changes, get().allNodes);
+
+		get().setNodes(nodes);
+	},
+	onEdgesChange: (changes: EdgeChange[]) => {
+		set({
+			edges: applyEdgeChanges(changes, get().edges),
+		});
+	},
+	onConnect: (connection: Connection) => {
+		set({
+			edges: addEdge(connection, get().edges),
+		});
+	},
+	onEdgeUpdate: (edge: Edge, connection: Connection) => {
+		set({ edges: updateEdge(edge, connection, get().edges) });
+	},
 	insertNode(newNode: AnyNode) {
 		const nodes = [
 			...(get().expandedNode ? get().nodes : get().allNodes),
@@ -183,17 +172,14 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 		];
 		get().setNodes(nodes);
 	},
-	setConfiguredNode(nodeId: string, parentNodeId?: string | null) {
-		const node = get().allNodes.find((n) => n.id === parentNodeId)!;
-		if (parentNodeId) {
-			set({
-				configuredNode: node.data.childNodes!.find(
-					(n) => n.id === nodeId,
-				)! as InternalNode | ContainerNode | ServiceNode,
-			});
-		} else {
-			set({ configuredNode: node });
-		}
+	setConfiguredNode(nodeId: string) {
+		const isExpanded = !!get().expandedNode;
+		const nodes = isExpanded ? get().nodes : get().allNodes;
+		const node = nodes.find((n) => n.id === nodeId)! as
+			| ServiceNode
+			| InternalNode
+			| ContainerNode;
+		set({ configuredNode: node });
 	},
 	unsetConfiguredNode() {
 		set({ configuredNode: null });
