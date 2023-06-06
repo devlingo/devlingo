@@ -1,5 +1,4 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
-import { deepmerge } from 'deepmerge-ts';
 import { useTranslation } from 'next-i18next';
 import { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +12,7 @@ import {
 	useSetEdges,
 	useSetNodes,
 } from '@/hooks/use-store';
-import { log } from '@/utils/logging';
+import { NormalizeEdges } from '@/utils/edge';
 import { wait } from '@/utils/time';
 
 export function PromptAnswerDialogue({
@@ -199,10 +198,7 @@ export function PromptContainer({
 		closePromptModal();
 		setPromptState(PromptState.Loading);
 		try {
-			const {
-				answer,
-				design: { nodes, edges },
-			} = await requestPrompt({
+			const { answer, nodes, edges } = await requestPrompt({
 				edges: displayEdges,
 				nodes: displayNodes,
 				promptContent,
@@ -211,22 +207,8 @@ export function PromptContainer({
 				projectId: uuidv4(),
 			});
 
-			log('displayNodes', { displayNodes });
-
-			const updatedNodes = nodes.map((node) => {
-				const existingNode = displayNodes.find(
-					(displayNode) => displayNode.id === node.id,
-				);
-
-				if (existingNode) {
-					return deepmerge(existingNode, node);
-				}
-
-				return node;
-			});
-
-			setNodes(updatedNodes);
-			setEdges(edges);
+			setNodes(nodes);
+			setEdges(NormalizeEdges(edges, nodes));
 			setPromptAnswer(answer);
 			await wait(ONE_SECOND_IN_MILLISECONDS);
 		} catch {

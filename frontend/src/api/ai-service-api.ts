@@ -1,6 +1,9 @@
+import { deepmerge } from 'deepmerge-ts';
 import { Edge, Node } from 'reactflow';
 
 import { AI_SERVICE_BASE_URL, EdgeTypes, ServiceNodeType } from '@/constants';
+import { log } from '@/utils/logging';
+import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
 	promptContent: string;
@@ -67,6 +70,22 @@ export function parsePromptData({
 	};
 }
 
+export function mergeNodes(originalNodes: Node[], designNodes: Node[]): Node[] {
+	return designNodes.map((node) => {
+		const existingNode = originalNodes.find((n) => n.id === node.id);
+		return existingNode
+			? deepmerge(existingNode, node)
+			: createNode({ ...node });
+	});
+}
+
+export function mergeEdges(originalEdges: Edge[], designEdges: Edge[]): Edge[] {
+	return designEdges.map((edge) => {
+		const existingEdge = originalEdges.find((e) => e.id === edge.id);
+		return existingEdge ? deepmerge(existingEdge, edge) : edge;
+	});
+}
+
 export interface PromptRequestParams {
 	promptContent: string;
 	nodes: Node[];
@@ -79,7 +98,11 @@ export async function requestPrompt({
 	designId,
 	projectId,
 	...data
-}: PromptRequestParams): Promise<PromptResponse> {
+}: PromptRequestParams): Promise<{
+	answer: string;
+	nodes: Node[];
+	edges: Edge[];
+}> {
 	const url = `${AI_SERVICE_BASE_URL}/v1/prompt/${projectId}/${designId}`;
 	const request = {
 		method: 'POST',
@@ -89,9 +112,19 @@ export async function requestPrompt({
 		},
 	} satisfies RequestInit;
 
+	log('Prompt request', {
+		url,
+		request,
+	});
+
 	const response = await fetch(url, request);
 
 	const body = (await response.json()) as Record<string, any>;
+
+	log('Prompt Response', {
+		isError: !response.ok,
+		body,
+	});
 
 	if (!response.ok) {
 		throw new Error(
@@ -99,5 +132,10 @@ export async function requestPrompt({
 		);
 	}
 
-	return body as PromptResponse;
+	const { answer, design } = body as PromptResponse;
+
+	const edges = mergeEdges(data.edges, design.edges);
+	const nodes = mergeNodes(data.nodes, design.nodes);
+
+	return { answer, nodes, edges };
 }

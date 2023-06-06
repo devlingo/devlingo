@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useState } from 'react';
 
-const MINIMUM_CHARACTERS_IN_PROMPT = 10;
+export const MINIMUM_CHARACTERS_IN_PROMPT = 10;
 
 export function PromptModal({
 	handlePromptSubmit,
