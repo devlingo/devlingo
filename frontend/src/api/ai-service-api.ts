@@ -67,28 +67,32 @@ export function parsePromptData({
 	};
 }
 
-export async function requestPrompt({
-	designId,
-	projectId,
-	...data
-}: {
+export interface PromptRequestParams {
 	promptContent: string;
 	nodes: Node[];
 	edges: Edge[];
 	designId: string;
 	projectId: string;
-}): Promise<PromptResponse> {
-	const response = await fetch(
-		`${AI_SERVICE_BASE_URL}/v1/prompt/${projectId}/${designId}`,
-		{
-			method: 'POST',
-			body: JSON.stringify(parsePromptData(data)),
-			headers: {
-				'Content-Type': 'application/json',
-			},
+}
+
+export async function requestPrompt({
+	designId,
+	projectId,
+	...data
+}: PromptRequestParams): Promise<PromptResponse> {
+	const url = `${AI_SERVICE_BASE_URL}/v1/prompt/${projectId}/${designId}`;
+	const request = {
+		method: 'POST',
+		body: JSON.stringify(parsePromptData(data)),
+		headers: {
+			'Content-Type': 'application/json',
 		},
-	);
+	} satisfies RequestInit;
+
+	const response = await fetch(url, request);
+
 	const body = (await response.json()) as Record<string, any>;
+
 	if (!response.ok) {
 		throw new Error(
 			(Reflect.get(body, 'message') ?? 'An API Error Occurred') as string,

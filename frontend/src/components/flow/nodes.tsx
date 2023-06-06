@@ -5,13 +5,16 @@ import {
 } from '@heroicons/react/24/solid';
 import { NodeResizer } from '@reactflow/node-resizer';
 import { useTranslation } from 'next-i18next';
-import { useContext } from 'react';
 import { Handle, HandleProps, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
 import { ServiceNodeAllowedInternalNodesMap, TypeTagMap } from '@/constants';
+import {
+	useDisplayNodes,
+	useSetConfiguredNode,
+	useSetExpandedNode,
+} from '@/hooks/use-store';
 import { ContainerNodeData, InternalNodeData, ServiceNodeData } from '@/types';
-import { NodeContext } from '@/utils/context';
 
 export function NodeHandles({
 	nodeId,
@@ -29,7 +32,7 @@ export function NodeHandles({
 				<Handle
 					data-testid={`handle-${nodeId}-source-${position}`}
 					className={className}
-					id={`${nodeId}-source-${position}`}
+					id={position}
 					key={i}
 					position={position}
 					type="source"
@@ -61,8 +64,10 @@ function NodeButton({
 export function ServiceNode({
 	data: { nodeType, formData },
 }: Partial<NodeProps<ServiceNodeData>> & { data: ServiceNodeData }) {
+	const setConfiguredNode = useSetConfiguredNode();
+	const setExpandedNode = useSetExpandedNode();
+
 	const internalNodeTypes = ServiceNodeAllowedInternalNodesMap[nodeType];
-	const nodeContext = useContext(NodeContext);
 	const nodeId = useNodeId()!;
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
@@ -103,7 +108,7 @@ export function ServiceNode({
 						Icon={Cog8ToothIcon}
 						data-testid={`config-btn-${nodeId}`}
 						onClick={() => {
-							nodeContext.handleNodeConfig(nodeId);
+							setConfiguredNode(nodeId);
 						}}
 					/>
 				</div>
@@ -112,7 +117,7 @@ export function ServiceNode({
 						Icon={ChevronRightIcon}
 						data-testid={`expand-btn-${nodeId}`}
 						onClick={() => {
-							nodeContext.handleNodeExpand(nodeId);
+							setExpandedNode(nodeId);
 						}}
 					/>
 				)}
@@ -123,21 +128,24 @@ export function ServiceNode({
 
 export function ContainerNode({
 	selected,
-	data: { nodeType, formData, parentNodeId },
+	data: { nodeType, formData },
 }: Partial<NodeProps<ContainerNodeData>> & { data: ContainerNodeData }) {
-	const nodeContext = useContext(NodeContext);
+	const displayNodes = useDisplayNodes();
+	const setConfiguredNode = useSetConfiguredNode();
+
 	const nodeId = useNodeId()!;
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
 
-	const { width: minWidth, height: minHeight } =
-		(nodeContext.displayNodes.find((n) => n.id === nodeId)?.style ?? {
-			width: 208,
-			height: 96,
-		}) as {
-			width: number;
-			height: number;
-		};
+	const { width: minWidth, height: minHeight } = (displayNodes.find(
+		(n) => n.id === nodeId,
+	)?.style ?? {
+		width: 208,
+		height: 96,
+	}) as {
+		width: number;
+		height: number;
+	};
 
 	return (
 		<div
@@ -177,7 +185,7 @@ export function ContainerNode({
 						data-testid={`config-btn-${nodeId}`}
 						hoverColor="text-neutral-content"
 						onClick={() => {
-							nodeContext.handleNodeConfig(nodeId, parentNodeId);
+							setConfiguredNode(nodeId);
 						}}
 					/>
 				</div>
@@ -187,9 +195,10 @@ export function ContainerNode({
 }
 
 export function InternalNode({
-	data: { nodeType, formData, parentNodeId },
+	data: { nodeType, formData },
 }: Partial<NodeProps<InternalNodeData>> & { data: InternalNodeData }) {
-	const nodeContext = useContext(NodeContext);
+	const setConfiguredNode = useSetConfiguredNode();
+
 	const nodeId = useNodeId()!;
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
@@ -227,7 +236,7 @@ export function InternalNode({
 					data-testid={`config-btn-${nodeId}`}
 					hoverColor="text-neutral-content"
 					onClick={() => {
-						nodeContext.handleNodeConfig(nodeId, parentNodeId);
+						setConfiguredNode(nodeId);
 					}}
 				/>
 			</div>

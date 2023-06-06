@@ -14,14 +14,18 @@ export interface DropTargetData {
 }
 
 export type NodeType = ServiceNodeType | InternalNodeType | ContainerNodeType;
-export type AnyNode = Node<
-	InternalNodeData | ContainerNodeData | ServiceNodeData
->;
+export type ServiceNode = Node<ServiceNodeData>;
+export type InternalNode = Node<ServiceNodeData>;
+export type ContainerNode = Node<ContainerNodeData>;
+export type AnyNode = Node<Record<string, any>>;
+export type NodeDataType =
+	| ServiceNodeData
+	| InternalNodeData
+	| ContainerNodeData;
 
-export interface FormData {
+export type FormData = {
 	nodeName: string;
-	[key: string]: any;
-}
+} & Record<string, any>;
 
 export interface BaseNodeData<N extends NodeType> {
 	nodeType: N;
@@ -30,21 +34,14 @@ export interface BaseNodeData<N extends NodeType> {
 
 export interface ServiceNodeData extends BaseNodeData<ServiceNodeType> {
 	childEdges?: Edge[];
-	childNodes?: Node<InternalNodeData | ContainerNodeData>[];
+	childNodes?: AnyNode[];
 }
 
 export interface ContainerNodeData extends BaseNodeData<ContainerNodeType> {
-	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
+	isAreaCalculated?: boolean;
 }
 
 export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
-	parentNodeId: string;
 	parentNodeType: ServiceNodeType;
 }
-
-export type NodeData<T> = T extends ServiceNodeType
-	? ServiceNodeData
-	: T extends InternalNodeType
-	? InternalNodeData
-	: ContainerNodeData;

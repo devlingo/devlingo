@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import { Node } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
 	ContainerNodeType,
@@ -8,49 +8,47 @@ import {
 	ServiceNodeType,
 } from '@/constants';
 import {
+	AnyNode,
+	ContainerNode,
 	ContainerNodeData,
+	InternalNode,
 	InternalNodeData,
-	NodeData,
-	NodeType,
-	ServiceNodeData,
+	NodeDataType,
 } from '@/types';
+import {
+	isContainerNode,
+	isInternalNode,
+	isServiceNode,
+} from '@/utils/predicates';
 
-export function createNode<T extends NodeType>({
+export type CreateNodeParams<T extends NodeDataType> = {
+	data: T;
+	position: { x: number; y: number };
+} & Omit<Partial<Node<T>>, 'data' | 'type' | 'className'>;
+
+export function createNode<T extends NodeDataType>({
 	id,
 	data,
 	position,
 	...props
-}: {
-	data: NodeData<T> & { nodeType: T };
-	position: { x: number; y: number };
-} & Omit<Partial<Node>, 'data' | 'type' | 'className'>): Node<NodeData<T>> {
-	id ??= nanoid();
-	const isServiceNode = Object.values(ServiceNodeType).includes(
-		data.nodeType as ServiceNodeType,
-	);
+}: CreateNodeParams<T>): Node<T> {
+	const node = {
+		data,
+		id: id ?? uuidv4(),
+		position,
+		...props,
+	} as unknown as AnyNode;
 
-	const type = isServiceNode
-		? 'ServiceNode'
-		: Object.values(InternalNodeType).includes(
-				data.nodeType as InternalNodeType,
-		  )
-		? 'InternalNode'
-		: 'ContainerNode';
-
-	if (isServiceNode) {
-		(data as ServiceNodeData).childNodes ??= createDefaultInternalNodes(
-			data.nodeType as ServiceNodeType,
-			id,
-		);
+	if (isServiceNode(node)) {
+		node.type = 'ServiceNode';
+		node.data.childNodes ??= createDefaultInternalNodes(node.data.nodeType);
+	} else if (isInternalNode(node)) {
+		node.type = 'InternalNode';
+	} else {
+		node.type = 'ContainerNode';
 	}
 
-	return {
-		data,
-		id,
-		position,
-		type,
-		...props,
-	};
+	return node as Node<T>;
 }
 
 /*
@@ -60,7 +58,6 @@ export function createNode<T extends NodeType>({
 */
 export function createDefaultInternalNodes(
 	parentNodeType: ServiceNodeType,
-	parentNodeId: string,
 ): Node<InternalNodeData | ContainerNodeData>[] {
 	if (parentNodeType === ServiceNodeType.NestJs) {
 		const moduleNode = createNode({
@@ -69,7 +66,6 @@ export function createDefaultInternalNodes(
 				formData: { nodeName: 'App Module' },
 				nodeType: ContainerNodeType.Module,
 				parentNodeType,
-				parentNodeId,
 			},
 		});
 		return [
@@ -82,7 +78,6 @@ export function createDefaultInternalNodes(
 					formData: { nodeName: 'App Controller' },
 					nodeType: InternalNodeType.Controller,
 					parentNodeType,
-					parentNodeId,
 				},
 			}),
 			createNode({
@@ -93,7 +88,6 @@ export function createDefaultInternalNodes(
 					formData: { nodeName: 'App Service' },
 					nodeType: InternalNodeType.Service,
 					parentNodeType,
-					parentNodeId,
 				},
 			}),
 		];
@@ -102,7 +96,7 @@ export function createDefaultInternalNodes(
 }
 
 export function calculateNodeArea(
-	childNodes: Node<InternalNodeData>[],
+	childNodes: InternalNode[],
 	baseHeight = 105,
 	baseWidth = 208,
 ) {
@@ -127,4 +121,31 @@ export function calculateNodeArea(
 		height: maxY + baseHeight + REM,
 		width: maxX + baseWidth + minX,
 	};
+}
+
+export function setContainerNodesStyle(
+	childNodes: (InternalNode | ContainerNode)[],
+) {
+	const containedNodes = childNodes.reduce<
+		Record<string, InternalNode[] | undefined>
+	>((acc, cur) => {
+		if (isInternalNode(cur) && cur.parentNode) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			acc[cur.parentNode] ??= [];
+			acc[cur.parentNode]?.push(cur);
+		}
+		return acc;
+	}, {});
+	return childNodes.map((node) => {
+		const internalNodes = containedNodes[node.id];
+		if (
+			isContainerNode(node) &&
+			!node.data.isAreaCalculated &&
+			internalNodes?.length
+		) {
+			node.style = calculateNodeArea(internalNodes);
+			node.data.isAreaCalculated = true;
+		}
+		return node;
+	});
 }

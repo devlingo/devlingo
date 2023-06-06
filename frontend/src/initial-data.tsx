@@ -1,11 +1,11 @@
 import { Position } from '@reactflow/core';
-import { nanoid } from 'nanoid';
 import { Edge, Node } from 'reactflow';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ServiceNodeType } from '@/constants';
 import { createNode } from '@/utils/node';
 
-const nestService = createNode({
+export const nestService = createNode({
 	position: { x: 700, y: 50 },
 	data: {
 		nodeType: ServiceNodeType.NestJs,
@@ -13,7 +13,7 @@ const nestService = createNode({
 	},
 });
 
-const nextService = createNode({
+export const nextService = createNode({
 	position: { x: 1300, y: 50 },
 	data: {
 		nodeType: ServiceNodeType.NextJs,
@@ -21,7 +21,7 @@ const nextService = createNode({
 	},
 });
 
-const flutterService = createNode({
+export const flutterService = createNode({
 	position: { x: 1300, y: 500 },
 	data: {
 		nodeType: ServiceNodeType.Flutter,
@@ -33,17 +33,17 @@ export const initialNodes: Node[] = [nestService, nextService, flutterService];
 
 export const initialEdges: Edge[] = [
 	{
-		id: nanoid(),
+		id: uuidv4(),
 		source: nextService.id,
 		target: nestService.id,
-		sourceHandle: `${nextService.id}-source-${Position.Left}`,
-		targetHandle: `${nestService.id}-source-${Position.Right}`,
+		sourceHandle: Position.Left,
+		targetHandle: Position.Right,
 	},
 	{
-		id: nanoid(),
+		id: uuidv4(),
 		source: flutterService.id,
 		target: nestService.id,
-		sourceHandle: `${flutterService.id}-source-${Position.Left}`,
-		targetHandle: `${nestService.id}-source-${Position.Bottom}`,
+		sourceHandle: Position.Left,
+		targetHandle: Position.Right,
 	},
 ];

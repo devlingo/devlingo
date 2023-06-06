@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 
-import { ThemeContext } from '@/utils/context';
+import { ThemeContext } from '@/context';
 
 export const DEFAULT_THEME = 'dracula';
 

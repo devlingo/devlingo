@@ -1,6 +1,7 @@
 import { expect } from 'vitest';
 
 import { ContainerNodeType, ServiceNodeType } from '@/constants';
+import { ServiceNodeData } from '@/types';
 import { createNode } from '@/utils/node';
 
 describe('Node Utils Tests', () => {
@@ -19,7 +20,7 @@ describe('Node Utils Tests', () => {
 			expect(node.position).toEqual({ x: 1000, y: 50 });
 		});
 		it('creates default childNodes for a ServiceNode correctly', () => {
-			const node = createNode<ServiceNodeType>({
+			const node = createNode<ServiceNodeData>({
 				position: { x: 1000, y: 50 },
 				data: {
 					nodeType: ServiceNodeType.NestJs,
@@ -35,7 +36,6 @@ describe('Node Utils Tests', () => {
 					formData: { nodeName: 'App Module' },
 					nodeType: ContainerNodeType.Module,
 					parentNodeType: ServiceNodeType.NestJs,
-					parentNodeId: 'abc',
 				},
 			});
 			expect(node.id).toBeTypeOf('string');
