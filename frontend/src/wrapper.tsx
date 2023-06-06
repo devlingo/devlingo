@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material';
 import { ThemeProvider as MaterialThemeProvider } from '@mui/material/styles';
 import { BackendFactory } from 'dnd-core';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 
 import { ThemeContext } from '@/context';
@@ -65,8 +65,12 @@ export function AppWrapper({
 		}
 	};
 
+	useEffect(() => {
+		document.querySelector('html')?.setAttribute('data-theme', theme);
+	}, [theme]);
+
 	return (
-		<div data-theme={theme}>
+		<>
 			<Head>
 				<title>DevLingo</title>
 				<link rel="shortcut icon" href="/favicon.ico" />
@@ -82,6 +86,6 @@ export function AppWrapper({
 					</MaterialThemeProvider>
 				</ThemeContext.Provider>
 			</DndProvider>
-		</div>
+		</>
 	);
 }

@@ -137,7 +137,9 @@ export function SideRail({
 
 	return (
 		<div
-			className={`flex border-r-2 h-[calc(100vh-${NAV_BAR_HEIGHT_PIXELS})] bg-base-100 border-base-200 grow`}
+			className={`flex border-r-2 bg-base-100 border-base-200 h-[calc(100vh-${NAV_BAR_HEIGHT_PIXELS})] ${
+				isMenuOpen ? 'grow' : 'shrink'
+			}`}
 		>
 			<div className="flex flex-col">
 				<button
@@ -163,19 +165,19 @@ export function SideRail({
 								}`}
 								onMouseEnter={() => handleItemHover(i)}
 							>
-								<item.icon className="h-6 w-6" />
+								<item.icon className="h-6 w-6 text-base-content" />
 							</a>
 						</li>
 					))}
 				</ul>
 			</div>
 			{isMenuOpen && (
-				<div className=" flex flex-col mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto">
+				<div className="flex flex-col mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto">
 					{menuItems[activeItem].subItems.map((subItem, j) => (
 						<div
 							key={j}
 							tabIndex={0}
-							className="collapse collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
+							className="collapse text-base-content collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
 						>
 							<input type="checkbox" />
 							<div className="collapse-title text-sm font-medium">
@@ -195,7 +197,7 @@ export function SideRail({
 							setIsMenuOpen(false);
 						}}
 					>
-						<ArrowLeft className="h-3 w-3" />
+						<ArrowLeft className="h-3 w-3 text-base-content" />
 					</button>
 				</div>
 			)}
