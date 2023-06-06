@@ -75,30 +75,20 @@ export function createOpenAIChain({
 	const prompt = ChatPromptTemplate.fromPromptMessages([
 		SystemMessagePromptTemplate.fromTemplate(
 			`You are a system architecture design assistant working with JSON nodes and connection edges. 
-			Choose from the following node types: ${nodeTypes}. The available edge types are: ${edgeTypes}.`,
+			The available node types are: ${nodeTypes}. The available edge types are: ${edgeTypes}.`,
 		),
 		SystemMessagePromptTemplate.fromTemplate(
 			`Nodes are positioned on a 2D plane with X and Y coordinates. Each node has a fixed width of 250 pixels and 
-			height of 120 pixels and has four connection handles (top, bottom, left and right).`,
+			height of 120 pixels`,
 		),
 		SystemMessagePromptTemplate.fromTemplate(`When adding new nodes, try to position them to not
-			intersect existing edges.`),
-		SystemMessagePromptTemplate.fromTemplate(`When adding new nodes, do not overlap other nodes. Try to keep
-		a distance of at least 50 pixels but no more than 500 pixels - if possible.`),
-		SystemMessagePromptTemplate.fromTemplate(`When adding new edges, make sure to set the 'sourceHandle' and 
-		'targetHandle' properties to a position, ensuring that the edge will be as short as possible.`),
+			intersect existing edges and keep a minimal distance of 50 pixels from other nodes.`),
 		SystemMessagePromptTemplate.fromTemplate(
-			`Note that multiple connections to the same handle are allowed.`,
+			`Use unique UUID version 4 values when generating ids.`,
 		),
-		SystemMessagePromptTemplate.fromTemplate(`Provide a concise paragraph explaining the proposed changes and 
-		the reasoning behind them, and a second paragraph containing only the JSON result.`),
-		SystemMessagePromptTemplate.fromTemplate(`Ensure that any additions maintain the 
-			format of the JSON object provided by the user.`),
-		SystemMessagePromptTemplate.fromTemplate(`Do not remove or modify any existing nodes or edges unless 
-		requested to do so.`),
-		SystemMessagePromptTemplate.fromTemplate(
-			`Make sure to generate UUID version 4 values for ids.`,
-		),
+		SystemMessagePromptTemplate.fromTemplate(`Provide a paragraph explaining the proposed changes and 
+		the reasoning behind them, and a second paragraph containing only the JSON result. Ensure that any additions maintain the 
+			format of the JSON object provided by the user, and do not modify the provided data unless requested to do so.`),
 		new MessagesPlaceholder('history'),
 		HumanMessagePromptTemplate.fromTemplate('{input}'),
 	]);
