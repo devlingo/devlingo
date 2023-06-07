@@ -10,12 +10,15 @@ import {
 } from 'react';
 import { shallow } from 'zustand/shallow';
 
-import { ConnectionLine, HttpRestEdge } from '@/components/flow/edges';
+import {
+	ConnectionLine,
+	HttpRestEdge,
+} from '@/components/design-canvas-page/flow/edges';
 import {
 	ContainerNode,
 	InternalNode,
 	ServiceNode,
-} from '@/components/flow/nodes';
+} from '@/components/design-canvas-page/flow/nodes';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	NAV_BAR_HEIGHT_PIXELS,
@@ -23,7 +26,10 @@ import {
 	REM,
 } from '@/constants';
 import { ThemeContext } from '@/context';
-import { FlowStoreState, useStore } from '@/hooks/use-store';
+import {
+	FlowStore,
+	useDesignCanvasStore,
+} from '@/hooks/use-design-canvas-store';
 import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
 
 export interface FlowProps {
@@ -35,7 +41,7 @@ export interface FlowProps {
 	showBackground: boolean;
 }
 
-export const flowStateSelector = (state: FlowStoreState) => ({
+export const flowStateSelector = (state: FlowStore) => ({
 	nodes: state.nodes,
 	edges: state.edges,
 	onNodesChange: state.onNodesChange,
@@ -94,7 +100,7 @@ export function Flow({
 		onEdgesChange,
 		onEdgeUpdate,
 		onConnect,
-	} = useStore(flowStateSelector, shallow);
+	} = useDesignCanvasStore(flowStateSelector, shallow);
 
 	// theming
 

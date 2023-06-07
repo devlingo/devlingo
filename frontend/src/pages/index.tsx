@@ -3,19 +3,20 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
-import { Flow } from '@/components/flow/flow-canvas';
-import { InternalFlowHeader } from '@/components/flow/internal-flow-header';
-import { NodeForm } from '@/components/forms/node-form';
-import { Navbar } from '@/components/navbar';
-import { PromptContainer } from '@/components/prompt/prompt-container';
-import { SideRail } from '@/components/side-menu/side-rail';
+import { Flow } from '@/components/design-canvas-page/flow/flow';
+import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
+import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
+import { Navbar } from '@/components/design-canvas-page/navbar';
+import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
+import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
 	useConfiguredNode,
 	useExpandedNode,
 	useInsertNode,
-	useUnsetConfiguredNode,
-} from '@/hooks/use-store';
+	useSetConfiguredNode,
+} from '@/hooks/use-design-canvas-store';
+import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { createNode } from '@/utils/node';
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -30,7 +31,7 @@ export async function getStaticProps({ locale }: { locale: string }) {
 	};
 }
 
-export default function Index() {
+export default function DesignCanvasPage() {
 	const handleBurgerIconClick = () => {
 		return;
 	};
@@ -47,12 +48,12 @@ export default function Index() {
 		return;
 	};
 
-	const insertNode = useInsertNode();
 	const configuredNode = useConfiguredNode();
 	const expandedNode = useExpandedNode();
-	const unsetConfiguredNode = useUnsetConfiguredNode();
+	const insertNode = useInsertNode();
+	const isClientSide = useIsClientSide();
+	const setConfiguredNode = useSetConfiguredNode();
 
-	const [isClientSide, setIsClientSide] = useState(false);
 	const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 	const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
 
@@ -60,12 +61,6 @@ export default function Index() {
 		useState<ReactFlowInstance | null>(null);
 
 	const [dndDropData, dndRef] = useBoundedDrop();
-
-	useEffect(() => {
-		// useEffect is executed only on the client side.
-		// we need to render the react-flow components only in SPA mode.
-		setIsClientSide(true);
-	}, []);
 
 	// drag and drop
 	useEffect(() => {
@@ -133,7 +128,7 @@ export default function Index() {
 					<div className="absolute inset-1 w-5/10 h-full z-10 flex justify-center">
 						<NodeForm
 							closeMenuHandler={() => {
-								unsetConfiguredNode();
+								setConfiguredNode(null);
 							}}
 						/>
 					</div>

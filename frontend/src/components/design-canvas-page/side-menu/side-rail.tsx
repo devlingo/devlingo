@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { ArrowLeft, Plus, TypeSVGMap } from '@/assets';
-import { MenuItem } from '@/components/side-menu/menu-item';
+import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
 import {
 	MenuItemType,
 	NAV_BAR_HEIGHT_PIXELS,
