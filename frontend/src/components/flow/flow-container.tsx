@@ -42,7 +42,7 @@ const calculateFlowWidth = (
 ): number => {
 	const flowWidth =
 		windowWidth -
-		(isSideRailExpanded ? RAIL_WIDTH_PIXELS * 2 : RAIL_WIDTH_PIXELS);
+		(isSideRailExpanded ? RAIL_WIDTH_PIXELS * 2 : RAIL_WIDTH_PIXELS / 2);
 	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
 };
 
@@ -105,7 +105,7 @@ export function FlowContainer() {
 	// handling AI prompt sending
 
 	return (
-		<main className="h-full w-full flex">
+		<main className="h-full w-full flex justify-between">
 			<PromptContainer
 				closePromptModal={() => {
 					setIsPromptModalOpen(false);
@@ -125,7 +125,7 @@ export function FlowContainer() {
 					expandedNode
 						? 'bg-base-100 rounded border-2 border-neutral'
 						: 'bg-base-300'
-				}`}
+				} ${isSideMenuOpen ? 'shrink' : 'grow'}`}
 			>
 				{expandedNode && <InternalFlowHeader {...expandedNode.data} />}
 				{flowHeight && windowWidth && (

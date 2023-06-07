@@ -108,12 +108,12 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 			expandedNode: structuredClone(expandedNode),
 		});
 
-		const shouldSetContaineNodeStyle = childNodes.some(
+		const shouldSetContainedNodeStyle = childNodes.some(
 			(n) => isContainerNode(n) && !n.data.isAreaCalculated,
 		);
 
 		get().setNodes(
-			shouldSetContaineNodeStyle
+			shouldSetContainedNodeStyle
 				? setContainerNodesStyle(
 						childNodes as (InternalNode | ContainerNode)[],
 				  )
@@ -186,16 +186,16 @@ export const useStore = create<FlowStoreState>((set, get) => ({
 	},
 }));
 
-export const useInsertNode = () => useStore((s) => s.insertNode);
 export const useConfiguredNode = () => useStore((s) => s.configuredNode);
-export const useUnsetExpandedNode = () => useStore((s) => s.unsetExpandedNode);
-export const useSetExpandedNode = () => useStore((s) => s.setExpandedNode);
+export const useDisplayEdges = () => useStore((s) => s.edges);
+export const useDisplayNodes = () => useStore((s) => s.nodes);
 export const useExpandedNode = () => useStore((s) => s.expandedNode);
+export const useInsertNode = () => useStore((s) => s.insertNode);
+export const useSetConfiguredNode = () => useStore((s) => s.setConfiguredNode);
+export const useSetEdges = () => useStore((s) => s.setEdges);
+export const useSetExpandedNode = () => useStore((s) => s.setExpandedNode);
+export const useSetNodes = () => useStore((s) => s.setNodes);
 export const useUnsetConfiguredNode = () =>
 	useStore((s) => s.unsetConfiguredNode);
-export const useSetConfiguredNode = () => useStore((s) => s.setConfiguredNode);
-export const useDisplayNodes = () => useStore((s) => s.nodes);
-export const useDisplayEdges = () => useStore((s) => s.edges);
+export const useUnsetExpandedNode = () => useStore((s) => s.unsetExpandedNode);
 export const useUpdateNodeData = () => useStore((s) => s.updateNodeData);
-export const useSetNodes = () => useStore((s) => s.setNodes);
-export const useSetEdges = () => useStore((s) => s.setEdges);

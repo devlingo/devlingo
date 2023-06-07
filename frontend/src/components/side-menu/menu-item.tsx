@@ -21,10 +21,10 @@ export function MenuItem({ nodeType }: MenuItemProps) {
 	const tag = TypeTagMap[nodeType];
 
 	return (
-		<li className="p-2 list-none">
+		<li className="p-2 list-none text-base-content">
 			<div
 				ref={drag}
-				className={`flex justify-start p-2 bg-transparent hover:bg-neutral	 hover:text-neutral-content rounded-2xl  ${
+				className={`flex justify-start p-2 bg-transparent hover:bg-neutral hover:text-neutral-content rounded-2xl  ${
 					isDragging ? 'opacity-60' : 'opacity-100'
 				}`}
 			>

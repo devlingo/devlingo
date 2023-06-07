@@ -33,7 +33,7 @@ export default function Index() {
 	};
 
 	return (
-		<div className="mx-auto">
+		<div>
 			<Navbar
 				onBurgerIconClick={handleBurgerIconClick}
 				onDownloadIconClick={handleDownloadIconClick}

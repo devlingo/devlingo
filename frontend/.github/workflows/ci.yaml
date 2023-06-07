@@ -64,6 +64,4 @@ jobs:
             - name: Apply Prettier
               run: pnpm run format
             - name: Apply ESLint
-              run: pnpm run lint:code
-            - name: Apply StyleLint
-              run: pnpm run lint:style
+              run: pnpm run check
