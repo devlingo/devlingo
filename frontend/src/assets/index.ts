@@ -4,13 +4,11 @@ import Endpoint from '@/assets/internal-nodes/endpoint.svg';
 import Module from '@/assets/internal-nodes/module.svg';
 import Service from '@/assets/internal-nodes/service.svg';
 import API from '@/assets/menu-icons/api.svg';
-import ArrowLeft from '@/assets/menu-icons/arrow-left.svg';
 import Backend from '@/assets/menu-icons/backend.svg';
 import Cloud from '@/assets/menu-icons/cloud.svg';
 import Database from '@/assets/menu-icons/database.svg';
 import Frontend from '@/assets/menu-icons/frontend.svg';
 import Marketing from '@/assets/menu-icons/marketing.svg';
-import Plus from '@/assets/menu-icons/plus.svg';
 import ExpressJS from '@/assets/services-nodes/backend-frameworks/js/expressjs.svg';
 import Fastify from '@/assets/services-nodes/backend-frameworks/js/fastifyjs.svg';
 import HapiJS from '@/assets/services-nodes/backend-frameworks/js/hapijs.svg';
@@ -55,7 +53,6 @@ export {
 	Android,
 	Angular,
 	API,
-	ArrowLeft,
 	Backend,
 	Cassandra,
 	Cloud,
@@ -83,7 +80,6 @@ export {
 	NestJS,
 	NextJS,
 	Oracle,
-	Plus,
 	PostgresSQL,
 	ReactLogo,
 	ReactNative,

@@ -1,6 +1,7 @@
+import { ChevronLeftIcon, CommandLineIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 
-import { ArrowLeft, Plus, TypeSVGMap } from '@/assets';
+import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
 import {
 	MenuItemType,
@@ -143,7 +144,7 @@ export function SideRail({
 		>
 			<div className="flex flex-col">
 				<button
-					className="btn-primary p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
+					className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
 					onClick={() => {
 						if (isMenuOpen) {
 							setIsMenuOpen(false);
@@ -151,7 +152,7 @@ export function SideRail({
 						togglePromptModal();
 					}}
 				>
-					<Plus className="w-5 h-5 text-primary-content" />
+					<CommandLineIcon className="w-6 h-6 text-primary-content" />
 				</button>
 
 				<ul className="menu p-2 rounded-box grow">
@@ -197,7 +198,7 @@ export function SideRail({
 							setIsMenuOpen(false);
 						}}
 					>
-						<ArrowLeft className="h-3 w-3 text-base-content" />
+						<ChevronLeftIcon className="h-4 w-4 text-base-content" />
 					</button>
 				</div>
 			)}
