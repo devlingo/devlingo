@@ -3,11 +3,11 @@ import { useTranslation } from 'next-i18next';
 
 import { TypeSVGMap } from '@/assets';
 import { NAV_BAR_HEIGHT_PIXELS, TypeTagMap } from '@/constants';
-import { useStore } from '@/hooks/use-store';
+import { useSetExpandedNode } from '@/hooks/use-design-canvas-store';
 import { ServiceNodeData } from '@/types';
 
 export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
-	const unsetExpandedNode = useStore((s) => s.unsetExpandedNode);
+	const setExpandedNode = useSetExpandedNode();
 
 	const { t } = useTranslation('assets');
 	const { SVG } = TypeSVGMap[nodeType];
@@ -36,7 +36,7 @@ export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
 					<ChevronLeftIcon
 						className="h-12 w-12 text-base-content hover:text-primary"
 						onClick={() => {
-							unsetExpandedNode();
+							setExpandedNode(null);
 						}}
 					/>
 				</button>

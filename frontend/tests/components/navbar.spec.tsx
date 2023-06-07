@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { render, screen } from 'tests/test-utils';
 
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/design-canvas-page/navbar';
 import { ThemeContext } from '@/context';
 
 describe('Navbar tests', () => {

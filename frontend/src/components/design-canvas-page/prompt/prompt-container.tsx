@@ -4,14 +4,14 @@ import { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { requestPrompt } from '@/api/ai-service-api';
-import { PromptModal } from '@/components/prompt/prompt-modal';
+import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
 import {
 	useDisplayEdges,
 	useDisplayNodes,
 	useSetEdges,
 	useSetNodes,
-} from '@/hooks/use-store';
+} from '@/hooks/use-design-canvas-store';
 import { NormalizeEdges } from '@/utils/edge';
 import { wait } from '@/utils/time';
 

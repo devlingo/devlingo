@@ -7,8 +7,14 @@ import {
 import { JsonForms } from '@jsonforms/react';
 import { useState } from 'react';
 
-import { DefaultSchemas, typeSchemaMap } from '@/components/forms/form-schemas';
-import { useConfiguredNode, useUpdateNodeData } from '@/hooks/use-store';
+import {
+	DefaultSchemas,
+	typeSchemaMap,
+} from '@/components/design-canvas-page/forms/form-schemas';
+import {
+	useConfiguredNode,
+	useUpdateNodeData,
+} from '@/hooks/use-design-canvas-store';
 import { FormData, NodeType } from '@/types';
 
 const handleDefaultsAjv = createAjv({ useDefaults: true });
