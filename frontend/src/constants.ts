@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-duplicate-enum-values */
 export const DEFAULT_FLOW_HEIGHT = 1024;
 
 export const ONE_SECOND_IN_MILLISECONDS = 1000;
