@@ -50,6 +50,10 @@ export enum ServiceNodeType {
 	IOS = 'IOS',
 	Flutter = 'Flutter',
 	ReactNative = 'ReactNative',
+	MailGun = 'Mailgun',
+	OpenAi = 'OpenAI',
+	SendGrid = 'Sendgrid',
+	Stripe = 'Stripe',
 }
 
 export enum ContainerNodeType {
@@ -104,6 +108,12 @@ export const TypeTagMap: Record<
 	[ServiceNodeType.Django]: 'django',
 	[ServiceNodeType.Flask]: 'flask',
 	[ServiceNodeType.FastAPI]: 'fastapi',
+	// api services
+	[ServiceNodeType.OpenAi]: 'openai',
+	[ServiceNodeType.SendGrid]: 'sendgrid',
+	[ServiceNodeType.Stripe]: 'stripe',
+	[ServiceNodeType.MailGun]: 'mailgun',
+
 	// internal
 	[InternalNodeType.Controller]: 'controller',
 	[InternalNodeType.Service]: 'service',

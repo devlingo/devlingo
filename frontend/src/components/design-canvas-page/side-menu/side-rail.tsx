@@ -116,7 +116,17 @@ const menuItems = [
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.API].SVG,
-		subItems: [],
+		subItems: [
+			{
+				category: 'Marketing',
+				nodes: [ServiceNodeType.SendGrid, ServiceNodeType.MailGun],
+			},
+			{
+				category: 'Ai',
+				nodes: [ServiceNodeType.OpenAi],
+			},
+			{ category: 'Payment', nodes: [ServiceNodeType.Stripe] },
+		],
 	},
 ];
 

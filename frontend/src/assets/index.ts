@@ -9,6 +9,10 @@ import Cloud from '@/assets/menu-icons/cloud.svg';
 import Database from '@/assets/menu-icons/database.svg';
 import Frontend from '@/assets/menu-icons/frontend.svg';
 import Marketing from '@/assets/menu-icons/marketing.svg';
+import OpenAi from '@/assets/services-nodes/api-services/ai/openai.svg';
+import MailGun from '@/assets/services-nodes/api-services/marketing/mailgun.svg';
+import SendGrid from '@/assets/services-nodes/api-services/marketing/sendgrid.svg';
+import Stripe from '@/assets/services-nodes/api-services/payment/stripe.svg';
 import ExpressJS from '@/assets/services-nodes/backend-frameworks/js/expressjs.svg';
 import Fastify from '@/assets/services-nodes/backend-frameworks/js/fastifyjs.svg';
 import HapiJS from '@/assets/services-nodes/backend-frameworks/js/hapijs.svg';
@@ -71,6 +75,7 @@ export {
 	Hbase,
 	Ios,
 	Litestar,
+	MailGun,
 	MariaDB,
 	Marketing,
 	MicrosoftSQL,
@@ -79,14 +84,17 @@ export {
 	MySQL,
 	NestJS,
 	NextJS,
+	OpenAi,
 	Oracle,
 	PostgresSQL,
 	ReactLogo,
 	ReactNative,
 	Redis,
+	SendGrid,
 	Service,
 	Solid,
 	SQLite,
+	Stripe,
 	Svelte,
 	Vue,
 };
@@ -148,6 +156,12 @@ export const TypeSVGMap: Record<
 	[ServiceNodeType.Django]: { SVG: Django },
 	[ServiceNodeType.Flask]: { SVG: Flask },
 	[ServiceNodeType.FastAPI]: { SVG: FastAPI },
+	// api services
+	[ServiceNodeType.Stripe]: { SVG: Stripe },
+	[ServiceNodeType.OpenAi]: { SVG: OpenAi },
+	[ServiceNodeType.MailGun]: { SVG: MailGun },
+	[ServiceNodeType.SendGrid]: { SVG: SendGrid },
+
 	// internal nodes
 	[InternalNodeType.Controller]: { SVG: Controller },
 	[InternalNodeType.Endpoint]: { SVG: Endpoint },

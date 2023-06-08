@@ -41,5 +41,9 @@
 	"database": "Database",
 	"cloud": "Cloud",
 	"marketing": "Marketing",
-	"api": "API"
+	"api": "API",
+	"mailgun": "Mailgun",
+	"sendgrid": "Sendgrid",
+	"stripe": "Stripe",
+	"openai": "OpenAI"
 }
