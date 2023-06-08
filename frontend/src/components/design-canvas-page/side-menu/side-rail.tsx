@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 
 import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
-import {
-	MenuItemType,
-	NAV_BAR_HEIGHT_PIXELS,
-	ServiceNodeType,
-} from '@/constants';
+import { Dimensions, MenuItemType, ServiceNodeType } from '@/constants';
 
 const menuItems = [
 	{
@@ -148,9 +144,9 @@ export function SideRail({
 
 	return (
 		<div
-			className={`flex border-r-2 bg-base-100 border-base-200 h-[calc(100vh-${NAV_BAR_HEIGHT_PIXELS})] ${
-				isMenuOpen ? 'grow' : 'shrink'
-			}`}
+			className={`flex border-r-2 bg-base-100 border-base-200 h-[calc(100vh-${
+				Dimensions.Sixteen
+			})] ${isMenuOpen ? 'grow' : 'shrink'}`}
 		>
 			<div className="flex flex-col">
 				<button

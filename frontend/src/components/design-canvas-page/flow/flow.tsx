@@ -19,12 +19,7 @@ import {
 	InternalNode,
 	ServiceNode,
 } from '@/components/design-canvas-page/flow/nodes';
-import {
-	DEFAULT_FLOW_HEIGHT,
-	NAV_BAR_HEIGHT_PIXELS,
-	RAIL_WIDTH_PIXELS,
-	REM,
-} from '@/constants';
+import { DEFAULT_FLOW_HEIGHT, Dimensions } from '@/constants';
 import { ThemeContext } from '@/context';
 import {
 	FlowStore,
@@ -66,9 +61,7 @@ const calculateFlowHeight = (
 ): number => {
 	const flowHeight =
 		windowHeight -
-		(isExpandedNode
-			? NAV_BAR_HEIGHT_PIXELS * 2 + REM
-			: NAV_BAR_HEIGHT_PIXELS);
+		(isExpandedNode ? Dimensions.ThirtySix : Dimensions.Sixteen);
 
 	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };
@@ -78,8 +71,7 @@ const calculateFlowWidth = (
 	isFullWith: boolean,
 ): number => {
 	const flowWidth =
-		windowWidth -
-		(isFullWith ? RAIL_WIDTH_PIXELS / 2 : RAIL_WIDTH_PIXELS * 2);
+		windowWidth - (isFullWith ? Dimensions.Twenty : Dimensions.Eighty);
 	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
 };
 

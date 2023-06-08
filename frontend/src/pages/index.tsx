@@ -32,22 +32,6 @@ export async function getStaticProps({ locale }: { locale: string }) {
 }
 
 export default function DesignCanvasPage() {
-	const handleBurgerIconClick = () => {
-		return;
-	};
-	const handleSaveIconClick = () => {
-		return;
-	};
-	const handleShareIconClick = () => {
-		return;
-	};
-	const handleUserIconClick = () => {
-		return;
-	};
-	const handleDownloadIconClick = () => {
-		return;
-	};
-
 	const configuredNode = useConfiguredNode();
 	const expandedNode = useExpandedNode();
 	const insertNode = useInsertNode();
@@ -81,14 +65,7 @@ export default function DesignCanvasPage() {
 
 	return (
 		<ReactFlowProvider>
-			<Navbar
-				onBurgerIconClick={handleBurgerIconClick}
-				onDownloadIconClick={handleDownloadIconClick}
-				onSaveIconClick={handleSaveIconClick}
-				onShareIconClick={handleShareIconClick}
-				onUserIconClick={handleUserIconClick}
-				projectName="Backend Example"
-			/>
+			<Navbar projectName="Backend Example" />
 			<main className="h-full w-full flex justify-between">
 				<PromptContainer
 					closePromptModal={() => {
