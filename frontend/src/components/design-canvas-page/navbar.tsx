@@ -28,8 +28,8 @@ export function Navbar({ projectName }: NavbarProps) {
 					onChange={(event) =>
 						themeContext.setTheme(event.target.value)
 					}
-					data-testid="navbar-theme-select"
 					defaultValue={themeContext.currentTheme}
+					data-testid="navbar-theme-select"
 				>
 					{daisyUIThemes.map((theme, i) => (
 						<option value={theme} key={i}>

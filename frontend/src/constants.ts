@@ -179,3 +179,20 @@ export enum EdgeTypes {
 	SmoothStepEdg = 'smoothstep',
 	SimpleBezier = 'simplebezier',
 }
+
+export enum NodeCategory {
+	DotNet = '.Net',
+	Go = 'Go',
+	Graph = 'Graph',
+	Java = 'Java',
+	Javascript = 'Javascript',
+	Mobile = 'Mobile',
+	NoSQL = 'NoSQL',
+	Python = 'Python',
+	SQL = 'SQL',
+	Vector = 'Vector',
+	Warehouse = 'Warehouse',
+	Marketing = 'Marketing',
+	AI = 'AI',
+	Payment = 'Payment',
+}

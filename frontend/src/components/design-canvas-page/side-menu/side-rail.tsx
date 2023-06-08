@@ -3,14 +3,29 @@ import React, { useState } from 'react';
 
 import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
-import { Dimensions, MenuItemType, ServiceNodeType } from '@/constants';
+import {
+	ContainerNodeType,
+	Dimensions,
+	InternalNodeType,
+	MenuItemType,
+	NodeCategory,
+	ServiceNodeType,
+} from '@/constants';
 
-const menuItems = [
+interface MenuCategory {
+	category: NodeCategory;
+	nodes: (ServiceNodeType | ContainerNodeType | InternalNodeType)[];
+}
+
+const menuItems: {
+	icon: React.ComponentType<React.SVGProps<SVGElement>>;
+	categories: MenuCategory[];
+}[] = [
 	{
 		icon: TypeSVGMap[MenuItemType.Frontend].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Javascript',
+				category: NodeCategory.Javascript,
 				nodes: [
 					ServiceNodeType.NextJs,
 					ServiceNodeType.React,
@@ -21,7 +36,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Mobile',
+				category: NodeCategory.Mobile,
 				nodes: [
 					ServiceNodeType.IOS,
 					ServiceNodeType.Android,
@@ -33,9 +48,9 @@ const menuItems = [
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Backend].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Javascript',
+				category: NodeCategory.Javascript,
 				nodes: [
 					ServiceNodeType.NestJs,
 					ServiceNodeType.ExpressJs,
@@ -45,7 +60,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Python',
+				category: NodeCategory.Python,
 				nodes: [
 					ServiceNodeType.Django,
 					ServiceNodeType.Litestar,
@@ -54,24 +69,24 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Java',
+				category: NodeCategory.Java,
 				nodes: [],
 			},
 			{
-				category: 'Go',
+				category: NodeCategory.Go,
 				nodes: [],
 			},
 			{
-				category: '.Net',
+				category: NodeCategory.DotNet,
 				nodes: [],
 			},
 		],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Database].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'No-SQL',
+				category: NodeCategory.NoSQL,
 				nodes: [
 					ServiceNodeType.Redis,
 					ServiceNodeType.Firestore,
@@ -81,7 +96,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'SQL',
+				category: NodeCategory.SQL,
 				nodes: [
 					ServiceNodeType.PostgresSQL,
 					ServiceNodeType.Oracle,
@@ -93,38 +108,126 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Graph',
+				category: NodeCategory.Graph,
 				nodes: [],
 			},
 			{
-				category: 'Warehouse',
+				category: NodeCategory.Warehouse,
 				nodes: [],
 			},
 			{
-				category: 'Vector',
+				category: NodeCategory.Vector,
 				nodes: [],
 			},
 		],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Cloud].SVG,
-		subItems: [],
+		categories: [],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.API].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Marketing',
+				category: NodeCategory.Marketing,
 				nodes: [ServiceNodeType.SendGrid, ServiceNodeType.MailGun],
 			},
 			{
-				category: 'Ai',
+				category: NodeCategory.AI,
 				nodes: [ServiceNodeType.OpenAi],
 			},
-			{ category: 'Payment', nodes: [ServiceNodeType.Stripe] },
+			{ category: NodeCategory.Payment, nodes: [ServiceNodeType.Stripe] },
 		],
 	},
 ];
+
+export function RailBaseMenu({
+	activeItem,
+	closeMenuHandler,
+	handleItemHover,
+	isMenuOpen,
+	togglePromptModal,
+}: {
+	activeItem: number;
+	closeMenuHandler: () => void;
+	handleItemHover: (i: number) => void;
+	isMenuOpen: boolean;
+	togglePromptModal: () => void;
+}) {
+	return (
+		<div className="flex flex-col border-r-2 border-base-200">
+			<button
+				className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
+				onClick={() => {
+					if (isMenuOpen) {
+						closeMenuHandler();
+					}
+					togglePromptModal();
+				}}
+			>
+				<CommandLineIcon className="w-6 h-6 text-primary-content" />
+			</button>
+
+			<ul className="menu p-2 rounded-box grow">
+				{menuItems.map((item, i) => (
+					<li key={i} tabIndex={0}>
+						<a
+							className={`block items-center rounded-full ${
+								isMenuOpen && activeItem === i
+									? 'opacity-100'
+									: 'opacity-60'
+							}`}
+							onMouseEnter={() => handleItemHover(i)}
+						>
+							<item.icon className="h-6 w-6 text-base-content" />
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+
+export function RailExpandedMenu({
+	categories,
+	closeMenuHandler,
+}: {
+	categories: MenuCategory[];
+	closeMenuHandler: () => void;
+}) {
+	return (
+		<div className="menu justify-between mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto border-r-2">
+			<div>
+				{categories.map((item, j) => (
+					<div
+						key={j}
+						tabIndex={0}
+						className="collapse text-base-content collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
+					>
+						<input type="checkbox" />
+						<div className="collapse-title text-sm font-medium">
+							{item.category}
+						</div>
+
+						<div className="collapse-content">
+							{item.nodes.map((node) => (
+								<MenuItem nodeType={node} key={node} />
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+			<div className="self-end p-3">
+				<button
+					className="btn btn-xs btn-ghost btn-natural h-fit w-fit"
+					onClick={closeMenuHandler}
+				>
+					<ChevronLeftIcon className="h-6 w-6 text-base-content" />
+				</button>
+			</div>
+		</div>
+	);
+}
 
 export function SideRail({
 	isMenuOpen,
@@ -142,71 +245,29 @@ export function SideRail({
 		setIsMenuOpen(true);
 	};
 
+	const handleMenuClose = () => {
+		setIsMenuOpen(false);
+		setActiveItem(0);
+	};
+
 	return (
 		<div
-			className={`flex border-r-2 bg-base-100 border-base-200 h-[calc(100vh-${
+			className={`flex bg-base-100 h-[calc(100vh-${
 				Dimensions.Sixteen
 			})] ${isMenuOpen ? 'grow' : 'shrink'}`}
 		>
-			<div className="flex flex-col">
-				<button
-					className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
-					onClick={() => {
-						if (isMenuOpen) {
-							setIsMenuOpen(false);
-						}
-						togglePromptModal();
-					}}
-				>
-					<CommandLineIcon className="w-6 h-6 text-primary-content" />
-				</button>
-
-				<ul className="menu p-2 rounded-box grow">
-					{menuItems.map((item, i) => (
-						<li key={i} tabIndex={0}>
-							<a
-								className={`block items-center rounded-full ${
-									isMenuOpen && activeItem === i
-										? 'opacity-100'
-										: 'opacity-60'
-								}`}
-								onMouseEnter={() => handleItemHover(i)}
-							>
-								<item.icon className="h-6 w-6 text-base-content" />
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
+			<RailBaseMenu
+				activeItem={activeItem}
+				handleItemHover={handleItemHover}
+				isMenuOpen={isMenuOpen}
+				togglePromptModal={togglePromptModal}
+				closeMenuHandler={handleMenuClose}
+			/>
 			{isMenuOpen && (
-				<div className="flex flex-col mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto">
-					{menuItems[activeItem].subItems.map((subItem, j) => (
-						<div
-							key={j}
-							tabIndex={0}
-							className="collapse text-base-content collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
-						>
-							<input type="checkbox" />
-							<div className="collapse-title text-sm font-medium">
-								{subItem.category}
-							</div>
-
-							<div className="collapse-content">
-								{subItem.nodes.map((node) => (
-									<MenuItem nodeType={node} key={node} />
-								))}
-							</div>
-						</div>
-					))}
-					<button
-						className="btn btn-xs btn-ghost btn-natural h-fit w-fit"
-						onClick={() => {
-							setIsMenuOpen(false);
-						}}
-					>
-						<ChevronLeftIcon className="h-4 w-4 text-base-content" />
-					</button>
-				</div>
+				<RailExpandedMenu
+					categories={menuItems[activeItem].categories}
+					closeMenuHandler={handleMenuClose}
+				/>
 			)}
 		</div>
 	);
