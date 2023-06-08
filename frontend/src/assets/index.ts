@@ -99,6 +99,8 @@ export {
 	Vue,
 };
 
+const defaultClassName = 'text-base-content h-12 w-12';
+
 export const TypeSVGMap: Record<
 	MenuItemType | ServiceNodeType | InternalNodeType | ContainerNodeType,
 	{
@@ -115,7 +117,10 @@ export const TypeSVGMap: Record<
 	[MenuItemType.API]: { SVG: API },
 
 	//front js
-	[ServiceNodeType.NextJs]: { SVG: NextJS },
+	[ServiceNodeType.NextJs]: {
+		SVG: NextJS,
+		props: { className: defaultClassName },
+	},
 	[ServiceNodeType.Angular]: { SVG: Angular },
 	[ServiceNodeType.React]: { SVG: ReactLogo },
 	[ServiceNodeType.Solid]: { SVG: Solid },
@@ -144,7 +149,10 @@ export const TypeSVGMap: Record<
 	[ServiceNodeType.Oracle]: { SVG: Oracle },
 	// server js
 	[ServiceNodeType.NestJs]: { SVG: NestJS },
-	[ServiceNodeType.ExpressJs]: { SVG: ExpressJS },
+	[ServiceNodeType.ExpressJs]: {
+		SVG: ExpressJS,
+		props: { className: defaultClassName },
+	},
 	[ServiceNodeType.KoaJs]: { SVG: KoaJS },
 	[ServiceNodeType.HapiJs]: { SVG: HapiJS },
 	[ServiceNodeType.Fastify]: { SVG: Fastify },
@@ -154,7 +162,10 @@ export const TypeSVGMap: Record<
 		props: { className: 'h-12 w-12 p-0' },
 	},
 	[ServiceNodeType.Django]: { SVG: Django },
-	[ServiceNodeType.Flask]: { SVG: Flask },
+	[ServiceNodeType.Flask]: {
+		SVG: Flask,
+		props: { className: defaultClassName },
+	},
 	[ServiceNodeType.FastAPI]: { SVG: FastAPI },
 	// api services
 	[ServiceNodeType.Stripe]: { SVG: Stripe },
