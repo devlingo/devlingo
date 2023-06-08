@@ -1,20 +1,41 @@
-import { ChevronLeftIcon, CommandLineIcon } from '@heroicons/react/24/solid';
+import {
+	ChevronLeftIcon,
+	CommandLineIcon,
+	DocumentArrowDownIcon,
+	PhotoIcon,
+	ShareIcon,
+} from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 
 import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
 import {
+	ContainerNodeType,
+	Dimensions,
+	InternalNodeType,
 	MenuItemType,
-	NAV_BAR_HEIGHT_PIXELS,
+	NodeCategory,
 	ServiceNodeType,
 } from '@/constants';
+import { useDisplayNodes } from '@/hooks/use-design-canvas-store';
+import { ImageType } from '@/types';
+import { downloadFile } from '@/utils/file';
+import { convertNodesToImageString } from '@/utils/node';
 
-const menuItems = [
+interface MenuCategory {
+	category: NodeCategory;
+	nodes: (ServiceNodeType | ContainerNodeType | InternalNodeType)[];
+}
+
+const menuItems: {
+	icon: React.ComponentType<React.SVGProps<SVGElement>>;
+	categories: MenuCategory[];
+}[] = [
 	{
 		icon: TypeSVGMap[MenuItemType.Frontend].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Javascript',
+				category: NodeCategory.Javascript,
 				nodes: [
 					ServiceNodeType.NextJs,
 					ServiceNodeType.React,
@@ -25,7 +46,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Mobile',
+				category: NodeCategory.Mobile,
 				nodes: [
 					ServiceNodeType.IOS,
 					ServiceNodeType.Android,
@@ -37,9 +58,9 @@ const menuItems = [
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Backend].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Javascript',
+				category: NodeCategory.Javascript,
 				nodes: [
 					ServiceNodeType.NestJs,
 					ServiceNodeType.ExpressJs,
@@ -49,7 +70,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Python',
+				category: NodeCategory.Python,
 				nodes: [
 					ServiceNodeType.Django,
 					ServiceNodeType.Litestar,
@@ -58,24 +79,24 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Java',
+				category: NodeCategory.Java,
 				nodes: [],
 			},
 			{
-				category: 'Go',
+				category: NodeCategory.Go,
 				nodes: [],
 			},
 			{
-				category: '.Net',
+				category: NodeCategory.DotNet,
 				nodes: [],
 			},
 		],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Database].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'No-SQL',
+				category: NodeCategory.NoSQL,
 				nodes: [
 					ServiceNodeType.Redis,
 					ServiceNodeType.Firestore,
@@ -85,7 +106,7 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'SQL',
+				category: NodeCategory.SQL,
 				nodes: [
 					ServiceNodeType.PostgresSQL,
 					ServiceNodeType.Oracle,
@@ -97,38 +118,189 @@ const menuItems = [
 				],
 			},
 			{
-				category: 'Graph',
+				category: NodeCategory.Graph,
 				nodes: [],
 			},
 			{
-				category: 'Warehouse',
+				category: NodeCategory.Warehouse,
 				nodes: [],
 			},
 			{
-				category: 'Vector',
+				category: NodeCategory.Vector,
 				nodes: [],
 			},
 		],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.Cloud].SVG,
-		subItems: [],
+		categories: [],
 	},
 	{
 		icon: TypeSVGMap[MenuItemType.API].SVG,
-		subItems: [
+		categories: [
 			{
-				category: 'Marketing',
+				category: NodeCategory.Marketing,
 				nodes: [ServiceNodeType.SendGrid, ServiceNodeType.MailGun],
 			},
 			{
-				category: 'Ai',
+				category: NodeCategory.AI,
 				nodes: [ServiceNodeType.OpenAi],
 			},
-			{ category: 'Payment', nodes: [ServiceNodeType.Stripe] },
+			{ category: NodeCategory.Payment, nodes: [ServiceNodeType.Stripe] },
 		],
 	},
 ];
+
+export function ExportFlowCanvasToImage() {
+	const displayNodes = useDisplayNodes();
+	const handleDownload = async (imageType: ImageType) => {
+		const backgroundColor = `hsl(${getComputedStyle(
+			document.querySelector(':root')!,
+		).getPropertyValue('--b3')})`;
+
+		const dataUrl = await convertNodesToImageString({
+			nodes: displayNodes,
+			imageType,
+			backgroundColor,
+		});
+
+		// FIXME: filenames should be meaningful. For now this works though.
+		downloadFile({ dataUrl, filename: new Date().getTime().toString() });
+	};
+
+	return (
+		<li className="dropdown dropdown-top">
+			<label
+				tabIndex={0}
+				className="btn btn-ghost rounded-full opacity-80"
+			>
+				<PhotoIcon className="h-6 w-6 text-base-content mt-1" />
+			</label>
+			<ul
+				tabIndex={0}
+				className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit z-10 border-2 border-base-200"
+			>
+				{(['png', 'jpeg', 'svg'] as ImageType[]).map((imageType, i) => (
+					<li key={i}>
+						<a
+							className="text-base-content"
+							onClick={() => {
+								void handleDownload(imageType);
+							}}
+						>
+							save as {imageType}
+						</a>
+					</li>
+				))}
+			</ul>
+		</li>
+	);
+}
+
+export function RailBaseMenu({
+	activeItem,
+	closeMenuHandler,
+	handleItemHover,
+	isMenuOpen,
+	togglePromptModal,
+}: {
+	activeItem: number;
+	closeMenuHandler: () => void;
+	handleItemHover: (i: number) => void;
+	isMenuOpen: boolean;
+	togglePromptModal: () => void;
+}) {
+	return (
+		<div className="flex flex-col justify-between border-r-2 border-base-200">
+			<div className="flex flex-col">
+				<button
+					className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
+					onClick={() => {
+						if (isMenuOpen) {
+							closeMenuHandler();
+						}
+						togglePromptModal();
+					}}
+				>
+					<CommandLineIcon className="w-6 h-6 text-primary-content" />
+				</button>
+				<ul className="menu p-2 rounded-box gap-2">
+					{menuItems.map((item, i) => (
+						<li key={i} tabIndex={0}>
+							<figure
+								className={`block rounded-full ${
+									isMenuOpen && activeItem === i
+										? 'opacity-100'
+										: 'opacity-60'
+								}`}
+								onMouseEnter={() => handleItemHover(i)}
+							>
+								<item.icon className="h-6 w-6 text-base-content" />
+							</figure>
+						</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<div className="divider" />
+				<ul className="menu rounded-box pb-4">
+					<li>
+						<button className="btn btn-ghost rounded-full opacity-80">
+							<ShareIcon className="h-6 w-6 text-base-content mt-1" />
+						</button>
+					</li>
+					<ExportFlowCanvasToImage />
+					<li>
+						<button className="btn btn-ghost rounded-full opacity-80">
+							<DocumentArrowDownIcon className="h-6 w-6 text-base-content mt-1" />
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	);
+}
+
+export function RailExpandedMenu({
+	categories,
+	closeMenuHandler,
+}: {
+	categories: MenuCategory[];
+	closeMenuHandler: () => void;
+}) {
+	return (
+		<div className="menu justify-between mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto border-r-2">
+			<div>
+				{categories.map((item, j) => (
+					<div
+						key={j}
+						tabIndex={0}
+						className="collapse text-base-content collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
+					>
+						<input type="checkbox" />
+						<div className="collapse-title text-sm font-medium">
+							{item.category}
+						</div>
+
+						<div className="collapse-content">
+							{item.nodes.map((node) => (
+								<MenuItem nodeType={node} key={node} />
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+			<div className="self-end p-3">
+				<button
+					className="btn btn-xs btn-ghost btn-natural h-fit w-fit"
+					onClick={closeMenuHandler}
+				>
+					<ChevronLeftIcon className="h-6 w-6 text-base-content" />
+				</button>
+			</div>
+		</div>
+	);
+}
 
 export function SideRail({
 	isMenuOpen,
@@ -146,71 +318,29 @@ export function SideRail({
 		setIsMenuOpen(true);
 	};
 
+	const handleMenuClose = () => {
+		setIsMenuOpen(false);
+		setActiveItem(0);
+	};
+
 	return (
 		<div
-			className={`flex border-r-2 bg-base-100 border-base-200 h-[calc(100vh-${NAV_BAR_HEIGHT_PIXELS})] ${
-				isMenuOpen ? 'grow' : 'shrink'
-			}`}
+			className={`flex bg-base-100 h-[calc(100vh-${
+				Dimensions.Sixteen
+			})] ${isMenuOpen ? 'grow' : 'shrink'}`}
 		>
-			<div className="flex flex-col">
-				<button
-					className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
-					onClick={() => {
-						if (isMenuOpen) {
-							setIsMenuOpen(false);
-						}
-						togglePromptModal();
-					}}
-				>
-					<CommandLineIcon className="w-6 h-6 text-primary-content" />
-				</button>
-
-				<ul className="menu p-2 rounded-box grow">
-					{menuItems.map((item, i) => (
-						<li key={i} tabIndex={0}>
-							<a
-								className={`block items-center rounded-full ${
-									isMenuOpen && activeItem === i
-										? 'opacity-100'
-										: 'opacity-60'
-								}`}
-								onMouseEnter={() => handleItemHover(i)}
-							>
-								<item.icon className="h-6 w-6 text-base-content" />
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
+			<RailBaseMenu
+				activeItem={activeItem}
+				handleItemHover={handleItemHover}
+				isMenuOpen={isMenuOpen}
+				togglePromptModal={togglePromptModal}
+				closeMenuHandler={handleMenuClose}
+			/>
 			{isMenuOpen && (
-				<div className="flex flex-col mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto">
-					{menuItems[activeItem].subItems.map((subItem, j) => (
-						<div
-							key={j}
-							tabIndex={0}
-							className="collapse text-base-content collapse-arrow bg-base-100 rounded-box transition-opacity duration-700 ease-in-out flex-none hover:opacity-100 opacity-80"
-						>
-							<input type="checkbox" />
-							<div className="collapse-title text-sm font-medium">
-								{subItem.category}
-							</div>
-
-							<div className="collapse-content">
-								{subItem.nodes.map((node) => (
-									<MenuItem nodeType={node} key={node} />
-								))}
-							</div>
-						</div>
-					))}
-					<button
-						className="btn btn-xs btn-ghost btn-natural h-fit w-fit"
-						onClick={() => {
-							setIsMenuOpen(false);
-						}}
-					>
-						<ChevronLeftIcon className="h-4 w-4 text-base-content" />
-					</button>
-				</div>
+				<RailExpandedMenu
+					categories={menuItems[activeItem].categories}
+					closeMenuHandler={handleMenuClose}
+				/>
 			)}
 		</div>
 	);

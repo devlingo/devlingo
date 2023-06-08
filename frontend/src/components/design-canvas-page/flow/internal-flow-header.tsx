@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
 
 import { TypeSVGMap } from '@/assets';
-import { NAV_BAR_HEIGHT_PIXELS, TypeTagMap } from '@/constants';
+import { Dimensions, TypeTagMap } from '@/constants';
 import { useSetExpandedNode } from '@/hooks/use-design-canvas-store';
 import { ServiceNodeData } from '@/types';
 
@@ -14,7 +14,7 @@ export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {
 
 	return (
 		<div
-			className={`bg-base-100 border-b-2 border-base-200 w-full h-[${NAV_BAR_HEIGHT_PIXELS}px] flex-none`}
+			className={`bg-base-100 border-b-2 border-base-200 w-full h-[${Dimensions.Sixteen}px] flex-none`}
 		>
 			<div className="flex justify-between p-4 border-b-2 border-b-neutral gap-4">
 				<div className="flex justify-between gap-4">

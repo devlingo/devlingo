@@ -1,3 +1,5 @@
+import { toJpeg, toPng, toSvg } from 'html-to-image';
+import { testData } from 'tests/test-data';
 import { v4 as uuidv4 } from 'uuid';
 import { expect } from 'vitest';
 
@@ -6,8 +8,18 @@ import {
 	InternalNodeType,
 	ServiceNodeType,
 } from '@/constants';
-import { ServiceNodeData } from '@/types';
-import { createDefaultInternalNodes, createNode } from '@/utils/node';
+import { ImageType, ServiceNodeData } from '@/types';
+import {
+	convertNodesToImageString,
+	createDefaultInternalNodes,
+	createNode,
+} from '@/utils/node';
+
+vi.mock('html-to-image', () => ({
+	toPng: vi.fn(),
+	toJpeg: vi.fn(),
+	toSvg: vi.fn(),
+}));
 
 describe('Node Utils Tests', () => {
 	describe('createNode Tests', () => {
@@ -87,5 +99,36 @@ describe('Node Utils Tests', () => {
 			const nodes = createDefaultInternalNodes(ServiceNodeType.IOS);
 			expect(nodes.length).toBe(0);
 		});
+	});
+	describe('convertNodesToImageString', () => {
+		it.each(['png', 'jpeg', 'svg'])(
+			'converts to %s',
+			async (imageType: ImageType) => {
+				const mock =
+					imageType === 'jpeg'
+						? toJpeg
+						: imageType === 'png'
+						? toPng
+						: toSvg;
+				const { nodes } = testData;
+				const expected = {
+					backgroundColor: '#FFFFF',
+					height: 768,
+					style: {
+						height: '768',
+						transform:
+							'translate(-1039.5151515151513px, -42.66666666666663px) scale(1.5515151515151513)',
+						width: '1024',
+					},
+					width: 1024,
+				};
+				await convertNodesToImageString({
+					nodes,
+					imageType,
+					backgroundColor: '#FFFFF',
+				});
+				expect(mock).toHaveBeenCalledWith(null, expected);
+			},
+		);
 	});
 });

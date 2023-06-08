@@ -27,5 +27,6 @@ module.exports = {
 	rules: {
 		'testing-library/no-wait-for-side-effects': 0,
 		'react-hooks/exhaustive-deps': 0,
+		'@typescript-eslint/no-magic-numbers': 0,
 	},
 };

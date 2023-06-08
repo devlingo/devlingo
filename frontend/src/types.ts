@@ -45,3 +45,5 @@ export interface ContainerNodeData extends BaseNodeData<ContainerNodeType> {
 export interface InternalNodeData extends BaseNodeData<InternalNodeType> {
 	parentNodeType: ServiceNodeType;
 }
+
+export type ImageType = 'png' | 'jpeg' | 'svg';
