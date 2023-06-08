@@ -169,12 +169,12 @@ const imageExporterMap: Record<
 export async function convertNodesToImageString({
 	nodes,
 	imageType,
-	background,
+	backgroundColor,
 	...options
 }: {
 	nodes: Node[];
 	imageType: ImageType;
-} & HtmlToImageOptions & { background: string }) {
+} & HtmlToImageOptions & { backgroundColor: string }) {
 	// we calculate a transform for the nodes so that all nodes are visible
 	// we then overwrite the transform of the `.react-flow__viewport` element
 	// with the style option of the html-to-image library
@@ -193,7 +193,7 @@ export async function convertNodesToImageString({
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 		document.querySelector('.react-flow__viewport')! as HTMLElement,
 		{
-			backgroundColor: background,
+			backgroundColor,
 			width: options.width ?? imageWidth,
 			height: options.height ?? imageHeight,
 			style: {

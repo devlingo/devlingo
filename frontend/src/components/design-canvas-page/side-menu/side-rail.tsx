@@ -1,4 +1,10 @@
-import { ChevronLeftIcon, CommandLineIcon } from '@heroicons/react/24/solid';
+import {
+	ChevronLeftIcon,
+	CommandLineIcon,
+	DocumentArrowDownIcon,
+	PhotoIcon,
+	ShareIcon,
+} from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 
 import { TypeSVGMap } from '@/assets';
@@ -11,6 +17,10 @@ import {
 	NodeCategory,
 	ServiceNodeType,
 } from '@/constants';
+import { useDisplayNodes } from '@/hooks/use-design-canvas-store';
+import { ImageType } from '@/types';
+import { downloadFile } from '@/utils/file';
+import { convertNodesToImageString } from '@/utils/node';
 
 interface MenuCategory {
 	category: NodeCategory;
@@ -141,6 +151,52 @@ const menuItems: {
 	},
 ];
 
+export function ExportFlowCanvasToImage() {
+	const displayNodes = useDisplayNodes();
+	const handleDownload = async (imageType: ImageType) => {
+		const backgroundColor = `hsl(${getComputedStyle(
+			document.querySelector(':root')!,
+		).getPropertyValue('--b3')})`;
+
+		const dataUrl = await convertNodesToImageString({
+			nodes: displayNodes,
+			imageType,
+			backgroundColor,
+		});
+
+		// FIXME: filenames should be meaningful. For now this works though.
+		downloadFile({ dataUrl, filename: new Date().getTime().toString() });
+	};
+
+	return (
+		<li className="dropdown dropdown-top">
+			<label
+				tabIndex={0}
+				className="btn btn-ghost rounded-full opacity-80"
+			>
+				<PhotoIcon className="h-6 w-6 text-base-content mt-1" />
+			</label>
+			<ul
+				tabIndex={0}
+				className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit z-10 border-2 border-base-200"
+			>
+				{(['png', 'jpeg', 'svg'] as ImageType[]).map((imageType, i) => (
+					<li key={i}>
+						<a
+							className="text-base-content"
+							onClick={() => {
+								void handleDownload(imageType);
+							}}
+						>
+							save as {imageType}
+						</a>
+					</li>
+				))}
+			</ul>
+		</li>
+	);
+}
+
 export function RailBaseMenu({
 	activeItem,
 	closeMenuHandler,
@@ -155,35 +211,52 @@ export function RailBaseMenu({
 	togglePromptModal: () => void;
 }) {
 	return (
-		<div className="flex flex-col border-r-2 border-base-200">
-			<button
-				className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
-				onClick={() => {
-					if (isMenuOpen) {
-						closeMenuHandler();
-					}
-					togglePromptModal();
-				}}
-			>
-				<CommandLineIcon className="w-6 h-6 text-primary-content" />
-			</button>
-
-			<ul className="menu p-2 rounded-box grow">
-				{menuItems.map((item, i) => (
-					<li key={i} tabIndex={0}>
-						<a
-							className={`block items-center rounded-full ${
-								isMenuOpen && activeItem === i
-									? 'opacity-100'
-									: 'opacity-60'
-							}`}
-							onMouseEnter={() => handleItemHover(i)}
-						>
-							<item.icon className="h-6 w-6 text-base-content" />
-						</a>
+		<div className="flex flex-col justify-between border-r-2 border-base-200">
+			<div className="flex flex-col">
+				<button
+					className="btn btn-primary btn-md p-2 my-6 mt-8 rounded-lg shadow-md mx-auto"
+					onClick={() => {
+						if (isMenuOpen) {
+							closeMenuHandler();
+						}
+						togglePromptModal();
+					}}
+				>
+					<CommandLineIcon className="w-6 h-6 text-primary-content" />
+				</button>
+				<ul className="menu p-2 rounded-box gap-2">
+					{menuItems.map((item, i) => (
+						<li key={i} tabIndex={0}>
+							<figure
+								className={`block rounded-full ${
+									isMenuOpen && activeItem === i
+										? 'opacity-100'
+										: 'opacity-60'
+								}`}
+								onMouseEnter={() => handleItemHover(i)}
+							>
+								<item.icon className="h-6 w-6 text-base-content" />
+							</figure>
+						</li>
+					))}
+				</ul>
+			</div>
+			<div>
+				<div className="divider" />
+				<ul className="menu rounded-box pb-4">
+					<li>
+						<button className="btn btn-ghost rounded-full opacity-80">
+							<ShareIcon className="h-6 w-6 text-base-content mt-1" />
+						</button>
 					</li>
-				))}
-			</ul>
+					<ExportFlowCanvasToImage />
+					<li>
+						<button className="btn btn-ghost rounded-full opacity-80">
+							<DocumentArrowDownIcon className="h-6 w-6 text-base-content mt-1" />
+						</button>
+					</li>
+				</ul>
+			</div>
 		</div>
 	);
 }

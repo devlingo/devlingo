@@ -125,7 +125,7 @@ describe('Node Utils Tests', () => {
 				await convertNodesToImageString({
 					nodes,
 					imageType,
-					background: '#FFFFF',
+					backgroundColor: '#FFFFF',
 				});
 				expect(mock).toHaveBeenCalledWith(null, expected);
 			},
