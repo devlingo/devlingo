@@ -4,10 +4,10 @@ module.exports = {
 		project: 'tsconfig.json',
 	},
 	extends: ['@tool-belt/eslint-config'],
-	ignorePatterns: ['.eslintrc.js'],
+	ignorePatterns: ['.eslintrc.js', '*.js'],
 	overrides: [
 		{
-			files: ['**/*.spec.ts'],
+			files: ['tests/**/*.spec.ts'],
 			extends: ['@tool-belt/eslint-config', 'plugin:jest/recommended'],
 		},
 	],

@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
+	"compilerOptions": {
+		"sourceMap": true,
+		"outDir": "./dist",
+		"declaration": false,
+		"removeComments": true
+	}
+}

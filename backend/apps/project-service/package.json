@@ -1,9 +1,0 @@
-{
-	"name": "project-service",
-	"version": "1.0.0",
-	"description": "A NestJS microservice for project data",
-	"main": "",
-	"private": true,
-	"author": "DevLingo",
-	"license": "UNLICENSED"
-}
