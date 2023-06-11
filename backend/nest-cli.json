@@ -1,31 +1,5 @@
 {
 	"$schema": "https://json.schemastore.org/nest-cli",
 	"collection": "@nestjs/schematics",
-	"monorepo": true,
-	"sourceRoot": "apps/project-service/src",
-	"root": "apps/project-service",
-	"compilerOptions": {
-		"webpack": true,
-		"tsConfigPath": "apps/project-service/tsconfig.app.json"
-	},
-	"projects": {
-		"project-service": {
-			"type": "application",
-			"root": "apps/project-service",
-			"entryFile": "main",
-			"sourceRoot": "apps/project-service/src",
-			"compilerOptions": {
-				"tsConfigPath": "apps/project-service/tsconfig.app.json"
-			}
-		},
-		"ai-service": {
-			"type": "application",
-			"root": "apps/ai-service",
-			"entryFile": "main",
-			"sourceRoot": "apps/ai-service/src",
-			"compilerOptions": {
-				"tsConfigPath": "apps/ai-service/tsconfig.app.json"
-			}
-		}
-	}
+	"sourceRoot": "src"
 }
