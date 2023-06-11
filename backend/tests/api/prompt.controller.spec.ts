@@ -1,12 +1,12 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Design, PrismaClient, Project } from '@prisma/client';
 import type { SuperTest } from 'supertest';
+import { OpenAIResponse } from 'tests/test-data';
+import { ProjectFactory } from 'tests/testing.factories';
+import { bootstrapIntegrationTest } from 'tests/testing.utils';
 
-import { PromptModule } from '../../src/api/prompt';
-import { AppModule } from '../../src/app';
-import { OpenAIResponse } from '../test-data';
-import { ProjectFactory } from '../testing.factories';
-import { bootstrapIntegrationTest } from '../testing.utils';
+import { PromptModule } from '@/api/prompt';
+import { AppModule } from '@/app';
 
 const mockChainCall = jest.fn(async () => Promise.resolve(OpenAIResponse));
 

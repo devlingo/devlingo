@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
-import { ProjectCreateDTO } from '../../dtos/body.dto';
-import { ProjectIdParam } from '../../dtos/parameter.dto';
+import { ProjectCreateDTO } from '@/dtos/body.dto';
+import { ProjectIdParam } from '@/dtos/parameter.dto';
+
 import { ProjectService } from './project.service';
 
 @Controller('projects')

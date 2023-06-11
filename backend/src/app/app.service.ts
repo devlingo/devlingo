@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { Messages } from '../constants';
+import { Messages } from '@/constants';
 
 @Injectable()
 export class AppService {

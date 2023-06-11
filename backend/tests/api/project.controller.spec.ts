@@ -2,12 +2,11 @@ import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import type { SuperTest } from 'supertest';
+import { ProjectFactory } from 'tests/testing.factories';
+import { bootstrapIntegrationTest } from 'tests/testing.utils';
 
 import { ProjectModule } from '@/api/project';
 import { AppModule } from '@/app';
-
-import { ProjectFactory } from '../testing.factories';
-import { bootstrapIntegrationTest } from '../testing.utils';
 
 describe('Project Controller Tests', () => {
 	const prisma = new PrismaClient();

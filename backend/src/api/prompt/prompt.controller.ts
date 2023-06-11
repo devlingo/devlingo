@@ -1,7 +1,8 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 
-import { PromptRequestDTO } from '../../dtos/body.dto';
-import { DesignIdParam, ProjectIdParam } from '../../dtos/parameter.dto';
+import { PromptRequestDTO } from '@/dtos/body.dto';
+import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter.dto';
+
 import { PromptService } from './prompt.service';
 
 @Controller('prompt')

@@ -10,12 +10,9 @@ import {
 } from '@nestjs/common';
 import { Design } from '@prisma/client';
 
-import { DesignVersionDTO } from '../../dtos/body.dto';
-import {
-	NameParam,
-	ProjectIdParam,
-	VersionParam,
-} from '../../dtos/parameter.dto';
+import { DesignVersionDTO } from '@/dtos/body.dto';
+import { NameParam, ProjectIdParam, VersionParam } from '@/dtos/parameter.dto';
+
 import { DesignService } from './design.service';
 
 @Controller('design')

@@ -1,9 +1,9 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import type { SuperTest } from 'supertest';
+import { bootstrapIntegrationTest } from 'tests/testing.utils';
 
-import { AppModule } from '../../src/app';
-import { Messages } from '../../src/constants';
-import { bootstrapIntegrationTest } from '../testing.utils';
+import { AppModule } from '@/app';
+import { Messages } from '@/constants';
 
 describe('App Controller Tests', () => {
 	let app: INestApplication;

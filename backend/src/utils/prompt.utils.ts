@@ -10,8 +10,8 @@ import {
 } from 'langchain/prompts';
 import { RedisChatMessageHistory } from 'langchain/stores/message/redis';
 
-import { RequestPromptParams } from '../api/prompt/prompt.service';
-import { ONE_HOUR_IN_SECONDS } from '../constants';
+import { RequestPromptParams } from '@/api/prompt/prompt.service';
+import { ONE_HOUR_IN_SECONDS } from '@/constants';
 
 /*
 NOTE: this is solution cannot be used in a real production environment for long because it can lead

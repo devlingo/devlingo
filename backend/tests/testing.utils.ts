@@ -4,8 +4,8 @@ import { Test } from '@nestjs/testing';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
 
-import { PrismaExceptionFilter } from '../src/exception-filters/prisma-exceptino.filter';
-import { setupValidationPipe } from '../src/utils/configuration.utils';
+import { PrismaExceptionFilter } from '@/exception-filters/prisma-exceptino.filter';
+import { setupValidationPipe } from '@/utils/configuration.utils';
 
 export async function bootstrapIntegrationTest(
 	moduleMetadata: Partial<ModuleMetadata>,
