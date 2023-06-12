@@ -1,16 +1,23 @@
+import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { Design, PrismaClient, Project } from '@prisma/client';
+import { Prisma, PrismaClient, Project } from '@prisma/client';
 import type { SuperTest } from 'supertest';
-import { DesignFactory, ProjectFactory } from 'tests/testing.factories';
+import {
+	DesignFactory,
+	DesignVersionFactory,
+	ProjectFactory,
+} from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
+import { DeepMockProxy } from 'vitest-mock-extended';
 
 import { DesignModule } from '@/api/design';
 import { AppModule } from '@/app';
+import { DesignVersionDTO } from '@/dtos/body.dto';
 
 describe('Design Controller Tests', () => {
-	const prisma = new PrismaClient();
 	let app: INestApplication;
 	let request: SuperTest<any>;
+	let prisma: DeepMockProxy<PrismaClient>;
 
 	let project: Project;
 
@@ -20,6 +27,7 @@ describe('Design Controller Tests', () => {
 		});
 		request = bootstrap.request;
 		app = bootstrap.app;
+		prisma = bootstrap.prisma;
 	});
 
 	afterAll(async () => {
@@ -27,97 +35,235 @@ describe('Design Controller Tests', () => {
 	});
 
 	beforeEach(async () => {
-		project = await prisma.project.create({
-			data: await ProjectFactory.build(),
-		});
+		project = await ProjectFactory.build();
 	});
 
-	afterEach(async () => {
-		await prisma.project.deleteMany();
-		await prisma.design.deleteMany();
-	});
+	describe('POST designs/', () => {
+		const versionId = faker.string.uuid();
+		const designId = faker.string.uuid();
+		it('creates and returns a design when designId is not provided', async () => {
+			const data = {
+				name: 'design name',
+				description: 'design description',
+				projectId: project.id,
+				data: { version: 1 },
+			} satisfies DesignVersionDTO;
 
-	describe('POST design/:projectId', () => {
-		it('creates and returns a design', async () => {
-			const name = 'abc';
-			const data = { a: 'b' };
+			prisma.design.create.mockResolvedValueOnce({ id: designId } as any);
+			prisma.designVersion.create.mockResolvedValueOnce({
+				id: versionId,
+			} as any);
 
-			const response = await request
-				.post(`/design/${project.id}`)
-				.send({ name, data });
+			const response = await request.post(`/designs`).send(data);
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
-			const design = response.body as Design;
+			expect(response.body.designId).toEqual(designId);
+			expect(response.body.versionId).toEqual(versionId);
+			expect(prisma.design.create).toHaveBeenCalledWith({
+				data: {
+					name: data.name,
+					description: data.description,
+					projectId: data.projectId,
+				},
+				select: { id: true },
+			});
+		});
 
-			expect(design.name).toEqual(name);
-			expect(JSON.stringify(design.data)).toEqual(JSON.stringify(data));
+		it('creates and returns a design when designId is provided', async () => {
+			const data = {
+				name: 'design name',
+				description: 'design description',
+				projectId: project.id,
+				data: { version: 1 },
+				designId,
+			} satisfies DesignVersionDTO;
+
+			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
+				id: designId,
+			} as any);
+			prisma.designVersion.create.mockResolvedValueOnce({
+				id: versionId,
+			} as any);
+
+			const response = await request.post(`/designs`).send(data);
+
+			expect(response.statusCode).toEqual(HttpStatus.CREATED);
+			expect(response.body.designId).toEqual(designId);
+			expect(response.body.versionId).toEqual(versionId);
+			expect(prisma.design.findUniqueOrThrow).toHaveBeenCalledWith({
+				where: {
+					id: designId,
+				},
+				select: { id: true },
+			});
+		});
+
+		it('returns an informative error when no design is found', async () => {
+			const data = {
+				name: 'design name',
+				description: 'design description',
+				projectId: project.id,
+				data: { version: 1 },
+				designId,
+			} satisfies DesignVersionDTO;
+
+			prisma.design.findUniqueOrThrow.mockImplementationOnce((() => {
+				throw new Prisma.NotFoundError('No Design found');
+			}) as any);
+			const response = await request.post(`/designs`).send(data);
+
+			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+			expect(response.body.message).toBe('No Design found');
 		});
 	});
 
-	describe('GET design/:projectId', () => {
+	describe('GET designs/', () => {
 		it('retrieves a list of available designs and versions for a given project', async () => {
 			const designs = await DesignFactory.batch(3, {
 				projectId: project.id,
 			});
 
-			await prisma.design.createMany({
-				data: designs as unknown as any,
-			});
-			const response = await request.get(`/design/${project.id}/`);
-
-			expect(response.statusCode).toEqual(HttpStatus.OK);
-
-			const responseData = response.body;
-			expect(
-				(responseData as { name: string; version: number }[]).map(
-					({ name }) => name,
-				),
-			).toEqual(designs.map(({ name }) => name).sort());
-			expect(
-				(responseData as { name: string; version: number }[]).map(
-					({ version }) => version,
-				),
-			).toEqual(designs.map(({ version }) => version).sort());
-		});
-	});
-
-	describe('GET design/:projectId/:name/:version', () => {
-		it('retrieves a design using the name and version parameters', async () => {
-			const name = 'abc';
-			const data = { a: 'b' };
-			const design = await prisma.design.create({
-				data: { data, name, projectId: project.id },
-			});
+			prisma.design.findMany.mockResolvedValueOnce(designs);
 			const response = await request.get(
-				`/design/${project.id}/${design.name}/${design.version}`,
+				`/designs?projectId=${project.id}`,
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
-			expect(response.text).toEqual(JSON.stringify(design));
+
+			expect(response.body).toEqual(
+				designs.map((d) => ({
+					...d,
+					createdAt: d.createdAt.toISOString(),
+					updatedAt: d.updatedAt.toISOString(),
+				})),
+			);
 		});
 
-		it('returns an informative error message', async () => {
-			const response = await request.get(`/design/${project.id}/abc/2`);
+		it('returns an informative error when no design is found', async () => {
+			prisma.design.findMany.mockImplementationOnce((() => {
+				throw new Prisma.NotFoundError('No Designs found');
+			}) as any);
+
+			const response = await request.get(
+				`/designs?projectId=${project.id}`,
+			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
-			expect(response.body.message).toEqual('No Design found');
+			expect(response.body.message).toBe('No Designs found');
 		});
 	});
 
-	describe('DELETE design/:projectId/:name/:version', () => {
-		it('deletes a design version using the name and version parameters', async () => {
-			const name = 'abc';
-			const data = { a: 'b' };
-			const design = await prisma.design.create({
-				data: { data, name, projectId: project.id },
-			});
+	describe('GET designs/:designId', () => {
+		it('retrieves a design by ID', async () => {
+			const design = await DesignFactory.build();
 
-			expect(await prisma.design.findFirst()).toBeTruthy();
+			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
+				...design,
+				versions: [],
+			} as any);
+
+			const response = await request.get(`/designs/${design.id}`);
+
+			expect(response.statusCode).toEqual(HttpStatus.OK);
+			expect(response.body).toEqual({
+				...design,
+				versions: [],
+				createdAt: design.createdAt.toISOString(),
+				updatedAt: design.updatedAt.toISOString(),
+			});
+			expect(prisma.design.findUniqueOrThrow).toHaveBeenCalledWith({
+				where: { id: design.id },
+				select: {
+					id: true,
+					name: true,
+					description: true,
+					projectId: true,
+					createdAt: true,
+					updatedAt: true,
+					versions: {
+						select: {
+							id: true,
+							createdAt: true,
+						},
+					},
+				},
+			});
+		});
+
+		it('returns an informative error when no design is found', async () => {
+			prisma.design.findUniqueOrThrow.mockImplementationOnce((() => {
+				throw new Prisma.NotFoundError('No Design found');
+			}) as any);
+
+			const response = await request.get(`/designs/${project.id}`);
+
+			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+			expect(response.body.message).toBe('No Design found');
+		});
+	});
+
+	describe('DELETE designs/:designId', () => {
+		it('deletes a design version using the name and version parameters', async () => {
+			const design = await DesignFactory.build();
+
+			const response = await request.delete(`/designs/${design.id}`);
+			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
+			expect(prisma.design.delete).toHaveBeenCalledWith({
+				where: { id: design.id },
+			});
+		});
+	});
+
+	describe('GET designs/versions/:versionId', () => {
+		it('retrieves a design version by ID', async () => {
+			const version = await DesignVersionFactory.build();
+
+			prisma.designVersion.findUniqueOrThrow.mockResolvedValueOnce(
+				version,
+			);
+
+			const response = await request.get(
+				`/designs/versions/${version.id}`,
+			);
+
+			expect(response.statusCode).toEqual(HttpStatus.OK);
+			expect(response.body).toEqual({
+				...version,
+				createdAt: version.createdAt.toISOString(),
+			});
+			expect(prisma.designVersion.findUniqueOrThrow).toHaveBeenCalledWith(
+				{
+					where: { id: version.id },
+				},
+			);
+		});
+		it('returns an informative error when no design version is found', async () => {
+			prisma.designVersion.findUniqueOrThrow.mockImplementationOnce(
+				(() => {
+					throw new Prisma.NotFoundError('No DesignVersion found');
+				}) as any,
+			);
+
+			const response = await request.get(
+				`/designs/versions/${project.id}`,
+			);
+
+			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+			expect(response.body.message).toBe('No DesignVersion found');
+		});
+	});
+
+	describe('DELETE designs/versions/:versionId', () => {
+		it('deletes a design version by ID', async () => {
+			const version = await DesignVersionFactory.build();
+
 			const response = await request.delete(
-				`/design/${project.id}/${design.name}/${design.version}`,
+				`/designs/versions/${version.id}`,
 			);
 			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
-			expect(await prisma.design.findFirst()).toBeFalsy();
+			expect(prisma.designVersion.delete).toHaveBeenCalledWith({
+				where: { id: version.id },
+			});
 		});
 	});
 });

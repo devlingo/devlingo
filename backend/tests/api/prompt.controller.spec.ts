@@ -1,33 +1,28 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { Design, PrismaClient, Project } from '@prisma/client';
+import { Design, Project } from '@prisma/client';
+import { ConversationChain } from 'langchain/chains';
 import type { SuperTest } from 'supertest';
 import { OpenAIResponse } from 'tests/test-data';
-import { ProjectFactory } from 'tests/testing.factories';
+import { DesignFactory, ProjectFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
+import { Mock } from 'vitest';
 
 import { PromptModule } from '@/api/prompt';
 import { AppModule } from '@/app';
 
-const mockChainCall = jest.fn(async () => Promise.resolve(OpenAIResponse));
+vi.mock(
+	'langchain/chains',
+	async (originalModule: () => Promise<Record<string, any>>) => {
+		const actual = await originalModule();
+		const ConversationChain = vi.fn();
+		ConversationChain.prototype.call = vi.fn();
 
-jest.mock('langchain/chains', () => {
-	const actual = jest.requireActual('langchain/chains');
-
-	class _Chain {
-		readonly arguments: unknown[];
-
-		constructor(...args: unknown[]) {
-			this.arguments = args;
-		}
-
-		call = mockChainCall;
-	}
-
-	return { ...actual, ConversationChain: _Chain };
-});
+		return { ...actual, ConversationChain };
+	},
+);
 
 describe('Prompt Controller Tests', () => {
-	const prisma = new PrismaClient();
+	const mockChainCall = ConversationChain.prototype.call as Mock;
 	const env = process.env;
 	let app: INestApplication;
 	let request: SuperTest<any>;
@@ -47,27 +42,14 @@ describe('Prompt Controller Tests', () => {
 		});
 		request = bootstrap.request;
 		app = bootstrap.app;
+		project = await ProjectFactory.build();
+		design = await DesignFactory.build({ projectId: project.id });
 	});
 
 	afterAll(async () => {
 		process.env = env;
 
 		await app.close();
-	});
-
-	beforeEach(async () => {
-		project = await prisma.project.create({
-			data: await ProjectFactory.build(),
-		});
-
-		design = await prisma.design.create({
-			data: { name: 'abc', data: { a: 'b' }, projectId: project.id },
-		});
-	});
-
-	afterEach(async () => {
-		await prisma.project.deleteMany();
-		await prisma.design.deleteMany();
 	});
 
 	describe('POST prompt/:projectId/:designId', () => {
@@ -159,6 +141,7 @@ describe('Prompt Controller Tests', () => {
 			],
 		};
 		it('sends a prompt request and returns the expected response', async () => {
+			mockChainCall.mockResolvedValueOnce(OpenAIResponse);
 			const response = await request
 				.post(`/prompt/${project.id}/${design.id}`)
 				.send(requestData);

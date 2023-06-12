@@ -10,19 +10,22 @@
 		"forceConsistentCasingInFileNames": true,
 		"module": "CommonJS",
 		"noImplicitAny": true,
+		"noEmit": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
+		"sourceMap": false,
+		"declaration": false,
 		"strict": true,
 		"strictBindCallApply": true,
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
-		"target": "ESNext",
+		"target": "esnext",
 		"paths": {
 			"@/*": ["src/*"],
 			"shared/*": ["shared/src/*"],
 			"tests/*": ["tests/*"]
-		}
+		},
+		"types": ["vitest/globals"]
 	}
 }

@@ -53,7 +53,7 @@ jobs:
               run: pnpm run prisma:migrate:deploy
             - name: Prisma Generate
               run: pnpm run prisma:generate
-            - name: Test with Coverage
+            - name: Test
               run: pnpm run test
     validate:
         runs-on: ubuntu-latest

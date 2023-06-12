@@ -4,14 +4,15 @@
 .DS_Store
 .env*
 .husky/_/
-.idea/shelf
+.idea/shelf/*
 .idea/sonarlint/*
 .idea/dataSources
 .idea/dataSources.xml
 .idea/dataSources.local.xml
 .idea/workspace.xml
 .idea/httpRequests/*
-.jest/
 coverage/
 dist/
 node_modules/
+src/**/*.js
+tests/**/*.js
