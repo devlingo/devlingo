@@ -1,32 +1,29 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Design, PrismaClient, Project } from '@prisma/client';
+import { ConversationChain } from 'langchain/chains';
 import type { SuperTest } from 'supertest';
 import { OpenAIResponse } from 'tests/test-data';
-import { ProjectFactory } from 'tests/testing.factories';
+import { DesignFactory, ProjectFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
+import { Mock } from 'vitest';
+import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
 import { PromptModule } from '@/api/prompt';
 import { AppModule } from '@/app';
 
-const mockChainCall = jest.fn(async () => Promise.resolve(OpenAIResponse));
+vi.mock(
+	'langchain/chains',
+	async (originalModule: () => Promise<Record<string, any>>) => {
+		const actual = await originalModule();
+		const ConversationChain = vi.fn();
+		ConversationChain.prototype.call = vi.fn();
 
-jest.mock('langchain/chains', () => {
-	const actual = jest.requireActual('langchain/chains');
-
-	class _Chain {
-		readonly arguments: unknown[];
-
-		constructor(...args: unknown[]) {
-			this.arguments = args;
-		}
-
-		call = mockChainCall;
-	}
-
-	return { ...actual, ConversationChain: _Chain };
-});
+		return { ...actual, ConversationChain };
+	},
+);
 
 describe('Prompt Controller Tests', () => {
+	const mockChainCall = ConversationChain.call as Mock;
 	const prisma = new PrismaClient();
 	const env = process.env;
 	let app: INestApplication;
@@ -56,13 +53,8 @@ describe('Prompt Controller Tests', () => {
 	});
 
 	beforeEach(async () => {
-		project = await prisma.project.create({
-			data: await ProjectFactory.build(),
-		});
-
-		design = await prisma.design.create({
-			data: { name: 'abc', data: { a: 'b' }, projectId: project.id },
-		});
+		project = await ProjectFactory.build();
+		design = await DesignFactory.build({ projectId: project.id });
 	});
 
 	afterEach(async () => {

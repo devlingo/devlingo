@@ -31,10 +31,9 @@ model Design {
 }
 
 model DesignVersion {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   data      Json
   design    Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
   designId  String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

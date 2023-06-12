@@ -1,47 +1,60 @@
 import { Injectable } from '@nestjs/common';
-import { Design } from '@prisma/client';
+import { Design, DesignVersion } from '@prisma/client';
 
+import { DesignVersionDTO } from '@/dtos/body.dto';
 import { PrismaService } from '@/modules/prisma/prisma.service';
+
+export type RetrieveDesignResponse = Design & {
+	versions: Pick<DesignVersion, 'id' | 'createdAt'>[];
+};
+
+export interface CreateDesignResponse {
+	designId: string;
+	versionId: string;
+}
 
 @Injectable()
 export class DesignService {
 	constructor(private prisma: PrismaService) {}
 
-	async deleteDesignVersion({
+	async createDesignVersion({
+		data,
+		designId,
 		projectId,
 		name,
-		version,
-	}: {
-		projectId: string;
-		name: string;
-		version: number;
-	}): Promise<void> {
-		await this.prisma.design.delete({
-			where: { name_version_projectId: { name, projectId, version } },
+		description,
+	}: DesignVersionDTO): Promise<CreateDesignResponse> {
+		const { id } = designId
+			? await this.prisma.design.findUniqueOrThrow({
+					where: { id: designId },
+					select: { id: true },
+			  })
+			: await this.prisma.design.create({
+					data: {
+						name: name,
+						description: description ?? null,
+						projectId: projectId,
+					},
+					select: { id: true },
+			  });
+
+		const { id: versionId } = await this.prisma.designVersion.create({
+			data: {
+				data,
+				designId: id,
+			},
+			select: { id: true },
 		});
+
+		return { designId: id, versionId };
 	}
 
-	async retrieveDesignVersion({
-		projectId,
-		name,
-		version,
-	}: {
-		projectId: string;
-		name: string;
-		version: number;
-	}): Promise<Design> {
-		return await this.prisma.design.findUniqueOrThrow({
-			where: { name_version_projectId: { name, projectId, version } },
-		});
-	}
-
-	async retrieveProjectDesignVersions({
+	async retrieveDesignsByProjectId({
 		projectId,
 	}: {
 		projectId: string;
-	}): Promise<{ name: string; version: number }[]> {
+	}): Promise<Design[]> {
 		return await this.prisma.design.findMany({
-			select: { name: true, version: true },
 			orderBy: {
 				name: 'asc',
 			},
@@ -49,11 +62,53 @@ export class DesignService {
 		});
 	}
 
-	async createDesignVersion(data: {
-		projectId: string;
-		data: Record<string, any>;
-		name: string;
-	}) {
-		return await this.prisma.design.create({ data });
+	async retrieveDesignById({
+		designId,
+	}: {
+		designId: string;
+	}): Promise<RetrieveDesignResponse> {
+		return await this.prisma.design.findUniqueOrThrow({
+			where: { id: designId },
+			select: {
+				id: true,
+				name: true,
+				description: true,
+				projectId: true,
+				createdAt: true,
+				updatedAt: true,
+				versions: {
+					select: {
+						id: true,
+						createdAt: true,
+					},
+				},
+			},
+		});
+	}
+
+	async deleteDesignById({ designId }: { designId: string }): Promise<void> {
+		await this.prisma.design.delete({
+			where: { id: designId },
+		});
+	}
+
+	async retrieveDesignVersionById({
+		versionId,
+	}: {
+		versionId: string;
+	}): Promise<DesignVersion> {
+		return await this.prisma.designVersion.findUniqueOrThrow({
+			where: { id: versionId },
+		});
+	}
+
+	async deleteDesignVersionById({
+		versionId,
+	}: {
+		versionId: string;
+	}): Promise<void> {
+		await this.prisma.designVersion.delete({
+			where: { id: versionId },
+		});
 	}
 }

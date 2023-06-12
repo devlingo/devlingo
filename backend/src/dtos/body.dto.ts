@@ -1,27 +1,37 @@
 import {
-	IsAlphanumeric,
 	IsArray,
 	IsNotEmpty,
 	IsObject,
 	IsOptional,
 	IsString,
-	Matches,
+	IsUUID,
 } from 'class-validator';
 
 export class ProjectCreateDTO {
-	@Matches(/[a-zA-Z0-9 \-_]+/)
 	@IsString()
 	@IsNotEmpty()
 	name!: string;
 }
 
 export class DesignVersionDTO {
+	@IsUUID('4')
+	@IsNotEmpty()
+	projectId!: string;
+
+	@IsUUID('4')
+	@IsOptional()
+	designId?: string;
+
 	@IsObject()
 	data!: Record<string, any>;
 
-	@IsAlphanumeric()
+	@IsString()
 	@IsNotEmpty()
 	name!: string;
+
+	@IsString()
+	@IsOptional()
+	description?: string | null;
 }
 
 export class PromptRequestDTO {

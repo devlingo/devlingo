@@ -2,13 +2,12 @@
   <configuration
 		default="false"
 		name="All Tests"
-		type="JavaScriptTestRunnerJest"
+		type="JavaScriptTestRunnerVitest"
 		nameIsGenerated="true"
 	>
     <node-interpreter value="project" />
-    <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+    <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
     <working-dir value="$PROJECT_DIR$" />
-    <jest-options value="--runInBand" />
     <envs>
       <env
 				name="DATABASE_URL"

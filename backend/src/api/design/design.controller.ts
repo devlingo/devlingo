@@ -7,62 +7,64 @@ import {
 	HttpStatus,
 	Param,
 	Post,
+	Query,
 } from '@nestjs/common';
-import { Design } from '@prisma/client';
+import { Design, DesignVersion } from '@prisma/client';
 
 import { DesignVersionDTO } from '@/dtos/body.dto';
-import { NameParam, ProjectIdParam, VersionParam } from '@/dtos/parameter.dto';
+import {
+	DesignIdParam,
+	ProjectIdParam,
+	VersionIdParam,
+} from '@/dtos/parameter.dto';
 
-import { DesignService } from './design.service';
+import {
+	CreateDesignResponse,
+	DesignService,
+	RetrieveDesignResponse,
+} from './design.service';
 
-@Controller('design')
+@Controller('designs')
 export class DesignController {
 	constructor(private readonly designService: DesignService) {}
 
-	@Post(':projectId')
+	@Post()
 	async createDesignVersion(
-		@Param() projectId: ProjectIdParam,
 		@Body() data: DesignVersionDTO,
-	): Promise<Design> {
-		return await this.designService.createDesignVersion({
-			...projectId,
-			...data,
-		});
+	): Promise<CreateDesignResponse> {
+		return await this.designService.createDesignVersion(data);
 	}
 
-	@Get(':projectId')
-	async getProjectDesignVersions(
-		@Param() projectId: ProjectIdParam,
-	): Promise<{ name: string; version: number }[]> {
-		return await this.designService.retrieveProjectDesignVersions(
-			projectId,
-		);
+	@Get()
+	async getDesigns(@Query() projectId: ProjectIdParam): Promise<Design[]> {
+		return await this.designService.retrieveDesignsByProjectId(projectId);
 	}
 
-	@Get(':projectId/:name/:version')
-	async getDesignVersion(
-		@Param() projectId: ProjectIdParam,
-		@Param() name: NameParam,
-		@Param() version: VersionParam,
-	): Promise<Design> {
-		return await this.designService.retrieveDesignVersion({
-			...projectId,
-			...name,
-			...version,
-		});
+	@Get(':designId')
+	async getDesignById(
+		@Param() designId: DesignIdParam,
+	): Promise<RetrieveDesignResponse> {
+		return await this.designService.retrieveDesignById(designId);
 	}
 
 	@HttpCode(HttpStatus.NO_CONTENT)
-	@Delete(':projectId/:name/:version')
+	@Delete(':designId')
+	async deleteDesign(@Param() designId: DesignIdParam): Promise<void> {
+		await this.designService.deleteDesignById(designId);
+	}
+
+	@Get('versions/:versionId')
+	async getDesignVersion(
+		@Param() versionId: VersionIdParam,
+	): Promise<DesignVersion> {
+		return await this.designService.retrieveDesignVersionById(versionId);
+	}
+
+	@HttpCode(HttpStatus.NO_CONTENT)
+	@Delete('versions/:versionId')
 	async deleteDesignVersion(
-		@Param() projectId: ProjectIdParam,
-		@Param() name: NameParam,
-		@Param() version: VersionParam,
+		@Param() versionId: VersionIdParam,
 	): Promise<void> {
-		await this.designService.deleteDesignVersion({
-			...projectId,
-			...name,
-			...version,
-		});
+		await this.designService.deleteDesignVersionById(versionId);
 	}
 }

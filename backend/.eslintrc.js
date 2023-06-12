@@ -8,7 +8,7 @@ module.exports = {
 	overrides: [
 		{
 			files: ['tests/**/*.spec.ts'],
-			extends: ['@tool-belt/eslint-config', 'plugin:jest/recommended'],
+			extends: ['@tool-belt/eslint-config', 'plugin:vitest/recommended'],
 		},
 	],
 	settings: {

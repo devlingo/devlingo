@@ -1,10 +1,4 @@
-import {
-	IsAlphanumeric,
-	IsInt,
-	IsNotEmpty,
-	IsPositive,
-	IsUUID,
-} from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class ProjectIdParam {
 	@IsUUID('4')
@@ -18,14 +12,8 @@ export class DesignIdParam {
 	designId!: string;
 }
 
-export class NameParam {
-	@IsAlphanumeric()
+export class VersionIdParam {
+	@IsUUID('4')
 	@IsNotEmpty()
-	name!: string;
-}
-
-export class VersionParam {
-	@IsPositive()
-	@IsInt()
-	version!: number;
+	versionId!: string;
 }

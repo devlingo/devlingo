@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { DEFAULT_MODULES } from 'src/modules';
 
 import { API_MODULES } from '@/api';
+import { DEFAULT_MODULES } from '@/modules';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
