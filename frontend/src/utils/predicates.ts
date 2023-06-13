@@ -5,6 +5,10 @@ import {
 } from '@/constants';
 import { AnyNode, ContainerNode, InternalNode, ServiceNode } from '@/types';
 
+export function isProduction(): boolean {
+	return process.env.NODE_ENV === 'production';
+}
+
 export function isServiceNode(node: AnyNode): node is ServiceNode {
 	return Object.values(ServiceNodeType).includes(
 		node.data.nodeType as unknown as ServiceNodeType,
