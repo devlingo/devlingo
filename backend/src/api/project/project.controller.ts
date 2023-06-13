@@ -25,8 +25,8 @@ export class ProjectController {
 	}
 
 	@Get()
-	async getAllProjects(): Promise<Project[]> {
-		return await this.projectService.retrieveProjects();
+	async getProjectsByUserId(): Promise<Project[]> {
+		return await this.projectService.retrieveUserProjects();
 	}
 
 	@Get(':projectId')

@@ -37,7 +37,7 @@ CREATE TABLE "DesignVersion" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "firebaseId" TEXT,
+    "firebaseId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "avatarUrl" TEXT,
@@ -64,6 +64,12 @@ CREATE UNIQUE INDEX "User_firebaseId_key" ON "User"("firebaseId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE INDEX "firebaseId" ON "User"("firebaseId");
+
+-- CreateIndex
+CREATE INDEX "email" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Design" ADD CONSTRAINT "Design_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;

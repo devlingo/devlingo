@@ -43,6 +43,7 @@ services:
             SERVER_PORT: 8000
             DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
             REDIS_CONNECTION_STRING: redis://redis:6379
+            FIREBASE_AUTH_EMULATOR_HOST: 127.0.0.1:9099
             NODE_ENV: development
         env_file:
             - .env.development

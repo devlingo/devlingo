@@ -17,3 +17,9 @@ export class VersionIdParam {
 	@IsNotEmpty()
 	versionId!: string;
 }
+
+export class UserIdParam {
+	@IsUUID('4')
+	@IsNotEmpty()
+	userId!: string;
+}

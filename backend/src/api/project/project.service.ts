@@ -20,6 +20,19 @@ export class ProjectService {
 	}): Promise<Project> {
 		return await this.prisma.project.findUniqueOrThrow({
 			where: { id: projectId },
+			select: {
+				id: true,
+				name: true,
+				description: true,
+				createdAt: true,
+				updatedAt: true,
+				userPermissions: {
+					select: {
+						userId: true,
+						type: true,
+					},
+				},
+			},
 		});
 	}
 
@@ -29,8 +42,17 @@ export class ProjectService {
 		});
 	}
 
-	async retrieveProjects(): Promise<Project[]> {
+	async retrieveUserProjects({
+		userId,
+	}: {
+		userId: string;
+	}): Promise<Project[]> {
 		return await this.prisma.project.findMany({
+			where: {
+				userPermissions: {
+					some: { id: userId },
+				},
+			},
 			orderBy: {
 				name: 'asc',
 			},

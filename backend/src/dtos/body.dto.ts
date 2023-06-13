@@ -55,3 +55,13 @@ export class PromptRequestDTO {
 	@IsOptional()
 	modelName = 'gpt-3.5-turbo';
 }
+
+export class UserUpdateDTO {
+	@IsString()
+	@IsOptional()
+	name?: string;
+
+	@IsString()
+	@IsOptional()
+	avatarUrl?: string;
+}

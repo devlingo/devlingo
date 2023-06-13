@@ -47,13 +47,16 @@ model DesignVersion {
 
 model User {
   id                 String                  @id @default(uuid())
-  firebaseId         String?                 @unique
+  firebaseId         String                  @unique
   email              String                  @unique
   name               String
   avatarUrl          String?
   projectPermissions UserProjectPermission[]
   createdAt          DateTime                @default(now())
   updatedAt          DateTime                @updatedAt
+
+  @@index([firebaseId], name: "firebaseId")
+  @@index([email], name: "email")
 }
 
 model UserProjectPermission {
