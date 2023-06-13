@@ -10,13 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PermissionType {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
 model Project {
-  id          String   @id @default(uuid())
-  name        String
-  description String?
-  designs     Design[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String                  @id @default(uuid())
+  name            String
+  description     String?
+  designs         Design[]
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  userPermissions UserProjectPermission[]
 }
 
 model Design {
@@ -36,4 +43,26 @@ model DesignVersion {
   design    Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
   designId  String
   createdAt DateTime @default(now())
+}
+
+model User {
+  id                 String                  @id @default(uuid())
+  firebaseId         String?                 @unique
+  email              String                  @unique
+  name               String
+  avatarUrl          String?
+  projectPermissions UserProjectPermission[]
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+}
+
+model UserProjectPermission {
+  id        String         @id @default(uuid())
+  type      PermissionType
+  project   Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
