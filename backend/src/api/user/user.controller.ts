@@ -36,7 +36,7 @@ export class UserController {
 		return await this.userService.updateUser({ ...userId, ...body });
 	}
 
-	@Get('/profile')
+	@Get('/current')
 	async getUserProfile(@Req() request: Request) {
 		return await this.userService.getOrCreateUserFromRequest({ request });
 	}

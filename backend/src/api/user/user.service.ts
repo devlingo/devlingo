@@ -48,19 +48,28 @@ export class UserService {
 	}
 
 	async deleteUserById({ userId }: { userId: string }) {
-		await this.prisma.user.delete({
+		const user = await this.prisma.user.delete({
 			where: {
 				id: userId,
 			},
 		});
+
+		await auth().deleteUser(user.firebaseId);
 	}
 
 	async updateUser({ userId, ...data }: UserUpdateDTO & { userId: string }) {
-		return await this.prisma.user.update({
+		const updatedUser = await this.prisma.user.update({
 			where: {
 				id: userId,
 			},
 			data,
 		});
+
+		await auth().updateUser(updatedUser.firebaseId, {
+			displayName: data.name,
+			photoURL: data.avatarUrl,
+		});
+
+		return updatedUser;
 	}
 }
