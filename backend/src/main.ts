@@ -4,11 +4,12 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger } from 'nestjs-pino';
 
+import { EnvironmentVariables } from '@/utils/env.utils';
+
 import { AppModule } from './app';
 import { ApiVersions } from './constants';
 import { PrismaExceptionFilter } from './exception-filters/prisma-exceptino.filter';
 import { PrismaService } from './modules/prisma/prisma.service';
-import { ConfigurationVars } from './types';
 import { setupValidationPipe } from './utils/configuration.utils';
 
 (async () => {
@@ -30,7 +31,7 @@ import { setupValidationPipe } from './utils/configuration.utils';
 	const prismaService = app.get(PrismaService);
 	await prismaService.enableShutdownHooks(app);
 
-	const configService = app.get(ConfigService<ConfigurationVars, true>);
+	const configService = app.get(ConfigService<EnvironmentVariables, true>);
 	const port = configService.get<number>('SERVER_PORT')!;
 
 	await app.listen(port);

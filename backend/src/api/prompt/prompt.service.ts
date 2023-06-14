@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { PromptRequestDTO } from '@/dtos/body.dto';
 import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter.dto';
-import { ConfigurationVars } from '@/types';
+import { EnvironmentVariables } from '@/utils/env.utils';
 import { cleanResponse, getOrCreateOpenAIChain } from '@/utils/prompt.utils';
 
 export type RequestPromptParams = PromptRequestDTO &
@@ -15,7 +15,7 @@ export class PromptService {
 	private readonly logger = new Logger(PromptService.name);
 
 	constructor(
-		private configService: ConfigService<ConfigurationVars, true>, // private prisma: PrismaService,
+		private configService: ConfigService<EnvironmentVariables, true>, // private prisma: PrismaService,
 	) {}
 
 	async requestPrompt({

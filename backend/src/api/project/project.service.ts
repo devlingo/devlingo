@@ -42,17 +42,13 @@ export class ProjectService {
 		});
 	}
 
-	async retrieveUserProjects({
-		userId,
-	}: {
-		userId: string;
-	}): Promise<Project[]> {
+	async retrieveUserProjects(): Promise<Project[]> {
 		return await this.prisma.project.findMany({
-			where: {
-				userPermissions: {
-					some: { id: userId },
-				},
-			},
+			// where: {
+			// 	userPermissions: {
+			// 		some: { id: userId },
+			// 	},
+			// },
 			orderBy: {
 				name: 'asc',
 			},

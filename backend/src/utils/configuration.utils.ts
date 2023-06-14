@@ -1,6 +1,6 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 
-import { isProduction } from './predicate.utils';
+import { isProduction } from '@/utils/env.utils';
 
 export function setupValidationPipe(app: INestApplication) {
 	app.useGlobalPipes(
