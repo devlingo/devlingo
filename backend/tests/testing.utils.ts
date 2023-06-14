@@ -3,8 +3,10 @@ import { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadat
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { auth } from 'firebase-admin';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
+import { Mock } from 'vitest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
 import { Environment } from '@/constants';
@@ -23,7 +25,7 @@ v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
 /5OiPgoTdSy7bcF9IGpSE8ZgGKzgYQVZeN97YE00
 -----END RSA PRIVATE KEY-----`;
 
-const env: EnvironmentVariables = {
+export const testEnv: EnvironmentVariables = {
 	NODE_ENV: Environment.Development,
 	REDIS_CONNECTION_STRING: 'redis://localhost:6379',
 	OPENAI_KEY: 'my_openai_key',
@@ -33,6 +35,8 @@ const env: EnvironmentVariables = {
 	FIREBASE_PRIVATE_KEY: testPrivateKey,
 };
 
+export const mockPrisma = mockDeep<PrismaClient>();
+
 export async function bootstrapIntegrationTest(
 	moduleMetadata: Partial<ModuleMetadata>,
 ): Promise<{
@@ -40,13 +44,12 @@ export async function bootstrapIntegrationTest(
 	request: SuperTest<any>;
 	prisma: DeepMockProxy<PrismaClient>;
 }> {
-	const mockPrisma = mockDeep<PrismaClient>();
 	const moduleFixture = await Test.createTestingModule(moduleMetadata)
 		.overrideProvider(PrismaService)
 		.useValue(mockPrisma)
 		.overrideProvider(ConfigService)
 		.useValue({
-			get: (param: keyof EnvironmentVariables) => env[param],
+			get: (param: keyof EnvironmentVariables) => testEnv[param],
 		})
 		.compile();
 

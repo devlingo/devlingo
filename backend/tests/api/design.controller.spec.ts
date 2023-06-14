@@ -14,6 +14,21 @@ import { DesignModule } from '@/api/design';
 import { AppModule } from '@/app';
 import { DesignVersionDTO } from '@/dtos/body.dto';
 
+vi.mock('firebase-admin', () => {
+	return {
+		initializeApp: vi.fn(() => ({})),
+		auth: vi.fn().mockReturnValue({
+			verifyIdToken: vi.fn((value = 'abc') => ({ uid: value })),
+		}),
+	};
+});
+
+vi.mock('@/utils/request.utils.ts', () => {
+	return {
+		getTokenFromRequest: () => 'abc',
+	};
+});
+
 describe('Design Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;

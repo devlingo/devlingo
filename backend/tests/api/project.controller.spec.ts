@@ -9,6 +9,21 @@ import { DeepMockProxy } from 'vitest-mock-extended';
 import { ProjectModule } from '@/api/project';
 import { AppModule } from '@/app';
 
+vi.mock('firebase-admin', () => {
+	return {
+		initializeApp: vi.fn(() => ({})),
+		auth: vi.fn().mockReturnValue({
+			verifyIdToken: vi.fn((value = 'abc') => ({ uid: value })),
+		}),
+	};
+});
+
+vi.mock('@/utils/request.utils.ts', () => {
+	return {
+		getTokenFromRequest: () => 'abc',
+	};
+});
+
 describe('Project Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;

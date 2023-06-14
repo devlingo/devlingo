@@ -5,6 +5,21 @@ import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import { AppModule } from '@/app';
 import { Messages } from '@/constants';
 
+vi.mock('firebase-admin', () => {
+	return {
+		initializeApp: vi.fn(() => ({})),
+		auth: vi.fn().mockReturnValue({
+			verifyIdToken: vi.fn((value = 'abc') => ({ uid: value })),
+		}),
+	};
+});
+
+vi.mock('@/utils/request.utils.ts', () => {
+	return {
+		getTokenFromRequest: () => 'abc',
+	};
+});
+
 describe('App Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;

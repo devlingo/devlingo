@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Design, DesignVersion, Project } from '@prisma/client';
+import { Design, DesignVersion, Project, User } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
@@ -24,4 +24,14 @@ export const DesignVersionFactory = new TypeFactory<DesignVersion>(() => ({
 	designId: faker.string.uuid(),
 	data: '{}',
 	createdAt: new Date(),
+}));
+
+export const UserFactory = new TypeFactory<User>(() => ({
+	id: faker.string.uuid(),
+	firebaseId: faker.string.uuid(),
+	name: faker.name.fullName(),
+	email: faker.internet.email(),
+	avatarUrl: faker.internet.url(),
+	createdAt: new Date(),
+	updatedAt: new Date(),
 }));
