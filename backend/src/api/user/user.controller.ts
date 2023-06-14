@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Req,
+} from '@nestjs/common';
+import { Request } from 'express';
 
 import { UserUpdateDTO } from '@/dtos/body.dto';
 import { UserIdParam } from '@/dtos/parameter.dto';
@@ -10,8 +19,8 @@ export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	@Get(':userId')
-	async getUser(@Param() userId: UserIdParam) {
-		return await this.userService.retrieveUserById(userId);
+	async getUserById(@Param() { userId: id }: UserIdParam) {
+		return await this.userService.retrieveUser({ id });
 	}
 
 	@Delete(':userId')
@@ -25,5 +34,10 @@ export class UserController {
 		@Body() body: UserUpdateDTO,
 	) {
 		return await this.userService.updateUser({ ...userId, ...body });
+	}
+
+	@Get('/profile')
+	async getUserProfile(@Req() request: Request) {
+		return await this.userService.getOrCreateUserFromRequest({ request });
 	}
 }
