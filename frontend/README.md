@@ -61,7 +61,12 @@ Then login with:
 firebase login
 ```
 
-You will of course need to have access to the firebase projects for this to work.
+You will of course need to have access to the firebase projects for this to work. Once you're logged in
+you can run the emulators with:
+
+```shell
+firebase emulators:start
+```
 
 ## Development
 

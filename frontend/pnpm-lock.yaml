@@ -83,6 +83,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-firebaseui:
+    specifier: ^6.0.0
+    version: 6.0.0(firebase@9.22.2)(react@18.2.0)
   react-i18next:
     specifier: ^12.3.1
     version: 12.3.1(i18next@22.5.1)(react-dom@18.2.0)(react@18.2.0)
@@ -4718,6 +4721,10 @@ packages:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
 
+  /dialog-polyfill@0.4.10:
+    resolution: {integrity: sha512-j5yGMkP8T00UFgyO+78OxiN5vC5dzRQF3BEio+LhNvDbyfxWBsi3sfPArDm54VloaJwy2hm3erEiDWqHRC8rzw==}
+    dev: false
+
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
 
@@ -5494,6 +5501,16 @@ packages:
       '@firebase/util': 1.9.3
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /firebaseui@6.0.2(firebase@9.22.2):
+    resolution: {integrity: sha512-Jwwn2I657loKrvedeCrwED9UibLFl8Cm0uH2ntDBSCpruWzG4HXlIWb35WsDdXMILRPQjJ1PwVwuRsrnsxcaXA==}
+    peerDependencies:
+      firebase: ^9.1.3
+    dependencies:
+      dialog-polyfill: 0.4.10
+      firebase: 9.22.2
+      material-design-lite: 1.3.0
     dev: false
 
   /flat-cache@3.0.4:
@@ -6394,6 +6411,11 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /material-design-lite@1.3.0:
+    resolution: {integrity: sha512-ao76b0bqSTKcEMt7Pui+J/S3eVF0b3GWfuKUwfe2lP5DKlLZOwBq37e0/bXEzxrw7/SuHAuYAdoCwY6mAYhrsg==}
+    engines: {node: '>=0.12.0'}
+    dev: false
+
   /md5-hex@3.0.1:
     resolution: {integrity: sha512-BUiRtTtV39LIJwinWBjqVsU9xhdnz7/i889V859IBFpuqGAj6LuOvHv5XLbgZ2R7ptJoJaEcxkv88/h25T7Ciw==}
     engines: {node: '>=8'}
@@ -7061,6 +7083,17 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-firebaseui@6.0.0(firebase@9.22.2)(react@18.2.0):
+    resolution: {integrity: sha512-VzLMiW7DBZCsW/qpP9nky/pPlAoIjDxA2Qyc+QAPf+RjelIkvPPiCBXR2aAz+Upy+ujrx6pYDXj547DW5uC4ww==}
+    peerDependencies:
+      firebase: ^9.1.3
+      react: '>=15 <=17'
+    dependencies:
+      firebase: 9.22.2
+      firebaseui: 6.0.2(firebase@9.22.2)
+      react: 18.2.0
+    dev: false
 
   /react-i18next@12.3.1(i18next@22.5.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-5v8E2XjZDFzK7K87eSwC7AJcAkcLt5xYZ4+yTPDAW1i7C93oOY1dnr4BaQM7un4Hm+GmghuiPvevWwlca5PwDA==}
