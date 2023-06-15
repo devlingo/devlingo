@@ -3,6 +3,8 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
+	HttpStatus,
 	Param,
 	Patch,
 	Req,
@@ -18,11 +20,17 @@ import { UserService } from './user.service';
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
+	@Get('/profile')
+	async getUserProfile(@Req() request: Request) {
+		return await this.userService.getOrCreateUserFromRequest({ request });
+	}
+
 	@Get(':userId')
 	async getUserById(@Param() { userId: id }: UserIdParam) {
 		return await this.userService.retrieveUser({ id });
 	}
 
+	@HttpCode(HttpStatus.NO_CONTENT)
 	@Delete(':userId')
 	async deleteUser(@Param() userId: UserIdParam) {
 		return await this.userService.deleteUserById(userId);
@@ -34,10 +42,5 @@ export class UserController {
 		@Body() body: UserUpdateDTO,
 	) {
 		return await this.userService.updateUser({ ...userId, ...body });
-	}
-
-	@Get('/current')
-	async getUserProfile(@Req() request: Request) {
-		return await this.userService.getOrCreateUserFromRequest({ request });
 	}
 }

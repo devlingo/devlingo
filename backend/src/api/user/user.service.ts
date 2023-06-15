@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { auth } from 'firebase-admin';
 
 import { UserUpdateDTO } from '@/dtos/body.dto';
+import { FirebaseService } from '@/modules/firebase/firebase.service';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private prisma: PrismaService,
+		private firebaseService: FirebaseService,
+	) {}
 
 	async getOrCreateUserFromRequest({ request }: { request: Request }) {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
@@ -24,7 +27,7 @@ export class UserService {
 			displayName: name = 'unknown',
 			email = 'unknown',
 			photoURL: avatarUrl,
-		} = await auth().getUser(firebaseId);
+		} = await this.firebaseService.auth.getUser(firebaseId);
 
 		return await this.prisma.user.create({
 			data: {
@@ -54,7 +57,7 @@ export class UserService {
 			},
 		});
 
-		await auth().deleteUser(user.firebaseId);
+		await this.firebaseService.auth.deleteUser(user.firebaseId);
 	}
 
 	async updateUser({ userId, ...data }: UserUpdateDTO & { userId: string }) {
@@ -65,7 +68,7 @@ export class UserService {
 			data,
 		});
 
-		await auth().updateUser(updatedUser.firebaseId, {
+		await this.firebaseService.auth.updateUser(updatedUser.firebaseId, {
 			displayName: data.name,
 			photoURL: data.avatarUrl,
 		});

@@ -10,21 +10,6 @@ import { Mock } from 'vitest';
 import { PromptModule } from '@/api/prompt';
 import { AppModule } from '@/app';
 
-vi.mock('firebase-admin', () => {
-	return {
-		initializeApp: vi.fn(() => ({})),
-		auth: vi.fn().mockReturnValue({
-			verifyIdToken: vi.fn((value = 'abc') => ({ uid: value })),
-		}),
-	};
-});
-
-vi.mock('@/utils/request.utils.ts', () => {
-	return {
-		getTokenFromRequest: () => 'abc',
-	};
-});
-
 vi.mock(
 	'langchain/chains',
 	async (originalModule: () => Promise<Record<string, any>>) => {

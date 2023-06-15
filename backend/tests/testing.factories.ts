@@ -29,7 +29,7 @@ export const DesignVersionFactory = new TypeFactory<DesignVersion>(() => ({
 export const UserFactory = new TypeFactory<User>(() => ({
 	id: faker.string.uuid(),
 	firebaseId: faker.string.uuid(),
-	name: faker.name.fullName(),
+	name: faker.person.fullName(),
 	email: faker.internet.email(),
 	avatarUrl: faker.internet.url(),
 	createdAt: new Date(),
