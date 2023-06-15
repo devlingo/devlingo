@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "devlingo-a23d0",
+    "development": "devlingo-development"
+  }
+}

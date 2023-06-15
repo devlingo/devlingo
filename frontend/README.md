@@ -4,13 +4,15 @@ This repository hosts the DevLingo frontend.
 
 ## Setup
 
+### PNPM
+
 The repository uses [pnpm](https://pnpm.io/) as a package manager, install it with:
 
 ```shell
 npm i -g pnpm
 ```
 
-You can then update the dependencies with
+You can then install the dependencies with:
 
 ```shell
 pnpm install
@@ -28,7 +30,40 @@ OR
 pnpm up --latest
 ```
 
-### Development
+### ENV
+
+Additionally make sure to create a `.env.development` file in the root of the project with the following content:
+
+```ini
+NEXT_PUBLIC_FIREBASE_API_KEY=xxx
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=devlingo-development.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=devlingo-development
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=devlingo-development.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID=xxx
+NEXT_PUBLIC_FIREBASE_APP_ID=xxx
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=xxx
+```
+
+Note: The values in `xxx` are secrets and should be sent using a secured medium. 
+
+### Firebase
+
+The application uses firebase for authentication. We use locally the firebase emulator package. So make sure to install it
+with:
+
+```shell
+pnpm add -g firebase-tools
+```
+
+Then login with:
+
+```shell
+firebase login
+```
+
+You will of course need to have access to the firebase projects for this to work.
+
+## Development
 
 You can run the application in development mode with:
 
@@ -48,7 +83,7 @@ Or start after building with:
 pnpm run start
 ```
 
-### Docker
+## Docker
 
 To build and run the application using `docker` make sure to first install [docker](https://www.docker.com/) on your machine.
 Once available use the docker compose commands such as:
@@ -65,14 +100,16 @@ You can execute the following commands to lint the project:
 
 #### EsLint
 
+To check for linting issues:
+
 ```shell
-pnpm run lint:code
+pnpm run check
 ```
 
-#### StyleLint
+To fix all linting issues:
 
 ```shell
-pnpm run lint:style
+pnpm run lint
 ```
 
 #### Formatting
@@ -81,7 +118,10 @@ pnpm run lint:style
 pnpm run format
 ```
 
-Notes: There are pre-commit hooks that will execute these commands on pertinent code before its being committed.
+### Pre-Commit Hooks
+
+There are pre-commit hooks that will execute these commands on pertinent code before its being committed.
+These hooks are installed automatically when calling `pnpm install`.
 
 ## Testing
 
