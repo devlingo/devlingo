@@ -5,10 +5,17 @@ import { testEnv } from 'tests/testing.utils';
 import { Mock } from 'vitest';
 
 import { AuthGuard } from '@/guards/auth.guard';
+import { FirebaseService } from '@/modules/firebase/firebase.service';
+import { EnvironmentVariables } from '@/utils/env.utils';
 
-vi.mock('firebase-admin', () => {
+vi.mock('firebase-admin/app', () => {
 	return {
 		initializeApp: vi.fn(() => ({})),
+		cert: vi.fn(() => ({})),
+	};
+});
+vi.mock('firebase-admin', () => {
+	return {
 		auth: vi.fn().mockReturnValue({
 			verifyIdToken: vi.fn((value: string) => ({ uid: value })),
 		}),
@@ -17,7 +24,12 @@ vi.mock('firebase-admin', () => {
 
 describe('AuthGuard tests', () => {
 	it('returns true for valid token', async () => {
-		const authGuard = new AuthGuard(new ConfigService(testEnv));
+		const configService = new ConfigService<EnvironmentVariables, true>(
+			testEnv,
+		);
+		const firebaseService = new FirebaseService(configService);
+		firebaseService.onModuleInit();
+		const authGuard = new AuthGuard(firebaseService);
 
 		const request = {
 			headers: {
@@ -36,7 +48,12 @@ describe('AuthGuard tests', () => {
 	});
 
 	it('throws UnauthorizedException when authorization header is missing', async () => {
-		const authGuard = new AuthGuard(new ConfigService(testEnv));
+		const configService = new ConfigService<EnvironmentVariables, true>(
+			testEnv,
+		);
+		const firebaseService = new FirebaseService(configService);
+		firebaseService.onModuleInit();
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {},
 		};
@@ -49,7 +66,12 @@ describe('AuthGuard tests', () => {
 	});
 
 	it('throws an UnauthorizedException when the token is invalid', async () => {
-		const authGuard = new AuthGuard(new ConfigService(testEnv));
+		const configService = new ConfigService<EnvironmentVariables, true>(
+			testEnv,
+		);
+		const firebaseService = new FirebaseService(configService);
+		firebaseService.onModuleInit();
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `invalid_token`,
@@ -64,7 +86,12 @@ describe('AuthGuard tests', () => {
 	});
 
 	it('throws an UnauthorizedException when the token is empty', async () => {
-		const authGuard = new AuthGuard(new ConfigService(testEnv));
+		const configService = new ConfigService<EnvironmentVariables, true>(
+			testEnv,
+		);
+		const firebaseService = new FirebaseService(configService);
+		firebaseService.onModuleInit();
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `Bearer `,
@@ -84,8 +111,13 @@ describe('AuthGuard tests', () => {
 				throw new Error();
 			}),
 		});
+		const configService = new ConfigService<EnvironmentVariables, true>(
+			testEnv,
+		);
+		const firebaseService = new FirebaseService(configService);
+		firebaseService.onModuleInit();
 
-		const authGuard = new AuthGuard(new ConfigService(testEnv));
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `Bearer invalid_token`,

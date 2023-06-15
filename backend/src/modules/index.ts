@@ -1,9 +1,9 @@
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 
+import { FirebaseModule } from '@/modules/firebase/firebase.module';
+import { PrismaModule } from '@/modules/prisma/prisma.module';
 import { isTest, validateEnv } from '@/utils/env.utils';
-
-import { PrismaModule } from './prisma/prisma.module';
 
 const DEFAULT_MODULES = [
 	PrismaModule,
@@ -13,6 +13,7 @@ const DEFAULT_MODULES = [
 		ignoreEnvFile: true,
 		cache: true,
 	}),
+	FirebaseModule,
 ];
 
 if (!isTest()) {

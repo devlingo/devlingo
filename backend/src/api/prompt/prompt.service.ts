@@ -15,7 +15,7 @@ export class PromptService {
 	private readonly logger = new Logger(PromptService.name);
 
 	constructor(
-		private configService: ConfigService<EnvironmentVariables, true>, // private prisma: PrismaService,
+		private configService: ConfigService<EnvironmentVariables, true>,
 	) {}
 
 	async requestPrompt({

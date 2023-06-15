@@ -3,14 +3,13 @@ import { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadat
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
-import { auth } from 'firebase-admin';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
-import { Mock } from 'vitest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
 import { Environment } from '@/constants';
 import { PrismaExceptionFilter } from '@/exception-filters/prisma-exceptino.filter';
+import { FirebaseService } from '@/modules/firebase/firebase.service';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { setupValidationPipe } from '@/utils/configuration.utils';
 import { EnvironmentVariables } from '@/utils/env.utils';
@@ -36,6 +35,8 @@ export const testEnv: EnvironmentVariables = {
 };
 
 export const mockPrisma = mockDeep<PrismaClient>();
+export const mockFirebaseService = mockDeep<FirebaseService>();
+mockFirebaseService.decodeBearerToken.mockResolvedValue({ uid: 'test' } as any);
 
 export async function bootstrapIntegrationTest(
 	moduleMetadata: Partial<ModuleMetadata>,
@@ -51,6 +52,8 @@ export async function bootstrapIntegrationTest(
 		.useValue({
 			get: (param: keyof EnvironmentVariables) => testEnv[param],
 		})
+		.overrideProvider(FirebaseService)
+		.useValue(mockFirebaseService)
 		.compile();
 
 	const app = moduleFixture
