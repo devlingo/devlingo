@@ -1,6 +1,13 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app';
-import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
+import {
+	Auth,
+	indexedDBLocalPersistence,
+	initializeAuth,
+	inMemoryPersistence,
+} from 'firebase/auth';
 import * as process from 'process';
+
+import { isBrowser } from '@/utils/predicates';
 
 const instanceRef: { app: FirebaseApp | null; auth: Auth | null } = {
 	app: null,
@@ -38,15 +45,11 @@ export function getFirebaseApp(): FirebaseApp {
 
 export function getFirebaseAuth(): Auth {
 	if (!instanceRef.auth) {
-		const auth = getAuth(getFirebaseApp());
+		const persistence = isBrowser()
+			? indexedDBLocalPersistence
+			: inMemoryPersistence;
 
-		if (
-			process.env.NODE_ENV === 'development' &&
-			process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR
-		) {
-			connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-		}
-		instanceRef.auth = auth;
+		instanceRef.auth = initializeAuth(getFirebaseApp(), { persistence });
 	}
 
 	return instanceRef.auth;

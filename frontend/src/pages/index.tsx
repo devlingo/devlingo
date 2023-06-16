@@ -1,116 +1,103 @@
-import { ReactFlowInstance, ReactFlowProvider } from '@reactflow/core';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useEffect, useState } from 'react';
-import { ConnectionMode } from 'reactflow';
+import 'firebaseui/dist/firebaseui.css';
 
-import { Flow } from '@/components/design-canvas-page/flow/flow';
-import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
-import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
-import { Navbar } from '@/components/design-canvas-page/navbar';
-import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
-import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
-import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
-	useConfiguredNode,
-	useExpandedNode,
-	useInsertNode,
-	useSetConfiguredNode,
-} from '@/hooks/use-design-canvas-store';
-import { useIsClientSide } from '@/hooks/use-is-client-side';
-import { createNode } from '@/utils/node';
+	beforeAuthStateChanged,
+	EmailAuthProvider,
+	GithubAuthProvider,
+	GoogleAuthProvider,
+	User,
+} from '@firebase/auth';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-export async function getStaticProps({ locale }: { locale: string }) {
-	return {
-		props: {
-			...(await serverSideTranslations(locale, [
-				'assets',
-				'prompt',
-				'common',
-			])),
+import { useSetToken, useToken } from '@/hooks/use-user-store';
+import { getFirebaseAuth } from '@/utils/firebase';
+
+const firebaseUIConfig = {
+	signInFlow: 'popup',
+	popupMode: true,
+	siteName: 'Devlingo',
+	signInOptions: [
+		GithubAuthProvider.PROVIDER_ID,
+		GoogleAuthProvider.PROVIDER_ID,
+		{
+			provider: 'microsoft.com',
+			providerName: 'Microsoft',
+			buttonColor: 'blue',
+			iconUrl:
+				'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
+			customParameters: {
+				prompt: 'consent',
+				login_hint: 'user@firstadd.onmicrosoft.com',
+				tenant: process.env.NEXT_PUBLIC_FIREBASE_MICROSOFT_TENANT_ID,
+			},
 		},
-	};
-}
+		EmailAuthProvider.PROVIDER_ID,
+	],
+};
 
-export default function DesignCanvasPage() {
-	const configuredNode = useConfiguredNode();
-	const expandedNode = useExpandedNode();
-	const insertNode = useInsertNode();
-	const isClientSide = useIsClientSide();
-	const setConfiguredNode = useSetConfiguredNode();
+function SignInScreen() {
+	const [uiRendered, setIsUIRendered] = useState(false);
+	const auth = getFirebaseAuth();
+	const router = useRouter();
+	const setToken = useSetToken();
+	const token = useToken();
 
-	const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-	const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
-
-	const [reactFlowInstance, setReactFlowInstance] =
-		useState<ReactFlowInstance | null>(null);
-
-	const [dndDropData, dndRef] = useBoundedDrop();
-
-	// drag and drop
 	useEffect(() => {
-		if (dndDropData && reactFlowInstance) {
-			const { nodeType, x, y } = dndDropData;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const unsubscribe = beforeAuthStateChanged(
+			auth,
+			async (user: User | null) => {
+				if (user) {
+					await setToken(auth);
+				}
+			},
+		);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+		return () => unsubscribe();
+	}, []);
 
-			insertNode(
-				createNode({
-					position: reactFlowInstance.project({ x, y }),
-					data: {
-						nodeType,
-						formData: { nodeName: 'Unnamed' },
+	useEffect(() => {
+		(async () => {
+			const firebaseUI = await import('firebaseui');
+			const ui =
+				firebaseUI.auth.AuthUI.getInstance() ??
+				new firebaseUI.auth.AuthUI(auth);
+
+			// noinspection JSUnusedGlobalSymbols
+			ui.start('#firebaseui-auth-container', {
+				...firebaseUIConfig,
+				...{
+					callbacks: {
+						uiShown: () => {
+							setIsUIRendered(true);
+						},
+						signInSuccessWithAuthResult: () => {
+							void router.push('/design');
+							// prevent the UI from redirecting the user using a preconfigured
+							// redirect-url
+							return false;
+						},
 					},
-				}),
-			);
-		}
-	}, [dndDropData, reactFlowInstance]);
+				},
+			});
+		})();
+	}, []);
 
 	return (
-		<ReactFlowProvider>
-			<Navbar projectName="Backend Example" />
-			<main className="h-full w-full flex justify-between">
-				<PromptContainer
-					closePromptModal={() => {
-						setIsPromptModalOpen(false);
-					}}
-					isPromptModalOpen={isPromptModalOpen}
-				/>
-				<SideRail
-					isMenuOpen={isSideMenuOpen}
-					setIsMenuOpen={setIsSideMenuOpen}
-					togglePromptModal={() => {
-						setIsPromptModalOpen(!isPromptModalOpen);
-					}}
-				/>
-				<div
-					className={`h-full transition-all duration-300 ease-in-out ${
-						expandedNode
-							? 'bg-base-100 rounded border-2 border-neutral'
-							: 'bg-base-300'
-					} ${isSideMenuOpen ? 'shrink' : 'grow'}`}
-				>
-					{expandedNode && (
-						<InternalFlowHeader {...expandedNode.data} />
-					)}
-					{isClientSide && (
-						<Flow
-							connectionMode={ConnectionMode.Loose}
-							dndRef={dndRef}
-							isExpandedNode={!!expandedNode}
-							isFullWidth={!isSideMenuOpen}
-							setReactFlowInstance={setReactFlowInstance}
-							showBackground={!expandedNode}
-						/>
-					)}
-				</div>
-				{configuredNode && (
-					<div className="absolute inset-1 w-5/10 h-full z-10 flex justify-center">
-						<NodeForm
-							closeMenuHandler={() => {
-								setConfiguredNode(null);
-							}}
-						/>
-					</div>
-				)}
-			</main>
-		</ReactFlowProvider>
+		<div
+			className="mx-auto p-4 bg-base-100 border-2 border-base-200 rounded-box w-fit"
+			id="firebaseui-auth-container"
+		>
+			{(!uiRendered || token) && <div className="loading loading-ring" />}
+		</div>
+	);
+}
+
+export default function Index() {
+	return (
+		<main className="h-screen w-screen bg-base-300 flex items-center">
+			<SignInScreen />
+		</main>
 	);
 }

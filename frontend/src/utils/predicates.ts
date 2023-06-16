@@ -22,3 +22,7 @@ export function isContainerNode(node: AnyNode): node is ContainerNode {
 		node.data.nodeType as ContainerNodeType,
 	);
 }
+
+export function isBrowser() {
+	return typeof window !== 'undefined';
+}
