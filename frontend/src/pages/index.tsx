@@ -10,6 +10,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { Navigation } from '@/constants';
 import { useSetToken, useToken } from '@/hooks/use-user-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
@@ -74,7 +75,7 @@ function SignInScreen() {
 							setIsUIRendered(true);
 						},
 						signInSuccessWithAuthResult: () => {
-							void router.push('/design');
+							void router.push(Navigation.Projects);
 							// prevent the UI from redirecting the user using a preconfigured
 							// redirect-url
 							return false;

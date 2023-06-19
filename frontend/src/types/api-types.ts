@@ -7,3 +7,5 @@ export interface User {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export type ApiParams<T = any> = { token: string } & T;

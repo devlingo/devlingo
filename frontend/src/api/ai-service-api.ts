@@ -103,7 +103,7 @@ export async function requestPrompt({
 	nodes: Node[];
 	edges: Edge[];
 }> {
-	const url = `${BACKEND_BASE_URL}/v1/prompt/${projectId}/${designId}`;
+	const url = `${BACKEND_BASE_URL}/prompt/${projectId}/${designId}`;
 	const request = {
 		method: 'POST',
 		body: JSON.stringify(parsePromptData(data)),
