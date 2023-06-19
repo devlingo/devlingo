@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { requestPrompt } from '@/api/request-prompt';
+import { requestPrompt } from '@/api/prompt-api';
 import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
 import {

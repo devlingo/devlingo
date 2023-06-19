@@ -5,7 +5,7 @@ import {
 	mergeNodes,
 	parsePromptData,
 	requestPrompt,
-} from '@/api/request-prompt';
+} from '@/api/prompt-api';
 
 describe('requestPrompt tests', () => {
 	it('handles success response', async () => {
