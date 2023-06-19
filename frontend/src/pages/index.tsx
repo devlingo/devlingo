@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import { useSetToken, useToken } from '@/hooks/use-api-store';
+import { useSetToken, useToken } from '@/hooks/use-user-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 const firebaseUIConfig = {

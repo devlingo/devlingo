@@ -47,6 +47,7 @@
 		"react-dom": "18.2.0",
 		"react-i18next": "^13.0.0",
 		"reactflow": "^11.7.2",
+		"swr": "^2.1.5",
 		"uuid": "^9.0.0",
 		"zustand": "^4.3.8"
 	},
