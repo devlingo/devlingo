@@ -1,0 +1,90 @@
+### Send a request for an OpenAI prompt
+POST http://0.0.0.0:3005/v1/prompt/5f05a716-6f4b-4b4f-a0c1-ac50afa4d626/20f16139-f23f-42c5-8a31-ec00f3ae911d
+Content-Type: application/json
+
+{
+  "promptContent": "Please add a mysql database connected to my backend.",
+  "designData": {
+    "nodes": [
+      {
+        "data": {
+          "nodeType": "NextJS",
+          "formData": {
+            "nodeName": "Frontend"
+          },
+          "childNodes": []
+        },
+        "id": "QMGfvyzBBhF-2BiDdIOGe",
+        "position": {
+          "x": 1300,
+          "y": 50
+        },
+        "type": "ServiceNode"
+      },
+      {
+        "data": {
+          "nodeType": "NestJS",
+          "formData": {
+            "nodeName": "Backend"
+          }
+        },
+        "id": "KZA-U5dr_r7L4AJK4A9Xd",
+        "position": {
+          "x": 700,
+          "y": 50
+        },
+        "type": "ServiceNode"
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1",
+        "source": "QMGfvyzBBhF-2BiDdIOGe",
+        "target": "KZA-U5dr_r7L4AJK4A9Xd",
+        "type": "smoothstep"
+      }
+    ]
+  },
+  "nodeTypes": [
+    "NestJS",
+    "NextJS",
+    "MongoDB",
+    "Firestore",
+    "Cassandra",
+    "DynamoDB",
+    "Redis",
+    "Hbase",
+    "CosmosDB",
+    "MySQL",
+    "PostgresSQL",
+    "SQL Server",
+    "MariaDB",
+    "Firebird",
+    "SQLite",
+    "Oracle",
+    "Express.js",
+    "Koa.js",
+    "Hapi.js",
+    "Fastify",
+    "Litestar",
+    "Django",
+    "Flask",
+    "FastAPI",
+    "Angular",
+    "React",
+    "Solid",
+    "Svelte",
+    "Vue",
+    "Android",
+    "IOS",
+    "Flutter",
+    "ReactNative"
+  ],
+  "edgeTypes": [
+    "default",
+    "straight",
+    "step",
+    "smoothstep",
+    "simplebezier"
+  ]
+}
