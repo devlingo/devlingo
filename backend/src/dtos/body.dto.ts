@@ -11,6 +11,10 @@ export class ProjectCreateDTO {
 	@IsString()
 	@IsNotEmpty()
 	name!: string;
+
+	@IsString()
+	@IsOptional()
+	description?: string;
 }
 
 export class DesignVersionDTO {

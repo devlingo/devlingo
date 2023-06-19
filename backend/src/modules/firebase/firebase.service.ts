@@ -53,7 +53,7 @@ export class FirebaseService implements OnModuleInit {
 		this.app = initializeApp({
 			credential: cert(config),
 		});
-		this.auth = auth(this.app);
+		this.auth = auth();
 	}
 
 	async decodeBearerToken(authHeader?: string) {
