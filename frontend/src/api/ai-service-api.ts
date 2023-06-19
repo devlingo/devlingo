@@ -1,7 +1,7 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Edge, Node } from 'reactflow';
 
-import { AI_SERVICE_BASE_URL, EdgeTypes, ServiceNodeType } from '@/constants';
+import { BACKEND_BASE_URL, EdgeTypes, ServiceNodeType } from '@/constants';
 import { log } from '@/utils/logging';
 import { createNode } from '@/utils/node';
 
@@ -103,7 +103,7 @@ export async function requestPrompt({
 	nodes: Node[];
 	edges: Edge[];
 }> {
-	const url = `${AI_SERVICE_BASE_URL}/v1/prompt/${projectId}/${designId}`;
+	const url = `${BACKEND_BASE_URL}/v1/prompt/${projectId}/${designId}`;
 	const request = {
 		method: 'POST',
 		body: JSON.stringify(parsePromptData(data)),

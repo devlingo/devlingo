@@ -172,7 +172,7 @@ export const ServiceNodeAllowedInternalNodesMap: Record<
 		InternalNodeType.Endpoint,
 	],
 };
-export const AI_SERVICE_BASE_URL = process.env.NEXT_PUBLIC_AI_SERVICE_HOST;
+export const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 export enum EdgeTypes {
 	BezierEdge = 'default',
 	StraightEdge = 'straight',

@@ -18,10 +18,10 @@ export function setToken(
 	};
 }
 
-export const useUserStore = create<UserStore>((set, get) => ({
+export const useApiStore = create<UserStore>((set, get) => ({
 	token: null,
 	setToken: setToken(set, get),
 }));
 
-export const useSetToken = () => useUserStore((s) => s.setToken);
-export const useToken = () => useUserStore((s) => s.token);
+export const useSetToken = () => useApiStore((s) => s.setToken);
+export const useToken = () => useApiStore((s) => s.token);

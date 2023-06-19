@@ -4,7 +4,7 @@ import {
 	parsePromptData,
 	requestPrompt,
 } from '@/api/ai-service-api';
-import { AI_SERVICE_BASE_URL } from '@/constants';
+import { BACKEND_BASE_URL } from '@/constants';
 
 describe('requestPrompt tests', () => {
 	it('handles success response', async () => {
@@ -45,7 +45,7 @@ describe('requestPrompt tests', () => {
 		const result = await requestPrompt(mockData);
 
 		expect(mockFetch).toHaveBeenCalledWith(
-			`${AI_SERVICE_BASE_URL}/v1/prompt/${mockData.projectId}/${mockData.designId}`,
+			`${BACKEND_BASE_URL}/v1/prompt/${mockData.projectId}/${mockData.designId}`,
 			{
 				method: 'POST',
 				body: JSON.stringify(parsePromptData(mockData)),

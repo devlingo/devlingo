@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import { useSetToken, useToken } from '@/hooks/use-user-store';
+import { useSetToken, useToken } from '@/hooks/use-api-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 const firebaseUIConfig = {
@@ -57,6 +57,7 @@ function SignInScreen() {
 		return () => unsubscribe();
 	}, []);
 
+	/* firebaseui cannot be imported in SSR mode, so we have to import it only when the browser loads. */
 	useEffect(() => {
 		(async () => {
 			const firebaseUI = await import('firebaseui');
