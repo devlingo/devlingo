@@ -1,3 +1,5 @@
+import { HttpMethod } from '@/constants';
+
 export interface User {
 	id: string;
 	firebaseId: string;
@@ -8,4 +10,16 @@ export interface User {
 	updatedAt: Date;
 }
 
-export type ApiParams<T = any> = { token: string } & T;
+export interface Project {
+	id: string;
+	name: string;
+	description: string | null;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export type ApiParams = {
+	token: string;
+	url: string;
+	method: HttpMethod;
+} & Omit<RequestInit, 'method'>;

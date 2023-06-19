@@ -1,4 +1,4 @@
-**/.next/**
-**/dist/**
-**/build/**
-**/tmp/**
+.next/**
+dist/**
+build/**
+tmp/**

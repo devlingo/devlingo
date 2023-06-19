@@ -12,6 +12,6 @@ export default defineConfig({
 			'@': resolve(__dirname, './src'),
 			'tests': resolve(__dirname, './tests'),
 		},
-		setupFiles: './tests/setup.ts',
+		setupFiles: ['./tests/setup.ts', './tests/mocks.ts'],
 	},
 });

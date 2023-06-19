@@ -1,6 +1,15 @@
-export const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL!;
 export const GET_USER_PROFILE_PATH = 'users/profile';
+export const GET_USER_PROJECTS_PATH = 'projects';
 
-export enum ApiOperations {
+export enum ApiOperationId {
 	GetUserProfile = 'GetUserProfile',
+	GetUserProjects = 'GetUserProjects',
+}
+
+export enum HttpMethod {
+	Get = 'GET',
+	Post = 'POST',
+	Patch = 'PATCH',
+	Put = 'PUT',
+	Delete = 'DELETE',
 }

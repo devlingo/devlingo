@@ -16,7 +16,7 @@ export function setToken(
 ): (auth: Auth) => Promise<void> {
 	return async (auth: Auth) => {
 		if (auth.currentUser) {
-			const token = await auth.currentUser.getIdToken(true);
+			const token = await auth.currentUser.getIdToken();
 			set({ token });
 		}
 	};

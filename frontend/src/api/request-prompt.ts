@@ -1,8 +1,9 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Edge, Node } from 'reactflow';
 
-import { BACKEND_BASE_URL, EdgeTypes, ServiceNodeType } from '@/constants';
-import { log } from '@/utils/logging';
+import { fetcher } from '@/api/fetcher';
+import { EdgeTypes, HttpMethod, ServiceNodeType } from '@/constants';
+import { ApiParams } from '@/types';
 import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
@@ -95,44 +96,21 @@ export interface PromptRequestParams {
 }
 
 export async function requestPrompt({
+	token,
 	designId,
 	projectId,
 	...data
-}: PromptRequestParams): Promise<{
+}: PromptRequestParams & Pick<ApiParams, 'token'>): Promise<{
 	answer: string;
 	nodes: Node[];
 	edges: Edge[];
 }> {
-	const url = `${BACKEND_BASE_URL}/prompt/${projectId}/${designId}`;
-	const request = {
-		method: 'POST',
+	const { answer, design } = await fetcher<PromptResponse>({
+		token,
+		url: `prompt/${projectId}/${designId}`,
+		method: HttpMethod.Post,
 		body: JSON.stringify(parsePromptData(data)),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	} satisfies RequestInit;
-
-	log('Prompt request', {
-		url,
-		request,
 	});
-
-	const response = await fetch(url, request);
-
-	const body = (await response.json()) as Record<string, any>;
-
-	log('Prompt Response', {
-		isError: !response.ok,
-		body,
-	});
-
-	if (!response.ok) {
-		throw new Error(
-			(Reflect.get(body, 'message') ?? 'An API Error Occurred') as string,
-		);
-	}
-
-	const { answer, design } = body as PromptResponse;
 
 	const edges = mergeEdges(data.edges, design.edges);
 	const nodes = mergeNodes(data.nodes, design.nodes);

@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { Navigation, ONE_SECOND_IN_MILLISECONDS } from '@/constants';
-import { useUserProfile } from '@/hooks/use-api';
-import { useToken } from '@/hooks/use-user-store';
+import { Navigation } from '@/constants';
+import { useUserProfile, useUserProjects } from '@/hooks/use-api';
+import { User } from '@/types';
+import { log } from '@/utils/logging';
 
-export function LoggedInView({ token }: { token: string }) {
-	const { data, error, isLoading } = useUserProfile(token);
+export function LoggedInView({ user }: { user: User }) {
+	const { data, error, isLoading } = useUserProjects();
 
 	return (
 		<div>
@@ -14,7 +15,8 @@ export function LoggedInView({ token }: { token: string }) {
 			{error && <div className="alert alert-error">{error.message}</div>}
 			{data && (
 				<div className="alert alert-success">
-					Welcome {JSON.stringify(data)}
+					Welcome {user.name} here are your projects:{' '}
+					{JSON.stringify(data)}
 				</div>
 			)}
 		</div>
@@ -22,20 +24,23 @@ export function LoggedInView({ token }: { token: string }) {
 }
 
 export default function Projects() {
-	const token = useToken();
+	const { data, error, isLoading } = useUserProfile();
 	const router = useRouter();
 
 	useEffect(() => {
-		setTimeout(() => {
-			if (!token) {
-				void router.push(Navigation.Login);
-			}
-		}, ONE_SECOND_IN_MILLISECONDS);
-	});
+		if (!!error && Object.keys(error).length) {
+			log('error', error);
+			void router.push(Navigation.Login);
+		}
+	}, [error]);
 
-	return token ? (
-		<LoggedInView token={token} />
-	) : (
-		<div className="loading loading-lg" />
+	return (
+		<main className="h-screen w-screen bg-base-300 flex items-center">
+			{isLoading || !data ? (
+				<div className="loading loading-lg" />
+			) : (
+				<LoggedInView user={data} />
+			)}
+		</main>
 	);
 }

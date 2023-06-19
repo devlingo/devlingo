@@ -1,10 +1,11 @@
+import { mockFetch } from 'tests/mocks';
+
 import {
 	mergeEdges,
 	mergeNodes,
 	parsePromptData,
 	requestPrompt,
-} from '@/api/ai-service-api';
-import { BACKEND_BASE_URL } from '@/constants';
+} from '@/api/request-prompt';
 
 describe('requestPrompt tests', () => {
 	it('handles success response', async () => {
@@ -23,6 +24,7 @@ describe('requestPrompt tests', () => {
 			},
 		};
 		const mockData = {
+			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [
 				{
@@ -36,20 +38,20 @@ describe('requestPrompt tests', () => {
 			designId: 'testDesignId',
 			projectId: 'testProjectId',
 		};
-		const mockFetch = vi.fn().mockResolvedValue({
+		mockFetch.mockResolvedValueOnce({
 			ok: true,
 			json: () => Promise.resolve(mockResponse),
 		});
-		global.fetch = mockFetch;
 
 		const result = await requestPrompt(mockData);
 
 		expect(mockFetch).toHaveBeenCalledWith(
-			`${BACKEND_BASE_URL}/v1/prompt/${mockData.projectId}/${mockData.designId}`,
+			new URL('http://www.example.com/prompt/testProjectId/testDesignId'),
 			{
 				method: 'POST',
 				body: JSON.stringify(parsePromptData(mockData)),
 				headers: {
+					'Authorization': 'Bearer valid_token',
 					'Content-Type': 'application/json',
 				},
 			},
@@ -106,6 +108,7 @@ describe('requestPrompt tests', () => {
 
 	it('handles an error correctly', async () => {
 		const mockData = {
+			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [],
 			edges: [],
