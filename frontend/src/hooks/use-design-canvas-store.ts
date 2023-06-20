@@ -171,7 +171,12 @@ export function setConfiguredNode(
 			const isExpanded = !!get().expandedNode;
 			const nodes = isExpanded ? get().nodes : get().allNodes;
 			const node = nodes.find((n) => n.id === nodeId)!;
-			set({ configuredNode: node });
+			set({
+				configuredNode: node as
+					| ServiceNode
+					| InternalNode
+					| ContainerNode,
+			});
 		} else {
 			set({ configuredNode: null });
 		}

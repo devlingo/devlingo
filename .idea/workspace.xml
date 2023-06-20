@@ -14,15 +14,33 @@
 			comment=""
 		>
       <change
-				beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml"
+				beforePath="$PROJECT_DIR$/.docker/Dockerfile.frontend"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml"
+				afterPath="$PROJECT_DIR$/.docker/Dockerfile.frontend"
 				afterDir="false"
 			/>
       <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/tsconfig.test.json"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/tsconfig.test.json"
 				afterDir="false"
 			/>
     </list>
@@ -59,7 +77,7 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "monorepo-setup",
+    "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "last_opened_file_path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo",
     "node.js.detected.package.eslint": "true",
@@ -85,6 +103,39 @@
       <recent name="$PROJECT_DIR$/backend/tests" />
       <recent name="$PROJECT_DIR$/backend/src" />
     </key>
+  </component>
+  <component
+		name="RunManager"
+		selected="Vitest.Design Controller Tests.GET designs/:designId.retrieves a design by ID"
+	>
+    <configuration
+			name="Design Controller Tests.GET designs/:designId.retrieves a design by ID"
+			type="JavaScriptTestRunnerVitest"
+			temporary="true"
+			nameIsGenerated="true"
+		>
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file
+				value="$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts"
+			/>
+      <test-names>
+        <test-name value="Design Controller Tests" />
+        <test-name value="GET designs/:designId" />
+        <test-name value="retrieves a design by ID" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item
+					itemvalue="Vitest.Design Controller Tests.GET designs/:designId.retrieves a design by ID"
+				/>
+      </list>
+    </recent_temporary>
   </component>
   <component
 		name="SpellCheckerSettings"
@@ -118,7 +169,7 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="771000" />
+      <workItem from="1687252308980" duration="2499000" />
     </task>
     <servers />
   </component>

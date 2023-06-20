@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { SuperTest } from 'supertest';
-import { ProjectFactory } from 'tests/testing.factories';
+import { ProjectFactory, UserFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import type { DeepMockProxy } from 'vitest-mock-extended';
 
@@ -29,8 +29,9 @@ describe('Project Controller Tests', () => {
 
 	describe('POST projects', () => {
 		it('creates a project', async () => {
+			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
-			prisma.project.create.mockResolvedValueOnce(project);
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 			const response = await request
 				.post('/projects')
 				.send({ name: project.name });
