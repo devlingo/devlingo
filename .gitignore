@@ -1,6 +1,3 @@
-**/*.log
-**/*.map
-**/*.pem
 .DS_Store
 .env*
 .husky/_/
@@ -9,11 +6,17 @@
 .idea/dataSources.xml
 .idea/httpRequests/*
 .idea/shelf/*
+.idea/sonarlint/
 .idea/sonarlint/*
 .idea/workspace.xml
+.next/
+.swc/
+**/.env*
+**/*.log
+**/*.map
+**/*.pem
+**/src/**/*.js
+**/tests/**/*.js
 coverage/
 dist/
 node_modules/
-src/config/service-account.json
-src/**/*.js
-tests/**/*.js

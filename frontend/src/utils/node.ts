@@ -62,7 +62,7 @@ export function createNode<T extends NodeDataType>({
 */
 export function createDefaultInternalNodes(
 	parentNodeType: ServiceNodeType,
-): Node<InternalNodeData | ContainerNodeData>[] {
+): Node[] {
 	if (parentNodeType === ServiceNodeType.NestJs) {
 		const moduleNode = createNode({
 			position: { x: 400, y: 250 },

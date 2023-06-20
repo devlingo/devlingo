@@ -44,7 +44,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID=xxx
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=xxx
 ```
 
-Note: The values in `xxx` are secrets and should be sent using a secured medium. 
+Note: The values in `xxx` are secrets and should be sent using a secured medium.
 
 ### Firebase
 

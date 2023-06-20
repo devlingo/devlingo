@@ -160,7 +160,7 @@ describe('Design Controller Tests', () => {
 			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
 				...design,
 				versions: [],
-			} as any);
+			});
 
 			const response = await request.get(`/designs/${design.id}`);
 

@@ -1,0 +1,28 @@
+{
+	"include": ["**/*.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"allowJs": false,
+		"allowSyntheticDefaultImports": true,
+		"declaration": false,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		"incremental": true,
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"preserveSymlinks": true,
+		"sourceMap": false,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"target": "esnext",
+		"types": ["vitest/globals"]
+	}
+}
