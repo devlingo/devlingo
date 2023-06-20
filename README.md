@@ -8,7 +8,7 @@
 
 To update dependencies:
 
-- run `pnpm up -r --latest`
+-   run `pnpm up -r --latest`
 
 To lunch the dev environment, use docker - `docker compose up`.
 Make sure to have an up to date `.env.development` file in the root of your repository.

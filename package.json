@@ -55,8 +55,8 @@
 	"author": "Devlingo",
 	"license": "UNLICENSED",
 	"lint-staged": {
-		"*.{ts, tsx}": "eslint --fix",
-		"*.{js, md, json, yaml, yml, xml, svg}": "prettier --write"
+		"*.{ts,tsx}": "eslint --fix",
+		"*.{js,md,json,yaml,yml,xml,svg}": "prettier --write"
 	},
 	"engines": {
 		"yarn": "please-use-pnpm",
