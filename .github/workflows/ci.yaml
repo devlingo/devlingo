@@ -10,6 +10,9 @@ env:
 jobs:
     test:
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
         steps:
             - name: Checkout
               uses: actions/checkout@v3
@@ -36,7 +39,9 @@ jobs:
             - name: Prisma Generate
               run: pnpm run prisma:generate
             - name: Test
-              run: pnpm run test
+              run: pnpm run test:coverage
+            - name: Coverage
+              uses: davelosert/vitest-coverage-report-action@v2
     validate:
         runs-on: ubuntu-latest
         steps:
