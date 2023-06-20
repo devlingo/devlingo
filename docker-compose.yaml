@@ -1,73 +1,73 @@
 version: '3.9'
 services:
-  redis:
-    image: redis:latest
-    restart: always
-    ports:
-      - '6379:6379'
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      interval: 1s
-      timeout: 3s
-      retries: 5
-  db:
-    image: postgres:latest
-    volumes:
-      - db:/var/lib/postrgresql/data/
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_PASSWORD: devlingo
-      POSTGRES_DB: devlingo
-      POSTGRES_USER: devlingo
-    healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U devlingo' ]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-  backend:
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    build:
-      dockerfile: ./.docker/Dockerfile.backend
-      context: .
-      target: install
-    volumes:
-      - ./backend/src:/app/backend/src:cached
-      - ./prisma:/app/prisma:cached
-    environment:
-      SERVER_PORT: 8000
-      DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
-      REDIS_CONNECTION_STRING: redis://redis:6379
-      NODE_ENV: development
-    env_file:
-      - .env.development
-    ports:
-      - '8000:8000'
-    command: ['pnpm', 'run', 'dev:backend']
-  frontend:
-    build:
-      dockerfile: ./.docker/Dockerfile.frontend
-      context: .
-      target: install
-      args:
-        - NODE_ENV=development
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./frontend/src:/app/frontend/src:cached
-      - ./frontend/public:/app/frontend/public:cached
-      - ./prisma:/app/prisma:cached
-    environment:
-      NEXT_PUBLIC_BACKEND_BASE_URL: http://0.0.0.0:8000/v1
-      NODE_ENV: development
-    env_file:
-      - .env.development
-    command: [ "pnpm", "run", "dev:frontend" ]
+    redis:
+        image: redis:latest
+        restart: always
+        ports:
+            - '6379:6379'
+        healthcheck:
+            test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+            interval: 1s
+            timeout: 3s
+            retries: 5
+    db:
+        image: postgres:latest
+        volumes:
+            - db:/var/lib/postrgresql/data/
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_PASSWORD: devlingo
+            POSTGRES_DB: devlingo
+            POSTGRES_USER: devlingo
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U devlingo']
+            interval: 30s
+            timeout: 5s
+            retries: 5
+            start_period: 5s
+    backend:
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        build:
+            dockerfile: ./.docker/Dockerfile.backend
+            context: .
+            target: install
+        volumes:
+            - ./backend/src:/app/backend/src:cached
+            - ./prisma:/app/prisma:cached
+        environment:
+            SERVER_PORT: 8000
+            DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
+            REDIS_CONNECTION_STRING: redis://redis:6379
+            NODE_ENV: development
+        env_file:
+            - .env.development
+        ports:
+            - '8000:8000'
+        command: ['pnpm', 'run', 'dev:backend']
+    frontend:
+        build:
+            dockerfile: ./.docker/Dockerfile.frontend
+            context: .
+            target: install
+            args:
+                - NODE_ENV=development
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./frontend/src:/app/frontend/src:cached
+            - ./frontend/public:/app/frontend/public:cached
+            - ./prisma:/app/prisma:cached
+        environment:
+            NEXT_PUBLIC_BACKEND_BASE_URL: http://0.0.0.0:8000/v1
+            NODE_ENV: development
+        env_file:
+            - .env.development
+        command: ['pnpm', 'run', 'dev:frontend']
 
 volumes:
-  db:
+    db:
