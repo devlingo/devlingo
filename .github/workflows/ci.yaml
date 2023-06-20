@@ -62,9 +62,9 @@ jobs:
                   restore-keys: ${{ runner.os }}-pnpm-store-
             - name: Install dependencies
               run: pnpm install -r
-            - name: Apply Prettier
-              run: pnpm run format
             - name: Prisma Generate
               run: pnpm run prisma:generate
+            - name: Apply Prettier
+              run: pnpm run format
             - name: Eslint
               run: pnpm run check

@@ -5,7 +5,11 @@ const rules = {
 	'@typescript-eslint/no-extraneous-class': 0,
 };
 
-const project = ['./backend/tsconfig.json', './frontend/tsconfig.json'];
+const project = [
+	'./tsconfig.json',
+	'./backend/tsconfig.json',
+	'./frontend/tsconfig.json',
+];
 
 module.exports = {
 	root: true,
@@ -25,7 +29,7 @@ module.exports = {
 		},
 		'react': { version: '18' },
 	},
-	ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js', 'vitest.workspace.ts'],
+	ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js'],
 	overrides: [
 		{
 			files: ['./frontend/**/*.ts', './frontend/**/*.tsx'],
@@ -39,31 +43,16 @@ module.exports = {
 				'plugin:vitest/recommended',
 			],
 			rules,
-			parser: '@typescript-eslint/parser',
-			parserOptions: {
-				tsconfigRootDir: __dirname + '/frontend',
-				project: './tsconfig.json',
-			},
 		},
 		{
 			files: ['./backend/**/*.ts'],
 			extends: ['@tool-belt/eslint-config'],
 			rules,
-			parser: '@typescript-eslint/parser',
-			parserOptions: {
-				tsconfigRootDir: __dirname + '/backend',
-				project: './tsconfig.json',
-			},
 		},
 		{
 			files: ['./backend/**/*.spec.ts'],
 			extends: ['@tool-belt/eslint-config', 'plugin:vitest/recommended'],
 			rules,
-			parser: '@typescript-eslint/parser',
-			parserOptions: {
-				tsconfigRootDir: __dirname + '/backend',
-				project: './tsconfig.json',
-			},
 		},
 	],
 };

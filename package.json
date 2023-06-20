@@ -16,7 +16,7 @@
 		"prisma:migrate:deploy": "prisma migrate deploy",
 		"prisma:migrate:dev": "prisma migrate dev",
 		"test": "vitest",
-		"coverage": "vitest run --coverage"
+		"test:coverage": "vitest run --coverage"
 	},
 	"dependencies": {
 		"@prisma/client": "4.15.0",
