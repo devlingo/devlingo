@@ -14,15 +14,27 @@
 			comment=""
 		>
       <change
-				beforePath="$PROJECT_DIR$/.github/workflows/ci.yaml"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/.github/workflows/ci.yaml"
-				afterDir="false"
-			/>
-      <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/tests/setup.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/tests/vitest.setup.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/vitest.config.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/vitest.config.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/vitest.config.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/vitest.config.ts"
 				afterDir="false"
 			/>
     </list>
@@ -57,7 +69,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;coverage-reporting&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -170,7 +182,7 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="8121000" />
+      <workItem from="1687252308980" duration="9426000" />
     </task>
     <servers />
   </component>
