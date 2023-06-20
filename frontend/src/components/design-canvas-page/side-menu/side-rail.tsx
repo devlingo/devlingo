@@ -269,7 +269,7 @@ export function RailExpandedMenu({
 	closeMenuHandler: () => void;
 }) {
 	return (
-		<div className="menu justify-between mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit max-h-full overscroll-y-auto border-r-2">
+		<div className="menu justify-between mt-4 bg-base-100 border-base-200 transition-all duration-300 ease-in-out grow w-fit overscroll-y-auto border-r-2 overflow-y-scroll no-scrollbar">
 			<div>
 				{categories.map((item, j) => (
 					<div
@@ -327,7 +327,7 @@ export function SideRail({
 		<div
 			className={`flex bg-base-100 h-[calc(100vh-${
 				Dimensions.Sixteen
-			})] ${isMenuOpen ? 'grow' : 'shrink'}`}
+			}px)] ${isMenuOpen ? 'grow' : 'shrink'}`}
 		>
 			<RailBaseMenu
 				activeItem={activeItem}

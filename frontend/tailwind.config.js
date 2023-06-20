@@ -31,4 +31,5 @@ module.exports = {
 		logs: false,
 		themes: [...lightThemes, ...darkThemes],
 	},
+	safelist: ['h-[calc(100vh-64px)]'],
 };

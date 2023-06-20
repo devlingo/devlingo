@@ -43,7 +43,7 @@ export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 	const [schema, uiSchema] = schemas as [JsonSchema, UISchemaElement];
 
 	return (
-		<div className="rounded h-fit w-6/12 m-auto p-4 bg-base-300 text-base-content border-2 border-accent overflow-scroll">
+		<div className="rounded h-fit w-6/12 m-auto p-4 bg-base-300 text-base-content border-2 border-accent overflow-y-auto">
 			<div
 				data-testid={`node-form-${configuredNode.data.nodeType}`}
 				className="p-2 "
@@ -64,9 +64,10 @@ export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 				<div className="join join-horizontal">
 					<button
 						className="text-success"
-						onClick={() =>
-							updateNodeData(configuredNode.id, { formData })
-						}
+						onClick={() => {
+							updateNodeData(configuredNode.id, { formData });
+							closeMenuHandler();
+						}}
 						data-testid={`node-form-save-button-${
 							configuredNode.type as NodeType
 						}`}

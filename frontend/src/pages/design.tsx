@@ -102,7 +102,7 @@ export default function DesignCanvasPage() {
 					)}
 				</div>
 				{configuredNode && (
-					<div className="absolute inset-1 w-5/10 h-full z-10 flex justify-center">
+					<div className="absolute inset-1 w-5/10 z-10 flex justify-center">
 						<NodeForm
 							closeMenuHandler={() => {
 								setConfiguredNode(null);
