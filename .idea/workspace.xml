@@ -20,45 +20,15 @@
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/.github/workflows/ci.yaml"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/.github/workflows/ci.yaml"
-				afterDir="false"
-			/>
-      <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/backend/tsconfig.json"
+				beforePath="$PROJECT_DIR$/prisma/schema.prisma"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/backend/tsconfig.json"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/tsconfig.json"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/tsconfig.json"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/package.json"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/package.json"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/tsconfig.json"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/tsconfig.json"
+				afterPath="$PROJECT_DIR$/prisma/schema.prisma"
 				afterDir="false"
 			/>
     </list>
@@ -93,7 +63,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fix-ci&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -206,7 +176,7 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="5127000" />
+      <workItem from="1687252308980" duration="6746000" />
     </task>
     <servers />
   </component>
