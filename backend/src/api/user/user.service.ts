@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 import { UserUpdateDTO } from '@/dtos/body.dto';
 import { FirebaseService } from '@/modules/firebase/firebase.service';

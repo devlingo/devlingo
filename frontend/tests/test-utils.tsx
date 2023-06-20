@@ -7,13 +7,12 @@ import {
 	RenderOptions,
 } from '@testing-library/react';
 import i18next from 'i18next';
+import enAssets from 'public/locales/en/assets.json';
+import enCommon from 'public/locales/en/common.json';
 import { TestBackend } from 'react-dnd-test-backend';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import { AppWrapper } from '@/wrapper';
-
-import enAssets from '../public/locales/en/assets.json';
-import enCommon from '../public/locales/en/common.json';
 
 const defaultNS = 'assets';
 

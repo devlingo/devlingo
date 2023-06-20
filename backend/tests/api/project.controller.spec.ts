@@ -4,7 +4,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import type { SuperTest } from 'supertest';
 import { ProjectFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
-import { DeepMockProxy } from 'vitest-mock-extended';
+import type { DeepMockProxy } from 'vitest-mock-extended';
 
 import { ProjectModule } from '@/api/project';
 import { AppModule } from '@/app';

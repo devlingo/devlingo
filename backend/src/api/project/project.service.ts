@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PermissionType, Project } from '@prisma/client';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 import { UserService } from '@/api/user/user.service';
 import { ProjectCreateDTO } from '@/dtos/body.dto';

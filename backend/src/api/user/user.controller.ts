@@ -9,7 +9,7 @@ import {
 	Patch,
 	Req,
 } from '@nestjs/common';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 import { UserUpdateDTO } from '@/dtos/body.dto';
 import { UserIdParam } from '@/dtos/parameter.dto';

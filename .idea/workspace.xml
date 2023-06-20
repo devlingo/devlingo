@@ -1,15 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list
-			default="true"
-			id="dd1119d6-7bc4-4170-9228-0babac0a2346"
-			name="Changes"
-			comment=""
-		/>
+    <list default="true" id="dd1119d6-7bc4-4170-9228-0babac0a2346" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/20230613155648_update/migration.sql" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/20230613155648_update/migration.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/migration_lock.toml" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/project/project.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/project/project.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/project/project.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/project/project.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/user/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/guards/auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tests/api/user.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/api/user.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/node.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/node.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tests/test-utils.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tests/test-utils.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,63 +41,67 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2R4CSnBybha5fOwh95Er1KxuP8W" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component
-		name="PropertiesComponent"
-	><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "pnpm",
-    "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "/Users/naamanhirschfeld/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/231.9011.34/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;monorepo-setup&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/backend" />
       <recent name="$PROJECT_DIR$/backend/tests" />
       <recent name="$PROJECT_DIR$/backend/src" />
       <recent name="$PROJECT_DIR$/backend/src/utils" />
-      <recent name="$PROJECT_DIR$/backend/src/api" />
     </key>
   </component>
-  <component
-		name="SpellCheckerSettings"
-		RuntimeDictionaries="0"
-		Folders="0"
-		CustomDictionaries="0"
-		DefaultDictionary="application-level"
-		UseSingleDictionary="true"
-		transferred="true"
-	/>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist
-				id="dd1119d6-7bc4-4170-9228-0babac0a2346"
-				name="Changes"
-				comment=""
-			/>
+      <changelist id="dd1119d6-7bc4-4170-9228-0babac0a2346" name="Changes" comment="" />
       <created>1686499968950</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1686499968950</updated>
       <workItem from="1686499973743" duration="525000" />
+      <workItem from="1687239331662" duration="3169000" />
+      <workItem from="1687242511870" duration="318000" />
+      <workItem from="1687242837404" duration="548000" />
+      <workItem from="1687243389833" duration="159000" />
+      <workItem from="1687243551657" duration="270000" />
+      <workItem from="1687243823948" duration="593000" />
+      <workItem from="1687244420895" duration="154000" />
+      <workItem from="1687246873517" duration="534000" />
+      <workItem from="1687247411555" duration="124000" />
+      <workItem from="1687247538574" duration="1808000" />
+      <workItem from="1687249354457" duration="569000" />
     </task>
     <servers />
   </component>
@@ -89,5 +110,9 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -1,12 +1,15 @@
 {
 	"extends": "../tsconfig.json",
-	"include": ["*.d.ts", "**/*.ts"],
+	"include": ["*.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"baseUrl": ".",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
 		"paths": {
 			"@/*": ["src/*"],
 			"tests/*": ["tests/*"]
-		}
+		},
+		"types": ["vitest/globals"]
 	}
 }

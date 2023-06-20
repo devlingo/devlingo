@@ -4,20 +4,32 @@
 	"description": "",
 	"private": true,
 	"scripts": {
-		"test": "vitest",
+		"check": "eslint '**/*.{ts,tsx}' --max-warnings 0",
 		"format": "prettier --write '**/*.{yml,yaml,json,md,ts,html,svg,xml}'",
 		"lint": "eslint --fix '**/*.{ts,tsx}' --max-warnings 0",
-		"check": "eslint '**/*.{ts,tsx}' --max-warnings 0",
+		"postinstall": "husky install",
 		"prepare": "husky install",
-		"postinstall": "husky install"
+		"prisma:format": "prisma format",
+		"prisma:generate": "prisma generate",
+		"prisma:migrate:deploy": "prisma migrate deploy",
+		"prisma:migrate:dev": "prisma migrate dev",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"@prisma/client": "4.15.0",
+		"deepmerge-ts": "^5.1.0",
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.0.2",
 		"@prettier/plugin-xml": "^2.2.0",
+		"@swc/core": "^1.3.65",
 		"@tool-belt/eslint-config": "^2.1.3",
 		"@types/node": "20.3.1",
+		"@types/uuid": "^9.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.60.0",
 		"@typescript-eslint/parser": "^5.60.0",
+		"@vitejs/plugin-react": "^4.0.1",
 		"@vitest/coverage-c8": "^0.32.2",
 		"eslint": "^8.43.0",
 		"eslint-config-next": "13.4.6",
@@ -27,7 +39,11 @@
 		"interface-forge": "^1.5.1",
 		"lint-staged": "^13.2.2",
 		"prettier": "^2.8.8",
+		"prisma": "^4.15.0",
+		"rimraf": "^5.0.1",
 		"typescript": "^5.1.3",
+		"unplugin-swc": "^1.3.2",
+		"vite-plugin-magical-svg": "^1.0.3",
 		"vitest": "^0.32.2",
 		"vitest-mock-extended": "^1.1.3"
 	},

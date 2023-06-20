@@ -6,7 +6,7 @@ import {
 	bootstrapIntegrationTest,
 	mockFirebaseService,
 } from 'tests/testing.utils';
-import { DeepMockProxy } from 'vitest-mock-extended';
+import type { DeepMockProxy } from 'vitest-mock-extended';
 
 import { UserModule } from '@/api/user';
 import { AppModule } from '@/app';

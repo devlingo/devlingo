@@ -13,10 +13,8 @@ import {
 import {
 	AnyNode,
 	ContainerNode,
-	ContainerNodeData,
 	ImageType,
 	InternalNode,
-	InternalNodeData,
 	NodeDataType,
 } from '@/types';
 import {

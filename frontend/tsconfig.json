@@ -4,13 +4,15 @@
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"baseUrl": ".",
-		"isolatedModules": true,
+		"importHelpers": true,
+		"preserveSymlinks": true,
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "ESNext"],
 		"types": ["vitest/globals", "@testing-library/jest-dom"],
 		"paths": {
 			"@/*": ["src/*"],
-			"tests/*": ["tests/*"]
+			"tests/*": ["tests/*"],
+			"public/*": ["public/*"]
 		}
 	}
 }

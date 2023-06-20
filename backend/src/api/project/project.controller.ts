@@ -10,7 +10,7 @@ import {
 	Req,
 } from '@nestjs/common';
 import { Project } from '@prisma/client';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 import { ProjectCreateDTO } from '@/dtos/body.dto';
 import { ProjectIdParam } from '@/dtos/parameter.dto';

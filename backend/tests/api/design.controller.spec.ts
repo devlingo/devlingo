@@ -8,7 +8,7 @@ import {
 	ProjectFactory,
 } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
-import { DeepMockProxy } from 'vitest-mock-extended';
+import type { DeepMockProxy } from 'vitest-mock-extended';
 
 import { DesignModule } from '@/api/design';
 import { AppModule } from '@/app';
@@ -159,7 +159,6 @@ describe('Design Controller Tests', () => {
 
 			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
 				...design,
-				versions: [],
 			});
 
 			const response = await request.get(`/designs/${design.id}`);
