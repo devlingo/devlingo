@@ -166,7 +166,6 @@ describe('Design Controller Tests', () => {
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 			expect(response.body).toEqual({
 				...design,
-				versions: [],
 				createdAt: design.createdAt.toISOString(),
 				updatedAt: design.updatedAt.toISOString(),
 			});

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PermissionType, Prisma, PrismaClient } from '@prisma/client';
 import type { SuperTest } from 'supertest';
 import { ProjectFactory, UserFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
@@ -32,23 +32,51 @@ describe('Project Controller Tests', () => {
 			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+			prisma.project.create.mockImplementationOnce(
+				({ data }) =>
+					({
+						...project,
+						...data,
+					} as any),
+			);
 			const response = await request
 				.post('/projects')
 				.send({ name: project.name });
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body.name).toEqual(project.name);
+			expect(prisma.userProjectPermission.create).toHaveBeenCalledWith({
+				data: {
+					userId: user.id,
+					projectId: project.id,
+					type: PermissionType.OWNER,
+				},
+			});
 		});
 	});
 
 	describe('GET projects', () => {
 		it('retrieves all projects', async () => {
 			const projects = await ProjectFactory.batch(3);
+			const user = await UserFactory.build();
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 			prisma.project.findMany.mockResolvedValueOnce(projects);
 			const response = await request.get('/projects');
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 			expect(response.body).toHaveLength(3);
+			expect(prisma.project.findMany).toHaveBeenCalledWith({
+				orderBy: {
+					name: 'asc',
+				},
+				where: {
+					userPermissions: {
+						some: {
+							id: user.id,
+						},
+					},
+				},
+			});
 		});
 	});
 

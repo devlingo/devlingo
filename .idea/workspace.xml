@@ -14,33 +14,21 @@
 			comment=""
 		>
       <change
-				beforePath="$PROJECT_DIR$/.docker/Dockerfile.frontend"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/.docker/Dockerfile.frontend"
-				afterDir="false"
-			/>
-      <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
 				afterDir="false"
 			/>
       <change
+				beforePath="$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts"
+				afterDir="false"
+			/>
+      <change
 				beforePath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/tsconfig.test.json"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/tsconfig.test.json"
 				afterDir="false"
 			/>
     </list>
@@ -67,34 +55,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component
-		name="PropertiesComponent"
-	><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "",
-    "nodejs_package_manager_path": "pnpm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.externalDependencies",
-    "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalDependencies&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -104,10 +90,7 @@
       <recent name="$PROJECT_DIR$/backend/src" />
     </key>
   </component>
-  <component
-		name="RunManager"
-		selected="Vitest.Design Controller Tests.GET designs/:designId.retrieves a design by ID"
-	>
+  <component name="RunManager" selected="Vitest.All Tests">
     <configuration
 			name="Design Controller Tests.GET designs/:designId.retrieves a design by ID"
 			type="JavaScriptTestRunnerVitest"
@@ -129,8 +112,32 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration
+			name="Project Controller Tests.POST projects.creates a project"
+			type="JavaScriptTestRunnerVitest"
+			temporary="true"
+			nameIsGenerated="true"
+		>
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$/backend" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file
+				value="$PROJECT_DIR$/backend/tests/api/project.controller.spec.ts"
+			/>
+      <test-names>
+        <test-name value="Project Controller Tests" />
+        <test-name value="POST projects" />
+        <test-name value="creates a project" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item
+					itemvalue="Vitest.Project Controller Tests.POST projects.creates a project"
+				/>
         <item
 					itemvalue="Vitest.Design Controller Tests.GET designs/:designId.retrieves a design by ID"
 				/>
@@ -169,7 +176,7 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="2499000" />
+      <workItem from="1687252308980" duration="3361000" />
     </task>
     <servers />
   </component>
@@ -178,6 +185,65 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url
+					>file://$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts</url>
+          <line>166</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url
+					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
+          <line>51</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
+          <line>47</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
+          <line>20</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url
+					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
+          <line>55</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url
+					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
+          <line>67</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url
+					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
+          <line>59</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
