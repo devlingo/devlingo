@@ -3,6 +3,7 @@
 	"exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
 	"compilerOptions": {
 		"sourceMap": true,
+		"module": "CommonJS",
 		"outDir": "./dist",
 		"noEmit": false,
 		"removeComments": true

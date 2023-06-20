@@ -1,12 +1,12 @@
-name: Tests And Linting
-on:
-    pull_request:
-    push:
-        branches:
-            - main
-            - staging
-            - development
+name: CI
 
+on:
+    push:
+        branches: [main, staging, development]
+    pull_request:
+        branches: [main, staging, development]
+env:
+    NODE_OPTIONS: '--max_old_space_size=4096'
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -16,12 +16,12 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 19
+                  node-version: 20
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
               with:
-                  version: 7
+                  version: 8
             - name: Get pnpm store directory
               id: pnpm-cache
               run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
@@ -32,10 +32,11 @@ jobs:
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: ${{ runner.os }}-pnpm-store-
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
-            - name: Test with Coverage
+              run: pnpm install -r
+            - name: Prisma Generate
+              run: pnpm run prisma:generate
+            - name: Test
               run: pnpm run test
-
     validate:
         runs-on: ubuntu-latest
         steps:
@@ -44,12 +45,12 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 19
+                  node-version: 20
             - uses: pnpm/action-setup@v2.2.4
               name: Install pnpm
               id: pnpm-install
               with:
-                  version: 7
+                  version: 8
             - name: Get pnpm store directory
               id: pnpm-cache
               run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
@@ -60,8 +61,10 @@ jobs:
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: ${{ runner.os }}-pnpm-store-
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: pnpm install -r
             - name: Apply Prettier
               run: pnpm run format
-            - name: Apply ESLint
+            - name: Prisma Generate
+              run: pnpm run prisma:generate
+            - name: Eslint
               run: pnpm run check

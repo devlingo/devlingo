@@ -11,9 +11,10 @@ RUN apt-get update  \
 FROM base AS install
 WORKDIR /app/
 ARG TARGET
-COPY package.json pnpm-lock.yaml tsconfig*.json nest-cli.json .npmrc ./
+COPY package.json pnpm-lock.yaml tsconfig.json .npmrc pnpm-workspace.yaml ./
+COPY backend/package.json backend/pnpm-lock.yaml backend/tsconfig*.json backend/nest-cli.json ./backend/
 COPY prisma prisma
-RUN pnpm install -r --frozen-lockfile --ignore-scripts
+RUN pnpm install -r --ignore-scripts
 RUN pnpm run prisma:generate
 
 FROM install AS build

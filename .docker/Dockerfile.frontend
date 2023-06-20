@@ -1,0 +1,26 @@
+FROM node:20-slim AS base
+RUN npm i -g pnpm
+
+FROM base AS install
+WORKDIR /app/
+ARG NODE_ENV="production"
+ENV NODE_ENV=${NODE_ENV}
+COPY package.json pnpm-lock.yaml tsconfig.json .npmrc pnpm-workspace.yaml ./
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/next.config.js frontend/next-i18next.config.js frontend/postcss.config.js frontend/tailwind.config.js ./frontend/
+COPY prisma prisma
+RUN pnpm install -r --ignore-scripts
+RUN pnpm add -D @next/swc-linux-arm64-gnu @next/swc-linux-arm64-musl -w
+RUN pnpm run prisma:generate
+
+FROM install AS build
+WORKDIR /app/frontend
+COPY frontend/src src
+RUN pnpm run build
+
+FROM install AS app
+WORKDIR /app/frontend
+ENV NODE_ENV="production"
+ARG SERVER_PORT
+COPY frontend/public public
+RUN npm i -g pnpm
+CMD ["pnpm", "run", "start"]

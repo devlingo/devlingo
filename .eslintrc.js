@@ -25,7 +25,7 @@ module.exports = {
 		},
 		'react': { version: '18' },
 	},
-	ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js'],
+	ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js', 'vitest.workspace.ts'],
 	overrides: [
 		{
 			files: ['./frontend/**/*.ts', './frontend/**/*.tsx'],
