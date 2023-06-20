@@ -11,6 +11,17 @@ const project = [
 	'./frontend/tsconfig.json',
 ];
 
+const settings = {
+	'import/parsers': {
+		'@typescript-eslint/parser': ['.ts', '.tsx'],
+	},
+	'import/resolver': {
+		typescript: {
+			project,
+		},
+	},
+};
+
 module.exports = {
 	root: true,
 	parser: '@typescript-eslint/parser',
@@ -18,23 +29,19 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project,
 	},
-	settings: {
-		'import/parsers': {
-			'@typescript-eslint/parser': ['.ts', '.tsx'],
-		},
-		'import/resolver': {
-			typescript: {
-				project,
-			},
-		},
-		'react': { version: '18' },
-	},
+	settings,
 	ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js'],
 	overrides: [
 		{
 			files: ['./frontend/**/*.ts', './frontend/**/*.tsx'],
 			extends: ['@tool-belt/eslint-config/react', 'next/core-web-vitals'],
-			rules,
+			rules: {
+				...rules,
+				'@next/next/no-html-link-for-pages': [
+					'error',
+					'frontend/src/pages/',
+				],
+			},
 		},
 		{
 			files: ['./frontend/**/*.spec.ts', './frontend/**/*.spec.tsx'],
