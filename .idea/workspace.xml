@@ -14,21 +14,15 @@
 			comment=""
 		>
       <change
-				beforePath="$PROJECT_DIR$/.eslintrc.js"
+				beforePath="$PROJECT_DIR$/.github/workflows/ci.yaml"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/.eslintrc.js"
+				afterPath="$PROJECT_DIR$/.github/workflows/ci.yaml"
 				afterDir="false"
 			/>
       <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/prisma/schema.prisma"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/prisma/schema.prisma"
 				afterDir="false"
 			/>
     </list>
@@ -176,7 +170,7 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="6746000" />
+      <workItem from="1687252308980" duration="7560000" />
     </task>
     <servers />
   </component>
