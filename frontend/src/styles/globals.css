@@ -31,3 +31,7 @@ body {
     visibility: visible;
   }
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
