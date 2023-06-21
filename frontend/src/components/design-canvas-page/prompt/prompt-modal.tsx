@@ -19,21 +19,21 @@ export function PromptModal({
 			data-testid="prompt-modal"
 		>
 			<div className="modal-box bg-base-100">
-				<h3 className="font-bold text-lg">{t('prompt_modal_title')}</h3>
+				<h3 className="font-bold text-lg">{t('promptModalTitle')}</h3>
 				<p className="pb-6 pt-1 opacity-80">
-					{t('prompt_modal_subtitle')}
+					{t('promptModalSubtitle')}
 				</p>
-				<div className=" opacity-80">
-					<p className="text-sm">{t('prompt_modal_examples')}</p>
+				<div className="opacity-80">
+					<p className="text-sm">{t('promptModalExamples')}</p>
 					<ul className="mx-8 mt-2 mb-6 list-disc text-sm">
-						<li>{t('example_prompt_1')}</li>
-						<li>{t('example_prompt_2')}</li>
-						<li>{t('example_prompt_3')}</li>
+						<li>{t('promptModalExample1')}</li>
+						<li>{t('promptModalExample2')}</li>
+						<li>{t('promptModalExample3')}</li>
 					</ul>
 				</div>
 				<div className="form-control">
 					<textarea
-						placeholder={t('prompt_modal_placeholder')!}
+						placeholder={t('promptModalPlaceholder')!}
 						className="textarea textarea-bordered textarea-md w-full"
 						value={prompt}
 						onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {

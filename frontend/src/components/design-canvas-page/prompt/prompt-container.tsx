@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { requestPrompt } from '@/api/prompt-api';
 import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
+import { useToken } from '@/hooks/use-api-store';
 import {
 	useDisplayEdges,
 	useDisplayNodes,
 	useSetEdges,
 	useSetNodes,
 } from '@/hooks/use-design-canvas-store';
-import { useToken } from '@/hooks/use-user-store';
 import { NormalizeEdges } from '@/utils/edge';
 import { wait } from '@/utils/time';
 
@@ -34,7 +34,7 @@ export function PromptAnswerDialogue({
 			data-testid="prompt-response-dialogue"
 		>
 			<div className="modal-box bg-base-100">
-				<h2 className="pb-2 pt-1">{t('accept_changes_question')}</h2>
+				<h2 className="pb-2 pt-1">{t('acceptChangesQuestion')}</h2>
 				<div className="join join-horizontal gap-4">
 					<button
 						data-testid="prompt-decline-changes-button"
@@ -110,7 +110,7 @@ export function PromptStatusPopup({
 								d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
 							/>
 						</svg>
-						<span>{t('prompt_error_message')}</span>
+						<span>{t('promptErrorMessage')}</span>
 					</div>
 				</div>
 			) : promptState === PromptState.Accept ? (
@@ -132,7 +132,7 @@ export function PromptStatusPopup({
 								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
 							/>
 						</svg>
-						<span>{t('design_accepted_message')}</span>
+						<span>{t('designAcceptedMessage')}</span>
 					</div>
 				</div>
 			) : (
@@ -154,7 +154,7 @@ export function PromptStatusPopup({
 								d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 							></path>
 						</svg>
-						<span>{t('design_declined_message')}</span>
+						<span>{t('designDeclinedMessage')}</span>
 					</div>
 				</div>
 			)}

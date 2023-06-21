@@ -1,16 +1,22 @@
 import { fetcher } from '@/api/fetcher';
-import { HttpMethod } from '@/constants';
+import { GET_USER_PROJECTS_PATH, HttpMethod } from '@/constants';
 import { ApiParams, Project } from '@/types';
+
+export async function getProjects({ token }: Pick<ApiParams, 'token'>) {
+	return await fetcher<Project[]>({
+		token,
+		url: GET_USER_PROJECTS_PATH,
+		method: HttpMethod.Get,
+	});
+}
 
 export async function createProject({
 	token,
-	userId,
 	...body
-}: { userId: string } & Pick<Project, 'name' | 'description'> &
-	Pick<ApiParams, 'token'>) {
+}: Pick<Project, 'name' | 'description'> & Pick<ApiParams, 'token'>) {
 	return await fetcher<Project>({
 		token,
-		url: `projects/${userId}`,
+		url: GET_USER_PROJECTS_PATH,
 		method: HttpMethod.Post,
 		body: JSON.stringify(body),
 	});

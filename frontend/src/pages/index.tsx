@@ -10,8 +10,9 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { getUserProfile } from '@/api';
 import { Navigation } from '@/constants';
-import { useSetToken, useToken } from '@/hooks/use-user-store';
+import { useSetToken, useSetUser, useToken } from '@/hooks/use-api-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 const firebaseUIConfig = {
@@ -42,6 +43,7 @@ function SignInScreen() {
 	const auth = getFirebaseAuth();
 	const router = useRouter();
 	const setToken = useSetToken();
+	const setUser = useSetUser();
 	const token = useToken();
 
 	useEffect(() => {
@@ -50,7 +52,8 @@ function SignInScreen() {
 			auth,
 			async (user: User | null) => {
 				if (user) {
-					await setToken(auth);
+					const token = await user.getIdToken();
+					setToken(token);
 				}
 			},
 		);
@@ -75,9 +78,7 @@ function SignInScreen() {
 							setIsUIRendered(true);
 						},
 						signInSuccessWithAuthResult: () => {
-							void router.push(Navigation.Projects);
-							// prevent the UI from redirecting the user using a preconfigured
-							// redirect-url
+							// prevent the UI from redirecting the user using a preconfigured redirect-url
 							return false;
 						},
 					},
@@ -85,6 +86,16 @@ function SignInScreen() {
 			});
 		})();
 	}, []);
+
+	useEffect(() => {
+		if (token) {
+			(async () => {
+				const user = await getUserProfile({ token });
+				setUser(user);
+				void router.push(Navigation.Projects);
+			})();
+		}
+	}, [token]);
 
 	return (
 		<div

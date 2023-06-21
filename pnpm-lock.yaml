@@ -239,7 +239,7 @@ importers:
                 version: 18.2.0
             react-dnd:
                 specifier: ^16.0.1
-                version: 16.0.1(@types/node@20.3.1)(@types/react@18.2.13)(react@18.2.0)
+                version: 16.0.1(@types/react@18.2.13)(react@18.2.0)
             react-dnd-html5-backend:
                 specifier: ^16.0.1
                 version: 16.0.1
@@ -252,9 +252,6 @@ importers:
             reactflow:
                 specifier: ^11.7.3
                 version: 11.7.3(react-dom@18.2.0)(react@18.2.0)
-            swr:
-                specifier: ^2.1.5
-                version: 2.1.5(react@18.2.0)
             zustand:
                 specifier: ^4.3.8
                 version: 4.3.8(react@18.2.0)
@@ -12330,10 +12327,10 @@ packages:
             num-sort: 2.1.0
         dev: false
 
-    /mlly@1.3.0:
+    /mlly@1.4.0:
         resolution:
             {
-                integrity: sha512-HT5mcgIQKkOrZecOjOX3DJorTikWXwsBfpcr/MGBkhfWcjiqvnaL/9ppxvIUXfjT6xt4DVIAsN9fMUz1ev4bIw==,
+                integrity: sha512-ua8PAThnTwpprIaU47EPeZ/bPUVp2QYBbWMphUQpVdBI3Lgqzm5KZQ45Agm3YJedHXaIHl6pBGabaLSUPPSptg==,
             }
         dependencies:
             acorn: 8.9.0
@@ -13236,7 +13233,7 @@ packages:
             }
         dependencies:
             jsonc-parser: 3.2.0
-            mlly: 1.3.0
+            mlly: 1.4.0
             pathe: 1.1.1
         dev: true
 
@@ -13681,7 +13678,7 @@ packages:
             dnd-core: 16.0.1
         dev: true
 
-    /react-dnd@16.0.1(@types/node@20.3.1)(@types/react@18.2.13)(react@18.2.0):
+    /react-dnd@16.0.1(@types/react@18.2.13)(react@18.2.0):
         resolution:
             {
                 integrity: sha512-QeoM/i73HHu2XF9aKksIUuamHPDvRglEwdHL4jsp784BgUuWcg6mzfxT0QDdQz8Wj0qyRKx2eMg8iZtWvU4E2Q==,
@@ -13701,7 +13698,6 @@ packages:
         dependencies:
             '@react-dnd/invariant': 4.0.2
             '@react-dnd/shallowequal': 4.0.2
-            '@types/node': 20.3.1
             '@types/react': 18.2.13
             dnd-core: 16.0.1
             fast-deep-equal: 3.1.3
@@ -15051,18 +15047,6 @@ packages:
             picocolors: 1.0.0
         dev: true
 
-    /swr@2.1.5(react@18.2.0):
-        resolution:
-            {
-                integrity: sha512-/OhfZMcEpuz77KavXST5q6XE9nrOBOVcBLWjMT+oAE/kQHyE3PASrevXCtQDZ8aamntOfFkbVJp7Il9tNBQWrw==,
-            }
-        peerDependencies:
-            react: ^16.11.0 || ^17.0.0 || ^18.0.0
-        dependencies:
-            react: 18.2.0
-            use-sync-external-store: 1.2.0(react@18.2.0)
-        dev: false
-
     /symbol-observable@4.0.0:
         resolution:
             {
@@ -15822,7 +15806,7 @@ packages:
         dependencies:
             cac: 6.7.14
             debug: 4.3.4
-            mlly: 1.3.0
+            mlly: 1.4.0
             pathe: 1.1.1
             picocolors: 1.0.0
             vite: 4.3.9(@types/node@20.3.1)

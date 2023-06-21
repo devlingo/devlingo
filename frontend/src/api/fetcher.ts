@@ -1,19 +1,21 @@
 import { deepmerge } from 'deepmerge-ts';
 
 import { HttpMethod } from '@/constants';
+import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import { ApiParams } from '@/types';
 
 export async function fetcher<T>({
 	token,
 	url,
 	method,
+	version = 1,
 	...rest
 }: ApiParams): Promise<T> {
 	if (!token) {
-		throw new Error('No token provided');
+		throw new TokenError('No token provided');
 	}
 	if (!Object.values(HttpMethod).includes(method)) {
-		throw new Error(`invalid HTTP method ${method}`);
+		throw new ConfigurationError(`invalid HTTP method ${method}`);
 	}
 
 	const request = deepmerge(rest, {
@@ -23,15 +25,23 @@ export async function fetcher<T>({
 			'Authorization': `Bearer ${token}`,
 		},
 	}) satisfies RequestInit;
-	const response = await fetch(
-		new URL(url, process.env.NEXT_PUBLIC_BACKEND_BASE_URL),
-		request,
+
+	const path = new URL(
+		`v${version}/${url}`,
+		process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
 	);
+
+	const response = await fetch(path, request);
 	const body = (await response.json()) as Record<string, any>;
 
 	if (!response.ok) {
-		throw new Error(
+		throw new ApiError(
 			(Reflect.get(body, 'message') ?? 'An API Error Occurred') as string,
+			{
+				statusCode: response.status,
+				statusText: response.statusText,
+				context: { path },
+			},
 		);
 	}
 

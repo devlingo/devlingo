@@ -14,27 +14,111 @@
 			comment=""
 		>
       <change
+				afterPath="$PROJECT_DIR$/frontend/public/locales/en/projects.json"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/frontend/src/api/users-api.ts"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/frontend/src/errors.ts"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-api-store.ts"
+				afterDir="false"
+			/>
+      <change
 				beforePath="$PROJECT_DIR$/.idea/workspace.xml"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/.idea/workspace.xml"
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/frontend/tests/setup.ts"
+				beforePath="$PROJECT_DIR$/frontend/package.json"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/tests/vitest.setup.ts"
+				afterPath="$PROJECT_DIR$/frontend/package.json"
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/frontend/vitest.config.ts"
+				beforePath="$PROJECT_DIR$/frontend/public/locales/en/prompt.json"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/vitest.config.ts"
+				afterPath="$PROJECT_DIR$/frontend/public/locales/en/prompt.json"
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/vitest.config.ts"
+				beforePath="$PROJECT_DIR$/frontend/src/api/fetcher.ts"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/vitest.config.ts"
+				afterPath="$PROJECT_DIR$/frontend/src/api/fetcher.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/api/index.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/api/index.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/api/projects-api.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/api/projects-api.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-container.tsx"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-container.tsx"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-modal.tsx"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-modal.tsx"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-api.ts"
+				beforeDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-user-store.ts"
+				beforeDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/pages/index.tsx"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/pages/index.tsx"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/pages/projects.tsx"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/pages/projects.tsx"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/frontend/src/types/api-types.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/frontend/src/types/api-types.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/package.json"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/package.json"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/pnpm-lock.yaml"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/pnpm-lock.yaml"
 				afterDir="false"
 			/>
     </list>
@@ -53,9 +137,12 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2R4CSnBybha5fOwh95Er1KxuP8W" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -69,7 +156,7 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;coverage-reporting&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;DEVLINGO-3-create-project-CRUD-page&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -182,12 +269,24 @@
       <workItem from="1687247411555" duration="124000" />
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
-      <workItem from="1687252308980" duration="9426000" />
+      <workItem from="1687252308980" duration="10844000" />
+      <workItem from="1687331410614" duration="15143000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -199,53 +298,45 @@
           <url
 					>file://$PROJECT_DIR$/backend/tests/api/design.controller.spec.ts</url>
           <line>166</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
           <line>51</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
           <line>47</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
           <line>18</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/backend/src/api/user/user.service.ts</url>
           <line>20</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
           <line>55</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
           <line>67</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
           <line>59</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
