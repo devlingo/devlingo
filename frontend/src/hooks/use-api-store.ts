@@ -1,4 +1,5 @@
 import { create, GetState, SetState } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { Project, User } from '@/types/api-types';
 
@@ -26,30 +27,38 @@ export function setUser(set: SetState<ApiStore>, _: GetState<ApiStore>) {
 
 export function setProjects(set: SetState<ApiStore>, _: GetState<ApiStore>) {
 	return (projects: Project[]) => {
-		set({ projects });
-	};
-}
-
-export function addProject(set: SetState<ApiStore>, get: GetState<ApiStore>) {
-	return (project: Project) => {
-		const projects = get().projects;
 		set({
-			projects: [...projects, project].sort((a, b) =>
-				a.name > b.name ? 1 : a.name < b.name ? -1 : 0,
+			projects: projects.sort(
+				(a, b) =>
+					new Date(a.createdAt).getTime() -
+					new Date(b.createdAt).getTime(),
 			),
 		});
 	};
 }
 
-export const useApiStore = create<ApiStore>((set, get) => ({
-	addProject: addProject(set, get),
-	projects: [],
-	setProjects: setProjects(set, get),
-	setToken: setToken(set, get),
-	setUser: setUser(set, get),
-	token: null,
-	user: null,
-}));
+export function addProject(_: SetState<ApiStore>, get: GetState<ApiStore>) {
+	return (project: Project) => {
+		const projects = get().projects;
+		const setProjects = get().setProjects;
+		setProjects([...projects, project]);
+	};
+}
+
+export const useApiStore = create(
+	persist<ApiStore>(
+		(set, get) => ({
+			addProject: addProject(set, get),
+			projects: [],
+			setProjects: setProjects(set, get),
+			setToken: setToken(set, get),
+			setUser: setUser(set, get),
+			token: null,
+			user: null,
+		}),
+		{ name: 'api-store', storage: createJSONStorage(() => sessionStorage) },
+	),
+);
 
 export const useSetToken = () => useApiStore((s) => s.setToken);
 export const useToken = () => useApiStore((s) => s.token);

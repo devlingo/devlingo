@@ -14,19 +14,37 @@
 			comment=""
 		>
       <change
-				afterPath="$PROJECT_DIR$/frontend/public/locales/en/projects.json"
+				afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml"
 				afterDir="false"
 			/>
       <change
-				afterPath="$PROJECT_DIR$/frontend/src/api/users-api.ts"
+				afterPath="$PROJECT_DIR$/.idea/dataSources.xml"
 				afterDir="false"
 			/>
       <change
-				afterPath="$PROJECT_DIR$/frontend/src/errors.ts"
+				afterPath="$PROJECT_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730.xml"
 				afterDir="false"
 			/>
       <change
-				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-api-store.ts"
+				afterPath="$PROJECT_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730/storage_v2/_src_/database/devlingo.RBBKQg.meta"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730/storage_v2/_src_/database/devlingo.RBBKQg/schema/information_schema.FNRwLQ.meta"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730/storage_v2/_src_/database/devlingo.RBBKQg/schema/pg_catalog.0S1ZNQ.meta"
+				afterDir="false"
+			/>
+      <change
+				afterPath="$PROJECT_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730/storage_v2/_src_/database/devlingo.RBBKQg/schema/public.abK9xQ.meta"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/.gitignore"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/.gitignore"
 				afterDir="false"
 			/>
       <change
@@ -36,15 +54,33 @@
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/frontend/package.json"
+				beforePath="$PROJECT_DIR$/backend/src/api/project/project.service.ts"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/package.json"
+				afterPath="$PROJECT_DIR$/backend/src/api/project/project.service.ts"
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/frontend/public/locales/en/prompt.json"
+				beforePath="$PROJECT_DIR$/backend/src/modules/index.ts"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/public/locales/en/prompt.json"
+				afterPath="$PROJECT_DIR$/backend/src/modules/index.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/backend/src/modules/prisma/prisma.service.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/backend/src/modules/prisma/prisma.service.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/backend/src/utils/env.utils.ts"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/backend/src/utils/env.utils.ts"
+				afterDir="false"
+			/>
+      <change
+				beforePath="$PROJECT_DIR$/backend/tsconfig.json"
+				beforeDir="false"
+				afterPath="$PROJECT_DIR$/backend/tsconfig.json"
 				afterDir="false"
 			/>
       <change
@@ -54,71 +90,15 @@
 				afterDir="false"
 			/>
       <change
-				beforePath="$PROJECT_DIR$/frontend/src/api/index.ts"
+				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-api-store.ts"
 				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/api/index.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/api/projects-api.ts"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/api/projects-api.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-container.tsx"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-container.tsx"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-modal.tsx"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/components/design-canvas-page/prompt/prompt-modal.tsx"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-api.ts"
-				beforeDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-design-canvas-store.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/hooks/use-user-store.ts"
-				beforeDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/pages/index.tsx"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/pages/index.tsx"
+				afterPath="$PROJECT_DIR$/frontend/src/hooks/use-api-store.ts"
 				afterDir="false"
 			/>
       <change
 				beforePath="$PROJECT_DIR$/frontend/src/pages/projects.tsx"
 				beforeDir="false"
 				afterPath="$PROJECT_DIR$/frontend/src/pages/projects.tsx"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/frontend/src/types/api-types.ts"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/frontend/src/types/api-types.ts"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/package.json"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/package.json"
-				afterDir="false"
-			/>
-      <change
-				beforePath="$PROJECT_DIR$/pnpm-lock.yaml"
-				beforeDir="false"
-				afterPath="$PROJECT_DIR$/pnpm-lock.yaml"
 				afterDir="false"
 			/>
     </list>
@@ -148,32 +128,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;DEVLINGO-3-create-project-CRUD-page&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalDependencies&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component
+		name="PropertiesComponent"
+	><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "DEVLINGO-3-create-project-CRUD-page",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "",
+    "nodejs_package_manager_path": "pnpm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.externalDependencies",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "/Users/naamanhirschfeld/workspace/devlingo/monorepo/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -270,7 +257,7 @@
       <workItem from="1687247538574" duration="1808000" />
       <workItem from="1687249354457" duration="2776000" />
       <workItem from="1687252308980" duration="10844000" />
-      <workItem from="1687331410614" duration="15143000" />
+      <workItem from="1687331410614" duration="18940000" />
     </task>
     <servers />
   </component>
@@ -303,7 +290,7 @@
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
-          <line>51</line>
+          <line>52</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -324,19 +311,19 @@
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
-          <line>55</line>
+          <line>56</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
-          <line>67</line>
+          <line>68</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url
 					>file://$PROJECT_DIR$/backend/src/api/project/project.service.ts</url>
-          <line>59</line>
+          <line>60</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

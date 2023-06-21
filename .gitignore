@@ -1,9 +1,6 @@
 .DS_Store
 .env*
 .husky/_/
-.idea/dataSources
-.idea/dataSources.local.xml
-.idea/dataSources.xml
 .idea/httpRequests/*
 .idea/shelf/*
 .idea/sonarlint/

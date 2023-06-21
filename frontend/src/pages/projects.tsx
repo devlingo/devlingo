@@ -130,7 +130,9 @@ export default function Projects() {
 		(async () => {
 			setIsLoading(true);
 			try {
-				setProjects(await getProjects({ token }));
+				const data = await getProjects({ token });
+				console.log(data);
+				setProjects(data);
 			} finally {
 				setIsLoading(false);
 			}

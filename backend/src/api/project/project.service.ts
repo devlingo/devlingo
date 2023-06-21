@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PermissionType, Project } from '@prisma/client';
 import type { Request } from 'express';
 
@@ -8,6 +8,7 @@ import { PrismaService } from '@/modules/prisma/prisma.service';
 
 @Injectable()
 export class ProjectService {
+	private logger = new Logger(ProjectService.name);
 	constructor(
 		private prisma: PrismaService,
 		private userService: UserService,
@@ -77,14 +78,15 @@ export class ProjectService {
 			request,
 		});
 
+		this.logger.log('id: ' + id);
 		return await this.prisma.project.findMany({
 			where: {
 				userPermissions: {
-					some: { id },
+					some: { userId: id },
 				},
 			},
 			orderBy: {
-				name: 'asc',
+				createdAt: 'asc',
 			},
 		});
 	}

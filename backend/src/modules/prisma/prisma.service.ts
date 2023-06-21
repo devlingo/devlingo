@@ -4,13 +4,24 @@ import {
 	OnModuleDestroy,
 	OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
+
+import { isDevelopment } from '@/utils/env.utils';
 
 @Injectable()
 export class PrismaService
 	extends PrismaClient
 	implements OnModuleInit, OnModuleDestroy
 {
+	constructor() {
+		const log: Prisma.LogLevel[] = ['error'];
+
+		if (isDevelopment()) {
+			log.push(...(['query', 'info', 'warn'] as Prisma.LogLevel[]));
+		}
+
+		super({ log });
+	}
 	// noinspection JSUnusedGlobalSymbols
 	async onModuleInit() {
 		await this.$connect();

@@ -53,6 +53,10 @@ export function validateEnv(config: Record<string, unknown>) {
 	return validatedConfig;
 }
 
+export function isDevelopment(): boolean {
+	return process.env.NODE_ENV === Environment.Development;
+}
+
 export function isProduction(): boolean {
 	return process.env.NODE_ENV === Environment.Production;
 }

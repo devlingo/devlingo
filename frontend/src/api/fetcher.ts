@@ -1,4 +1,5 @@
 import { deepmerge } from 'deepmerge-ts';
+import { v4 as uuidv4 } from 'uuid';
 
 import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
@@ -23,6 +24,7 @@ export async function fetcher<T>({
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`,
+			'X-Request-Id': uuidv4(),
 		},
 	}) satisfies RequestInit;
 

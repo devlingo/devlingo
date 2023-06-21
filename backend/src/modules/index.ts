@@ -1,5 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
+import { Options } from 'pino-http';
 
 import { FirebaseModule } from '@/modules/firebase/firebase.module';
 import { PrismaModule } from '@/modules/prisma/prisma.module';
@@ -17,10 +18,14 @@ const DEFAULT_MODULES = [
 ];
 
 if (!isTest()) {
-	const pinoHttp =
+	const redact = {
+		paths: ['req.headers.authorization'],
+	};
+	const pinoHttp: Options =
 		process.env.NODE_ENV === 'production'
 			? {
 					level: 'info',
+					redact,
 			  }
 			: {
 					level: 'debug',
@@ -28,6 +33,7 @@ if (!isTest()) {
 						target: 'pino-pretty',
 						options: { singleLine: true },
 					},
+					redact,
 			  };
 
 	DEFAULT_MODULES.push(
