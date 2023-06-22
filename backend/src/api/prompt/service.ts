@@ -1,14 +1,11 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { OpenAI } from 'langchain';
 
-import { PromptRequestDTO } from '@/dtos/body';
-import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter';
-import { EnvironmentVariables } from '@/utils/env';
-import { cleanResponse, getOrCreateOpenAIChain } from '@/utils/prompt';
-
-export type RequestPromptParams = PromptRequestDTO &
-	DesignIdParam &
-	ProjectIdParam;
+import { DSLService } from '@/api/prompt/dsl/dsl-service';
+import { promptTemplate } from '@/api/prompt/prompt.template';
+import { DesignData, PromptRequest } from '@/api/prompt/prompt.types';
+import {EnvironmentVariables} from "@/utils/env";
 
 @Injectable()
 export class PromptService {
@@ -18,29 +15,32 @@ export class PromptService {
 		private configService: ConfigService<EnvironmentVariables, true>,
 	) {}
 
-	async requestPrompt({
-		designData,
-		promptContent,
-		...rest
-	}: RequestPromptParams): Promise<{
-		answer: string;
-		design: Record<string, any>;
-	}> {
-		const chain = getOrCreateOpenAIChain({
-			...rest,
+	async requestPrompt(promptRequest: PromptRequest): Promise<DesignData> {
+		this.logger.log('requestPrompt is called');
+		const dslService = new DSLService(
+			promptRequest.designData,
+			promptRequest.edgeTypes,
+			promptRequest.nodeTypes,
+		);
+		this.logger.log('dslService design: ', dslService.design);
+		const model = new OpenAI({
+			modelName: 'gpt-3.5-turbo',
+			temperature: 0.1,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
-			redisConnectionString: this.configService.get<string>(
-				'REDIS_CONNECTION_STRING',
-			),
 		});
-
+		const prompt = await promptTemplate.format({
+			edgeTypes: promptRequest.edgeTypes.toString(),
+			nodeTypes: promptRequest.nodeTypes.toString(),
+			designData: JSON.stringify(promptRequest.designData),
+			userInput: promptRequest.promptContent,
+		});
+		this.logger.log('prompt: ', prompt);
 		try {
-			const { response } = (await chain.call({
-				input: `This is the existing design JSON ${JSON.stringify(
-					designData,
-				)}. ${promptContent}`,
-			})) as { response: 'string' };
-			return cleanResponse(response);
+			this.logger.log('calling openAI api');
+			const response = await model.call(prompt);
+			this.logger.log('going to dsl service with response: ', response);
+			dslService.executeCommands(response);
+			this.logger.log('dsl service executed successfully');
 		} catch (e) {
 			this.logger.error('communication error with OpenAPI %o', e);
 			throw new HttpException(
@@ -48,5 +48,7 @@ export class PromptService {
 				HttpStatus.INTERNAL_SERVER_ERROR,
 			);
 		}
+		this.logger.log('final design: ', dslService.design);
+		return dslService.design;
 	}
 }
