@@ -1,10 +1,8 @@
 import { create, GetState, SetState } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { Project, User } from '@/types/api-types';
 
 export interface ApiStore {
-	addProject: (project: Project) => void;
 	projects: Project[];
 	setProjects: (projects: Project[]) => void;
 	setUser: (user: User) => void;
@@ -29,29 +27,14 @@ export function setProjects(set: SetState<ApiStore>, _: GetState<ApiStore>) {
 	};
 }
 
-export function addProject(_: SetState<ApiStore>, get: GetState<ApiStore>) {
-	return (project: Project) => {
-		const projects = get().projects;
-		const setProjects = get().setProjects;
-		setProjects([...projects, project]);
-	};
-}
-
-export const useApiStore = create(
-	persist<ApiStore>(
-		(set, get) => ({
-			addProject: addProject(set, get),
-			projects: [],
-			setProjects: setProjects(set, get),
-			setUser: setUser(set, get),
-			user: null,
-		}),
-		{ name: 'api-store', storage: createJSONStorage(() => sessionStorage) },
-	),
-);
+export const useApiStore = create<ApiStore>((set, get) => ({
+	projects: [],
+	setProjects: setProjects(set, get),
+	setUser: setUser(set, get),
+	user: null,
+}));
 
 export const useSetUser = () => useApiStore((s) => s.setUser);
 export const useUser = () => useApiStore((s) => s.user);
-export const useAddProject = () => useApiStore((s) => s.addProject);
 export const useSetProjects = () => useApiStore((s) => s.setProjects);
 export const useProjects = () => useApiStore((s) => s.projects);

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { PermissionType, Project } from '@prisma/client';
 import type { Request } from 'express';
 
@@ -14,7 +14,24 @@ export class ProjectService {
 		private userService: UserService,
 	) {}
 
-	async deleteProject({ projectId }: { projectId: string }): Promise<void> {
+	async deleteProject({
+		projectId,
+		request,
+	}: {
+		projectId: string;
+		request: Request;
+	}): Promise<void> {
+		const { id: userId } =
+			await this.userService.getOrCreateUserFromRequest({
+				request,
+			});
+
+		await this.validateUserPermission({
+			permissionType: PermissionType.OWNER,
+			userId,
+			projectId,
+		});
+
 		await this.prisma.project.delete({
 			where: { id: projectId },
 		});
@@ -22,9 +39,22 @@ export class ProjectService {
 
 	async retrieveProject({
 		projectId,
+		request,
 	}: {
 		projectId: string;
+		request: Request;
 	}): Promise<Project> {
+		const { id: userId } =
+			await this.userService.getOrCreateUserFromRequest({
+				request,
+			});
+
+		await this.validateUserPermission({
+			permissionType: PermissionType.VIEWER,
+			userId,
+			projectId,
+		});
+
 		return await this.prisma.project.findUniqueOrThrow({
 			where: { id: projectId },
 			select: {
@@ -50,9 +80,10 @@ export class ProjectService {
 		request: Request;
 		data: ProjectCreateDTO;
 	}): Promise<Project> {
-		const { id } = await this.userService.getOrCreateUserFromRequest({
-			request,
-		});
+		const { id: userId } =
+			await this.userService.getOrCreateUserFromRequest({
+				request,
+			});
 
 		const project = await this.prisma.project.create({
 			data,
@@ -60,13 +91,39 @@ export class ProjectService {
 
 		await this.prisma.userProjectPermission.create({
 			data: {
-				userId: id,
+				userId,
 				projectId: project.id,
 				type: PermissionType.OWNER,
 			},
 		});
 
 		return project;
+	}
+
+	async updateProject({
+		data,
+		request,
+		projectId,
+	}: {
+		data: Partial<ProjectCreateDTO>;
+		request: Request;
+		projectId: string;
+	}) {
+		const { id: userId } =
+			await this.userService.getOrCreateUserFromRequest({
+				request,
+			});
+
+		await this.validateUserPermission({
+			permissionType: PermissionType.EDITOR,
+			userId,
+			projectId,
+		});
+
+		return await this.prisma.project.update({
+			where: { id: projectId },
+			data,
+		});
 	}
 
 	async retrieveUserProjects({
@@ -89,5 +146,32 @@ export class ProjectService {
 				createdAt: 'asc',
 			},
 		});
+	}
+
+	private async validateUserPermission({
+		permissionType,
+		userId,
+		projectId,
+	}: {
+		permissionType: PermissionType;
+		userId: string;
+		projectId: string;
+	}): Promise<void> {
+		try {
+			const permission =
+				await this.prisma.userProjectPermission.findUniqueOrThrow({
+					where: { projectId_userId: { userId, projectId } },
+				});
+			if (
+				permission.type === PermissionType.OWNER ||
+				permission.type === permissionType
+			) {
+				return;
+			}
+		} catch {
+			throw new ForbiddenException('no permissions');
+		}
+
+		throw new ForbiddenException('insufficient permissions');
 	}
 }

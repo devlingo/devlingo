@@ -6,6 +6,7 @@ import {
 	HttpCode,
 	HttpStatus,
 	Param,
+	Patch,
 	Post,
 	Req,
 } from '@nestjs/common';
@@ -17,6 +18,7 @@ import { ProjectIdParam } from '@/dtos/parameter.dto';
 
 import { ProjectService } from './project.service';
 
+const PROJECT_ID_PARAM = ':projectId';
 @Controller('projects')
 export class ProjectController {
 	constructor(private readonly projectService: ProjectService) {}
@@ -34,14 +36,36 @@ export class ProjectController {
 		return await this.projectService.retrieveUserProjects({ request });
 	}
 
-	@Get(':projectId')
-	async getProject(@Param() projectId: ProjectIdParam): Promise<Project> {
-		return await this.projectService.retrieveProject(projectId);
+	@Get(PROJECT_ID_PARAM)
+	async getProject(
+		@Req() request: Request,
+		@Param() projectId: ProjectIdParam,
+	): Promise<Project> {
+		return await this.projectService.retrieveProject({
+			request,
+			...projectId,
+		});
+	}
+
+	@Patch(PROJECT_ID_PARAM)
+	async updateProject(
+		@Req() request: Request,
+		@Body() data: Partial<ProjectCreateDTO>,
+		@Param() projectId: ProjectIdParam,
+	): Promise<Project> {
+		return await this.projectService.updateProject({
+			...projectId,
+			request,
+			data,
+		});
 	}
 
 	@HttpCode(HttpStatus.NO_CONTENT)
-	@Delete(':projectId')
-	async deleteProject(@Param() projectId: ProjectIdParam): Promise<void> {
-		await this.projectService.deleteProject(projectId);
+	@Delete(PROJECT_ID_PARAM)
+	async deleteProject(
+		@Req() request: Request,
+		@Param() projectId: ProjectIdParam,
+	): Promise<void> {
+		await this.projectService.deleteProject({ request, ...projectId });
 	}
 }

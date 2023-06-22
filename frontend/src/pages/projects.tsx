@@ -8,12 +8,13 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
-import { createProject, deleteProject, getProjects } from '@/api';
 import {
-	useAddProject,
-	useProjects,
-	useSetProjects,
-} from '@/hooks/use-api-store';
+	createProject,
+	deleteProject,
+	getProjects,
+	updateProject,
+} from '@/api';
+import { useProjects, useSetProjects } from '@/hooks/use-api-store';
 import { Project } from '@/types';
 import { formatDate } from '@/utils/time';
 
@@ -25,10 +26,18 @@ export async function getStaticProps({ locale }: { locale: string }) {
 	};
 }
 
-export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
-	const addProject = useAddProject();
-	const [name, setName] = useState('');
-	const [description, setDescription] = useState('');
+export function CreateOrUpdateProjectModal({
+	closeModal,
+	project,
+	projects,
+}: {
+	closeModal: () => void;
+	project: Project | null;
+	projects: Project[];
+}) {
+	const setProjects = useSetProjects();
+	const [name, setName] = useState(project?.name ?? '');
+	const [description, setDescription] = useState(project?.description ?? '');
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const { t } = useTranslation('projects');
@@ -36,11 +45,27 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 	const handleSubmit = async () => {
 		setIsSubmitting(true);
 		try {
-			const project = await createProject({
-				name,
-				description: description || null,
-			});
-			addProject(project);
+			if (project) {
+				const updatedProject = await updateProject({
+					name: name !== project.name ? name : undefined,
+					description:
+						description !== project.description
+							? description
+							: undefined,
+					projectId: project.id,
+				});
+				setProjects(
+					projects.map((p) =>
+						p.id === project.id ? updatedProject : p,
+					),
+				);
+			} else {
+				const createdProject = await createProject({
+					name,
+					description: description || null,
+				});
+				setProjects([...projects, createdProject]);
+			}
 		} finally {
 			setIsSubmitting(false);
 			closeModal();
@@ -50,23 +75,25 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 	return (
 		<div
 			className="modal modal-open modal-middle"
-			data-testid="create-project-modal"
+			data-testid="create-or-update-project-modal"
 		>
 			<div className="modal-box bg-base-100">
 				<h3 className="font-bold text-lg">
-					{t('createProjectModalTitle')!}
+					{project
+						? t('createProjectModalTitle')!
+						: t('updateProjectModalTitle')!}
 				</h3>
 				<form className="form-control">
 					<label className="label">
 						<span className="label-text">
-							{t('createProjectNameInputLabel')!}
+							{t('projectNameInputLabel')!}
 						</span>
 					</label>
 					<input
 						type="text"
 						className="input input-bordered"
-						data-testid="create-project-modal-name-input"
-						placeholder={t('createProjectNameInputPlaceholder')!}
+						data-testid="create-or-update-project-modal-name-input"
+						placeholder={t('projectNameInputPlaceholder')!}
 						value={name}
 						onChange={(event) => {
 							setName(event.target.value);
@@ -75,12 +102,12 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 					/>
 					<label className="label">
 						<span className="label-text">
-							{t('createProjectDescriptionTextAreaLabel')!}
+							{t('projectDescriptionTextAreaLabel')!}
 						</span>
 					</label>
 					<textarea
 						className="textarea textarea-bordered textarea-md w-full"
-						data-testid="create-project-modal-description-textarea"
+						data-testid="create-or-update-project-modal-description-textarea"
 						value={description}
 						onChange={(event) => {
 							setDescription(event.target.value);
@@ -90,7 +117,7 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 					<div className="modal-action">
 						<button
 							className="btn btn-ghost opacity-80"
-							data-testid="create-project-modal-cancel-button"
+							data-testid="create-or-update-project-modal-cancel-button"
 							disabled={isSubmitting}
 							onClick={() => {
 								closeModal();
@@ -100,8 +127,13 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 						</button>
 						<button
 							className="btn btn-primary"
-							data-testid="create-project-modal-submit-button"
-							disabled={!name.length || isSubmitting}
+							data-testid="create-or-update-project-modal-submit-button"
+							disabled={
+								!name.length ||
+								(project?.name === name &&
+									project.description === description) ||
+								isSubmitting
+							}
 							onClick={() => {
 								void handleSubmit();
 							}}
@@ -171,8 +203,10 @@ export default function Projects() {
 	const [isDeleteProjectModalOpen, setIsDeleteProjectModalOpen] =
 		useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [isCreateProjectModalOpen, setIsCreateProjectModalOpen] =
-		useState(false);
+	const [
+		isCreateOrUpdateProjectModalOpen,
+		setIsCreateOrUpdateProjectModalOpen,
+	] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -229,6 +263,12 @@ export default function Projects() {
 										<button
 											className="btn btn-outline btn-sm join-item"
 											disabled={isLoading}
+											onClick={() => {
+												setSelectedProject(project);
+												setIsCreateOrUpdateProjectModalOpen(
+													true,
+												);
+											}}
 										>
 											<PencilIcon className="h-3 w-3 text-base-content" />
 										</button>
@@ -258,7 +298,8 @@ export default function Projects() {
 						<button
 							className="btn btn-lg btn-ghost btn-circle"
 							onClick={() => {
-								setIsCreateProjectModalOpen(true);
+								setSelectedProject(null);
+								setIsCreateOrUpdateProjectModalOpen(true);
 							}}
 							disabled={isLoading}
 						>
@@ -266,11 +307,14 @@ export default function Projects() {
 						</button>
 					</div>
 				</div>
-				{isCreateProjectModalOpen && (
-					<CreateProjectModal
+				{isCreateOrUpdateProjectModalOpen && (
+					<CreateOrUpdateProjectModal
 						closeModal={() => {
-							setIsCreateProjectModalOpen(false);
+							setSelectedProject(null);
+							setIsCreateOrUpdateProjectModalOpen(false);
 						}}
+						projects={projects}
+						project={selectedProject}
 					/>
 				)}
 				{isDeleteProjectModalOpen && (

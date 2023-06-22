@@ -68,4 +68,6 @@ model UserProjectPermission {
   userId    String
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+
+  @@unique([projectId, userId])
 }

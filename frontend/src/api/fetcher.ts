@@ -1,10 +1,10 @@
-import { getAuth } from '@firebase/auth';
 import { deepmerge } from 'deepmerge-ts';
 import { v4 as uuidv4 } from 'uuid';
 
 import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import { ApiParams } from '@/types';
+import { getFirebaseAuth } from '@/utils/firebase';
 
 export async function fetcher<T>({
 	url,
@@ -12,7 +12,9 @@ export async function fetcher<T>({
 	version = 1,
 	...rest
 }: ApiParams): Promise<T> {
-	const token = await getAuth().currentUser?.getIdToken();
+	const auth = await getFirebaseAuth();
+	const token = await auth.currentUser?.getIdToken();
+
 	if (!token) {
 		throw new TokenError('user is not logged in');
 	}
