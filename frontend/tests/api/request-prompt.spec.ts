@@ -1,4 +1,6 @@
+import { Auth } from 'firebase/auth';
 import { mockFetch } from 'tests/mocks';
+import { SpyInstance } from 'vitest';
 
 import {
 	mergeEdges,
@@ -6,8 +8,24 @@ import {
 	parsePromptData,
 	requestPrompt,
 } from '@/api/prompt-api';
+import * as firebaseUtils from '@/utils/firebase';
+
+vi.mock('uuid', () => ({
+	v4: vi.fn().mockReturnValue('uuidv4_value'),
+}));
 
 describe('requestPrompt tests', () => {
+	let getFirebaseAuthSpy: SpyInstance<[], Promise<Auth>>;
+
+	beforeEach(() => {
+		getFirebaseAuthSpy = vi.spyOn(firebaseUtils, 'getFirebaseAuth');
+		getFirebaseAuthSpy.mockResolvedValue({
+			currentUser: {
+				getIdToken: vi.fn().mockResolvedValue('test_token'),
+			},
+		} as any);
+	});
+
 	it('handles success response', async () => {
 		const mockResponse = {
 			answer: 'test answer',
@@ -45,13 +63,16 @@ describe('requestPrompt tests', () => {
 		const result = await requestPrompt(mockData);
 
 		expect(mockFetch).toHaveBeenCalledWith(
-			new URL('http://www.example.com/prompt/testProjectId/testDesignId'),
+			new URL(
+				'http://www.example.com/v1/prompt/testProjectId/testDesignId',
+			),
 			{
 				method: 'POST',
 				body: JSON.stringify(parsePromptData(mockData)),
 				headers: {
-					'Authorization': 'Bearer valid_token',
+					'Authorization': 'Bearer test_token',
 					'Content-Type': 'application/json',
+					'X-Request-Id': 'uuidv4_value',
 				},
 			},
 		);
