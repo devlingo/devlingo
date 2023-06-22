@@ -14,6 +14,8 @@ import type {
 	ViewPortData,
 } from 'shared/types';
 
+import type { DesignData } from '@/api/prompt/types';
+
 export class ProjectCreateDTO {
 	@IsString()
 	@IsNotEmpty()
@@ -58,7 +60,7 @@ export class PromptRequestDTO {
 
 	@IsObject()
 	@IsNotEmpty()
-	designData!: { nodes: Record<string, any>[]; edges: Record<string, any>[] };
+	designData!: DesignData;
 
 	@IsArray()
 	@IsNotEmpty()

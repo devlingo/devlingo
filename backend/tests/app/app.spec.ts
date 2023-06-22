@@ -14,12 +14,6 @@ vi.mock('firebase-admin', () => {
 	};
 });
 
-vi.mock('@/utils/request.utils.ts', () => {
-	return {
-		getTokenFromRequest: () => 'abc',
-	};
-});
-
 describe('App Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;

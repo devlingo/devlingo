@@ -4,4 +4,5 @@ export enum PromptState {
 	Error = 'Error',
 	Hidden = 'Hidden',
 	Loading = 'Loading',
+	Arrived = 'Arrived',
 }
