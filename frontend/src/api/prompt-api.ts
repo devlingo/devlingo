@@ -3,7 +3,6 @@ import { Edge, Node } from 'reactflow';
 
 import { fetcher } from '@/api/fetcher';
 import { EdgeTypes, HttpMethod, ServiceNodeType } from '@/constants';
-import { ApiParams } from '@/types';
 import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
@@ -96,17 +95,15 @@ export interface PromptRequestParams {
 }
 
 export async function requestPrompt({
-	token,
 	designId,
 	projectId,
 	...data
-}: PromptRequestParams & Pick<ApiParams, 'token'>): Promise<{
+}: PromptRequestParams): Promise<{
 	answer: string;
 	nodes: Node[];
 	edges: Edge[];
 }> {
 	const { answer, design } = await fetcher<PromptResponse>({
-		token,
 		url: `prompt/${projectId}/${designId}`,
 		method: HttpMethod.Post,
 		body: JSON.stringify(parsePromptData(data)),

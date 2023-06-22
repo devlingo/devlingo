@@ -1,3 +1,4 @@
+import { getAuth } from '@firebase/auth';
 import { deepmerge } from 'deepmerge-ts';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,14 +7,14 @@ import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import { ApiParams } from '@/types';
 
 export async function fetcher<T>({
-	token,
 	url,
 	method,
 	version = 1,
 	...rest
 }: ApiParams): Promise<T> {
+	const token = await getAuth().currentUser?.getIdToken();
 	if (!token) {
-		throw new TokenError('No token provided');
+		throw new TokenError('user is not logged in');
 	}
 	if (!Object.values(HttpMethod).includes(method)) {
 		throw new ConfigurationError(`invalid HTTP method ${method}`);
@@ -34,7 +35,10 @@ export async function fetcher<T>({
 	);
 
 	const response = await fetch(path, request);
-	const body = (await response.json()) as Record<string, any>;
+	const body =
+		response.status !== 204
+			? ((await response.json()) as Record<string, any>)
+			: {};
 
 	if (!response.ok) {
 		throw new ApiError(

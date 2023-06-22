@@ -19,7 +19,6 @@ export interface Project {
 }
 
 export type ApiParams = {
-	token: string;
 	url: string;
 	method: HttpMethod;
 	version?: number;

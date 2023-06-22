@@ -13,7 +13,6 @@ describe('api utils tests', () => {
 			});
 
 			const result = await fetcher({
-				token: 'valid_token',
 				url: 'api',
 				method: HttpMethod.Get,
 			});
@@ -57,7 +56,6 @@ describe('api utils tests', () => {
 
 			await expect(
 				fetcher({
-					token: 'valid_token',
 					url: 'api',
 					method: HttpMethod.Get,
 				}),
@@ -89,7 +87,6 @@ describe('api utils tests', () => {
 
 			await expect(
 				fetcher({
-					token: 'valid_token',
 					url: 'api',
 					method: HttpMethod.Get,
 					body: 'invalid_body',

@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { requestPrompt } from '@/api/prompt-api';
 import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
-import { useToken } from '@/hooks/use-api-store';
 import {
 	useDisplayEdges,
 	useDisplayNodes,
@@ -183,7 +182,6 @@ export function PromptContainer({
 	const setEdges = useSetEdges();
 	const displayNodes = useDisplayNodes();
 	const displayEdges = useDisplayEdges();
-	const token = useToken()!;
 
 	const [promptState, setPromptState] = useState(PromptState.Hidden);
 	const [promptAnswer, setPromptAnswer] = useState<string | null>(null);
@@ -201,7 +199,6 @@ export function PromptContainer({
 		setPromptState(PromptState.Loading);
 		try {
 			const { answer, nodes, edges } = await requestPrompt({
-				token,
 				edges: displayEdges,
 				nodes: displayNodes,
 				promptContent,
