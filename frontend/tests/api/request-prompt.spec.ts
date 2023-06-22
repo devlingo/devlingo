@@ -115,7 +115,7 @@ describe('requestPrompt tests', () => {
 			designId: 'testDesignId',
 			projectId: 'testProjectId',
 		};
-		vi.spyOn(global, 'fetch').mockResolvedValue({
+		mockFetch.mockResolvedValueOnce({
 			ok: false,
 			json: () => Promise.resolve({ message: 'API Error' }),
 		});

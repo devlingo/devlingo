@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
-import { ApiParams } from '@/types';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 export async function fetcher<T>({
@@ -11,7 +10,11 @@ export async function fetcher<T>({
 	method,
 	version = 1,
 	...rest
-}: ApiParams): Promise<T> {
+}: {
+	url: string;
+	method: HttpMethod;
+	version?: number;
+} & Omit<RequestInit, 'method'>): Promise<T> {
 	const auth = await getFirebaseAuth();
 	const token = await auth.currentUser?.getIdToken();
 

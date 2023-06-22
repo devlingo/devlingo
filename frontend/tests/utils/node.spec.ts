@@ -101,7 +101,7 @@ describe('Node Utils Tests', () => {
 		});
 	});
 	describe('convertNodesToImageString', () => {
-		it.each(['png', 'jpeg', 'svg'])(
+		it.each(['png', 'jpeg', 'svg'] as ImageType[])(
 			'converts to %s',
 			async (imageType: ImageType) => {
 				const mock =

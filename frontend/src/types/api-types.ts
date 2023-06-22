@@ -1,25 +1,10 @@
-import { HttpMethod } from '@/constants';
+import type { Project as DBProject, User as DBUser } from '@prisma/client';
 
-export interface User {
-	id: string;
-	firebaseId: string;
-	email: string;
-	name: string;
-	avatarUrl: string | null;
+interface AuditValues {
 	createdAt: string;
 	updatedAt: string;
 }
 
-export interface Project {
-	id: string;
-	name: string;
-	description: string | null;
-	createdAt: string;
-	updatedAt: string;
-}
+export type User = DBUser & AuditValues;
 
-export type ApiParams = {
-	url: string;
-	method: HttpMethod;
-	version?: number;
-} & Omit<RequestInit, 'method'>;
+export type Project = DBProject & AuditValues;
