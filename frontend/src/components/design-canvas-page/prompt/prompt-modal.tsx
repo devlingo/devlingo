@@ -1,5 +1,7 @@
 import { useTranslation } from 'next-i18next';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+
+import { handleChange } from '@/utils/helpers';
 
 export const MINIMUM_CHARACTERS_IN_PROMPT = 10;
 
@@ -36,9 +38,7 @@ export function PromptModal({
 						placeholder={t('promptModalPlaceholder')!}
 						className="textarea textarea-bordered textarea-md w-full"
 						value={prompt}
-						onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-							setPrompt(event.target.value);
-						}}
+						onChange={handleChange(setPrompt)}
 						data-testid="prompt-modal-textarea"
 					/>
 					<div className="modal-action">

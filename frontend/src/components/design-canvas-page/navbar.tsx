@@ -2,6 +2,7 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { useContext } from 'react';
 
 import { ThemeContext } from '@/context';
+import { handleChange } from '@/utils/helpers';
 import { daisyUIThemes } from '@/wrapper';
 
 export interface NavbarProps {
@@ -19,9 +20,7 @@ export function Navbar({ projectName }: NavbarProps) {
 			<div className="navbar-start pl-2">
 				<select
 					className="select select-bordered select-xs w-5/10 max-w-xs text-base-content"
-					onChange={(event) =>
-						themeContext.setTheme(event.target.value)
-					}
+					onChange={handleChange(themeContext.setTheme)}
 					defaultValue={themeContext.currentTheme}
 					data-testid="navbar-theme-select"
 				>
