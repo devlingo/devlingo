@@ -1,4 +1,5 @@
 import { ReactFlowInstance, ReactFlowProvider } from '@reactflow/core';
+import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
@@ -9,6 +10,7 @@ import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
 import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
+import { useProject } from '@/hooks/use-api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
 	useConfiguredNode,
@@ -19,7 +21,7 @@ import {
 import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { createNode } from '@/utils/node';
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getServerSideProps({ locale }: { locale: string }) {
 	return {
 		props: {
 			...(await serverSideTranslations(locale, [
@@ -32,6 +34,8 @@ export async function getStaticProps({ locale }: { locale: string }) {
 }
 
 export default function DesignCanvasPage() {
+	const router = useRouter();
+	const project = useProject(router.query.projectId as string);
 	const configuredNode = useConfiguredNode();
 	const expandedNode = useExpandedNode();
 	const insertNode = useInsertNode();
@@ -65,7 +69,7 @@ export default function DesignCanvasPage() {
 
 	return (
 		<ReactFlowProvider>
-			<Navbar projectName="Backend Example" />
+			<Navbar projectName={project?.name ?? 'Untitled Project'} />
 			<main className="h-full w-full flex justify-between">
 				<PromptContainer
 					closePromptModal={() => {

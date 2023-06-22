@@ -38,3 +38,7 @@ export const useSetUser = () => useApiStore((s) => s.setUser);
 export const useUser = () => useApiStore((s) => s.user);
 export const useSetProjects = () => useApiStore((s) => s.setProjects);
 export const useProjects = () => useApiStore((s) => s.projects);
+export const useProject = (projectId: string) => {
+	const projects = useProjects();
+	return projects.find((project) => project.id === projectId);
+};

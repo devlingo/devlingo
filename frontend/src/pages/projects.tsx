@@ -3,6 +3,7 @@ import {
 	PlusCircleIcon,
 	TrashIcon,
 } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { deleteProject, getProjects } from '@/api';
 import { CreateOrUpdateProjectModal } from '@/components/projects-page/create-or-update-project-modal';
 import { WarningModal } from '@/components/warning-modal';
+import { Navigation } from '@/constants';
 import { useProjects, useSetProjects } from '@/hooks/use-api-store';
 import { Project } from '@/types';
 import { formatDate } from '@/utils/time';
@@ -27,6 +29,7 @@ export default function Projects() {
 
 	const projects = useProjects();
 	const setProjects = useSetProjects();
+	const router = useRouter();
 	const [selectedProject, setSelectedProject] = useState<Project | null>(
 		null,
 	);
@@ -74,8 +77,14 @@ export default function Projects() {
 				<div className="flex mx-auto gap-4 border-2 border-accent rounded-box p-4">
 					{projects.map((project, i) => (
 						<div
-							className="h-fit w-fit card card-compact bg-base-100"
+							className="btn btn-ghost h-fit w-fit card card-compact bg-base-100 hover:bg-neutral"
 							key={i}
+							onClick={() => {
+								void router.push({
+									pathname: Navigation.Design,
+									query: { projectId: project.id },
+								});
+							}}
 						>
 							<div className="card-body">
 								<h2 className="card-title">{project.name}</h2>

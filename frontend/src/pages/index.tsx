@@ -39,7 +39,7 @@ const firebaseUIConfig = {
 function SignInScreen() {
 	const [uiRendered, setIsUIRendered] = useState(false);
 	const [isSignedIn, setIsSignedIn] = useState(false);
-	const auth = getFirebaseAuth();
+
 	const router = useRouter();
 	const setUser = useSetUser();
 
@@ -47,6 +47,7 @@ function SignInScreen() {
 	useEffect(() => {
 		(async () => {
 			const firebaseUI = await import('firebaseui');
+			const auth = await getFirebaseAuth();
 			const ui =
 				firebaseUI.auth.AuthUI.getInstance() ??
 				new firebaseUI.auth.AuthUI(auth);

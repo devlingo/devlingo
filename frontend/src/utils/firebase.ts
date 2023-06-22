@@ -38,8 +38,11 @@ export function getFirebaseApp(): FirebaseApp {
 
 export async function getFirebaseAuth(): Promise<Auth> {
 	if (!instanceRef.auth) {
-		instanceRef.auth = getAuth(getFirebaseApp());
-		await instanceRef.auth.setPersistence(browserLocalPersistence);
+		const app = getFirebaseApp();
+		const auth = getAuth(app);
+		await auth.setPersistence(browserLocalPersistence);
+
+		instanceRef.auth = auth;
 	}
 
 	return instanceRef.auth;
