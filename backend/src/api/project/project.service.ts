@@ -159,10 +159,18 @@ export class ProjectService {
 			const permission =
 				await this.prisma.userProjectPermission.findUniqueOrThrow({
 					where: { projectId_userId: { userId, projectId } },
+					select: { type: true },
 				});
 			if (
 				permission.type === PermissionType.OWNER ||
-				permission.type === permissionType
+				permissionType === permission.type
+			) {
+				return;
+			}
+			if (
+				permission.type === PermissionType.EDITOR &&
+				(permissionType === PermissionType.EDITOR ||
+					permissionType === PermissionType.VIEWER)
 			) {
 				return;
 			}

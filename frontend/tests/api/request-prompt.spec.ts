@@ -24,7 +24,6 @@ describe('requestPrompt tests', () => {
 			},
 		};
 		const mockData = {
-			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [
 				{
@@ -108,7 +107,6 @@ describe('requestPrompt tests', () => {
 
 	it('handles an error correctly', async () => {
 		const mockData = {
-			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [],
 			edges: [],

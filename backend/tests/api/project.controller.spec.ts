@@ -1,10 +1,11 @@
-import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PermissionType, Prisma, PrismaClient } from '@prisma/client';
 import type { SuperTest } from 'supertest';
 import { ProjectFactory, UserFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
+import { beforeEach } from 'vitest';
 import type { DeepMockProxy } from 'vitest-mock-extended';
+import { mockReset } from 'vitest-mock-extended';
 
 import { ProjectModule } from '@/api/project';
 import { AppModule } from '@/app';
@@ -25,6 +26,10 @@ describe('Project Controller Tests', () => {
 
 	afterAll(async () => {
 		await app.close();
+	});
+
+	beforeEach(() => {
+		mockReset(prisma);
 	});
 
 	describe('POST projects', () => {
@@ -56,7 +61,7 @@ describe('Project Controller Tests', () => {
 	});
 
 	describe('GET projects', () => {
-		it('retrieves all projects', async () => {
+		it('retrieves all projects a user has access to', async () => {
 			const projects = await ProjectFactory.batch(3);
 			const user = await UserFactory.build();
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
@@ -67,12 +72,12 @@ describe('Project Controller Tests', () => {
 			expect(response.body).toHaveLength(3);
 			expect(prisma.project.findMany).toHaveBeenCalledWith({
 				orderBy: {
-					name: 'asc',
+					createdAt: 'asc',
 				},
 				where: {
 					userPermissions: {
 						some: {
-							id: user.id,
+							userId: user.id,
 						},
 					},
 				},
@@ -80,35 +85,138 @@ describe('Project Controller Tests', () => {
 		});
 	});
 
+	describe('PATCH projects', () => {
+		it('updates a project', async () => {
+			const user = await UserFactory.build();
+			const project = await ProjectFactory.build();
+
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
+				{ type: PermissionType.OWNER } as any,
+			);
+			prisma.project.update.mockImplementationOnce(
+				({ data }) =>
+					({
+						...project,
+						...data,
+					} as any),
+			);
+
+			const response = await request
+				.patch(`/projects/${project.id}`)
+				.send({ name: project.name });
+
+			expect(response.statusCode).toEqual(HttpStatus.OK);
+			expect(response.body.name).toEqual(project.name);
+		});
+	});
+
 	describe('GET projects/:projectId', () => {
 		it('retrieves a project by ID', async () => {
+			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
+
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
+				{ type: PermissionType.OWNER } as any,
+			);
 			const response = await request.get(`/projects/${project.id}`);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 			expect(response.text).toEqual(JSON.stringify(project));
 		});
 
-		it('returns an informative error message', async () => {
-			prisma.project.findUniqueOrThrow.mockImplementationOnce(() => {
-				throw new Prisma.NotFoundError('No Project found');
-			});
-			const response = await request.get(
-				`/projects/${faker.string.uuid()}`,
-			);
+		it.each(Object.values(PermissionType) as PermissionType[])(
+			'allows access for users with permission %s',
+			async (permissionType: PermissionType) => {
+				const user = await UserFactory.build();
+				const project = await ProjectFactory.build();
 
-			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
-			expect(response.body.message).toBe('No Project found');
+				prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+				prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+				prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
+					{ type: permissionType } as any,
+				);
+				const response = await request.get(`/projects/${project.id}`);
+
+				expect(response.statusCode).toEqual(HttpStatus.OK);
+			},
+		);
+
+		it('returns a permission denied error when no permission is found', async () => {
+			const user = await UserFactory.build();
+			const project = await ProjectFactory.build();
+
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+			prisma.userProjectPermission.findUniqueOrThrow.mockImplementationOnce(
+				() => {
+					throw new Prisma.NotFoundError(
+						'No UserProjectPermission found',
+					);
+				},
+			);
+			const response = await request.get(`/projects/${project.id}`);
+
+			expect(response.statusCode).toEqual(HttpStatus.FORBIDDEN);
 		});
 	});
 
 	describe('DELETE projects/:projectId', () => {
 		it('deletes a project by ID', async () => {
+			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
+
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
+				{ type: PermissionType.OWNER } as any,
+			);
+
+			const response = await request.delete(`/projects/${project.id}`);
+			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
+		});
+
+		it.each(
+			Object.values(PermissionType).filter(
+				(p) => p !== PermissionType.OWNER,
+			) as PermissionType[],
+		)(
+			'forbids operation for users with permission %s',
+			async (permissionType: PermissionType) => {
+				const user = await UserFactory.build();
+				const project = await ProjectFactory.build();
+
+				prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+				prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+				prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
+					{ type: permissionType } as any,
+				);
+				const response = await request.delete(
+					`/projects/${project.id}`,
+				);
+				expect(response.statusCode).toEqual(HttpStatus.FORBIDDEN);
+			},
+		);
+
+		it('returns a permission denied error when no permission is found', async () => {
+			const user = await UserFactory.build();
+			const project = await ProjectFactory.build();
+
+			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
+			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
+			prisma.userProjectPermission.findUniqueOrThrow.mockImplementationOnce(
+				() => {
+					throw new Prisma.NotFoundError(
+						'No UserProjectPermission found',
+					);
+				},
+			);
 			const response = await request.delete(`/projects/${project.id}`);
 
-			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
+			expect(response.statusCode).toEqual(HttpStatus.FORBIDDEN);
 		});
 	});
 });
