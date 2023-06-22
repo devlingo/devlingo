@@ -1,4 +1,9 @@
-import { PlusCircleIcon } from '@heroicons/react/24/solid';
+import {
+	PencilIcon,
+	PlusCircleIcon,
+	TrashIcon,
+} from '@heroicons/react/24/solid';
+import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
@@ -10,6 +15,7 @@ import {
 	useSetProjects,
 	useToken,
 } from '@/hooks/use-api-store';
+import { formatDate } from '@/utils/time';
 
 export async function getStaticProps({ locale }: { locale: string }) {
 	return {
@@ -26,7 +32,7 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 	const [description, setDescription] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const { t } = useTranslation('project');
+	const { t } = useTranslation('projects');
 
 	const handleSubmit = async () => {
 		setIsSubmitting(true);
@@ -108,7 +114,7 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 							{isSubmitting ? (
 								<div className="loading loading-dots" />
 							) : (
-								'submit'
+								t('submit')
 							)}
 						</button>
 					</div>
@@ -119,6 +125,8 @@ export function CreateProjectModal({ closeModal }: { closeModal: () => void }) {
 }
 
 export default function Projects() {
+	const { t } = useTranslation('projects');
+
 	const token = useToken()!;
 	const projects = useProjects();
 	const setProjects = useSetProjects();
@@ -131,7 +139,6 @@ export default function Projects() {
 			setIsLoading(true);
 			try {
 				const data = await getProjects({ token });
-				console.log(data);
 				setProjects(data);
 			} finally {
 				setIsLoading(false);
@@ -140,41 +147,55 @@ export default function Projects() {
 	}, []);
 
 	return (
-		<main className="h-screen w-screen bg-base-300 flex items-center">
+		<main className="h-screen w-screen bg-base-300 flex flex-col justify-between">
+			<header className="navbar bg-blue-100" />
 			{isLoading ? (
-				<div className="loading loading-lg" />
+				<div className="flex items-start">
+					<div className="loading loading-lg" />
+				</div>
 			) : (
-				<div className="h-full w-full">
-					<div className="flex">
+				<div className="p-4 grow flex items-center">
+					<div className="flex mx-auto gap-4 border-2 border-accent rounded-box p-4">
 						{projects.map((project, i) => (
 							<div
-								className="card w-96 bg-base-100 shadow-xl"
+								className="card card-compact bg-base-100"
 								key={i}
 							>
 								<div className="card-body">
-									<h2 className="card-title">
+									<span className="card-title">
 										{project.name}
-									</h2>
-									<p>{project.description ?? ''}</p>
+									</span>
+									<span className="text-sm mb-1">
+										{project.description ?? ''}
+									</span>
+									<span className="text-xs">
+										{t('projectDetailCreatedAt', {
+											createdAt: formatDate(
+												project.createdAt,
+											),
+										})}
+									</span>
+									<div className="divider m-0 text-base-content" />
 									<div className="card-actions justify-end">
-										<button className="btn btn-primary">
-											Buy Now
+										<button className="btn btn-outline btn-sm">
+											<TrashIcon className="h-3 w-3 text-base-content" />
+										</button>
+										<button className="btn btn-outline btn-sm">
+											<PencilIcon className="h-3 w-3 text-base-content" />
 										</button>
 									</div>
 								</div>
 							</div>
 						))}
-						<div className="card w-fit bg-base-100 shadow-xl">
-							<div className="card-body">
-								<button
-									className="btn btn-lg btn-ghost btn-circle"
-									onClick={() => {
-										setIsCreateProjectModalOpen(true);
-									}}
-								>
-									<PlusCircleIcon className="w-fit h-fit" />
-								</button>
-							</div>
+						<div className="flex flex-col justify-around">
+							<button
+								className="btn btn-lg btn-ghost btn-circle"
+								onClick={() => {
+									setIsCreateProjectModalOpen(true);
+								}}
+							>
+								<PlusCircleIcon className="w-fit h-fit" />
+							</button>
 						</div>
 					</div>
 					{isCreateProjectModalOpen && (
@@ -186,6 +207,7 @@ export default function Projects() {
 					)}
 				</div>
 			)}
+			<footer className="footer h-16 bg-blue-100" />
 		</main>
 	);
 }

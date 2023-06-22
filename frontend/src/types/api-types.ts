@@ -6,16 +6,16 @@ export interface User {
 	email: string;
 	name: string;
 	avatarUrl: string | null;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Project {
 	id: string;
 	name: string;
 	description: string | null;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export type ApiParams = {

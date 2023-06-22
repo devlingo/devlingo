@@ -1,4 +1,5 @@
 {
+	"projectDetailCreatedAt": "Created at: {{createdAt}}",
 	"createProjectModalTitle": "Create Project",
 	"createProjectNameInputLabel": "Project Name",
 	"createProjectNameInputPlaceholder": "My Project",
