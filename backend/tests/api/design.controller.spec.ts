@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient, Project } from '@prisma/client';
-import type { SuperTest } from 'supertest';
 import {
 	DesignFactory,
 	DesignVersionFactory,
 	ProjectFactory,
-} from 'tests/testing.factories';
+} from 'shared/testing';
+import type { SuperTest } from 'supertest';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import type { DeepMockProxy } from 'vitest-mock-extended';
 

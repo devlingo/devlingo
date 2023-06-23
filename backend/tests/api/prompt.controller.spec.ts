@@ -1,9 +1,9 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Design, Project } from '@prisma/client';
 import { ConversationChain } from 'langchain/chains';
+import { DesignFactory, ProjectFactory } from 'shared/testing';
 import type { SuperTest } from 'supertest';
 import { OpenAIResponse } from 'tests/test-data';
-import { DesignFactory, ProjectFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import { Mock } from 'vitest';
 

@@ -1,6 +1,5 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app';
 import { Auth, browserLocalPersistence, getAuth } from 'firebase/auth';
-import * as process from 'process';
 
 const instanceRef: { app: FirebaseApp | null; auth: Auth | null } = {
 	app: null,

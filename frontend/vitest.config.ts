@@ -11,6 +11,7 @@ export default defineConfig({
 		alias: {
 			'@': resolve(__dirname, './src'),
 			'tests': resolve(__dirname, './tests'),
+			'shared': resolve(__dirname, '../shared'),
 		},
 		setupFiles: ['./tests/vitest.setup.ts', './tests/mocks.ts'],
 	},

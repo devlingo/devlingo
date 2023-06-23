@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PermissionType, Prisma, PrismaClient } from '@prisma/client';
+import { ProjectFactory, UserFactory } from 'shared/testing';
 import type { SuperTest } from 'supertest';
-import { ProjectFactory, UserFactory } from 'tests/testing.factories';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import { beforeEach } from 'vitest';
 import type { DeepMockProxy } from 'vitest-mock-extended';
@@ -37,13 +37,10 @@ describe('Project Controller Tests', () => {
 			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
-			prisma.project.create.mockImplementationOnce(
-				({ data }) =>
-					({
-						...project,
-						...data,
-					} as any),
-			);
+			prisma.project.create.mockImplementationOnce(({ data }) => ({
+				...project,
+				...data,
+			}));
 			const response = await request
 				.post('/projects')
 				.send({ name: project.name });
@@ -95,13 +92,10 @@ describe('Project Controller Tests', () => {
 			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
 				{ type: PermissionType.OWNER } as any,
 			);
-			prisma.project.update.mockImplementationOnce(
-				({ data }) =>
-					({
-						...project,
-						...data,
-					} as any),
-			);
+			prisma.project.update.mockImplementationOnce(({ data }) => ({
+				...project,
+				...data,
+			}));
 
 			const response = await request
 				.patch(`/projects/${project.id}`)

@@ -11,7 +11,8 @@
 		"paths": {
 			"@/*": ["src/*"],
 			"tests/*": ["tests/*"],
-			"public/*": ["public/*"]
+			"public/*": ["public/*"],
+			"shared/*": ["../shared/*"]
 		}
 	}
 }

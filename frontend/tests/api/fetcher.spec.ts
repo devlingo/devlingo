@@ -1,28 +1,11 @@
-import { Auth } from 'firebase/auth';
 import { mockFetch } from 'tests/mocks';
-import { SpyInstance } from 'vitest';
 
 import { fetcher } from '@/api';
 import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import * as firebaseUtils from '@/utils/firebase';
 
-vi.mock('uuid', () => ({
-	v4: vi.fn().mockReturnValue('uuidv4_value'),
-}));
-
 describe('fetcher tests', () => {
-	let getFirebaseAuthSpy: SpyInstance<[], Promise<Auth>>;
-
-	beforeEach(() => {
-		getFirebaseAuthSpy = vi.spyOn(firebaseUtils, 'getFirebaseAuth');
-		getFirebaseAuthSpy.mockResolvedValue({
-			currentUser: {
-				getIdToken: vi.fn().mockResolvedValue('test_token'),
-			},
-		} as any);
-	});
-
 	it('handles a success response correctly', async () => {
 		const mockResponse = { data: 'success' };
 		mockFetch.mockResolvedValueOnce({
@@ -77,7 +60,10 @@ describe('fetcher tests', () => {
 	});
 
 	it('handles a not-logged-in user', async () => {
-		getFirebaseAuthSpy.mockResolvedValueOnce({ currentUser: null } as any);
+		const getFirebaseAuthSpy = vi.spyOn(firebaseUtils, 'getFirebaseAuth');
+		getFirebaseAuthSpy.mockResolvedValueOnce({
+			currentUser: null,
+		} as any);
 		await expect(
 			fetcher({ url: 'test', method: HttpMethod.Get }),
 		).rejects.toThrow(TokenError);

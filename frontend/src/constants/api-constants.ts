@@ -1,10 +1,5 @@
 export const GET_USER_PROFILE_PATH = 'users/profile';
-export const GET_USER_PROJECTS_PATH = 'projects';
-
-export enum ApiOperationId {
-	GetUserProfile = 'GetUserProfile',
-	GetUserProjects = 'GetUserProjects',
-}
+export const PROJECTS_API_BASE_PATH = 'projects';
 
 export enum HttpMethod {
 	Get = 'GET',

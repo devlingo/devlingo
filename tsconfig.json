@@ -1,7 +1,8 @@
 {
-	"include": ["*.ts"],
+	"include": ["*.ts", "shared/**/*.ts"],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
+		"baseUrl": ".",
 		"allowJs": false,
 		"allowSyntheticDefaultImports": true,
 		"declaration": false,
@@ -22,6 +23,9 @@
 		"strictPropertyInitialization": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
-		"target": "esnext"
+		"target": "esnext",
+		"paths": {
+			"shared/*": ["shared/*"]
+		}
 	}
 }
