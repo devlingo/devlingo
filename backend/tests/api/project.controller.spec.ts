@@ -37,10 +37,13 @@ describe('Project Controller Tests', () => {
 			const user = await UserFactory.build();
 			const project = await ProjectFactory.build();
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
-			prisma.project.create.mockImplementationOnce(({ data }) => ({
-				...project,
-				...data,
-			}));
+			prisma.project.create.mockImplementationOnce(
+				({ data }) =>
+					({
+						...project,
+						...data,
+					} as any),
+			);
 			const response = await request
 				.post('/projects')
 				.send({ name: project.name });
@@ -92,10 +95,13 @@ describe('Project Controller Tests', () => {
 			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
 				{ type: PermissionType.OWNER } as any,
 			);
-			prisma.project.update.mockImplementationOnce(({ data }) => ({
-				...project,
-				...data,
-			}));
+			prisma.project.update.mockImplementationOnce(
+				({ data }) =>
+					({
+						...project,
+						...data,
+					} as any),
+			);
 
 			const response = await request
 				.patch(`/projects/${project.id}`)
