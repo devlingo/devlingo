@@ -108,7 +108,8 @@ export function CreateOrUpdateProjectModal({
 									project.description === description) ||
 								isSubmitting
 							}
-							onClick={() => {
+							onClick={(event) => {
+								event.preventDefault();
 								void handleSubmit();
 							}}
 						>

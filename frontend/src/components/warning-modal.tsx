@@ -17,10 +17,16 @@ export function WarningModal({
 			<div className="modal-box bg-warning">
 				<div className="flex gap-4">
 					<HandRaisedIcon className="text-warning-content h-6 w-4" />
-					<span className="text-warning-content">{warningText}</span>
+					<span
+						className="text-warning-content"
+						data-testid="warning-modal-text"
+					>
+						{warningText}
+					</span>
 				</div>
 				<div className="modal-action">
 					<button
+						data-testid="warning-modal-cancel-button"
 						className="btn btn-xs btn-outline"
 						onClick={closeModal}
 					>
@@ -29,6 +35,7 @@ export function WarningModal({
 						</span>
 					</button>
 					<button
+						data-testid="warning-modal-continue-button"
 						className="btn btn-accent btn-xs"
 						onClick={onContinue}
 					>

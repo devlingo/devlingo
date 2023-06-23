@@ -52,7 +52,8 @@ export function PromptModal({
 						<button
 							className="btn btn-primary"
 							data-testid="prompt-modal-submit-button"
-							onClick={() => {
+							onClick={(event) => {
+								event.preventDefault();
 								void handlePromptSubmit(prompt);
 							}}
 							disabled={

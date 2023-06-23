@@ -40,7 +40,10 @@ export function Navbar({ projectName }: NavbarProps) {
 				</span>
 			</div>
 			<div className="navbar-end">
-				<button className="btn btn-ghost btn-sm rounded-full">
+				<button
+					className="btn btn-ghost btn-sm rounded-full"
+					data-testid="navbar-user-profile-button"
+				>
 					<UserIcon className="h-6 w-6" />
 				</button>
 			</div>

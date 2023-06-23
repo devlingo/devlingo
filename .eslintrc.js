@@ -41,6 +41,7 @@ module.exports = {
 					'error',
 					'frontend/src/pages/',
 				],
+				'react/react-in-jsx-scope': 0,
 			},
 		},
 		{
@@ -49,7 +50,7 @@ module.exports = {
 				'@tool-belt/eslint-config/react',
 				'plugin:vitest/recommended',
 			],
-			rules,
+			rules: { ...rules, 'react/react-in-jsx-scope': 0 },
 		},
 		{
 			files: ['./backend/**/*.ts'],
