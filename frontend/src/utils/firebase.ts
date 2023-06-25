@@ -1,13 +1,5 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app';
-import {
-	Auth,
-	indexedDBLocalPersistence,
-	initializeAuth,
-	inMemoryPersistence,
-} from 'firebase/auth';
-import * as process from 'process';
-
-import { isBrowser } from '@/utils/predicates';
+import { Auth, browserLocalPersistence, getAuth } from 'firebase/auth';
 
 const instanceRef: { app: FirebaseApp | null; auth: Auth | null } = {
 	app: null,
@@ -43,13 +35,13 @@ export function getFirebaseApp(): FirebaseApp {
 	return instanceRef.app;
 }
 
-export function getFirebaseAuth(): Auth {
+export async function getFirebaseAuth(): Promise<Auth> {
 	if (!instanceRef.auth) {
-		const persistence = isBrowser()
-			? indexedDBLocalPersistence
-			: inMemoryPersistence;
+		const app = getFirebaseApp();
+		const auth = getAuth(app);
+		await auth.setPersistence(browserLocalPersistence);
 
-		instanceRef.auth = initializeAuth(getFirebaseApp(), { persistence });
+		instanceRef.auth = auth;
 	}
 
 	return instanceRef.auth;

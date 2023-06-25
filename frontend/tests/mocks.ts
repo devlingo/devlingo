@@ -1,8 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import { beforeEach } from 'vitest';
 
+vi.mock('uuid', () => ({
+	v4: vi.fn().mockReturnValue('uuidv4_value'),
+}));
+
 export const mockFetch = vi.fn().mockResolvedValue({
 	ok: true,
+	status: 200,
 	json: () => Promise.resolve({}),
 });
 
@@ -22,7 +27,42 @@ export const setEnv = (key: keyof typeof env, value: string) => {
 	Reflect.set(process.env, key, value);
 };
 
+const { initializeAppMock, getAuthMock } = vi.hoisted(() => {
+	return {
+		initializeAppMock: vi.fn().mockReturnValue({}),
+		getAuthMock: vi.fn().mockImplementation(() => ({
+			setPersistence: vi.fn(),
+			currentUser: {
+				getIdToken: vi.fn().mockResolvedValue('test_token'),
+			},
+		})),
+	};
+});
+
+vi.mock(
+	'firebase/app',
+	async (importOriginal: () => Promise<Record<string, any>>) => {
+		const original = await importOriginal();
+		return { ...original, initializeApp: initializeAppMock };
+	},
+);
+
+vi.mock(
+	'firebase/auth',
+	async (importOriginal: () => Promise<Record<string, any>>) => {
+		const original = await importOriginal();
+
+		return {
+			...original,
+			getAuth: getAuthMock,
+			browserLocalPersistence: vi.fn(),
+		};
+	},
+);
+
 beforeEach(() => {
 	global.fetch = mockFetch;
 	Object.assign(process.env, env);
 });
+
+export { getAuthMock, initializeAppMock };

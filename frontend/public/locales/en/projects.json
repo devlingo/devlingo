@@ -1,0 +1,9 @@
+{
+	"createProjectModalTitle": "Create Project",
+	"projectDeleteWarning": "Are you sure you want to delete the project '{{projectName}}'? This action cannot be undone.",
+	"projectDescriptionTextAreaLabel": "Project Description",
+	"projectDetailCreatedAt": "Created at: {{createdAt}}",
+	"projectNameInputLabel": "Project Name",
+	"projectNameInputPlaceholder": "My Project",
+	"updateProjectModalTitle": "Update Project"
+}

@@ -1,5 +1,7 @@
 import { useTranslation } from 'next-i18next';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+
+import { handleChange } from '@/utils/helpers';
 
 export const MINIMUM_CHARACTERS_IN_PROMPT = 10;
 
@@ -19,26 +21,24 @@ export function PromptModal({
 			data-testid="prompt-modal"
 		>
 			<div className="modal-box bg-base-100">
-				<h3 className="font-bold text-lg">{t('prompt_modal_title')}</h3>
+				<h3 className="font-bold text-lg">{t('promptModalTitle')}</h3>
 				<p className="pb-6 pt-1 opacity-80">
-					{t('prompt_modal_subtitle')}
+					{t('promptModalSubtitle')}
 				</p>
-				<div className=" opacity-80">
-					<p className="text-sm">{t('prompt_modal_examples')}</p>
+				<div className="opacity-80">
+					<p className="text-sm">{t('promptModalExamples')}</p>
 					<ul className="mx-8 mt-2 mb-6 list-disc text-sm">
-						<li>{t('example_prompt_1')}</li>
-						<li>{t('example_prompt_2')}</li>
-						<li>{t('example_prompt_3')}</li>
+						<li>{t('promptModalExample1')}</li>
+						<li>{t('promptModalExample2')}</li>
+						<li>{t('promptModalExample3')}</li>
 					</ul>
 				</div>
 				<div className="form-control">
 					<textarea
-						placeholder={t('prompt_modal_placeholder')!}
+						placeholder={t('promptModalPlaceholder')!}
 						className="textarea textarea-bordered textarea-md w-full"
 						value={prompt}
-						onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-							setPrompt(event.target.value);
-						}}
+						onChange={handleChange(setPrompt)}
 						data-testid="prompt-modal-textarea"
 					/>
 					<div className="modal-action">
@@ -52,7 +52,8 @@ export function PromptModal({
 						<button
 							className="btn btn-primary"
 							data-testid="prompt-modal-submit-button"
-							onClick={() => {
+							onClick={(event) => {
+								event.preventDefault();
 								void handlePromptSubmit(prompt);
 							}}
 							disabled={

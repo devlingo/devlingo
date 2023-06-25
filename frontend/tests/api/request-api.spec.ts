@@ -24,7 +24,6 @@ describe('requestPrompt tests', () => {
 			},
 		};
 		const mockData = {
-			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [
 				{
@@ -46,13 +45,16 @@ describe('requestPrompt tests', () => {
 		const result = await requestPrompt(mockData);
 
 		expect(mockFetch).toHaveBeenCalledWith(
-			new URL('http://www.example.com/prompt/testProjectId/testDesignId'),
+			new URL(
+				'http://www.example.com/v1/prompt/testProjectId/testDesignId',
+			),
 			{
 				method: 'POST',
 				body: JSON.stringify(parsePromptData(mockData)),
 				headers: {
-					'Authorization': 'Bearer valid_token',
+					'Authorization': 'Bearer test_token',
 					'Content-Type': 'application/json',
+					'X-Request-Id': 'uuidv4_value',
 				},
 			},
 		);
@@ -108,14 +110,13 @@ describe('requestPrompt tests', () => {
 
 	it('handles an error correctly', async () => {
 		const mockData = {
-			token: 'valid_token',
 			promptContent: 'test prompt',
 			nodes: [],
 			edges: [],
 			designId: 'testDesignId',
 			projectId: 'testProjectId',
 		};
-		vi.spyOn(global, 'fetch').mockResolvedValue({
+		mockFetch.mockResolvedValueOnce({
 			ok: false,
 			json: () => Promise.resolve({ message: 'API Error' }),
 		});

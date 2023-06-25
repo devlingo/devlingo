@@ -2,5 +2,7 @@
 	"submit": "Submit",
 	"cancel": "Cancel",
 	"accept": "Accept",
-	"decline": "Decline"
+	"decline": "Decline",
+	"open": "Open",
+	"continue": "Continue"
 }

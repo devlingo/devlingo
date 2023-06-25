@@ -1,112 +1,124 @@
 import { mockFetch } from 'tests/mocks';
 
-import { fetcher } from '@/api/fetcher';
+import { fetcher } from '@/api';
 import { HttpMethod } from '@/constants';
+import { ApiError, ConfigurationError, TokenError } from '@/errors';
+import * as firebaseUtils from '@/utils/firebase';
 
-describe('api utils tests', () => {
-	describe('fetcher tests', () => {
-		it('handles a successful response correctly', async () => {
-			const mockResponse = { data: 'mock data' };
-			mockFetch.mockResolvedValueOnce({
-				ok: true,
-				json: () => Promise.resolve(mockResponse),
-			});
+describe('fetcher tests', () => {
+	it('handles a success response correctly', async () => {
+		const mockResponse = { data: 'success' };
+		mockFetch.mockResolvedValueOnce({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve(mockResponse),
+		});
 
-			const result = await fetcher({
-				token: 'valid_token',
-				url: 'api',
+		const result = await fetcher({ url: 'test', method: HttpMethod.Get });
+
+		expect(mockFetch).toHaveBeenCalledWith(
+			new URL('http://www.example.com/v1/test'),
+			{
 				method: HttpMethod.Get,
-			});
-
-			expect(mockFetch).toHaveBeenCalledWith(
-				new URL('http://www.example.com/api'),
-				{
-					method: HttpMethod.Get,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': `Bearer valid_token`,
-					},
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer test_token',
+					'X-Request-Id': 'uuidv4_value',
 				},
-			);
-			expect(result).toEqual(mockResponse);
+			},
+		);
+		expect(result).toEqual(mockResponse);
+	});
+
+	it('handles an empty response', async () => {
+		mockFetch.mockResolvedValueOnce({
+			ok: true,
+			status: 204,
 		});
 
-		it('throws an error for an invalid token', async () => {
-			global.fetch = vi.fn().mockResolvedValue({
-				ok: false,
-				json: () => Promise.resolve({}),
-			});
+		const result = await fetcher({ url: 'test', method: HttpMethod.Get });
 
-			await expect(
-				fetcher({
-					// @ts-expect-error
-					token: null,
-					url: 'api',
-					method: HttpMethod.Get,
-				}),
-			).rejects.toThrow('No token provided');
-		});
-
-		it('throws an error if the baseUrl is not provided', async () => {
-			global.fetch = vi.fn().mockResolvedValue({
-				ok: false,
-				json: () => Promise.resolve({}),
-			});
-
-			delete process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
-
-			await expect(
-				fetcher({
-					token: 'valid_token',
-					url: 'api',
-					method: HttpMethod.Get,
-				}),
-			).rejects.toThrow('Invalid URL');
-		});
-
-		it('test_api_call_with_invalid_http_method', async () => {
-			global.fetch = vi.fn().mockResolvedValue({
-				ok: false,
-				json: () => Promise.resolve({}),
-			});
-
-			await expect(
-				fetcher({
-					token: 'valid_token',
-					url: 'api',
-					// @ts-expect-error
-					method: 'INVALID',
-				}),
-			).rejects.toThrow('invalid HTTP method INVALID');
-		});
-
-		it('handles an error reponse correctly', async () => {
-			const mockResponse = { message: 'API Error' };
-			mockFetch.mockResolvedValueOnce({
-				ok: false,
-				json: () => Promise.resolve(mockResponse),
-			});
-
-			await expect(
-				fetcher({
-					token: 'valid_token',
-					url: 'api',
-					method: HttpMethod.Get,
-					body: 'invalid_body',
-				}),
-			).rejects.toThrow('API Error');
-
-			expect(mockFetch).toHaveBeenCalledWith(
-				new URL('http://www.example.com/api'),
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': `Bearer valid_token`,
-					},
-					body: 'invalid_body',
+		expect(mockFetch).toHaveBeenCalledWith(
+			new URL('http://www.example.com/v1/test'),
+			{
+				method: HttpMethod.Get,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer test_token',
+					'X-Request-Id': 'uuidv4_value',
 				},
-			);
+			},
+		);
+		expect(result).toEqual({});
+	});
+
+	it('handles an invalid HTTP method', async () => {
+		await expect(
+			// @ts-expect-error
+			fetcher({ url: 'test', method: 'INVALID' }),
+		).rejects.toThrow(ConfigurationError);
+	});
+
+	it('handles a not-logged-in user', async () => {
+		const getFirebaseAuthSpy = vi.spyOn(firebaseUtils, 'getFirebaseAuth');
+		getFirebaseAuthSpy.mockResolvedValueOnce({
+			currentUser: null,
+		} as any);
+		await expect(
+			fetcher({ url: 'test', method: HttpMethod.Get }),
+		).rejects.toThrow(TokenError);
+	});
+
+	it('handles a non-200 range status code', async () => {
+		const mockResponse = { message: 'error' };
+		mockFetch.mockResolvedValueOnce({
+			ok: false,
+			status: 400,
+			statusText: 'Bad Request',
+			json: () => Promise.resolve(mockResponse),
 		});
+
+		await expect(
+			fetcher({ url: 'test', method: HttpMethod.Get }),
+		).rejects.toThrow(ApiError);
+
+		expect(mockFetch).toHaveBeenCalledWith(
+			new URL('http://www.example.com/v1/test'),
+			{
+				method: HttpMethod.Get,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer test_token',
+					'X-Request-Id': 'uuidv4_value',
+				},
+			},
+		);
+	});
+
+	it('handles custom headers', async () => {
+		mockFetch.mockResolvedValueOnce({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve({}),
+		});
+
+		await fetcher({
+			url: 'test',
+			method: HttpMethod.Get,
+			headers: { 'X-Test': 'test' },
+		});
+
+		expect(mockFetch).toHaveBeenCalledWith(
+			new URL('http://www.example.com/v1/test'),
+			{
+				method: HttpMethod.Get,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer test_token',
+					'X-Request-Id': 'uuidv4_value',
+					'X-Test': 'test',
+				},
+			},
+		);
 	});
 });

@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient, User } from '@prisma/client';
+import { UserFactory } from 'shared/testing';
 import type { SuperTest } from 'supertest';
-import { UserFactory } from 'tests/testing.factories';
 import {
 	bootstrapIntegrationTest,
 	mockFirebaseService,

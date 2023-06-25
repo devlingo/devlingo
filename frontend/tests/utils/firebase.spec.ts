@@ -55,14 +55,14 @@ describe('Firebase utils tests', () => {
 		});
 	});
 	describe('getFirebaseAuth tests', () => {
-		it('should return a Firebase Auth object', () => {
-			const firebaseAuth = getFirebaseAuth();
+		it('should return a Firebase Auth object', async () => {
+			const firebaseAuth = await getFirebaseAuth();
 			expect(firebaseAuth).toBeTruthy();
 		});
-		it('should return the same Firebase Auth object', () => {
-			const firebaseAuth1 = getFirebaseAuth();
-			const firebaseAuth2 = getFirebaseAuth();
-			expect(firebaseAuth1).toBe(firebaseAuth2);
+		it('should return the same Firebase Auth object', async () => {
+			const firebaseAuth1 = await getFirebaseAuth();
+			const firebaseAuth2 = await getFirebaseAuth();
+			expect(firebaseAuth1).toStrictEqual(firebaseAuth2);
 		});
 	});
 });

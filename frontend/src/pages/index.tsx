@@ -1,17 +1,16 @@
 import 'firebaseui/dist/firebaseui.css';
 
 import {
-	beforeAuthStateChanged,
 	EmailAuthProvider,
 	GithubAuthProvider,
 	GoogleAuthProvider,
-	User,
 } from '@firebase/auth';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { getUserProfile } from '@/api';
 import { Navigation } from '@/constants';
-import { useSetToken, useToken } from '@/hooks/use-user-store';
+import { useSetUser } from '@/hooks/use-api-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 const firebaseUIConfig = {
@@ -39,29 +38,16 @@ const firebaseUIConfig = {
 
 function SignInScreen() {
 	const [uiRendered, setIsUIRendered] = useState(false);
-	const auth = getFirebaseAuth();
-	const router = useRouter();
-	const setToken = useSetToken();
-	const token = useToken();
+	const [isSignedIn, setIsSignedIn] = useState(false);
 
-	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const unsubscribe = beforeAuthStateChanged(
-			auth,
-			async (user: User | null) => {
-				if (user) {
-					await setToken(auth);
-				}
-			},
-		);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
-		return () => unsubscribe();
-	}, []);
+	const router = useRouter();
+	const setUser = useSetUser();
 
 	/* firebaseui cannot be imported in SSR mode, so we have to import it only when the browser loads. */
 	useEffect(() => {
 		(async () => {
 			const firebaseUI = await import('firebaseui');
+			const auth = await getFirebaseAuth();
 			const ui =
 				firebaseUI.auth.AuthUI.getInstance() ??
 				new firebaseUI.auth.AuthUI(auth);
@@ -75,9 +61,8 @@ function SignInScreen() {
 							setIsUIRendered(true);
 						},
 						signInSuccessWithAuthResult: () => {
-							void router.push(Navigation.Projects);
-							// prevent the UI from redirecting the user using a preconfigured
-							// redirect-url
+							// prevent the UI from redirecting the user using a preconfigured redirect-url
+							setIsSignedIn(true);
 							return false;
 						},
 					},
@@ -86,12 +71,24 @@ function SignInScreen() {
 		})();
 	}, []);
 
+	useEffect(() => {
+		if (isSignedIn) {
+			(async () => {
+				const user = await getUserProfile();
+				setUser(user);
+				void router.push(Navigation.Projects);
+			})();
+		}
+	}, [isSignedIn]);
+
 	return (
 		<div
 			className="mx-auto p-4 bg-base-100 border-2 border-base-200 rounded-box w-fit"
 			id="firebaseui-auth-container"
 		>
-			{(!uiRendered || token) && <div className="loading loading-ring" />}
+			{(!uiRendered || isSignedIn) && (
+				<div className="loading loading-ring" />
+			)}
 		</div>
 	);
 }

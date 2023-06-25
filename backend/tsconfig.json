@@ -8,7 +8,8 @@
 		"experimentalDecorators": true,
 		"paths": {
 			"@/*": ["src/*"],
-			"tests/*": ["tests/*"]
+			"tests/*": ["tests/*"],
+			"shared/*": ["../shared/*"]
 		},
 		"types": ["vitest/globals"]
 	}
