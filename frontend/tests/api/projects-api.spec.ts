@@ -1,3 +1,4 @@
+import { HttpMethod } from 'shared/constants';
 import { ProjectFactory } from 'shared/testing';
 import { mockFetch } from 'tests/mocks';
 import { beforeEach } from 'vitest';
@@ -9,7 +10,7 @@ import {
 	getProjects,
 	updateProject,
 } from '@/api';
-import { HttpMethod, PROJECTS_API_BASE_PATH } from '@/constants';
+import { PROJECTS_API_BASE_PATH } from '@/constants';
 
 describe('projects API tests', () => {
 	beforeEach(() => {

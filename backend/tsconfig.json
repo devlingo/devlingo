@@ -9,7 +9,7 @@
 		"paths": {
 			"@/*": ["src/*"],
 			"tests/*": ["tests/*"],
-			"shared/*": ["../shared/*"]
+			"shared/*": ["../shared/src/*"]
 		},
 		"types": ["vitest/globals"]
 	}

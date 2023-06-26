@@ -1,7 +1,7 @@
+import { HttpMethod } from 'shared/constants';
 import { mockFetch } from 'tests/mocks';
 
 import { fetcher } from '@/api';
-import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import * as firebaseUtils from '@/utils/firebase';
 

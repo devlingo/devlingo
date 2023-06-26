@@ -1,10 +1,11 @@
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { Options } from 'pino-http';
+import { isTest } from 'shared/utils/predicates';
 
 import { FirebaseModule } from '@/modules/firebase/firebase.module';
 import { PrismaModule } from '@/modules/prisma/prisma.module';
-import { isTest, validateEnv } from '@/utils/env.utils';
+import { validateEnv } from '@/utils/env.utils';
 
 const DEFAULT_MODULES = [
 	PrismaModule,
@@ -17,6 +18,7 @@ const DEFAULT_MODULES = [
 	FirebaseModule,
 ];
 
+/* c8 ignore next */
 if (!isTest()) {
 	const redact = {
 		paths: ['req.headers.authorization'],

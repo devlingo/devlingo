@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { TimeUnit } from 'shared/constants';
 import { v4 as uuidv4 } from 'uuid';
 
 import { requestPrompt } from '@/api/prompt-api';
@@ -6,7 +7,6 @@ import { PromptState } from '@/components/design-canvas-page/prompt/constants';
 import { PromptAnswerDialogue } from '@/components/design-canvas-page/prompt/prompt-answer-dialogue';
 import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { PromptStatusPopup } from '@/components/design-canvas-page/prompt/prompt-status-popup';
-import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
 import {
 	useDisplayEdges,
 	useDisplayNodes,
@@ -57,10 +57,10 @@ export function PromptContainer({
 			setNodes(nodes);
 			setEdges(NormalizeEdges(edges, nodes));
 			setPromptAnswer(answer);
-			await wait(ONE_SECOND_IN_MILLISECONDS);
+			await wait(TimeUnit.OneSecondInMilliseconds);
 		} catch {
 			setPromptState(PromptState.Error);
-			await wait(ONE_SECOND_IN_MILLISECONDS * 2);
+			await wait(TimeUnit.OneSecondInMilliseconds * 2);
 			setPromptState(PromptState.Hidden);
 		}
 	};
@@ -76,7 +76,7 @@ export function PromptContainer({
 			setEdges(existingDesigns.edges);
 		}
 
-		await wait(ONE_SECOND_IN_MILLISECONDS * 2);
+		await wait(TimeUnit.OneSecondInMilliseconds * 2);
 		setPromptState(PromptState.Hidden);
 	};
 

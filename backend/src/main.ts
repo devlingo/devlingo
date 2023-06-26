@@ -6,8 +6,8 @@ import { Logger } from 'nestjs-pino';
 
 import { EnvironmentVariables } from '@/utils/env.utils';
 
+import { ApiVersions } from '../../shared/src/constants';
 import { AppModule } from './app';
-import { ApiVersions } from './constants';
 import { PrismaExceptionFilter } from './exception-filters/prisma-exceptino.filter';
 import { PrismaService } from './modules/prisma/prisma.service';
 import { setupValidationPipe } from './utils/configuration.utils';

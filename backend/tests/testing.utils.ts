@@ -7,12 +7,13 @@ import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
-import { Environment } from '@/constants';
 import { PrismaExceptionFilter } from '@/exception-filters/prisma-exceptino.filter';
 import { FirebaseService } from '@/modules/firebase/firebase.service';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { setupValidationPipe } from '@/utils/configuration.utils';
 import { EnvironmentVariables } from '@/utils/env.utils';
+
+import { Environment } from '../../shared/src/constants';
 
 export const testPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIIBOgIBAAJBAKj34GkxFhD90vcNLYLInFEX6Ppy1tPf9Cnzj4p4WGeKLs1Pt8Qu

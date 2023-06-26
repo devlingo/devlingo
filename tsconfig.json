@@ -25,7 +25,8 @@
 		"resolveJsonModule": true,
 		"target": "esnext",
 		"paths": {
-			"shared/*": ["shared/*"]
-		}
+			"shared/*": ["shared/src/*"]
+		},
+		"types": ["vitest/globals"]
 	}
 }

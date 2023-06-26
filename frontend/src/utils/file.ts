@@ -1,4 +1,4 @@
-import { ONE_SECOND_IN_MILLISECONDS } from '@/constants';
+import { TimeUnit } from 'shared/constants';
 
 export function downloadFile({
 	dataUrl,
@@ -17,5 +17,5 @@ export function downloadFile({
 
 	setTimeout(() => {
 		aTag.remove();
-	}, ONE_SECOND_IN_MILLISECONDS * 10);
+	}, TimeUnit.OneSecondInMilliseconds * 10);
 }

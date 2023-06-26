@@ -1,5 +1,6 @@
-import { Environment } from '@/constants';
 import { validateEnv } from '@/utils/env.utils';
+
+import { Environment } from '../../../shared/src/constants';
 
 describe('ENV utils tests', () => {
 	describe('validateEnv tests', () => {

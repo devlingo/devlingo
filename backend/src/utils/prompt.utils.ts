@@ -9,9 +9,9 @@ import {
 	SystemMessagePromptTemplate,
 } from 'langchain/prompts';
 import { RedisChatMessageHistory } from 'langchain/stores/message/redis';
+import { TimeUnit } from 'shared/constants';
 
 import { RequestPromptParams } from '@/api/prompt/prompt.service';
-import { ONE_HOUR_IN_SECONDS } from '@/constants';
 
 /*
 NOTE: this is solution cannot be used in a real production environment for long because it can lead
@@ -66,7 +66,7 @@ export function createOpenAIChain({
 	const memory = new BufferMemory({
 		chatHistory: new RedisChatMessageHistory({
 			sessionId,
-			sessionTTL: ONE_HOUR_IN_SECONDS,
+			sessionTTL: TimeUnit.OneHourInSeconds,
 			config: { url: redisConnectionString },
 		}),
 		returnMessages: true,

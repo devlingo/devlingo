@@ -1,1 +1,1 @@
-export default ['backend', 'frontend'];
+export default ['backend', 'frontend', 'shared'];
