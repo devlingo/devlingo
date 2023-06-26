@@ -11,18 +11,18 @@ import {
 } from '@nestjs/common';
 import { Design, DesignVersion } from '@prisma/client';
 
-import { DesignVersionDTO } from '@/dtos/body.dto';
+import { DesignVersionDTO } from '@/dtos/body';
 import {
 	DesignIdParam,
 	ProjectIdParam,
 	VersionIdParam,
-} from '@/dtos/parameter.dto';
+} from '@/dtos/parameter';
 
 import {
 	CreateDesignResponse,
 	DesignService,
 	RetrieveDesignResponse,
-} from './design.service';
+} from './service';
 
 @Controller('designs')
 export class DesignController {

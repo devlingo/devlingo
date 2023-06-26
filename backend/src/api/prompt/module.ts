@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { PromptController } from './prompt.controller';
-import { PromptService } from './prompt.service';
+import { PromptController } from './controller';
+import { PromptService } from './service';
 
 @Module({
 	imports: [],

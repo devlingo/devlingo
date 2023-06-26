@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { FirebaseService } from '@/modules/firebase/firebase.service';
+import { FirebaseService } from '@/modules/firebase/service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class Auth implements CanActivate {
 	constructor(private firebaseService: FirebaseService) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {

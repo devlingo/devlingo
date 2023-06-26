@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Design, DesignVersion } from '@prisma/client';
 
-import { DesignVersionDTO } from '@/dtos/body.dto';
-import { PrismaService } from '@/modules/prisma/prisma.service';
+import { DesignVersionDTO } from '@/dtos/body';
+import { Service } from '@/modules/prisma/service';
 
 export type RetrieveDesignResponse = Design & {
 	versions: Pick<DesignVersion, 'id' | 'createdAt'>[];
@@ -15,7 +15,7 @@ export interface CreateDesignResponse {
 
 @Injectable()
 export class DesignService {
-	constructor(private prisma: PrismaService) {}
+	constructor(private prisma: Service) {}
 
 	async createDesignVersion({
 		data,

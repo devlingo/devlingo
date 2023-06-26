@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { UserUpdateDTO } from '@/dtos/body.dto';
-import { UserIdParam } from '@/dtos/parameter.dto';
+import { UserUpdateDTO } from '@/dtos/body';
+import { UserIdParam } from '@/dtos/parameter';
 
-import { UserService } from './user.service';
+import { UserService } from './service';
 
 @Controller('users')
 export class UserController {

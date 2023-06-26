@@ -12,7 +12,7 @@ import type { DeepMockProxy } from 'vitest-mock-extended';
 
 import { DesignModule } from '@/api/design';
 import { AppModule } from '@/app';
-import { DesignVersionDTO } from '@/dtos/body.dto';
+import { DesignVersionDTO } from '@/dtos/body';
 
 describe('Design Controller Tests', () => {
 	let app: INestApplication;

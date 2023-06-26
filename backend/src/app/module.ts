@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 import { API_MODULES } from '@/api';
-import { AuthGuard } from '@/guards/auth.guard';
+import { Auth } from '@/guards/auth';
 import { DEFAULT_MODULES } from '@/modules';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from './controller';
+import { AppService } from './service';
 
 @Module({
 	imports: [...DEFAULT_MODULES, ...API_MODULES],
@@ -15,7 +15,7 @@ import { AppService } from './app.service';
 		AppService,
 		{
 			provide: APP_GUARD,
-			useClass: AuthGuard,
+			useClass: Auth,
 		},
 	],
 })

@@ -13,10 +13,10 @@ import {
 import { Project } from '@prisma/client';
 import type { Request } from 'express';
 
-import { ProjectCreateDTO } from '@/dtos/body.dto';
-import { ProjectIdParam } from '@/dtos/parameter.dto';
+import { ProjectCreateDTO } from '@/dtos/body';
+import { ProjectIdParam } from '@/dtos/parameter';
 
-import { ProjectService } from './project.service';
+import { ProjectService } from './service';
 
 const PROJECT_ID_PARAM = ':projectId';
 @Controller('projects')

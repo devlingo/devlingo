@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { PromptRequestDTO } from '@/dtos/body.dto';
-import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter.dto';
-import { EnvironmentVariables } from '@/utils/env.utils';
-import { cleanResponse, getOrCreateOpenAIChain } from '@/utils/prompt.utils';
+import { PromptRequestDTO } from '@/dtos/body';
+import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter';
+import { EnvironmentVariables } from '@/utils/env';
+import { cleanResponse, getOrCreateOpenAIChain } from '@/utils/prompt';
 
 export type RequestPromptParams = PromptRequestDTO &
 	DesignIdParam &

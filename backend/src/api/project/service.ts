@@ -2,16 +2,13 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PermissionType, Project } from '@prisma/client';
 import type { Request } from 'express';
 
-import { UserService } from '@/api/user/user.service';
-import { ProjectCreateDTO } from '@/dtos/body.dto';
-import { PrismaService } from '@/modules/prisma/prisma.service';
+import { UserService } from '@/api/user/service';
+import { ProjectCreateDTO } from '@/dtos/body';
+import { Service } from '@/modules/prisma/service';
 
 @Injectable()
 export class ProjectService {
-	constructor(
-		private prisma: PrismaService,
-		private userService: UserService,
-	) {}
+	constructor(private prisma: Service, private userService: UserService) {}
 
 	async deleteProject({
 		projectId,

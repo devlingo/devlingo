@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { auth } from 'firebase-admin';
 import { App, cert, initializeApp, ServiceAccount } from 'firebase-admin/app';
 
-import { EnvironmentVariables } from '@/utils/env.utils';
+import { EnvironmentVariables } from '@/utils/env';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {

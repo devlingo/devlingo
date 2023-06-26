@@ -3,9 +3,9 @@ import { LoggerModule } from 'nestjs-pino';
 import { Options } from 'pino-http';
 import { isTest } from 'shared/utils/predicates';
 
-import { FirebaseModule } from '@/modules/firebase/firebase.module';
-import { PrismaModule } from '@/modules/prisma/prisma.module';
-import { validateEnv } from '@/utils/env.utils';
+import { FirebaseModule } from '@/modules/firebase/module';
+import { PrismaModule } from '@/modules/prisma/module';
+import { validateEnv } from '@/utils/env';
 
 const DEFAULT_MODULES = [
 	PrismaModule,

@@ -11,7 +11,7 @@ import {
 import { RedisChatMessageHistory } from 'langchain/stores/message/redis';
 import { TimeUnit } from 'shared/constants';
 
-import { RequestPromptParams } from '@/api/prompt/prompt.service';
+import { RequestPromptParams } from '@/api/prompt/service';
 
 /*
 NOTE: this is solution cannot be used in a real production environment for long because it can lead

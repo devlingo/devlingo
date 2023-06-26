@@ -1,1 +1,1 @@
-export * from './design.module';
+export * from './module';

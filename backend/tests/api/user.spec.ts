@@ -10,7 +10,7 @@ import type { DeepMockProxy } from 'vitest-mock-extended';
 
 import { UserModule } from '@/api/user';
 import { AppModule } from '@/app';
-import { UserUpdateDTO } from '@/dtos/body.dto';
+import { UserUpdateDTO } from '@/dtos/body';
 
 describe('User Controller Tests', () => {
 	let app: INestApplication;
