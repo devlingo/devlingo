@@ -31,7 +31,6 @@ export function PromptContainer({
 	const displayEdges = useDisplayEdges();
 
 	const [promptState, setPromptState] = useState(PromptState.Hidden);
-	const [promptAnswer, setPromptAnswer] = useState<string | null>(null);
 
 	const existingDesigns = useMemo(
 		() => ({
@@ -45,7 +44,7 @@ export function PromptContainer({
 		closePromptModal();
 		setPromptState(PromptState.Loading);
 		try {
-			const { answer, nodes, edges } = await requestPrompt({
+			const { nodes, edges } = await requestPrompt({
 				edges: displayEdges,
 				nodes: displayNodes,
 				promptContent,
@@ -53,10 +52,9 @@ export function PromptContainer({
 				designId: uuidv4(),
 				projectId: uuidv4(),
 			});
-
 			setNodes(nodes);
 			setEdges(NormalizeEdges(edges, nodes));
-			setPromptAnswer(answer);
+			setPromptState(PromptState.Arrived);
 			await wait(TimeUnit.OneSecondInMilliseconds);
 		} catch {
 			setPromptState(PromptState.Error);
@@ -68,7 +66,6 @@ export function PromptContainer({
 	const handleUserDecision = async (
 		decision: PromptState.Accept | PromptState.Decline,
 	) => {
-		setPromptAnswer(null);
 		setPromptState(decision);
 
 		if (decision === PromptState.Decline) {
@@ -95,11 +92,8 @@ export function PromptContainer({
 
 	return (
 		<>
-			{promptAnswer ? (
-				<PromptAnswerDialogue
-					promptAnswer={promptAnswer}
-					handleUserDecision={handleUserDecision}
-				/>
+			{promptState === PromptState.Arrived ? (
+				<PromptAnswerDialogue handleUserDecision={handleUserDecision} />
 			) : (
 				<PromptStatusPopup promptState={promptState} />
 			)}

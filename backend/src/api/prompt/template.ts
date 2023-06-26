@@ -17,16 +17,15 @@ export const promptTemplate = ChatPromptTemplate.fromPromptMessages([
 		'As an AI system designer, your have world class expertise in software architecture design. You are a system architecture design assistant working with JSON nodes and connection edges. your goal is to help the user to improve the software architecture design per is required input.',
 	),
 	SystemMessagePromptTemplate.fromTemplate(
-		'the available node types are: {nodesTypes}. the available edge types are: {edgeTypes}.',
+		'the available node types are: {nodeTypes}. the available edge types are: {edgeTypes}.',
 	),
 	SystemMessagePromptTemplate.fromTemplate(
-		`this is the interface of the design data object that the json is created from and represents the architecture of the software architecture design. export interface DesignData 
+		`this is the interface of the design data object that the json is created from and represents the architecture of the software architecture design. 
+		export interface DesignData 
 	nodes: NodeData[];
 	edges: EdgeData[];
-}
 
-
-export interface NodeData 
+	export interface NodeData 
 	data: 
 		nodeType: string;
 		formData: 
@@ -37,7 +36,6 @@ export interface NodeData
 	position: 
 		x: number;
 		y: number;
-	;
 	type: string;
 
 

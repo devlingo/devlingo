@@ -100,11 +100,10 @@ export async function requestPrompt({
 	projectId,
 	...data
 }: PromptRequestParams): Promise<{
-	answer: string;
 	nodes: Node[];
 	edges: Edge[];
 }> {
-	const { answer, design } = await fetcher<PromptResponse>({
+	const { design } = await fetcher<PromptResponse>({
 		url: `prompt/${projectId}/${designId}`,
 		method: HttpMethod.Post,
 		data: parsePromptData(data),
@@ -113,5 +112,5 @@ export async function requestPrompt({
 	const edges = mergeEdges(data.edges, design.edges);
 	const nodes = mergeNodes(data.nodes, design.nodes);
 
-	return { answer, nodes, edges };
+	return { nodes, edges };
 }

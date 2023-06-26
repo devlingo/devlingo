@@ -4,7 +4,8 @@ import { OpenAI } from 'langchain';
 
 import { DSLService } from '@/api/prompt/dsl/dsl-service';
 import { promptTemplate } from '@/api/prompt/template';
-import { DesignData, PromptRequest } from '@/api/prompt/types';
+import { DesignData } from '@/api/prompt/types';
+import { PromptRequestDTO } from '@/dtos/body';
 import { EnvironmentVariables } from '@/utils/env';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class PromptService {
 		private configService: ConfigService<EnvironmentVariables, true>,
 	) {}
 
-	async requestPrompt(promptRequest: PromptRequest): Promise<DesignData> {
+	async requestPrompt(promptRequest: PromptRequestDTO): Promise<DesignData> {
 		this.logger.log('requestPrompt is called');
 		const dslService = new DSLService(
 			promptRequest.designData,
@@ -24,7 +25,7 @@ export class PromptService {
 		);
 		this.logger.log('dslService design: ', dslService.design);
 		const model = new OpenAI({
-			modelName: 'gpt-3.5-turbo',
+			modelName: promptRequest.modelName,
 			temperature: 0.1,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
 		});
