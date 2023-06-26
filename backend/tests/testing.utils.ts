@@ -3,11 +3,11 @@ import { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadat
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { Environment } from 'shared/constants';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
-import { Environment } from '@/constants';
 import { PrismaExceptionFilter } from '@/exception-filters/prisma-exceptino.filter';
 import { FirebaseService } from '@/modules/firebase/firebase.service';
 import { PrismaService } from '@/modules/prisma/prisma.service';

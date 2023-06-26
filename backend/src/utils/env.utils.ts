@@ -8,8 +8,7 @@ import {
 	IsString,
 	validateSync,
 } from 'class-validator';
-
-import { Environment } from '@/constants';
+import { Environment } from 'shared/constants';
 
 export class EnvironmentVariables {
 	@IsEnum(Environment)
@@ -51,16 +50,4 @@ export function validateEnv(config: Record<string, unknown>) {
 		throw new Error(errors.toString());
 	}
 	return validatedConfig;
-}
-
-export function isDevelopment(): boolean {
-	return process.env.NODE_ENV === Environment.Development;
-}
-
-export function isProduction(): boolean {
-	return process.env.NODE_ENV === Environment.Production;
-}
-
-export function isTest(): boolean {
-	return process.env.NODE_ENV === Environment.Test;
 }

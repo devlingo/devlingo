@@ -1,7 +1,7 @@
 import { deepmerge } from 'deepmerge-ts';
+import { HttpMethod } from 'shared/constants';
 import { v4 as uuidv4 } from 'uuid';
 
-import { HttpMethod } from '@/constants';
 import { ApiError, ConfigurationError, TokenError } from '@/errors';
 import { getFirebaseAuth } from '@/utils/firebase';
 

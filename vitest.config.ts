@@ -3,16 +3,22 @@ import { resolve } from 'path';
 
 export default defineConfig({
 	test: {
+		globals: true,
 		coverage: {
 			reporter: ['text', 'json-summary', 'json'],
 			exclude: [
 				...(configDefaults.coverage.exclude ?? []),
-				'frontend/tests/**/*.*',
+				'backend/src/main.ts',
+				'backend/src/modules/prisma/*.ts',
 				'backend/tests/**/*.*',
+				'frontend/src/pages/_*.tsx',
+				'frontend/tests/**/*.*',
+				'shared/src/testing/**/*.*',
+				'shared/tests/**/*.*',
 			],
 		},
 		alias: {
-			shared: resolve(__dirname, 'shared'),
+			shared: resolve(__dirname, 'shared/src'),
 		},
 	},
 });

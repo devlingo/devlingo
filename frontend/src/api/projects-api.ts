@@ -1,5 +1,7 @@
+import { HttpMethod } from 'shared/constants';
+
 import { fetcher } from '@/api/fetcher';
-import { HttpMethod, PROJECTS_API_BASE_PATH } from '@/constants';
+import { PROJECTS_API_BASE_PATH } from '@/constants';
 import { Project } from '@/types';
 
 export async function getProjects() {

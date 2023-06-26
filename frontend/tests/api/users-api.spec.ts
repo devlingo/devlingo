@@ -1,8 +1,9 @@
+import { HttpMethod } from 'shared/constants';
 import { UserFactory } from 'shared/testing';
 import { mockFetch } from 'tests/mocks';
 
 import { getUserProfile } from '@/api';
-import { GET_USER_PROFILE_PATH, HttpMethod } from '@/constants';
+import { GET_USER_PROFILE_PATH } from '@/constants';
 
 describe('users api tests', () => {
 	describe('getUserProfile tests', () => {

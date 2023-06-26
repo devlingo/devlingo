@@ -12,7 +12,7 @@
 			"@/*": ["src/*"],
 			"tests/*": ["tests/*"],
 			"public/*": ["public/*"],
-			"shared/*": ["../shared/*"]
+			"shared/*": ["../shared/src/*"]
 		}
 	}
 }
