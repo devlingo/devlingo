@@ -5,6 +5,9 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.husky/_" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730" />
+      <excludeFolder url="file://$MODULE_DIR$/coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/shared/node_modules" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

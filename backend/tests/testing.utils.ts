@@ -3,6 +3,7 @@ import { ModuleMetadata } from '@nestjs/common/interfaces/modules/module-metadat
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { Environment } from 'shared/constants';
 import type { SuperTest } from 'supertest';
 import supertest from 'supertest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
@@ -12,8 +13,6 @@ import { FirebaseService } from '@/modules/firebase/firebase.service';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { setupValidationPipe } from '@/utils/configuration.utils';
 import { EnvironmentVariables } from '@/utils/env.utils';
-
-import { Environment } from '../../shared/src/constants';
 
 export const testPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIIBOgIBAAJBAKj34GkxFhD90vcNLYLInFEX6Ppy1tPf9Cnzj4p4WGeKLs1Pt8Qu

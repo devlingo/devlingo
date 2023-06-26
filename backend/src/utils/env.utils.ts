@@ -8,8 +8,7 @@ import {
 	IsString,
 	validateSync,
 } from 'class-validator';
-
-import { Environment } from '../../../shared/src/constants';
+import { Environment } from 'shared/constants';
 
 export class EnvironmentVariables {
 	@IsEnum(Environment)
