@@ -8,6 +8,8 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources/e9431380-5e5f-4162-8dff-7177a5189730" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/shared/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

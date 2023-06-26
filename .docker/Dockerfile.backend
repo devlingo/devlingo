@@ -20,20 +20,19 @@ RUN pnpm run prisma:generate
 FROM install AS build
 WORKDIR /app/
 ARG TARGET
-COPY src src
+COPY shared/src shared/src
+COPY backend/src backend/src
+WORKDIR /app/backend
 RUN pnpm run build
 
-FROM base AS app
-WORKDIR /app/
+FROM install AS app
+WORKDIR /app/backend
 ARG TARGET
 ARG NODE_OPTIONS=""
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=${NODE_OPTIONS}
-COPY --from=build /app/dist dist
-COPY --from=build /app/prisma prisma
-COPY --from=build /app/node_modules node_modules
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 app
-RUN chown -R app:nodejs ./dist
+COPY --from=build --chown=app:nodejs /app/backend/dist dist
 USER app
-CMD ["dist/main.js"]
+CMD ["dist/backend/src/main.js"]

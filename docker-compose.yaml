@@ -39,6 +39,7 @@ services:
         volumes:
             - ./backend/src:/app/backend/src:cached
             - ./prisma:/app/prisma:cached
+            - ./shared:/app/shared:cached
         environment:
             SERVER_PORT: 8000
             DATABASE_URL: postgresql://devlingo:devlingo@db:5432/devlingo
@@ -62,6 +63,7 @@ services:
             - ./frontend/src:/app/frontend/src:cached
             - ./frontend/public:/app/frontend/public:cached
             - ./prisma:/app/prisma:cached
+            - ./shared:/app/shared:cached
         environment:
             NEXT_PUBLIC_BACKEND_BASE_URL: http://0.0.0.0:8000/v1
             NODE_ENV: development

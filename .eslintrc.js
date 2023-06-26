@@ -34,7 +34,11 @@ module.exports = {
 	overrides: [
 		{
 			files: ['./frontend/**/*.ts', './frontend/**/*.tsx'],
-			extends: ['@tool-belt/eslint-config/react', 'next/core-web-vitals'],
+			extends: [
+				'@tool-belt/eslint-config/react',
+				'plugin:@next/next/recommended',
+				'next/core-web-vitals',
+			],
 			rules: {
 				...rules,
 				'@next/next/no-html-link-for-pages': [
