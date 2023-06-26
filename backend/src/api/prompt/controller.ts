@@ -1,12 +1,13 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
-
+import { Body, Controller, Logger, Param, Post } from '@nestjs/common';
+import { PromptService } from '@/api/prompt/service';
+import { DesignData, PromptRequest } from '@/api/prompt/types';
 import { PromptRequestDTO } from '@/dtos/body';
 import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter';
 
-import { PromptService } from './service';
-
 @Controller('prompt')
 export class PromptController {
+	private readonly logger = new Logger(PromptController.name);
+
 	constructor(private readonly promptService: PromptService) {}
 
 	@Post(':projectId/:designId')
@@ -14,14 +15,15 @@ export class PromptController {
 		@Param() projectId: ProjectIdParam,
 		@Param() designId: DesignIdParam,
 		@Body() data: PromptRequestDTO,
-	): Promise<{
-		answer: string;
-		design: Record<string, any>;
-	}> {
-		return await this.promptService.requestPrompt({
-			...data,
-			...projectId,
-			...designId,
-		});
+	): Promise<DesignData> {
+		this.logger.log(projectId, designId, data);
+
+		const promptRequest: PromptRequest = {
+			designData: data.designData,
+			edgeTypes: data.edgeTypes,
+			nodeTypes: data.nodeTypes,
+			promptContent: data.promptContent,
+		};
+		return await this.promptService.requestPrompt(promptRequest);
 	}
 }

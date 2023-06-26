@@ -20,32 +20,32 @@ export const promptTemplate = ChatPromptTemplate.fromPromptMessages([
 		'the available node types are: {nodesTypes}. the available edge types are: {edgeTypes}.',
 	),
 	SystemMessagePromptTemplate.fromTemplate(
-		`this is the interface of the design data object that the json is created from and represents the architecture of the software architecture design. export interface DesignData {
+		`this is the interface of the design data object that the json is created from and represents the architecture of the software architecture design. export interface DesignData 
 	nodes: NodeData[];
 	edges: EdgeData[];
 }
 
-export interface NodeData {
-	data: {
+
+export interface NodeData 
+	data: 
 		nodeType: string;
-		formData: {
+		formData: 
 			nodeName: string;
-		};
-	};
+		;
+	;
 	id: string;
-	position: {
+	position: 
 		x: number;
 		y: number;
-	};
+	;
 	type: string;
-}
 
-export interface EdgeData {
+
+export interface EdgeData 
 	id: string;
 	source: string;
 	target: string;
-	type: string;
-}`,
+	type: string;`,
 	),
 	SystemMessagePromptTemplate.fromTemplate(
 		`Nodes are positioned on a 2D plane with X and Y coordinates. Each node has a fixed width of 250 pixels and

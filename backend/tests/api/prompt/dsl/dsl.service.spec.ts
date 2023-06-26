@@ -1,5 +1,5 @@
 import { DSLService } from '@/api/prompt/dsl/dsl-service';
-import { DesignData } from '@/api/prompt/prompt.types';
+import { DesignData } from '@/api/prompt/types';
 
 describe('DSLService class', () => {
 	it('executeCommands add new node per proper command', () => {

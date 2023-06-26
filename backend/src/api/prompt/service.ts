@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { OpenAI } from 'langchain';
 
 import { DSLService } from '@/api/prompt/dsl/dsl-service';
-import { promptTemplate } from '@/api/prompt/prompt.template';
-import { DesignData, PromptRequest } from '@/api/prompt/prompt.types';
-import {EnvironmentVariables} from "@/utils/env";
+import { promptTemplate } from '@/api/prompt/template';
+import { DesignData, PromptRequest } from '@/api/prompt/types';
+import { EnvironmentVariables } from '@/utils/env';
 
 @Injectable()
 export class PromptService {
