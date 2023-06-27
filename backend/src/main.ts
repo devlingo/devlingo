@@ -9,7 +9,7 @@ import { EnvironmentVariables } from '@/utils/env';
 
 import { AppModule } from './app';
 import { PrismaExceptionFilter } from './exception-filters/prisma-exception';
-import { Service } from './modules/prisma/service';
+import { PrismaService } from './modules/prisma/service';
 import { setupValidationPipe } from './utils/configuration';
 
 (async () => {
@@ -28,7 +28,7 @@ import { setupValidationPipe } from './utils/configuration';
 
 	app.useGlobalFilters(new PrismaExceptionFilter());
 
-	const prismaService = app.get(Service);
+	const prismaService = app.get(PrismaService);
 	await prismaService.enableShutdownHooks(app);
 
 	const configService = app.get(ConfigService<EnvironmentVariables, true>);

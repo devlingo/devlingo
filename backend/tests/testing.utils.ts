@@ -10,7 +10,7 @@ import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
 import { PrismaExceptionFilter } from '@/exception-filters/prisma-exception';
 import { FirebaseService } from '@/modules/firebase/service';
-import { Service } from '@/modules/prisma/service';
+import { PrismaService } from '@/modules/prisma/service';
 import { setupValidationPipe } from '@/utils/configuration';
 import { EnvironmentVariables } from '@/utils/env';
 
@@ -46,7 +46,7 @@ export async function bootstrapIntegrationTest(
 	prisma: DeepMockProxy<PrismaClient>;
 }> {
 	const moduleFixture = await Test.createTestingModule(moduleMetadata)
-		.overrideProvider(Service)
+		.overrideProvider(PrismaService)
 		.useValue(mockPrisma)
 		.overrideProvider(ConfigService)
 		.useValue({

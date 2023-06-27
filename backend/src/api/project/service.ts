@@ -1,11 +1,11 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PermissionType, Prisma } from '@prisma/client';
 import type { Request } from 'express';
 import { ProjectResponseData } from 'shared/types';
 
 import { UserService } from '@/api/user/service';
 import { ProjectCreateDTO } from '@/dtos/body';
-import { Service } from '@/modules/prisma/service';
+import { PrismaService } from '@/modules/prisma/service';
 
 export const projectSelectArgs = (userId: string): Prisma.ProjectSelect => ({
 	id: true,
@@ -39,27 +39,12 @@ export const projectSelectArgs = (userId: string): Prisma.ProjectSelect => ({
 
 @Injectable()
 export class ProjectService {
-	constructor(private prisma: Service, private userService: UserService) {}
+	constructor(
+		private prisma: PrismaService,
+		private userService: UserService,
+	) {}
 
-	async deleteProject({
-		projectId,
-		request,
-	}: {
-		projectId: string;
-		request: Request;
-	}): Promise<void> {
-		const firebaseId = Reflect.get(request, 'firebaseId') as string;
-
-		const { id: userId } = await this.userService.retrieveUser({
-			firebaseId,
-		});
-
-		await this.validateUserPermission({
-			permissionType: PermissionType.OWNER,
-			userId,
-			projectId,
-		});
-
+	async deleteProject({ projectId }: { projectId: string }): Promise<void> {
 		await this.prisma.project.delete({
 			where: {
 				id: projectId,
@@ -75,14 +60,9 @@ export class ProjectService {
 		request: Request;
 	}): Promise<ProjectResponseData> {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
+
 		const { id: userId } = await this.userService.retrieveUser({
 			firebaseId,
-		});
-
-		await this.validateUserPermission({
-			permissionType: PermissionType.VIEWER,
-			userId,
-			projectId,
 		});
 
 		// @ts-expect-error: TS2322
@@ -135,12 +115,6 @@ export class ProjectService {
 				request,
 			});
 
-		await this.validateUserPermission({
-			permissionType: PermissionType.EDITOR,
-			userId,
-			projectId,
-		});
-
 		// @ts-expect-error: TS2322
 		return await this.prisma.project.update({
 			where: { id: projectId },
@@ -171,40 +145,5 @@ export class ProjectService {
 			},
 			select: projectSelectArgs(userId),
 		});
-	}
-
-	private async validateUserPermission({
-		permissionType,
-		userId,
-		projectId,
-	}: {
-		permissionType: PermissionType;
-		userId: string;
-		projectId: string;
-	}): Promise<void> {
-		try {
-			const permission =
-				await this.prisma.userProjectPermission.findUniqueOrThrow({
-					where: { projectId_userId: { userId, projectId } },
-					select: { type: true },
-				});
-			if (
-				permission.type === PermissionType.OWNER ||
-				permissionType === permission.type
-			) {
-				return;
-			}
-			if (
-				permission.type === PermissionType.EDITOR &&
-				(permissionType === PermissionType.EDITOR ||
-					permissionType === PermissionType.VIEWER)
-			) {
-				return;
-			}
-		} catch {
-			throw new ForbiddenException('no permissions');
-		}
-
-		throw new ForbiddenException('insufficient permissions');
 	}
 }

@@ -3,7 +3,7 @@ import { Design, DesignVersion } from '@prisma/client';
 import { DesignResponseData, DesignVersionResponse } from 'shared/types';
 
 import { DesignVersionDTO } from '@/dtos/body';
-import { Service } from '@/modules/prisma/service';
+import { PrismaService } from '@/modules/prisma/service';
 
 export type RetrieveDesignResponse = Design & {
 	versions: Pick<DesignVersion, 'id' | 'createdAt'>[];
@@ -16,7 +16,7 @@ export interface CreateDesignResponse {
 
 @Injectable()
 export class DesignService {
-	constructor(private prisma: Service) {}
+	constructor(private prisma: PrismaService) {}
 
 	async createDesignVersion({
 		data,

@@ -4,12 +4,12 @@ import type { Request } from 'express';
 
 import { UserUpdateDTO } from '@/dtos/body';
 import { FirebaseService } from '@/modules/firebase/service';
-import { Service } from '@/modules/prisma/service';
+import { PrismaService } from '@/modules/prisma/service';
 
 @Injectable()
 export class UserService {
 	constructor(
-		private prisma: Service,
+		private prisma: PrismaService,
 		private firebaseService: FirebaseService,
 	) {}
 

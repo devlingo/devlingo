@@ -87,7 +87,7 @@ export function createDefaultInternalNodes(
 				extent: 'parent',
 				position: { x: 70, y: 225 },
 				data: {
-					formData: { nodeName: 'App Service' },
+					formData: { nodeName: 'App PrismaService' },
 					nodeType: InternalNodeType.Service,
 					parentNodeType,
 				},

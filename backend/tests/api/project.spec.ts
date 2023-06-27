@@ -79,6 +79,9 @@ describe('Project Controller Tests', () => {
 							name: true,
 							updatedAt: true,
 						},
+						where: {
+							isDefault: true,
+						},
 					},
 					id: true,
 					name: true,
@@ -87,6 +90,9 @@ describe('Project Controller Tests', () => {
 						select: {
 							type: true,
 							userId: true,
+						},
+						where: {
+							userId: user.id,
 						},
 					},
 				},
@@ -107,6 +113,35 @@ describe('Project Controller Tests', () => {
 			expect(prisma.project.findMany).toHaveBeenCalledWith({
 				orderBy: {
 					createdAt: 'asc',
+				},
+				select: {
+					createdAt: true,
+					description: true,
+					designs: {
+						select: {
+							createdAt: true,
+							description: true,
+							id: true,
+							isDefault: true,
+							name: true,
+							updatedAt: true,
+						},
+						where: {
+							isDefault: true,
+						},
+					},
+					id: true,
+					name: true,
+					updatedAt: true,
+					userPermissions: {
+						select: {
+							type: true,
+							userId: true,
+						},
+						where: {
+							userId: user.id,
+						},
+					},
 				},
 				where: {
 					userPermissions: {
@@ -185,7 +220,7 @@ describe('Project Controller Tests', () => {
 
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
-			prisma.userProjectPermission.findUniqueOrThrow.mockImplementationOnce(
+			prisma.userProjectPermission.findFirstOrThrow.mockImplementationOnce(
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',
@@ -219,19 +254,38 @@ describe('Project Controller Tests', () => {
 			) as PermissionType[],
 		)(
 			'forbids operation for users with permission %s',
-			async (permissionType: PermissionType) => {
+			async (_: PermissionType) => {
 				const user = await UserFactory.build();
 				const project = await ProjectFactory.build();
 
 				prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 				prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
-				prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
-					{ type: permissionType } as any,
+				prisma.userProjectPermission.findFirstOrThrow.mockImplementationOnce(
+					() => {
+						throw new Prisma.NotFoundError(
+							'No UserProjectPermission found',
+						);
+					},
 				);
 				const response = await request.delete(
 					`/projects/${project.id}`,
 				);
 				expect(response.statusCode).toEqual(HttpStatus.FORBIDDEN);
+				expect(
+					prisma.userProjectPermission.findFirstOrThrow,
+				).toHaveBeenCalledWith({
+					where: {
+						projectId: project.id,
+						type: {
+							in: [PermissionType.OWNER],
+						},
+						user: {
+							is: {
+								firebaseId: 'test',
+							},
+						},
+					},
+				});
 			},
 		);
 
@@ -241,7 +295,7 @@ describe('Project Controller Tests', () => {
 
 			prisma.user.findUniqueOrThrow.mockResolvedValueOnce(user);
 			prisma.project.findUniqueOrThrow.mockResolvedValueOnce(project);
-			prisma.userProjectPermission.findUniqueOrThrow.mockImplementationOnce(
+			prisma.userProjectPermission.findFirstOrThrow.mockImplementationOnce(
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',

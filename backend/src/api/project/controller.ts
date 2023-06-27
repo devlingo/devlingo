@@ -9,16 +9,21 @@ import {
 	Patch,
 	Post,
 	Req,
+	UseGuards,
 } from '@nestjs/common';
-import { Project } from '@prisma/client';
+import { PermissionType, Project } from '@prisma/client';
 import type { Request } from 'express';
 
+import { UserPermissions } from '@/decorators';
 import { ProjectCreateDTO } from '@/dtos/body';
 import { ProjectIdParam } from '@/dtos/parameter';
+import { UserPermissionsGuard } from '@/guards/user-permission';
 
 import { ProjectService } from './service';
 
 const PROJECT_ID_PARAM = ':projectId';
+
+@UseGuards(UserPermissionsGuard)
 @Controller('projects')
 export class ProjectController {
 	constructor(private readonly projectService: ProjectService) {}
@@ -37,6 +42,11 @@ export class ProjectController {
 	}
 
 	@Get(PROJECT_ID_PARAM)
+	@UserPermissions(
+		PermissionType.VIEWER,
+		PermissionType.OWNER,
+		PermissionType.EDITOR,
+	)
 	async getProject(
 		@Req() request: Request,
 		@Param() projectId: ProjectIdParam,
@@ -48,6 +58,7 @@ export class ProjectController {
 	}
 
 	@Patch(PROJECT_ID_PARAM)
+	@UserPermissions(PermissionType.OWNER, PermissionType.EDITOR)
 	async updateProject(
 		@Req() request: Request,
 		@Body() data: Partial<ProjectCreateDTO>,
@@ -62,10 +73,8 @@ export class ProjectController {
 
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@Delete(PROJECT_ID_PARAM)
-	async deleteProject(
-		@Req() request: Request,
-		@Param() projectId: ProjectIdParam,
-	): Promise<void> {
-		await this.projectService.deleteProject({ request, ...projectId });
+	@UserPermissions(PermissionType.OWNER)
+	async deleteProject(@Param() projectId: ProjectIdParam): Promise<void> {
+		await this.projectService.deleteProject(projectId);
 	}
 }

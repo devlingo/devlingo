@@ -34,7 +34,7 @@ export function Navbar({ designName }: NavbarProps) {
 			<div className="navbar-center">
 				<span
 					className="text-base-content normal-case font-bold"
-					data-testid="navbar-project-name"
+					data-testid="navbar-design-name"
 				>
 					{designName}
 				</span>
