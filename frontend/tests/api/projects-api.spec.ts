@@ -8,9 +8,9 @@ import {
 	createProject,
 	deleteProject,
 	getProjects,
+	PROJECTS_API_BASE_PATH,
 	updateProject,
 } from '@/api';
-import { PROJECTS_API_BASE_PATH } from '@/constants';
 
 describe('projects API tests', () => {
 	beforeEach(() => {

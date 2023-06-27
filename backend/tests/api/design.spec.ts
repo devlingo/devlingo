@@ -175,6 +175,7 @@ describe('Design Controller Tests', () => {
 					id: true,
 					name: true,
 					description: true,
+					isDefault: true,
 					projectId: true,
 					createdAt: true,
 					updatedAt: true,

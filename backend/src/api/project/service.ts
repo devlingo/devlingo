@@ -1,10 +1,41 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PermissionType, Project } from '@prisma/client';
+import { PermissionType, Prisma } from '@prisma/client';
 import type { Request } from 'express';
+import { ProjectResponseData } from 'shared/types';
 
 import { UserService } from '@/api/user/service';
 import { ProjectCreateDTO } from '@/dtos/body';
 import { Service } from '@/modules/prisma/service';
+
+export const projectSelectArgs = (userId: string): Prisma.ProjectSelect => ({
+	id: true,
+	name: true,
+	description: true,
+	createdAt: true,
+	updatedAt: true,
+	userPermissions: {
+		select: {
+			userId: true,
+			type: true,
+		},
+		where: {
+			userId,
+		},
+	},
+	designs: {
+		select: {
+			id: true,
+			name: true,
+			description: true,
+			isDefault: true,
+			createdAt: true,
+			updatedAt: true,
+		},
+		where: {
+			isDefault: true,
+		},
+	},
+});
 
 @Injectable()
 export class ProjectService {
@@ -17,10 +48,11 @@ export class ProjectService {
 		projectId: string;
 		request: Request;
 	}): Promise<void> {
-		const { id: userId } =
-			await this.userService.getOrCreateUserFromRequest({
-				request,
-			});
+		const firebaseId = Reflect.get(request, 'firebaseId') as string;
+
+		const { id: userId } = await this.userService.retrieveUser({
+			firebaseId,
+		});
 
 		await this.validateUserPermission({
 			permissionType: PermissionType.OWNER,
@@ -29,7 +61,9 @@ export class ProjectService {
 		});
 
 		await this.prisma.project.delete({
-			where: { id: projectId },
+			where: {
+				id: projectId,
+			},
 		});
 	}
 
@@ -39,11 +73,11 @@ export class ProjectService {
 	}: {
 		projectId: string;
 		request: Request;
-	}): Promise<Project> {
-		const { id: userId } =
-			await this.userService.getOrCreateUserFromRequest({
-				request,
-			});
+	}): Promise<ProjectResponseData> {
+		const firebaseId = Reflect.get(request, 'firebaseId') as string;
+		const { id: userId } = await this.userService.retrieveUser({
+			firebaseId,
+		});
 
 		await this.validateUserPermission({
 			permissionType: PermissionType.VIEWER,
@@ -51,21 +85,10 @@ export class ProjectService {
 			projectId,
 		});
 
+		// @ts-expect-error: TS2322
 		return await this.prisma.project.findUniqueOrThrow({
 			where: { id: projectId },
-			select: {
-				id: true,
-				name: true,
-				description: true,
-				createdAt: true,
-				updatedAt: true,
-				userPermissions: {
-					select: {
-						userId: true,
-						type: true,
-					},
-				},
-			},
+			select: projectSelectArgs(userId),
 		});
 	}
 
@@ -75,25 +98,27 @@ export class ProjectService {
 	}: {
 		request: Request;
 		data: ProjectCreateDTO;
-	}): Promise<Project> {
+	}): Promise<ProjectResponseData> {
 		const { id: userId } =
 			await this.userService.getOrCreateUserFromRequest({
 				request,
 			});
-
-		const project = await this.prisma.project.create({
-			data,
-		});
-
-		await this.prisma.userProjectPermission.create({
+		// @ts-expect-error: TS2322
+		return await this.prisma.project.create({
 			data: {
-				userId,
-				projectId: project.id,
-				type: PermissionType.OWNER,
+				...data,
+				userPermissions: {
+					create: {
+						userId: userId,
+						type: PermissionType.OWNER,
+					},
+				},
+				designs: {
+					create: { name: 'Untitled Design', isDefault: true },
+				},
 			},
+			select: projectSelectArgs(userId),
 		});
-
-		return project;
 	}
 
 	async updateProject({
@@ -104,7 +129,7 @@ export class ProjectService {
 		data: Partial<ProjectCreateDTO>;
 		request: Request;
 		projectId: string;
-	}) {
+	}): Promise<ProjectResponseData> {
 		const { id: userId } =
 			await this.userService.getOrCreateUserFromRequest({
 				request,
@@ -116,9 +141,11 @@ export class ProjectService {
 			projectId,
 		});
 
+		// @ts-expect-error: TS2322
 		return await this.prisma.project.update({
 			where: { id: projectId },
 			data,
+			select: projectSelectArgs(userId),
 		});
 	}
 
@@ -126,20 +153,23 @@ export class ProjectService {
 		request,
 	}: {
 		request: Request;
-	}): Promise<Project[]> {
-		const { id } = await this.userService.getOrCreateUserFromRequest({
-			request,
-		});
+	}): Promise<ProjectResponseData[]> {
+		const { id: userId } =
+			await this.userService.getOrCreateUserFromRequest({
+				request,
+			});
 
+		// @ts-expect-error: TS2322
 		return await this.prisma.project.findMany({
 			where: {
 				userPermissions: {
-					some: { userId: id },
+					some: { userId },
 				},
 			},
 			orderBy: {
 				createdAt: 'asc',
 			},
+			select: projectSelectArgs(userId),
 		});
 	}
 

@@ -50,11 +50,45 @@ describe('Project Controller Tests', () => {
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body.name).toEqual(project.name);
-			expect(prisma.userProjectPermission.create).toHaveBeenCalledWith({
+			expect(prisma.project.create).toHaveBeenCalledWith({
 				data: {
-					userId: user.id,
-					projectId: project.id,
-					type: PermissionType.OWNER,
+					description: undefined,
+					designs: {
+						create: {
+							isDefault: true,
+							name: 'Untitled Design',
+						},
+					},
+					name: project.name,
+					userPermissions: {
+						create: {
+							type: 'OWNER',
+							userId: user.id,
+						},
+					},
+				},
+				select: {
+					createdAt: true,
+					description: true,
+					designs: {
+						select: {
+							createdAt: true,
+							description: true,
+							id: true,
+							isDefault: true,
+							name: true,
+							updatedAt: true,
+						},
+					},
+					id: true,
+					name: true,
+					updatedAt: true,
+					userPermissions: {
+						select: {
+							type: true,
+							userId: true,
+						},
+					},
 				},
 			});
 		});

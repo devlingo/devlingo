@@ -4,13 +4,19 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
+import { retrieveDesignVersionById } from '@/api';
 import { Flow } from '@/components/design-canvas-page/flow/flow';
 import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
 import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
-import { useProject } from '@/hooks/use-api-store';
+import { Navigation } from '@/constants';
+import {
+	useCurrentDesign,
+	useCurrentDesignVersion,
+	useSetCurrentDesignVersion,
+} from '@/hooks/use-api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
 	useConfiguredNode,
@@ -20,6 +26,7 @@ import {
 } from '@/hooks/use-design-canvas-store';
 import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { createNode } from '@/utils/node';
+import { sortByDateProp } from '@/utils/time';
 
 export async function getServerSideProps({ locale }: { locale: string }) {
 	return {
@@ -35,7 +42,8 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 
 export default function DesignCanvasPage() {
 	const router = useRouter();
-	const project = useProject(router.query.projectId as string);
+
+	const [isLoading, setIsLoading] = useState(false);
 	const configuredNode = useConfiguredNode();
 	const expandedNode = useExpandedNode();
 	const insertNode = useInsertNode();
@@ -48,9 +56,37 @@ export default function DesignCanvasPage() {
 	const [reactFlowInstance, setReactFlowInstance] =
 		useState<ReactFlowInstance | null>(null);
 
-	const [dndDropData, dndRef] = useBoundedDrop();
+	// design
+	const currentDesign = useCurrentDesign();
+
+	const currentDesignVersion = useCurrentDesignVersion();
+	const setCurrentDesignVersion = useSetCurrentDesignVersion();
+
+	useEffect(() => {
+		if (!currentDesign) {
+			void router.push(Navigation.Base);
+			return;
+		}
+		if (currentDesign.versions.length && !currentDesignVersion) {
+			(async () => {
+				try {
+					setIsLoading(true);
+					const { id: designVersionId } = sortByDateProp(
+						currentDesign.versions,
+					)('createdAt', 'desc')[0];
+					const designVersion = await retrieveDesignVersionById({
+						designVersionId,
+					});
+					setCurrentDesignVersion(designVersion);
+				} finally {
+					setIsLoading(false);
+				}
+			})();
+		}
+	}, []);
 
 	// drag and drop
+	const [dndDropData, dndRef] = useBoundedDrop();
 	useEffect(() => {
 		if (dndDropData && reactFlowInstance) {
 			const { nodeType, x, y } = dndDropData;
@@ -69,7 +105,7 @@ export default function DesignCanvasPage() {
 
 	return (
 		<ReactFlowProvider>
-			<Navbar projectName={project?.name ?? 'Untitled Project'} />
+			<Navbar designName={currentDesign?.name ?? 'Untitled Design'} />
 			<main className="h-full w-full flex justify-between">
 				<PromptContainer
 					closePromptModal={() => {
@@ -84,27 +120,33 @@ export default function DesignCanvasPage() {
 						setIsPromptModalOpen(!isPromptModalOpen);
 					}}
 				/>
-				<div
-					className={`h-full transition-all duration-300 ease-in-out ${
-						expandedNode
-							? 'bg-base-100 rounded border-2 border-neutral'
-							: 'bg-base-300'
-					} ${isSideMenuOpen ? 'shrink' : 'grow'}`}
-				>
-					{expandedNode && (
-						<InternalFlowHeader {...expandedNode.data} />
-					)}
-					{isClientSide && (
-						<Flow
-							connectionMode={ConnectionMode.Loose}
-							dndRef={dndRef}
-							isExpandedNode={!!expandedNode}
-							isFullWidth={!isSideMenuOpen}
-							setReactFlowInstance={setReactFlowInstance}
-							showBackground={!expandedNode}
-						/>
-					)}
-				</div>
+				{isLoading ? (
+					<div className="h-full w-full flex justify-center items-center">
+						<div className="loading loading-lg" />
+					</div>
+				) : (
+					<div
+						className={`h-full transition-all duration-300 ease-in-out ${
+							expandedNode
+								? 'bg-base-100 rounded border-2 border-neutral'
+								: 'bg-base-300'
+						} ${isSideMenuOpen ? 'shrink' : 'grow'}`}
+					>
+						{expandedNode && (
+							<InternalFlowHeader {...expandedNode.data} />
+						)}
+						{isClientSide && (
+							<Flow
+								connectionMode={ConnectionMode.Loose}
+								dndRef={dndRef}
+								isExpandedNode={!!expandedNode}
+								isFullWidth={!isSideMenuOpen}
+								setReactFlowInstance={setReactFlowInstance}
+								showBackground={!expandedNode}
+							/>
+						)}
+					</div>
+				)}
 				{configuredNode && (
 					<div className="absolute inset-1 w-5/10 z-10 flex justify-center">
 						<NodeForm

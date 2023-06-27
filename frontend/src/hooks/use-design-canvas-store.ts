@@ -13,10 +13,8 @@ import {
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
-import { create } from 'zustand';
-import { GetState, SetState } from 'zustand/esm/vanilla';
+import { create, GetState, SetState } from 'zustand';
 
-import { initialEdges, initialNodes } from '@/initial-data';
 import {
 	AnyNode,
 	ContainerNode,
@@ -241,10 +239,10 @@ export function onEdgeUpdate(
 }
 
 export const useDesignCanvasStore = create<FlowStore>((set, get) => ({
-	edges: [...initialEdges],
-	nodes: [...initialNodes],
-	allEdges: [...initialEdges],
-	allNodes: [...initialNodes],
+	edges: [],
+	nodes: [],
+	allEdges: [],
+	allNodes: [],
 	configuredNode: null,
 	expandedNode: null,
 	insertNode: insertNode(set, get),

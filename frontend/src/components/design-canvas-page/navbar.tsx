@@ -6,10 +6,10 @@ import { handleChange } from '@/utils/helpers';
 import { daisyUIThemes } from '@/wrapper';
 
 export interface NavbarProps {
-	projectName: string;
+	designName: string;
 }
 
-export function Navbar({ projectName }: NavbarProps) {
+export function Navbar({ designName }: NavbarProps) {
 	const themeContext = useContext(ThemeContext);
 
 	return (
@@ -36,7 +36,7 @@ export function Navbar({ projectName }: NavbarProps) {
 					className="text-base-content normal-case font-bold"
 					data-testid="navbar-project-name"
 				>
-					{projectName}
+					{designName}
 				</span>
 			</div>
 			<div className="navbar-end">

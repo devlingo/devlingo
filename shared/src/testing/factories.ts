@@ -14,6 +14,7 @@ export const DesignFactory = new TypeFactory<Design>((i) => ({
 	id: faker.string.uuid(),
 	name: `design-${i}`,
 	description: null,
+	isDefault: false,
 	projectId: faker.string.uuid(),
 	createdAt: new Date(),
 	updatedAt: new Date(),

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Design, DesignVersion } from '@prisma/client';
+import { DesignResponseData, DesignVersionResponse } from 'shared/types';
 
 import { DesignVersionDTO } from '@/dtos/body';
 import { Service } from '@/modules/prisma/service';
@@ -66,13 +67,14 @@ export class DesignService {
 		designId,
 	}: {
 		designId: string;
-	}): Promise<RetrieveDesignResponse> {
+	}): Promise<DesignResponseData> {
 		return await this.prisma.design.findUniqueOrThrow({
 			where: { id: designId },
 			select: {
 				id: true,
 				name: true,
 				description: true,
+				isDefault: true,
 				projectId: true,
 				createdAt: true,
 				updatedAt: true,
@@ -96,10 +98,10 @@ export class DesignService {
 		versionId,
 	}: {
 		versionId: string;
-	}): Promise<DesignVersion> {
-		return await this.prisma.designVersion.findUniqueOrThrow({
+	}): Promise<DesignVersionResponse> {
+		return (await this.prisma.designVersion.findUniqueOrThrow({
 			where: { id: versionId },
-		});
+		})) as DesignVersionResponse;
 	}
 
 	async deleteDesignVersionById({

@@ -7,13 +7,17 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
+import { ProjectResponseData } from 'shared/types';
 
-import { deleteProject, getProjects } from '@/api';
+import { deleteProject, getProjects, retrieveDesignById } from '@/api';
 import { CreateOrUpdateProjectModal } from '@/components/projects-page/create-or-update-project-modal';
 import { WarningModal } from '@/components/warning-modal';
 import { Navigation } from '@/constants';
-import { useProjects, useSetProjects } from '@/hooks/use-api-store';
-import { Project } from '@/types';
+import {
+	useProjects,
+	useSetCurrentDesign,
+	useSetProjects,
+} from '@/hooks/use-api-store';
 import { formatDate } from '@/utils/time';
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -30,9 +34,9 @@ export default function Projects() {
 	const projects = useProjects();
 	const setProjects = useSetProjects();
 	const router = useRouter();
-	const [selectedProject, setSelectedProject] = useState<Project | null>(
-		null,
-	);
+
+	const [selectedProject, setSelectedProject] =
+		useState<ProjectResponseData | null>(null);
 	const [isDeleteProjectModalOpen, setIsDeleteProjectModalOpen] =
 		useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +44,8 @@ export default function Projects() {
 		isCreateOrUpdateProjectModalOpen,
 		setIsCreateOrUpdateProjectModalOpen,
 	] = useState(false);
+
+	const setCurrentDesign = useSetCurrentDesign();
 
 	useEffect(() => {
 		(async () => {
@@ -65,6 +71,24 @@ export default function Projects() {
 		}
 	};
 
+	const handleProjectSelect = async (project: ProjectResponseData) => {
+		setIsLoading(true);
+		try {
+			const { id: designId } = project.designs.find((d) => d.isDefault)!;
+			const design = await retrieveDesignById({ designId });
+			setCurrentDesign(design);
+
+			void router.push({
+				pathname: Navigation.Design,
+				query: {
+					project: project.id,
+				},
+			});
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<main className="h-screen w-screen bg-base-300 flex flex-col justify-between">
 			<header className="navbar bg-blue-100" />
@@ -80,10 +104,7 @@ export default function Projects() {
 							className="btn btn-ghost h-fit w-fit card card-compact bg-base-100 hover:bg-neutral"
 							key={i}
 							onClick={() => {
-								void router.push({
-									pathname: Navigation.Design,
-									query: { projectId: project.id },
-								});
+								void handleProjectSelect(project);
 							}}
 						>
 							<div className="card-body">

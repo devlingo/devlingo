@@ -1,5 +1,5 @@
 export enum Navigation {
-	Login = '/',
+	Base = '/',
 	Projects = '/projects',
-	Design = '/design/[projectId]',
+	Design = '/design',
 }
