@@ -1,23 +1,23 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { PermissionType, Prisma, PrismaClient } from '@prisma/client';
 import { ProjectFactory, UserFactory } from 'shared/testing';
+import { ProjectsModule } from 'src/api/projects';
 import type { SuperTest } from 'supertest';
 import { bootstrapIntegrationTest } from 'tests/testing.utils';
 import { beforeEach } from 'vitest';
 import type { DeepMockProxy } from 'vitest-mock-extended';
 import { mockReset } from 'vitest-mock-extended';
 
-import { ProjectModule } from '@/api/project';
 import { AppModule } from '@/app';
 
-describe('Project Controller Tests', () => {
+describe('Projects Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;
 	let prisma: DeepMockProxy<PrismaClient>;
 
 	beforeAll(async () => {
 		const bootstrap = await bootstrapIntegrationTest({
-			imports: [AppModule, ProjectModule],
+			imports: [AppModule, ProjectsModule],
 		});
 		request = bootstrap.request;
 		app = bootstrap.app;

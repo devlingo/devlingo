@@ -19,14 +19,14 @@ import { ProjectCreateDTO } from '@/dtos/body';
 import { ProjectIdParam } from '@/dtos/parameter';
 import { UserPermissionsGuard } from '@/guards/user-permission';
 
-import { ProjectService } from './service';
+import { ProjectsService } from './service';
 
 const PROJECT_ID_PARAM = ':projectId';
 
 @UseGuards(UserPermissionsGuard)
 @Controller('projects')
-export class ProjectController {
-	constructor(private readonly projectService: ProjectService) {}
+export class ProjectsController {
+	constructor(private readonly projectService: ProjectsService) {}
 
 	@Post()
 	async createProject(
@@ -43,9 +43,9 @@ export class ProjectController {
 
 	@Get(PROJECT_ID_PARAM)
 	@UserPermissions(
-		PermissionType.VIEWER,
 		PermissionType.OWNER,
 		PermissionType.EDITOR,
+		PermissionType.VIEWER,
 	)
 	async getProject(
 		@Req() request: Request,

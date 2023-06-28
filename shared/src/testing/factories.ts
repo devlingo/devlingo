@@ -20,10 +20,10 @@ export const DesignFactory = new TypeFactory<Design>((i) => ({
 	updatedAt: new Date(),
 }));
 
-export const DesignVersionFactory = new TypeFactory<DesignVersion>(() => ({
+export const VersionFactory = new TypeFactory<DesignVersion>(() => ({
 	id: faker.string.uuid(),
 	designId: faker.string.uuid(),
-	data: '{}',
+	data: {},
 	createdAt: new Date(),
 }));
 

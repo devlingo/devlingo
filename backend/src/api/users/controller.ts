@@ -14,11 +14,11 @@ import type { Request } from 'express';
 import { UserUpdateDTO } from '@/dtos/body';
 import { UserIdParam } from '@/dtos/parameter';
 
-import { UserService } from './service';
+import { UsersService } from './service';
 
 @Controller('users')
-export class UserController {
-	constructor(private readonly userService: UserService) {}
+export class UsersController {
+	constructor(private readonly userService: UsersService) {}
 
 	@Get('/profile')
 	async getUserProfile(@Req() request: Request) {

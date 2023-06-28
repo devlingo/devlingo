@@ -3,7 +3,7 @@ import { PermissionType, Prisma } from '@prisma/client';
 import type { Request } from 'express';
 import { ProjectResponseData } from 'shared/types';
 
-import { UserService } from '@/api/user/service';
+import { UsersService } from '@/api/users/service';
 import { ProjectCreateDTO } from '@/dtos/body';
 import { PrismaService } from '@/modules/prisma/service';
 
@@ -41,10 +41,10 @@ export const projectSelectArgs = (
 });
 
 @Injectable()
-export class ProjectService {
+export class ProjectsService {
 	constructor(
 		private prisma: PrismaService,
-		private userService: UserService,
+		private userService: UsersService,
 	) {}
 
 	async deleteProject({ projectId }: { projectId: string }): Promise<void> {

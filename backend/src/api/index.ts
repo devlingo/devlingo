@@ -1,11 +1,13 @@
-import { DesignModule } from '@/api/design';
-import { ProjectModule } from '@/api/project';
+import { DesignsModule } from '@/api/designs';
+import { ProjectsModule } from '@/api/projects';
 import { PromptModule } from '@/api/prompt';
-import { UserModule } from '@/api/user';
+import { UsersModule } from '@/api/users';
+import { VersionsModule } from '@/api/versions';
 
 export const API_MODULES = [
-	DesignModule,
-	ProjectModule,
+	DesignsModule,
+	ProjectsModule,
 	PromptModule,
-	UserModule,
+	UsersModule,
+	VersionsModule,
 ];

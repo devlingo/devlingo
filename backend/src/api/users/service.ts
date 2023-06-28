@@ -7,7 +7,7 @@ import { FirebaseService } from '@/modules/firebase/service';
 import { PrismaService } from '@/modules/prisma/service';
 
 @Injectable()
-export class UserService {
+export class UsersService {
 	constructor(
 		private prisma: PrismaService,
 		private firebaseService: FirebaseService,

@@ -1,6 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient, User } from '@prisma/client';
 import { UserFactory } from 'shared/testing';
+import { UsersModule } from 'src/api/users';
 import type { SuperTest } from 'supertest';
 import {
 	bootstrapIntegrationTest,
@@ -8,11 +9,10 @@ import {
 } from 'tests/testing.utils';
 import type { DeepMockProxy } from 'vitest-mock-extended';
 
-import { UserModule } from '@/api/user';
 import { AppModule } from '@/app';
 import { UserUpdateDTO } from '@/dtos/body';
 
-describe('User Controller Tests', () => {
+describe('Users Controller Tests', () => {
 	let app: INestApplication;
 	let request: SuperTest<any>;
 	let prisma: DeepMockProxy<PrismaClient>;
@@ -20,7 +20,7 @@ describe('User Controller Tests', () => {
 
 	beforeAll(async () => {
 		const bootstrap = await bootstrapIntegrationTest({
-			imports: [AppModule, UserModule],
+			imports: [AppModule, UsersModule],
 		});
 		request = bootstrap.request;
 		app = bootstrap.app;

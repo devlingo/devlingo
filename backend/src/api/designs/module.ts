@@ -8,4 +8,4 @@ import { DesignService } from './service';
 	controllers: [DesignController],
 	providers: [DesignService],
 })
-export class DesignModule {}
+export class DesignsModule {}
