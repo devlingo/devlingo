@@ -1,12 +1,12 @@
+import { Project } from '@prisma/client';
 import { HttpMethod } from 'shared/constants';
+import { ProjectResponseData } from 'shared/types';
 
 import { fetcher } from '@/api/fetcher';
-import { PROJECTS_API_BASE_PATH } from '@/constants';
-import { Project } from '@/types';
 
 export async function getProjects() {
-	return await fetcher<Project[]>({
-		url: PROJECTS_API_BASE_PATH,
+	return await fetcher<ProjectResponseData[]>({
+		url: 'projects/',
 		method: HttpMethod.Get,
 	});
 }
@@ -14,8 +14,8 @@ export async function getProjects() {
 export async function createProject(
 	body: Pick<Project, 'name' | 'description'>,
 ) {
-	return await fetcher<Project>({
-		url: PROJECTS_API_BASE_PATH,
+	return await fetcher<ProjectResponseData>({
+		url: 'projects/',
 		method: HttpMethod.Post,
 		body: JSON.stringify(body),
 	});
@@ -25,16 +25,16 @@ export async function updateProject({
 	projectId,
 	...body
 }: Partial<Pick<Project, 'name' | 'description'>> & { projectId: string }) {
-	return await fetcher<Project>({
-		url: PROJECTS_API_BASE_PATH + '/' + projectId,
+	return await fetcher<ProjectResponseData>({
+		url: `projects/${projectId}`,
 		method: HttpMethod.Patch,
 		body: JSON.stringify(body),
 	});
 }
 
 export async function deleteProject({ projectId }: { projectId: string }) {
-	return await fetcher<Project>({
-		url: PROJECTS_API_BASE_PATH + '/' + projectId,
+	await fetcher<undefined>({
+		url: `projects/${projectId}`,
 		method: HttpMethod.Delete,
 	});
 }

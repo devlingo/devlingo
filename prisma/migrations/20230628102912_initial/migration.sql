@@ -17,6 +17,7 @@ CREATE TABLE "Design" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "isDefault" BOOLEAN NOT NULL DEFAULT false,
     "projectId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -25,13 +26,13 @@ CREATE TABLE "Design" (
 );
 
 -- CreateTable
-CREATE TABLE "DesignVersion" (
+CREATE TABLE "Version" (
     "id" TEXT NOT NULL,
     "data" JSONB NOT NULL,
     "designId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DesignVersion_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Version_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -71,11 +72,14 @@ CREATE INDEX "firebaseId" ON "User"("firebaseId");
 -- CreateIndex
 CREATE INDEX "email" ON "User"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "UserProjectPermission_projectId_userId_key" ON "UserProjectPermission"("projectId", "userId");
+
 -- AddForeignKey
 ALTER TABLE "Design" ADD CONSTRAINT "Design_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DesignVersion" ADD CONSTRAINT "DesignVersion_designId_fkey" FOREIGN KEY ("designId") REFERENCES "Design"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Version" ADD CONSTRAINT "Version_designId_fkey" FOREIGN KEY ("designId") REFERENCES "Design"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserProjectPermission" ADD CONSTRAINT "UserProjectPermission_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;

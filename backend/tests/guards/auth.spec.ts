@@ -4,7 +4,7 @@ import { auth } from 'firebase-admin';
 import { testEnv } from 'tests/testing.utils';
 import { Mock } from 'vitest';
 
-import { Auth } from '@/guards/auth';
+import { AuthGuard } from '@/guards/auth';
 import { FirebaseService } from '@/modules/firebase/service';
 import { EnvironmentVariables } from '@/utils/env';
 
@@ -29,7 +29,7 @@ describe('AuthGuard tests', () => {
 		);
 		const firebaseService = new FirebaseService(configService);
 		firebaseService.onModuleInit();
-		const authGuard = new Auth(firebaseService);
+		const authGuard = new AuthGuard(firebaseService);
 
 		const request = {
 			headers: {
@@ -53,7 +53,7 @@ describe('AuthGuard tests', () => {
 		);
 		const firebaseService = new FirebaseService(configService);
 		firebaseService.onModuleInit();
-		const authGuard = new Auth(firebaseService);
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {},
 		};
@@ -71,7 +71,7 @@ describe('AuthGuard tests', () => {
 		);
 		const firebaseService = new FirebaseService(configService);
 		firebaseService.onModuleInit();
-		const authGuard = new Auth(firebaseService);
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `invalid_token`,
@@ -91,7 +91,7 @@ describe('AuthGuard tests', () => {
 		);
 		const firebaseService = new FirebaseService(configService);
 		firebaseService.onModuleInit();
-		const authGuard = new Auth(firebaseService);
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `Bearer `,
@@ -117,7 +117,7 @@ describe('AuthGuard tests', () => {
 		const firebaseService = new FirebaseService(configService);
 		firebaseService.onModuleInit();
 
-		const authGuard = new Auth(firebaseService);
+		const authGuard = new AuthGuard(firebaseService);
 		const request = {
 			headers: {
 				authorization: `Bearer invalid_token`,

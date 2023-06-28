@@ -10,14 +10,13 @@ import {
 	getProjects,
 	updateProject,
 } from '@/api';
-import { PROJECTS_API_BASE_PATH } from '@/constants';
 
 describe('projects API tests', () => {
 	beforeEach(() => {
 		mockReset(mockFetch);
 	});
 	describe('getProjects tests', () => {
-		it('should return a list of projects', async () => {
+		it('returns a list of projects', async () => {
 			const projects = await ProjectFactory.batch(10);
 			mockFetch.mockResolvedValueOnce({
 				ok: true,
@@ -27,7 +26,7 @@ describe('projects API tests', () => {
 
 			expect(data).toEqual(projects);
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(`http://www.example.com/v1/${PROJECTS_API_BASE_PATH}`),
+				new URL(`http://www.example.com/v1/projects`),
 				{
 					headers: {
 						'Authorization': 'Bearer test_token',
@@ -55,7 +54,7 @@ describe('projects API tests', () => {
 
 			expect(data).toEqual(project);
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(`http://www.example.com/v1/${PROJECTS_API_BASE_PATH}`),
+				new URL(`http://www.example.com/v1/projects`),
 				{
 					body: JSON.stringify(body),
 					headers: {
@@ -87,9 +86,7 @@ describe('projects API tests', () => {
 
 			expect(data).toEqual(project);
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(
-					`http://www.example.com/v1/${PROJECTS_API_BASE_PATH}/${project.id}`,
-				),
+				new URL(`http://www.example.com/v1/projects/${project.id}`),
 				{
 					body: JSON.stringify(body),
 					headers: {
@@ -115,9 +112,7 @@ describe('projects API tests', () => {
 
 			expect(data).toBeUndefined();
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(
-					`http://www.example.com/v1/${PROJECTS_API_BASE_PATH}/${project.id}`,
-				),
+				new URL(`http://www.example.com/v1/projects/${project.id}`),
 				{
 					headers: {
 						'Authorization': 'Bearer test_token',

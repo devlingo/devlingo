@@ -3,7 +3,6 @@ import { UserFactory } from 'shared/testing';
 import { mockFetch } from 'tests/mocks';
 
 import { getUserProfile } from '@/api';
-import { GET_USER_PROFILE_PATH } from '@/constants';
 
 describe('users api tests', () => {
 	describe('getUserProfile tests', () => {
@@ -18,7 +17,7 @@ describe('users api tests', () => {
 
 			expect(data).toEqual(user);
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(`http://www.example.com/v1/${GET_USER_PROFILE_PATH}`),
+				new URL(`http://www.example.com/v1/projects`),
 				{
 					headers: {
 						'Authorization': 'Bearer test_token',

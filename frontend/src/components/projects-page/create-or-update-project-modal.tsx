@@ -1,9 +1,9 @@
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
+import { ProjectResponseData } from 'shared/types';
 
 import { createProject, updateProject } from '@/api';
 import { useSetProjects } from '@/hooks/use-api-store';
-import { Project } from '@/types';
 import { handleChange } from '@/utils/helpers';
 
 export function CreateOrUpdateProjectModal({
@@ -12,8 +12,8 @@ export function CreateOrUpdateProjectModal({
 	projects,
 }: {
 	closeModal: () => void;
-	project: Project | null;
-	projects: Project[];
+	project: ProjectResponseData | null;
+	projects: ProjectResponseData[];
 }) {
 	const setProjects = useSetProjects();
 	const [name, setName] = useState(project?.name ?? '');

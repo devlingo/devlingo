@@ -1,10 +1,10 @@
 import {
 	IsArray,
+	IsBoolean,
 	IsNotEmpty,
 	IsObject,
 	IsOptional,
 	IsString,
-	IsUUID,
 } from 'class-validator';
 
 export class ProjectCreateDTO {
@@ -17,18 +17,7 @@ export class ProjectCreateDTO {
 	description?: string;
 }
 
-export class DesignVersionDTO {
-	@IsUUID('4')
-	@IsNotEmpty()
-	projectId!: string;
-
-	@IsUUID('4')
-	@IsOptional()
-	designId?: string;
-
-	@IsObject()
-	data!: Record<string, any>;
-
+export class DesignDTO {
 	@IsString()
 	@IsNotEmpty()
 	name!: string;
@@ -36,6 +25,15 @@ export class DesignVersionDTO {
 	@IsString()
 	@IsOptional()
 	description?: string | null;
+
+	@IsBoolean()
+	@IsOptional()
+	isDefault?: boolean;
+}
+
+export class VersionDTO {
+	@IsObject()
+	data!: Record<string, any>;
 }
 
 export class PromptRequestDTO {
