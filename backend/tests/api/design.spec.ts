@@ -38,7 +38,7 @@ describe('Design Controller Tests', () => {
 		project = await ProjectFactory.build();
 	});
 
-	describe('POST designs/', () => {
+	describe('POST designs/:projectId/', () => {
 		const versionId = faker.string.uuid();
 		const designId = faker.string.uuid();
 		it('creates and returns a design when designId is not provided', async () => {
@@ -54,7 +54,9 @@ describe('Design Controller Tests', () => {
 				id: versionId,
 			} as any);
 
-			const response = await request.post(`/designs`).send(data);
+			const response = await request
+				.post(`/designs/${project.id}`)
+				.send(data);
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body.designId).toEqual(designId);
@@ -85,7 +87,9 @@ describe('Design Controller Tests', () => {
 				id: versionId,
 			} as any);
 
-			const response = await request.post(`/designs`).send(data);
+			const response = await request
+				.post(`/designs/${project.id}`)
+				.send(data);
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body.designId).toEqual(designId);
@@ -110,23 +114,23 @@ describe('Design Controller Tests', () => {
 			prisma.design.findUniqueOrThrow.mockImplementationOnce((() => {
 				throw new Prisma.NotFoundError('No Design found');
 			}) as any);
-			const response = await request.post(`/designs`).send(data);
+			const response = await request
+				.post(`/designs/${project.id}`)
+				.send(data);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(response.body.message).toBe('No Design found');
 		});
 	});
 
-	describe('GET designs/', () => {
+	describe('GET designs/:projectId/', () => {
 		it('retrieves a list of available designs and versions for a given project', async () => {
 			const designs = await DesignFactory.batch(3, {
 				projectId: project.id,
 			});
 
 			prisma.design.findMany.mockResolvedValueOnce(designs);
-			const response = await request.get(
-				`/designs?projectId=${project.id}`,
-			);
+			const response = await request.get(`/designs/${project.id}`);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 
@@ -144,16 +148,14 @@ describe('Design Controller Tests', () => {
 				throw new Prisma.NotFoundError('No Designs found');
 			}) as any);
 
-			const response = await request.get(
-				`/designs?projectId=${project.id}`,
-			);
+			const response = await request.get(`/designs/${project.id}`);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(response.body.message).toBe('No Designs found');
 		});
 	});
 
-	describe('GET designs/:designId', () => {
+	describe('GET designs/:projectId/:designId', () => {
 		it('retrieves a design by ID', async () => {
 			const design = await DesignFactory.build();
 
@@ -161,7 +163,9 @@ describe('Design Controller Tests', () => {
 				...design,
 			});
 
-			const response = await request.get(`/designs/${design.id}`);
+			const response = await request.get(
+				`/designs/${project.id}/${design.id}`,
+			);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
 			expect(response.body).toEqual({
@@ -194,18 +198,22 @@ describe('Design Controller Tests', () => {
 				throw new Prisma.NotFoundError('No Design found');
 			}) as any);
 
-			const response = await request.get(`/designs/${project.id}`);
+			const response = await request.get(
+				`/designs/${project.id}/${project.id}`,
+			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(response.body.message).toBe('No Design found');
 		});
 	});
 
-	describe('DELETE designs/:designId', () => {
+	describe('DELETE designs/:projectId/:designId', () => {
 		it('deletes a design version using the name and version parameters', async () => {
 			const design = await DesignFactory.build();
 
-			const response = await request.delete(`/designs/${design.id}`);
+			const response = await request.delete(
+				`/designs/${project.id}/${design.id}`,
+			);
 			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
 			expect(prisma.design.delete).toHaveBeenCalledWith({
 				where: { id: design.id },
@@ -213,7 +221,7 @@ describe('Design Controller Tests', () => {
 		});
 	});
 
-	describe('GET designs/versions/:versionId', () => {
+	describe('GET designs/:projectId/versions/:versionId', () => {
 		it('retrieves a design version by ID', async () => {
 			const version = await DesignVersionFactory.build();
 
@@ -222,7 +230,7 @@ describe('Design Controller Tests', () => {
 			);
 
 			const response = await request.get(
-				`/designs/versions/${version.id}`,
+				`/designs/${project.id}/versions/${version.id}`,
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.OK);
@@ -244,7 +252,7 @@ describe('Design Controller Tests', () => {
 			);
 
 			const response = await request.get(
-				`/designs/versions/${project.id}`,
+				`/designs/${project.id}/versions/${project.id}`,
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
@@ -252,12 +260,12 @@ describe('Design Controller Tests', () => {
 		});
 	});
 
-	describe('DELETE designs/versions/:versionId', () => {
+	describe('DELETE designs/:projectId/versions/:versionId', () => {
 		it('deletes a design version by ID', async () => {
 			const version = await DesignVersionFactory.build();
 
 			const response = await request.delete(
-				`/designs/versions/${version.id}`,
+				`/designs/${project.id}/versions/${version.id}`,
 			);
 			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
 			expect(prisma.designVersion.delete).toHaveBeenCalledWith({

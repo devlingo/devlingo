@@ -7,7 +7,9 @@ import { UserService } from '@/api/user/service';
 import { ProjectCreateDTO } from '@/dtos/body';
 import { PrismaService } from '@/modules/prisma/service';
 
-export const projectSelectArgs = (userId: string): Prisma.ProjectSelect => ({
+export const projectSelectArgs = (
+	firebaseId: string,
+): Prisma.ProjectSelect => ({
 	id: true,
 	name: true,
 	description: true,
@@ -19,13 +21,14 @@ export const projectSelectArgs = (userId: string): Prisma.ProjectSelect => ({
 			type: true,
 		},
 		where: {
-			userId,
+			user: { is: { firebaseId } },
 		},
 	},
 	designs: {
 		select: {
 			id: true,
 			name: true,
+			projectId: true,
 			description: true,
 			isDefault: true,
 			createdAt: true,
@@ -61,15 +64,10 @@ export class ProjectService {
 	}): Promise<ProjectResponseData> {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
-		const { id: userId } = await this.userService.retrieveUser({
-			firebaseId,
-		});
-
-		// @ts-expect-error: TS2322
-		return await this.prisma.project.findUniqueOrThrow({
+		return (await this.prisma.project.findUniqueOrThrow({
 			where: { id: projectId },
-			select: projectSelectArgs(userId),
-		});
+			select: projectSelectArgs(firebaseId),
+		})) as unknown as ProjectResponseData;
 	}
 
 	async createProject({
@@ -79,12 +77,13 @@ export class ProjectService {
 		request: Request;
 		data: ProjectCreateDTO;
 	}): Promise<ProjectResponseData> {
-		const { id: userId } =
-			await this.userService.getOrCreateUserFromRequest({
-				request,
-			});
-		// @ts-expect-error: TS2322
-		return await this.prisma.project.create({
+		const firebaseId = Reflect.get(request, 'firebaseId') as string;
+
+		const { id: userId } = await this.userService.retrieveUser({
+			firebaseId,
+		});
+
+		return (await this.prisma.project.create({
 			data: {
 				...data,
 				userPermissions: {
@@ -97,8 +96,8 @@ export class ProjectService {
 					create: { name: 'Untitled Design', isDefault: true },
 				},
 			},
-			select: projectSelectArgs(userId),
-		});
+			select: projectSelectArgs(firebaseId),
+		})) as unknown as ProjectResponseData;
 	}
 
 	async updateProject({
@@ -110,17 +109,13 @@ export class ProjectService {
 		request: Request;
 		projectId: string;
 	}): Promise<ProjectResponseData> {
-		const { id: userId } =
-			await this.userService.getOrCreateUserFromRequest({
-				request,
-			});
+		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
-		// @ts-expect-error: TS2322
-		return await this.prisma.project.update({
+		return (await this.prisma.project.update({
 			where: { id: projectId },
 			data,
-			select: projectSelectArgs(userId),
-		});
+			select: projectSelectArgs(firebaseId),
+		})) as unknown as ProjectResponseData;
 	}
 
 	async retrieveUserProjects({
@@ -128,22 +123,18 @@ export class ProjectService {
 	}: {
 		request: Request;
 	}): Promise<ProjectResponseData[]> {
-		const { id: userId } =
-			await this.userService.getOrCreateUserFromRequest({
-				request,
-			});
+		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
-		// @ts-expect-error: TS2322
-		return await this.prisma.project.findMany({
+		return (await this.prisma.project.findMany({
 			where: {
 				userPermissions: {
-					some: { userId },
+					some: { user: { is: { firebaseId } } },
 				},
 			},
 			orderBy: {
 				createdAt: 'asc',
 			},
-			select: projectSelectArgs(userId),
-		});
+			select: projectSelectArgs(firebaseId),
+		})) as unknown as ProjectResponseData[];
 	}
 }

@@ -77,6 +77,7 @@ describe('Project Controller Tests', () => {
 							id: true,
 							isDefault: true,
 							name: true,
+							projectId: true,
 							updatedAt: true,
 						},
 						where: {
@@ -92,7 +93,7 @@ describe('Project Controller Tests', () => {
 							userId: true,
 						},
 						where: {
-							userId: user.id,
+							user: { is: { firebaseId: 'test' } },
 						},
 					},
 				},
@@ -124,6 +125,7 @@ describe('Project Controller Tests', () => {
 							id: true,
 							isDefault: true,
 							name: true,
+							projectId: true,
 							updatedAt: true,
 						},
 						where: {
@@ -139,14 +141,14 @@ describe('Project Controller Tests', () => {
 							userId: true,
 						},
 						where: {
-							userId: user.id,
+							user: { is: { firebaseId: 'test' } },
 						},
 					},
 				},
 				where: {
 					userPermissions: {
 						some: {
-							userId: user.id,
+							user: { is: { firebaseId: 'test' } },
 						},
 					},
 				},

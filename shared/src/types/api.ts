@@ -6,8 +6,8 @@ import {
 } from '@prisma/client';
 
 export type ProjectResponseData = Project & {
-	designs: [Omit<Design, 'projectId'>];
-	userPermissions: [Omit<UserProjectPermission, 'projectId'>];
+	designs: Design[];
+	userPermissions: Omit<UserProjectPermission, 'projectId'>[];
 };
 
 export type NodeData = {

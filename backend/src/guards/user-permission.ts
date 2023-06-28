@@ -16,12 +16,12 @@ export class UserPermissionsGuard implements CanActivate {
 	constructor(private reflector: Reflector, private prisma: PrismaService) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		const permissions = this.reflector.get<PermissionType[]>(
+		const permissions = this.reflector.get<PermissionType[] | undefined>(
 			'userPermissions',
 			context.getHandler(),
 		);
 
-		if (!permissions.length) {
+		if (!permissions?.length) {
 			return true;
 		}
 
