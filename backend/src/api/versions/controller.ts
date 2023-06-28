@@ -9,7 +9,7 @@ import {
 	Post,
 	UseGuards,
 } from '@nestjs/common';
-import { DesignVersion, PermissionType } from '@prisma/client';
+import { PermissionType, Version } from '@prisma/client';
 
 import { UserPermissions } from '@/decorators';
 import { VersionDTO } from '@/dtos/body';
@@ -28,7 +28,7 @@ export class VersionsController {
 	async createVersion(
 		@Param() designId: DesignIdParam,
 		@Body() data: VersionDTO,
-	): Promise<DesignVersion> {
+	): Promise<Version> {
 		return await this.designService.createVersion({ ...data, ...designId });
 	}
 
@@ -38,9 +38,7 @@ export class VersionsController {
 		PermissionType.EDITOR,
 		PermissionType.VIEWER,
 	)
-	async getVersionById(
-		@Param() versionId: VersionIdParam,
-	): Promise<DesignVersion> {
+	async getVersionById(@Param() versionId: VersionIdParam): Promise<Version> {
 		return await this.designService.retrieveVersionById(versionId);
 	}
 

@@ -43,14 +43,14 @@ describe('Versions Controller Tests', () => {
 			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
 				id: data.designId,
 			} as any);
-			prisma.designVersion.create.mockResolvedValueOnce(data);
+			prisma.version.create.mockResolvedValueOnce(data);
 
 			const response = await request
 				.post(`/${project.id}/${data.designId}/versions`)
 				.send({ data: data.data });
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
-			expect(prisma.designVersion.create).toHaveBeenCalledWith({
+			expect(prisma.version.create).toHaveBeenCalledWith({
 				data: {
 					data: data.data,
 					designId: data.designId,
@@ -100,9 +100,7 @@ describe('Versions Controller Tests', () => {
 		it('retrieves a version by ID', async () => {
 			const version = await VersionFactory.build();
 
-			prisma.designVersion.findUniqueOrThrow.mockResolvedValueOnce(
-				version,
-			);
+			prisma.version.findUniqueOrThrow.mockResolvedValueOnce(version);
 
 			const response = await request.get(
 				`/${project.id}/${version.designId}/versions/${version.id}`,
@@ -113,18 +111,14 @@ describe('Versions Controller Tests', () => {
 				...version,
 				createdAt: version.createdAt.toISOString(),
 			});
-			expect(prisma.designVersion.findUniqueOrThrow).toHaveBeenCalledWith(
-				{
-					where: { id: version.id },
-				},
-			);
+			expect(prisma.version.findUniqueOrThrow).toHaveBeenCalledWith({
+				where: { id: version.id },
+			});
 		});
 		it('returns an informative error when no design version is found', async () => {
-			prisma.designVersion.findUniqueOrThrow.mockImplementationOnce(
-				(() => {
-					throw new Prisma.NotFoundError('No DesignVersion found');
-				}) as any,
-			);
+			prisma.version.findUniqueOrThrow.mockImplementationOnce((() => {
+				throw new Prisma.NotFoundError('No Version found');
+			}) as any);
 
 			const response = await request.get(
 				`/${
@@ -133,7 +127,7 @@ describe('Versions Controller Tests', () => {
 			);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
-			expect(response.body.message).toBe('No DesignVersion found');
+			expect(response.body.message).toBe('No Version found');
 		});
 	});
 
@@ -145,7 +139,7 @@ describe('Versions Controller Tests', () => {
 				`/${project.id}/${version.designId}/versions/${version.id}`,
 			);
 			expect(response.statusCode).toEqual(HttpStatus.NO_CONTENT);
-			expect(prisma.designVersion.delete).toHaveBeenCalledWith({
+			expect(prisma.version.delete).toHaveBeenCalledWith({
 				where: { id: version.id },
 			});
 		});

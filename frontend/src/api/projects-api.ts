@@ -35,7 +35,7 @@ export async function updateProject({
 }
 
 export async function deleteProject({ projectId }: { projectId: string }) {
-	return await fetcher<void>({
+	await fetcher<undefined>({
 		url: PROJECTS_API_BASE_PATH + '/' + projectId,
 		method: HttpMethod.Delete,
 	});

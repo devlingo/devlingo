@@ -1,5 +1,5 @@
 import { HttpMethod } from 'shared/constants';
-import { DesignResponseData, DesignVersionResponse } from 'shared/types';
+import { DesignResponseData, VersionResponse } from 'shared/types';
 
 import { fetcher } from '@/api/fetcher';
 
@@ -16,13 +16,13 @@ export async function retrieveDesignById({
 	});
 }
 
-export async function retrieveDesignVersionById({
-	designVersionId,
+export async function retrieveVersionById({
+	versionId,
 }: {
-	designVersionId: string;
-}): Promise<DesignVersionResponse> {
-	return await fetcher<DesignVersionResponse>({
-		url: `${DESIGN_API_BASE_PATH}/versions/${designVersionId}`,
+	versionId: string;
+}): Promise<VersionResponse> {
+	return await fetcher<VersionResponse>({
+		url: `${DESIGN_API_BASE_PATH}/versions/${versionId}`,
 		method: HttpMethod.Get,
 	});
 }

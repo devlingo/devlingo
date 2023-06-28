@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Design, DesignVersion } from '@prisma/client';
+import { Design, Version } from '@prisma/client';
 import { DesignResponseData } from 'shared/types';
 
 import { DesignDTO } from '@/dtos/body';
 import { PrismaService } from '@/modules/prisma/service';
 
 export type RetrieveDesignResponse = Design & {
-	versions: Pick<DesignVersion, 'id' | 'createdAt'>[];
+	versions: Pick<Version, 'id' | 'createdAt'>[];
 };
 
 @Injectable()

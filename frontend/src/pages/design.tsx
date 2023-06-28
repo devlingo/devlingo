@@ -4,7 +4,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
-import { retrieveDesignVersionById } from '@/api';
+import { retrieveVersionById } from '@/api';
 import { Flow } from '@/components/design-canvas-page/flow/flow';
 import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
@@ -14,8 +14,8 @@ import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
 import { Navigation } from '@/constants';
 import {
 	useCurrentDesign,
-	useCurrentDesignVersion,
-	useSetCurrentDesignVersion,
+	useCurrentVersion,
+	useSetCurrentVersion,
 } from '@/hooks/use-api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
@@ -59,25 +59,25 @@ export default function DesignCanvasPage() {
 	// design
 	const currentDesign = useCurrentDesign();
 
-	const currentDesignVersion = useCurrentDesignVersion();
-	const setCurrentDesignVersion = useSetCurrentDesignVersion();
+	const currentVersion = useCurrentVersion();
+	const setCurrentVersion = useSetCurrentVersion();
 
 	useEffect(() => {
 		if (!currentDesign) {
 			void router.push(Navigation.Base);
 			return;
 		}
-		if (currentDesign.versions.length && !currentDesignVersion) {
+		if (currentDesign.versions.length && !currentVersion) {
 			(async () => {
 				try {
 					setIsLoading(true);
-					const { id: designVersionId } = sortByDateProp(
+					const { id: versionId } = sortByDateProp(
 						currentDesign.versions,
 					)('createdAt', 'desc')[0];
-					const designVersion = await retrieveDesignVersionById({
-						designVersionId,
+					const version = await retrieveVersionById({
+						versionId,
 					});
-					setCurrentDesignVersion(designVersion);
+					setCurrentVersion(version);
 				} finally {
 					setIsLoading(false);
 				}

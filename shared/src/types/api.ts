@@ -2,7 +2,7 @@ import {
 	Design,
 	Project,
 	UserProjectPermission,
-	DesignVersion,
+	Version,
 } from '@prisma/client';
 
 export type ProjectResponseData = Project & {
@@ -34,7 +34,7 @@ export type EdgeData = {
 	type: string;
 };
 
-export type DesignVersionResponse = Omit<DesignVersion, 'data'> & {
+export type VersionResponse = Omit<Version, 'data'> & {
 	data:
 		| {
 				nodes: NodeData[];
@@ -45,5 +45,5 @@ export type DesignVersionResponse = Omit<DesignVersion, 'data'> & {
 };
 
 export type DesignResponseData = Design & {
-	versions: Omit<DesignVersion, 'designId' | 'data'>[];
+	versions: Omit<Version, 'designId' | 'data'>[];
 };
