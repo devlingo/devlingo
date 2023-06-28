@@ -57,8 +57,8 @@ export default function DesignCanvasPage() {
 		useState<ReactFlowInstance | null>(null);
 
 	// design
-	const currentDesign = useCurrentDesign();
 
+	const currentDesign = useCurrentDesign();
 	const currentVersion = useCurrentVersion();
 	const setCurrentVersion = useSetCurrentVersion();
 
@@ -75,6 +75,8 @@ export default function DesignCanvasPage() {
 						currentDesign.versions,
 					)('createdAt', 'desc')[0];
 					const version = await retrieveVersionById({
+						designId: currentDesign.id,
+						projectId: currentDesign.projectId,
 						versionId,
 					});
 					setCurrentVersion(version);

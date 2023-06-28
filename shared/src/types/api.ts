@@ -35,13 +35,10 @@ export type EdgeData = {
 };
 
 export type VersionResponse = Omit<Version, 'data'> & {
-	data:
-		| {
-				nodes: NodeData[];
-				edges: EdgeData[];
-		  }
-		| null
-		| string;
+	data: {
+		nodes: NodeData[];
+		edges: EdgeData[];
+	};
 };
 
 export type DesignResponseData = Design & {

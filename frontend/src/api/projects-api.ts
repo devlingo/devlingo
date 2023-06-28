@@ -4,11 +4,9 @@ import { ProjectResponseData } from 'shared/types';
 
 import { fetcher } from '@/api/fetcher';
 
-export const PROJECTS_API_BASE_PATH = 'projects';
-
 export async function getProjects() {
 	return await fetcher<ProjectResponseData[]>({
-		url: PROJECTS_API_BASE_PATH,
+		url: 'projects/',
 		method: HttpMethod.Get,
 	});
 }
@@ -17,7 +15,7 @@ export async function createProject(
 	body: Pick<Project, 'name' | 'description'>,
 ) {
 	return await fetcher<ProjectResponseData>({
-		url: PROJECTS_API_BASE_PATH,
+		url: 'projects/',
 		method: HttpMethod.Post,
 		body: JSON.stringify(body),
 	});
@@ -28,7 +26,7 @@ export async function updateProject({
 	...body
 }: Partial<Pick<Project, 'name' | 'description'>> & { projectId: string }) {
 	return await fetcher<ProjectResponseData>({
-		url: PROJECTS_API_BASE_PATH + '/' + projectId,
+		url: `projects/${projectId}`,
 		method: HttpMethod.Patch,
 		body: JSON.stringify(body),
 	});
@@ -36,7 +34,7 @@ export async function updateProject({
 
 export async function deleteProject({ projectId }: { projectId: string }) {
 	await fetcher<undefined>({
-		url: PROJECTS_API_BASE_PATH + '/' + projectId,
+		url: `projects/${projectId}`,
 		method: HttpMethod.Delete,
 	});
 }
