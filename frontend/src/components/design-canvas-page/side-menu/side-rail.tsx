@@ -17,7 +17,7 @@ import {
 	NodeCategory,
 	ServiceNodeType,
 } from '@/constants';
-import { useDisplayNodes } from '@/hooks/use-design-canvas-store';
+import { useDisplayNodes } from '@/stores/design-store';
 import { ImageType } from '@/types';
 import { downloadFile } from '@/utils/file';
 import { convertNodesToImageString } from '@/utils/node';

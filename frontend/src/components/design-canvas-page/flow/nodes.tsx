@@ -13,7 +13,7 @@ import {
 	useDisplayNodes,
 	useSetConfiguredNode,
 	useSetExpandedNode,
-} from '@/hooks/use-design-canvas-store';
+} from '@/stores/design-store';
 import { ContainerNodeData, InternalNodeData, ServiceNodeData } from '@/types';
 
 export function NodeHandles({

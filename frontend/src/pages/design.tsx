@@ -12,18 +12,17 @@ import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
 import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
 import { Navigation } from '@/constants';
-import {
-	useCurrentDesign,
-	useCurrentVersion,
-	useSetCurrentVersion,
-} from '@/hooks/use-api-store';
+import { useCurrentDesign } from '@/stores/api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import {
 	useConfiguredNode,
 	useExpandedNode,
 	useInsertNode,
 	useSetConfiguredNode,
-} from '@/hooks/use-design-canvas-store';
+	useSetEdges,
+	useSetNodes,
+	useSetViewPort,
+} from '@/stores/design-store';
 import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { createNode } from '@/utils/node';
 import { sortByDateProp } from '@/utils/time';
@@ -57,29 +56,33 @@ export default function DesignCanvasPage() {
 		useState<ReactFlowInstance | null>(null);
 
 	// design
-
 	const currentDesign = useCurrentDesign();
-	const currentVersion = useCurrentVersion();
-	const setCurrentVersion = useSetCurrentVersion();
+	const setNodes = useSetNodes();
+	const setEdges = useSetEdges();
+	const setViewPort = useSetViewPort();
 
 	useEffect(() => {
 		if (!currentDesign) {
 			void router.push(Navigation.Base);
 			return;
 		}
-		if (currentDesign.versions.length && !currentVersion) {
+		if (currentDesign.versions.length) {
 			(async () => {
 				try {
 					setIsLoading(true);
 					const { id: versionId } = sortByDateProp(
 						currentDesign.versions,
 					)('createdAt', 'desc')[0];
-					const version = await retrieveVersionById({
+					const {
+						data: { nodes, edges, viewPort },
+					} = await retrieveVersionById({
 						designId: currentDesign.id,
 						projectId: currentDesign.projectId,
 						versionId,
 					});
-					setCurrentVersion(version);
+					setNodes(nodes);
+					setEdges(edges);
+					setViewPort(viewPort);
 				} finally {
 					setIsLoading(false);
 				}

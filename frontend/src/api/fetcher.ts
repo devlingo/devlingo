@@ -9,18 +9,21 @@ export async function fetcher<T>({
 	url,
 	method,
 	version = 1,
+	data,
 	...rest
 }: {
 	url: string;
 	method: HttpMethod;
 	version?: number;
-} & Omit<RequestInit, 'method'>): Promise<T> {
+	data?: Record<string, any> | any[] | string | number;
+} & Omit<RequestInit, 'method' | 'body'>): Promise<T> {
 	const auth = await getFirebaseAuth();
 	const token = await auth.currentUser?.getIdToken();
 
 	if (!token) {
 		throw new TokenError('user is not logged in');
 	}
+
 	if (!Object.values(HttpMethod).includes(method)) {
 		throw new ConfigurationError(`invalid HTTP method ${method}`);
 	}
@@ -32,8 +35,10 @@ export async function fetcher<T>({
 			'Authorization': `Bearer ${token}`,
 			'X-Request-Id': uuidv4(),
 		},
+		body: data ? JSON.stringify(data) : undefined,
 	}) satisfies RequestInit;
 
+	request.body && console.log('data', request.body);
 	const path = new URL(
 		`v${version}/${url}`,
 		process.env.NEXT_PUBLIC_BACKEND_BASE_URL,

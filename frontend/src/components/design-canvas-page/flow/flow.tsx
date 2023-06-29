@@ -21,11 +21,11 @@ import {
 } from '@/components/design-canvas-page/flow/nodes';
 import { DEFAULT_FLOW_HEIGHT, Dimensions } from '@/constants';
 import { ThemeContext } from '@/context';
-import {
-	FlowStore,
-	useDesignCanvasStore,
-} from '@/hooks/use-design-canvas-store';
+import { FlowStore, useDesignCanvasStore } from '@/stores/design-store';
 import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
+import { useSaveDesign } from '@/hooks/use-flow-save';
+import { Panel, useReactFlow } from 'reactflow';
+import { TimeUnit } from 'shared/constants';
 
 export interface FlowProps {
 	connectionMode: ConnectionMode;
@@ -37,12 +37,15 @@ export interface FlowProps {
 }
 
 export const flowStateSelector = (state: FlowStore) => ({
-	nodes: state.nodes,
+	allEdges: state.allEdges,
+	allNodes: state.allNodes,
 	edges: state.edges,
-	onNodesChange: state.onNodesChange,
-	onEdgesChange: state.onEdgesChange,
-	onEdgeUpdate: state.onEdgeUpdate,
+	nodes: state.nodes,
 	onConnect: state.onConnect,
+	onEdgeUpdate: state.onEdgeUpdate,
+	onEdgesChange: state.onEdgesChange,
+	onNodesChange: state.onNodesChange,
+	viewPort: state.viewPort,
 });
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -86,16 +89,20 @@ export function Flow({
 	const theme = useContext(ThemeContext);
 
 	const {
+		allNodes,
+		allEdges,
 		nodes,
 		edges,
 		onNodesChange,
 		onEdgesChange,
 		onEdgeUpdate,
 		onConnect,
+		viewPort,
 	} = useDesignCanvasStore(flowStateSelector, shallow);
 
-	// theming
+	const instance = useReactFlow();
 
+	// theming
 	const [backgroundColor, setBackgroundColor] = useState('yellow');
 
 	useEffect(() => {
@@ -125,6 +132,27 @@ export function Flow({
 		setFlowWidth(calculateFlowWidth(windowWidth, isFullWidth));
 	}, [windowWidth, isFullWidth]);
 
+	const { isSaving, setLastChangeTimestamp } = useSaveDesign({
+		saveCheckInterval: TimeUnit.OneSecondInMilliseconds,
+		debounceThreshold: TimeUnit.OneSecondInMilliseconds,
+		nodes: allNodes,
+		edges: allEdges,
+		viewPort: instance.getViewport(),
+	});
+
+	const withSetSave = (handler: (...args: any[]) => void) => {
+		return (...args: any[]) => {
+			handler(...args);
+			setLastChangeTimestamp(new Date().getTime());
+		};
+	};
+
+	useEffect(() => {
+		if (viewPort) {
+			instance.setViewport(viewPort);
+		}
+	}, [viewPort]);
+
 	return (
 		<div
 			ref={dndRef}
@@ -143,13 +171,16 @@ export function Flow({
 				fitView={true}
 				nodeTypes={nodeTypes}
 				nodes={nodes}
-				onConnect={onConnect}
-				onEdgeUpdate={onEdgeUpdate}
-				onEdgesChange={onEdgesChange}
+				onConnect={withSetSave(onConnect)}
+				onEdgeUpdate={withSetSave(onEdgeUpdate)}
+				onEdgesChange={withSetSave(onEdgesChange)}
 				onInit={setReactFlowInstance}
-				onNodesChange={onNodesChange}
+				onNodesChange={withSetSave(onNodesChange)}
 				proOptions={{ hideAttribution: true }}
 				snapToGrid={true}
+				zoomOnScroll={false}
+				zoomOnDoubleClick={false}
+				zoomOnPinch={false}
 			>
 				<Controls className="bg-accent focus:bg-accent-content border-black" />
 				{showBackground && (
@@ -159,6 +190,13 @@ export function Flow({
 						size={1.5}
 					/>
 				)}
+				<Panel position="bottom-right">
+					<div
+						className={`loading loading-lg loading-infinity transition-opacity ease-in-out duration-[3000ms] ${
+							isSaving ? 'opacity-75' : 'opacity-0'
+						}`}
+					/>
+				</Panel>
 			</ReactFlow>
 		</div>
 	);

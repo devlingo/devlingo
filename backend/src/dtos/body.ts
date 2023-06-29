@@ -6,6 +6,13 @@ import {
 	IsOptional,
 	IsString,
 } from 'class-validator';
+import type {
+	EdgeData,
+	NodeData,
+	VersionData,
+	ViewPortData,
+} from 'shared/types';
+import { Type } from 'class-transformer';
 
 export class ProjectCreateDTO {
 	@IsString()
@@ -31,9 +38,17 @@ export class DesignDTO {
 	isDefault?: boolean;
 }
 
-export class VersionDTO {
+export class VersionDTO implements VersionData {
+	@Type(() => Object)
+	@IsArray()
+	nodes!: NodeData[];
+
+	@Type(() => Object)
+	@IsArray()
+	edges!: EdgeData[];
+
 	@IsObject()
-	data!: Record<string, any>;
+	viewPort!: ViewPortData;
 }
 
 export class PromptRequestDTO {

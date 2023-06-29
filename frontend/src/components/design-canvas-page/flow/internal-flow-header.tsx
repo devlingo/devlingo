@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 
 import { TypeSVGMap } from '@/assets';
 import { Dimensions, TypeTagMap } from '@/constants';
-import { useSetExpandedNode } from '@/hooks/use-design-canvas-store';
+import { useSetExpandedNode } from '@/stores/design-store';
 import { ServiceNodeData } from '@/types';
 
 export function InternalFlowHeader({ nodeType, formData }: ServiceNodeData) {

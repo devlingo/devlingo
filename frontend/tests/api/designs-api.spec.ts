@@ -15,10 +15,15 @@ describe('designs api tests', () => {
 				json: () => Promise.resolve(design),
 			});
 
-			const data = await retrieveDesignById({ designId: design.id });
+			const data = await retrieveDesignById({
+				designId: design.id,
+				projectId: design.projectId,
+			});
 			expect(data).toEqual(design);
 			expect(mockFetch).toHaveBeenCalledWith(
-				new URL(`http://www.example.com/v1/designs/${design.id}`),
+				new URL(
+					`http://www.example.com/v1/${design.projectId}/designs/${design.id}`,
+				),
 				{
 					headers: {
 						'Authorization': 'Bearer test_token',

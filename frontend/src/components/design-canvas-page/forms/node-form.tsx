@@ -11,10 +11,7 @@ import {
 	DefaultSchemas,
 	typeSchemaMap,
 } from '@/components/design-canvas-page/forms/form-schemas';
-import {
-	useConfiguredNode,
-	useUpdateNodeData,
-} from '@/hooks/use-design-canvas-store';
+import { useConfiguredNode, useUpdateNodeData } from '@/stores/design-store';
 import { FormData, NodeType } from '@/types';
 
 const handleDefaultsAjv = createAjv({ useDefaults: true });

@@ -1,5 +1,5 @@
 import { HttpMethod } from 'shared/constants';
-import { VersionResponse } from 'shared/types';
+import { VersionData, VersionResponse } from 'shared/types';
 
 import { fetcher } from '@/api/fetcher';
 
@@ -15,5 +15,21 @@ export async function retrieveVersionById({
 	return await fetcher<VersionResponse>({
 		url: `${projectId}/${designId}/versions/${versionId}`,
 		method: HttpMethod.Get,
+	});
+}
+
+export async function createVersion({
+	projectId,
+	designId,
+	data,
+}: {
+	projectId: string;
+	designId: string;
+	data: VersionData;
+}): Promise<Omit<VersionResponse, 'data'>> {
+	return await fetcher<VersionResponse>({
+		url: `${projectId}/${designId}/versions/`,
+		method: HttpMethod.Post,
+		data,
 	});
 }

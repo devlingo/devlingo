@@ -24,6 +24,7 @@ import {
 } from '@/types';
 import { setContainerNodesStyle } from '@/utils/node';
 import { isContainerNode } from '@/utils/predicates';
+import { ViewPortData } from 'shared/types';
 
 export interface FlowStore {
 	allEdges: Edge[];
@@ -41,7 +42,9 @@ export interface FlowStore {
 	setEdges: (edges: Edge[]) => void;
 	setExpandedNode: (nodeId: string | null) => void;
 	setNodes: (nodes: AnyNode[]) => void;
+	setViewPort: (viewPort: ViewPortData) => void;
 	updateNodeData: (nodeId: string, data: Partial<NodeDataType>) => void;
+	viewPort: ViewPortData | null;
 }
 
 export function setNodes(
@@ -238,6 +241,15 @@ export function onEdgeUpdate(
 	};
 }
 
+export function setViewPort(
+	set: SetState<FlowStore>,
+	_: GetState<FlowStore>,
+): (viewPort: ViewPortData) => void {
+	return (viewPort: ViewPortData) => {
+		set({ viewPort });
+	};
+}
+
 export const useDesignCanvasStore = create<FlowStore>((set, get) => ({
 	edges: [],
 	nodes: [],
@@ -255,6 +267,8 @@ export const useDesignCanvasStore = create<FlowStore>((set, get) => ({
 	setExpandedNode: setExpandedNode(set, get),
 	setNodes: setNodes(set, get),
 	updateNodeData: updateNodeData(set, get),
+	setViewPort: setViewPort(set, get),
+	viewPort: null,
 }));
 
 export const useConfiguredNode = () =>
@@ -272,3 +286,4 @@ export const useSetExpandedNode = () =>
 export const useSetNodes = () => useDesignCanvasStore((s) => s.setNodes);
 export const useUpdateNodeData = () =>
 	useDesignCanvasStore((s) => s.updateNodeData);
+export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);

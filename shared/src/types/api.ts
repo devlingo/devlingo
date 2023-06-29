@@ -10,7 +10,7 @@ export type ProjectResponseData = Project & {
 	userPermissions: Omit<UserProjectPermission, 'projectId'>[];
 };
 
-export type NodeData = {
+export interface NodeData {
 	data: {
 		nodeType: string;
 		formData: {
@@ -22,23 +22,32 @@ export type NodeData = {
 		x: number;
 		y: number;
 	};
-	type: string;
-};
+	type?: string;
+}
 
-export type EdgeData = {
+export interface EdgeData {
 	id: string;
 	source: string;
 	target: string;
-	sourceHandle: string;
-	targetHandle: string;
-	type: string;
-};
+	sourceHandle?: string | null;
+	targetHandle?: string | null;
+	type?: string;
+}
+
+export interface ViewPortData {
+	x: number;
+	y: number;
+	zoom: number;
+}
+
+export interface VersionData {
+	nodes: NodeData[];
+	edges: EdgeData[];
+	viewPort: ViewPortData;
+}
 
 export type VersionResponse = Omit<Version, 'data'> & {
-	data: {
-		nodes: NodeData[];
-		edges: EdgeData[];
-	};
+	data: VersionData;
 };
 
 export type DesignResponseData = Design & {

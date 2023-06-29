@@ -12,23 +12,23 @@ export async function getProjects() {
 }
 
 export async function createProject(
-	body: Pick<Project, 'name' | 'description'>,
+	data: Pick<Project, 'name' | 'description'>,
 ) {
 	return await fetcher<ProjectResponseData>({
 		url: 'projects/',
 		method: HttpMethod.Post,
-		body: JSON.stringify(body),
+		data,
 	});
 }
 
 export async function updateProject({
 	projectId,
-	...body
+	...data
 }: Partial<Pick<Project, 'name' | 'description'>> & { projectId: string }) {
 	return await fetcher<ProjectResponseData>({
 		url: `projects/${projectId}`,
 		method: HttpMethod.Patch,
-		body: JSON.stringify(body),
+		data,
 	});
 }
 

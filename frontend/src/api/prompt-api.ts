@@ -107,7 +107,7 @@ export async function requestPrompt({
 	const { answer, design } = await fetcher<PromptResponse>({
 		url: `prompt/${projectId}/${designId}`,
 		method: HttpMethod.Post,
-		body: JSON.stringify(parsePromptData(data)),
+		data: parsePromptData(data),
 	});
 
 	const edges = mergeEdges(data.edges, design.edges);
