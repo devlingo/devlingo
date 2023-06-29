@@ -35,6 +35,7 @@ export interface FlowStore {
 	setEdges: (edges: Edge[]) => void;
 	setNodes: (nodes: CustomNodeType[]) => void;
 	setViewPort: (viewport: ViewPortData) => void;
+	handleNodeDelete: (nodeId: string) => void;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
@@ -85,6 +86,9 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	setViewPort: (viewport: ViewPortData) => {
 		set({ viewport });
 	},
+	handleNodeDelete: (nodeId: string) => {
+		set({ nodes: get().nodes.filter((node) => node.id !== nodeId) });
+	},
 });
 
 export const useDesignCanvasStore = create(flowStoreStateCreator);
@@ -100,3 +104,5 @@ export const useSetNodes = () => useDesignCanvasStore((s) => s.setNodes);
 export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);
 export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
 export const useEdges = () => useDesignCanvasStore((s) => s.nodes);
+export const useHandleNodeDelete = () =>
+	useDesignCanvasStore((s) => s.handleNodeDelete);
