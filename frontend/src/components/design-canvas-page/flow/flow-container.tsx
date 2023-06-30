@@ -29,9 +29,13 @@ import {
 	InternalNode,
 	ServiceNode,
 } from '@/components/design-canvas-page/flow/nodes';
-import { DEFAULT_FLOW_HEIGHT, Dimensions } from '@/constants';
+import {
+	DEFAULT_FLOW_HEIGHT,
+	DEFAULT_FLOW_WIDTH,
+	Dimensions,
+} from '@/constants';
 import { ThemeContext } from '@/context';
-import { useSaveDesign } from '@/hooks/use-flow-save';
+import { useSaveDesign } from '@/hooks/use-save-design';
 import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
 import { FlowStore, useDesignCanvasStore } from '@/stores/design-store';
 
@@ -84,7 +88,7 @@ export const calculateFlowWidth = (
 ): number => {
 	const flowWidth =
 		windowWidth - (isFullWidth ? Dimensions.Twenty : Dimensions.Eighty);
-	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
+	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_WIDTH;
 };
 
 export function FlowContainer({
@@ -112,26 +116,13 @@ export function FlowContainer({
 
 	const { getViewport, zoomTo, setViewport } = useReactFlow();
 
-	// theming
-	const [backgroundColor, setBackgroundColor] = useState('yellow');
-
-	useEffect(() => {
-		/*
-    We have to access the document to get the active theme css values.
-    We access the 'secondary' color value using --s.
-    */
-		const root = document.querySelector(':root');
-		const color = root && getComputedStyle(root).getPropertyValue('--s');
-		setBackgroundColor(color ? `hsl(${color})` : 'yellow');
-	}, [theme.currentTheme]);
-
 	// flow container sizing
 	const [windowHeight, windowWidth] = useWindowsDimensions();
 	const [flowHeight, setFlowHeight] = useState(
-		calculateFlowHeight(windowHeight, false),
+		calculateFlowHeight(windowHeight, isExpandedNode),
 	);
 	const [flowWidth, setFlowWidth] = useState(
-		calculateFlowWidth(windowWidth, false),
+		calculateFlowWidth(windowWidth, isFullWidth),
 	);
 
 	useEffect(() => {
@@ -217,7 +208,7 @@ export function FlowContainer({
 				{showBackground && (
 					<Background
 						variant={BackgroundVariant.Dots}
-						color={backgroundColor}
+						color={theme.backgroundColor}
 						size={1.5}
 					/>
 				)}

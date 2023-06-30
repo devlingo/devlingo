@@ -6,7 +6,7 @@ import { act, renderHook, waitFor } from 'tests/test-utils';
 import { afterAll, beforeEach } from 'vitest';
 import { mockReset } from 'vitest-mock-extended';
 
-import { useSaveDesign } from '@/hooks/use-flow-save';
+import { useSaveDesign } from '@/hooks/use-save-design';
 
 describe('useSaveDesign tests', () => {
 	const currentDesign = {
