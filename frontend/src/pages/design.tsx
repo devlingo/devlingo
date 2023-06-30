@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
 import { retrieveVersionById } from '@/api';
-import { Flow } from '@/components/design-canvas-page/flow/flow';
+import { FlowContainer } from '@/components/design-canvas-page/flow/flow-container';
 import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
@@ -141,7 +141,8 @@ export default function DesignCanvasPage() {
 							<InternalFlowHeader {...expandedNode.data} />
 						)}
 						{isClientSide && (
-							<Flow
+							<FlowContainer
+								currentDesign={currentDesign!}
 								connectionMode={ConnectionMode.Loose}
 								dndRef={dndRef}
 								isExpandedNode={!!expandedNode}

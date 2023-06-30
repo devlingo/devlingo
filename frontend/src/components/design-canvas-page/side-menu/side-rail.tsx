@@ -165,7 +165,7 @@ export function ExportFlowCanvasToImage() {
 		});
 
 		// FIXME: filenames should be meaningful. For now this works though.
-		downloadFile({ dataUrl, filename: new Date().getTime().toString() });
+		downloadFile({ dataUrl, filename: Date.now().toString() });
 	};
 
 	return (

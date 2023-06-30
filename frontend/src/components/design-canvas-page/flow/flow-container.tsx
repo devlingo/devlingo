@@ -1,11 +1,3 @@
-import { Background, BackgroundVariant } from '@reactflow/background';
-import { Controls } from '@reactflow/controls';
-import {
-	ConnectionMode,
-	ReactFlow,
-	ReactFlowInstance,
-	useOnViewportChange,
-} from '@reactflow/core';
 import {
 	memo,
 	MemoExoticComponent,
@@ -13,8 +5,19 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { Panel, useReactFlow } from 'reactflow';
+import {
+	Background,
+	BackgroundVariant,
+	ConnectionMode,
+	Controls,
+	Panel,
+	ReactFlow,
+	ReactFlowInstance,
+	useOnViewportChange,
+	useReactFlow,
+} from 'reactflow';
 import { TimeUnit } from 'shared/constants';
+import { DesignResponseData } from 'shared/types';
 import { shallow } from 'zustand/shallow';
 
 import {
@@ -34,6 +37,7 @@ import { FlowStore, useDesignCanvasStore } from '@/stores/design-store';
 
 export interface FlowProps {
 	connectionMode: ConnectionMode;
+	currentDesign: DesignResponseData;
 	dndRef: (element: HTMLDivElement) => void;
 	isExpandedNode: boolean;
 	isFullWidth: boolean;
@@ -63,7 +67,7 @@ const edgeTypes: Record<string, MemoExoticComponent<any>> = {
 	HttpRestEdge: memo(HttpRestEdge),
 };
 
-const calculateFlowHeight = (
+export const calculateFlowHeight = (
 	windowHeight: number,
 	isExpandedNode: boolean,
 ): number => {
@@ -71,25 +75,26 @@ const calculateFlowHeight = (
 		windowHeight -
 		(isExpandedNode ? Dimensions.ThirtySix : Dimensions.Sixteen);
 
-	return flowHeight > 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
+	return flowHeight >= 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };
 
-const calculateFlowWidth = (
+export const calculateFlowWidth = (
 	windowWidth: number,
-	isFullWith: boolean,
+	isFullWidth: boolean,
 ): number => {
 	const flowWidth =
-		windowWidth - (isFullWith ? Dimensions.Twenty : Dimensions.Eighty);
+		windowWidth - (isFullWidth ? Dimensions.Twenty : Dimensions.Eighty);
 	return flowWidth > 0 ? flowWidth : DEFAULT_FLOW_HEIGHT;
 };
 
-export function Flow({
+export function FlowContainer({
 	connectionMode,
 	isFullWidth,
 	isExpandedNode,
 	dndRef,
 	setReactFlowInstance,
 	showBackground,
+	currentDesign,
 }: FlowProps) {
 	const theme = useContext(ThemeContext);
 
@@ -105,7 +110,7 @@ export function Flow({
 		viewport,
 	} = useDesignCanvasStore(flowStateSelector, shallow);
 
-	const instance = useReactFlow();
+	const { getViewport, zoomTo, setViewport } = useReactFlow();
 
 	// theming
 	const [backgroundColor, setBackgroundColor] = useState('yellow');
@@ -139,25 +144,27 @@ export function Flow({
 
 	const { isSaving, setLastChangeTimestamp } = useSaveDesign({
 		saveCheckInterval: TimeUnit.OneSecondInMilliseconds,
-		debounceThreshold: TimeUnit.OneSecondInMilliseconds,
+		debounceThreshold: TimeUnit.OneSecondInMilliseconds * 3,
+		saveDelay: TimeUnit.OneSecondInMilliseconds * 3,
 		nodes: allNodes,
 		edges: allEdges,
-		viewport: instance.getViewport(),
+		viewport: getViewport(),
+		currentDesign,
 	});
 
 	const withSetSave = (handler: (...args: any[]) => void) => {
 		return (...args: any[]) => {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			handler(...args);
-			setLastChangeTimestamp(new Date().getTime());
+			setLastChangeTimestamp(Date.now());
 		};
 	};
 
 	useEffect(() => {
-		const { x, y, zoom } = instance.getViewport();
+		const { x, y, zoom } = getViewport();
 		if (viewport.x !== x || viewport.y !== y || viewport.zoom !== zoom) {
-			instance.setViewport(viewport);
-			instance.zoomTo(viewport.zoom, {
+			setViewport(viewport);
+			zoomTo(viewport.zoom, {
 				duration: TimeUnit.OneSecondInMilliseconds,
 			});
 		}
@@ -170,7 +177,7 @@ export function Flow({
 				viewport.y !== y ||
 				viewport.zoom !== zoom
 			) {
-				setLastChangeTimestamp(new Date().getTime());
+				setLastChangeTimestamp(Date.now());
 			}
 		},
 	});
@@ -184,6 +191,7 @@ export function Flow({
 				height: flowHeight,
 				width: flowWidth,
 			}}
+			data-testid="react-flow-container"
 		>
 			<ReactFlow
 				connectionLineComponent={ConnectionLine}
@@ -218,6 +226,7 @@ export function Flow({
 						className={`loading loading-lg loading-infinity transition-opacity ease-in-out duration-[3000ms] ${
 							isSaving ? 'opacity-75' : 'opacity-0'
 						}`}
+						data-testid="save-design-loader"
 					/>
 				</Panel>
 			</ReactFlow>

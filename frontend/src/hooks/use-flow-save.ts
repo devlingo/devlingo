@@ -1,25 +1,35 @@
 import { useEffect, useState } from 'react';
-import { TimeUnit } from 'shared/constants';
-import { EdgeData, NodeData, VersionData, ViewPortData } from 'shared/types';
+import {
+	DesignResponseData,
+	EdgeData,
+	NodeData,
+	VersionData,
+	ViewPortData,
+} from 'shared/types';
 
 import { createVersion } from '@/api';
-import { useCurrentDesign } from '@/stores/api-store';
-import { log } from '@/utils/logging';
 import { wait } from '@/utils/time';
 
-export function useSaveDesign({
-	saveCheckInterval,
-	debounceThreshold,
-	nodes,
-	edges,
-	viewport,
-}: {
-	saveCheckInterval: number;
+export interface UseSaveDesignProps {
+	currentDesign: DesignResponseData;
 	debounceThreshold: number;
-	nodes: NodeData[];
 	edges: EdgeData[];
+	nodes: NodeData[];
+	saveCheckInterval: number;
+	saveDelay: number;
 	viewport: ViewPortData;
-}): {
+}
+
+export function useSaveDesign({
+	currentDesign,
+	debounceThreshold,
+	edges,
+	nodes,
+	saveCheckInterval,
+	saveDelay,
+	viewport,
+}: UseSaveDesignProps): {
+	error: Error | null;
 	isSaving: boolean;
 	setLastChangeTimestamp: (timestamp: number) => void;
 } {
@@ -27,18 +37,19 @@ export function useSaveDesign({
 		null | number
 	>(null);
 	const [isSaving, setIsSaving] = useState(false);
-
-	const currentDesign = useCurrentDesign()!;
+	const [error, setError] = useState<null | Error>(null);
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			if (
 				!isSaving &&
 				lastChangeTimestamp &&
-				new Date().getTime() - lastChangeTimestamp >= debounceThreshold
+				Date.now() - lastChangeTimestamp >= debounceThreshold
 			) {
 				(async () => {
-					const startTime = new Date().getTime();
+					const startTime = Date.now();
+					setLastChangeTimestamp(null);
+					setError(null);
 					setIsSaving(true);
 					try {
 						const data = {
@@ -53,15 +64,12 @@ export function useSaveDesign({
 							data,
 						});
 					} catch (e: unknown) {
-						log('error saving data', e as Error);
+						setError(e as Error);
 					} finally {
-						setLastChangeTimestamp(null);
 						// we artificially insert a delay here to ensure there is a nice looking animation for the loader
-						while (
-							new Date().getTime() - startTime <
-							TimeUnit.OneSecondInMilliseconds * 3
-						) {
-							await wait(TimeUnit.OneSecondInMilliseconds);
+						const timePassed = Date.now() - startTime;
+						if (timePassed < saveDelay) {
+							await wait(saveDelay - timePassed - 1);
 						}
 						setIsSaving(false);
 					}
@@ -73,5 +81,9 @@ export function useSaveDesign({
 		};
 	});
 
-	return { isSaving, setLastChangeTimestamp };
+	return {
+		error,
+		isSaving,
+		setLastChangeTimestamp,
+	};
 }

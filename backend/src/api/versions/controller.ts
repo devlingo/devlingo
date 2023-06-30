@@ -13,11 +13,7 @@ import { PermissionType, Version } from '@prisma/client';
 
 import { UserPermissions } from '@/decorators';
 import { VersionDTO } from '@/dtos/body';
-import {
-	DesignIdParam,
-	ProjectIdParam,
-	VersionIdParam,
-} from '@/dtos/parameter';
+import { DesignIdParam, VersionIdParam } from '@/dtos/parameter';
 import { UserPermissionsGuard } from '@/guards/user-permission';
 
 import { VersionsService } from './service';
@@ -30,7 +26,6 @@ export class VersionsController {
 	@Post()
 	@UserPermissions(PermissionType.OWNER, PermissionType.EDITOR)
 	async createVersion(
-		@Param() _: ProjectIdParam,
 		@Param() designId: DesignIdParam,
 		@Body() data: VersionDTO,
 	): Promise<Omit<Version, 'data'>> {

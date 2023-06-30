@@ -1,3 +1,4 @@
+import { ReactFlowProvider } from '@reactflow/core';
 import {
 	act,
 	render,
@@ -46,6 +47,26 @@ const customRender = (
 	});
 };
 
+const renderWithFlowProvider = (
+	ui: React.ReactElement,
+	options?: RenderOptions<any, any, any>,
+) => {
+	return render(ui, {
+		wrapper: ({ children }: any) => {
+			return (
+				<ReactFlowProvider>
+					<I18nextProvider i18n={i18next}>
+						<AppWrapper dndBackend={TestBackend}>
+							{children}
+						</AppWrapper>
+					</I18nextProvider>
+				</ReactFlowProvider>
+			);
+		},
+		...options,
+	});
+};
+
 const customRenderHook = (
 	initialProps: any,
 	options?: RenderHookOptions<any, any, any, any>,
@@ -64,4 +85,9 @@ const customRenderHook = (
 
 export * from '@testing-library/dom';
 
-export { act, customRender as render, customRenderHook as renderHook };
+export {
+	act,
+	customRender as render,
+	customRenderHook as renderHook,
+	renderWithFlowProvider,
+};
