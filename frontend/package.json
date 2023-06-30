@@ -31,7 +31,7 @@
 		"firebase": "^9.23.0",
 		"firebaseui": "^6.0.2",
 		"html-to-image": "^1.11.11",
-		"i18next": "^23.2.3",
+		"i18next": "^23.2.6",
 		"next": "13.4.7",
 		"next-i18next": "^14.0.0",
 		"react": "18.2.0",

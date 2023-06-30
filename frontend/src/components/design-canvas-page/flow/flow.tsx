@@ -1,6 +1,11 @@
 import { Background, BackgroundVariant } from '@reactflow/background';
 import { Controls } from '@reactflow/controls';
-import { ConnectionMode, ReactFlow, ReactFlowInstance } from '@reactflow/core';
+import {
+	ConnectionMode,
+	ReactFlow,
+	ReactFlowInstance,
+	useOnViewportChange,
+} from '@reactflow/core';
 import {
 	memo,
 	MemoExoticComponent,
@@ -8,6 +13,8 @@ import {
 	useEffect,
 	useState,
 } from 'react';
+import { Panel, useReactFlow } from 'reactflow';
+import { TimeUnit } from 'shared/constants';
 import { shallow } from 'zustand/shallow';
 
 import {
@@ -21,11 +28,9 @@ import {
 } from '@/components/design-canvas-page/flow/nodes';
 import { DEFAULT_FLOW_HEIGHT, Dimensions } from '@/constants';
 import { ThemeContext } from '@/context';
-import { FlowStore, useDesignCanvasStore } from '@/stores/design-store';
-import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
 import { useSaveDesign } from '@/hooks/use-flow-save';
-import { Panel, useReactFlow } from 'reactflow';
-import { TimeUnit } from 'shared/constants';
+import { useWindowsDimensions } from '@/hooks/use-window-dimensions';
+import { FlowStore, useDesignCanvasStore } from '@/stores/design-store';
 
 export interface FlowProps {
 	connectionMode: ConnectionMode;
@@ -45,7 +50,7 @@ export const flowStateSelector = (state: FlowStore) => ({
 	onEdgeUpdate: state.onEdgeUpdate,
 	onEdgesChange: state.onEdgesChange,
 	onNodesChange: state.onNodesChange,
-	viewPort: state.viewPort,
+	viewport: state.viewport,
 });
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -97,7 +102,7 @@ export function Flow({
 		onEdgesChange,
 		onEdgeUpdate,
 		onConnect,
-		viewPort,
+		viewport,
 	} = useDesignCanvasStore(flowStateSelector, shallow);
 
 	const instance = useReactFlow();
@@ -137,21 +142,38 @@ export function Flow({
 		debounceThreshold: TimeUnit.OneSecondInMilliseconds,
 		nodes: allNodes,
 		edges: allEdges,
-		viewPort: instance.getViewport(),
+		viewport: instance.getViewport(),
 	});
 
 	const withSetSave = (handler: (...args: any[]) => void) => {
 		return (...args: any[]) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			handler(...args);
 			setLastChangeTimestamp(new Date().getTime());
 		};
 	};
 
 	useEffect(() => {
-		if (viewPort) {
-			instance.setViewport(viewPort);
+		const { x, y, zoom } = instance.getViewport();
+		if (viewport.x !== x || viewport.y !== y || viewport.zoom !== zoom) {
+			instance.setViewport(viewport);
+			instance.zoomTo(viewport.zoom, {
+				duration: TimeUnit.OneSecondInMilliseconds,
+			});
 		}
-	}, [viewPort]);
+	}, [viewport]);
+
+	useOnViewportChange({
+		onChange: ({ x, y, zoom }) => {
+			if (
+				viewport.x !== x ||
+				viewport.y !== y ||
+				viewport.zoom !== zoom
+			) {
+				setLastChangeTimestamp(new Date().getTime());
+			}
+		},
+	});
 
 	return (
 		<div
@@ -177,6 +199,7 @@ export function Flow({
 				onInit={setReactFlowInstance}
 				onNodesChange={withSetSave(onNodesChange)}
 				proOptions={{ hideAttribution: true }}
+				minZoom={0.1}
 				snapToGrid={true}
 				zoomOnScroll={false}
 				zoomOnDoubleClick={false}

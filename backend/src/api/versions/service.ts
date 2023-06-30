@@ -12,7 +12,7 @@ export class VersionsService {
 		designId,
 		nodes,
 		edges,
-		viewPort,
+		viewport,
 	}: VersionDTO & { designId: string }): Promise<Omit<Version, 'data'>> {
 		await this.prisma.design.findUniqueOrThrow({
 			where: { id: designId },
@@ -20,7 +20,7 @@ export class VersionsService {
 
 		return await this.prisma.version.create({
 			data: {
-				data: JSON.stringify({ nodes, edges, viewPort }),
+				data: JSON.stringify({ nodes, edges, viewport }),
 				designId,
 			},
 			select: {
@@ -40,7 +40,9 @@ export class VersionsService {
 			where: { id: versionId },
 		});
 		return {
-			data: data ? JSON.parse(data as any) : null,
+			data: data
+				? (JSON.parse(data as string) as Record<string, any>)
+				: null,
 			...rest,
 		};
 	}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { TimeUnit } from 'shared/constants';
+import { EdgeData, NodeData, VersionData, ViewPortData } from 'shared/types';
+
 import { createVersion } from '@/api';
 import { useCurrentDesign } from '@/stores/api-store';
-import { EdgeData, NodeData, VersionData, ViewPortData } from 'shared/types';
 import { log } from '@/utils/logging';
-import { TimeUnit } from 'shared/constants';
 import { wait } from '@/utils/time';
 
 export function useSaveDesign({
@@ -11,13 +12,13 @@ export function useSaveDesign({
 	debounceThreshold,
 	nodes,
 	edges,
-	viewPort,
+	viewport,
 }: {
 	saveCheckInterval: number;
 	debounceThreshold: number;
 	nodes: NodeData[];
 	edges: EdgeData[];
-	viewPort: ViewPortData;
+	viewport: ViewPortData;
 }): {
 	isSaving: boolean;
 	setLastChangeTimestamp: (timestamp: number) => void;
@@ -43,7 +44,7 @@ export function useSaveDesign({
 						const data = {
 							nodes,
 							edges,
-							viewPort,
+							viewport,
 						} satisfies VersionData;
 
 						await createVersion({

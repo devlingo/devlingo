@@ -12,8 +12,9 @@ import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
 import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
 import { Navigation } from '@/constants';
-import { useCurrentDesign } from '@/stores/api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
+import { useIsClientSide } from '@/hooks/use-is-client-side';
+import { useCurrentDesign } from '@/stores/api-store';
 import {
 	useConfiguredNode,
 	useExpandedNode,
@@ -23,7 +24,6 @@ import {
 	useSetNodes,
 	useSetViewPort,
 } from '@/stores/design-store';
-import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { createNode } from '@/utils/node';
 import { sortByDateProp } from '@/utils/time';
 
@@ -74,7 +74,7 @@ export default function DesignCanvasPage() {
 						currentDesign.versions,
 					)('createdAt', 'desc')[0];
 					const {
-						data: { nodes, edges, viewPort },
+						data: { nodes, edges, viewport },
 					} = await retrieveVersionById({
 						designId: currentDesign.id,
 						projectId: currentDesign.projectId,
@@ -82,7 +82,7 @@ export default function DesignCanvasPage() {
 					});
 					setNodes(nodes);
 					setEdges(edges);
-					setViewPort(viewPort);
+					setViewPort(viewport);
 				} finally {
 					setIsLoading(false);
 				}

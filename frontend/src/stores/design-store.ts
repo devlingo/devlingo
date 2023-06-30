@@ -13,6 +13,7 @@ import {
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
+import { ViewPortData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
 
 import {
@@ -24,7 +25,6 @@ import {
 } from '@/types';
 import { setContainerNodesStyle } from '@/utils/node';
 import { isContainerNode } from '@/utils/predicates';
-import { ViewPortData } from 'shared/types';
 
 export interface FlowStore {
 	allEdges: Edge[];
@@ -42,9 +42,9 @@ export interface FlowStore {
 	setEdges: (edges: Edge[]) => void;
 	setExpandedNode: (nodeId: string | null) => void;
 	setNodes: (nodes: AnyNode[]) => void;
-	setViewPort: (viewPort: ViewPortData) => void;
+	setViewPort: (viewport: ViewPortData) => void;
 	updateNodeData: (nodeId: string, data: Partial<NodeDataType>) => void;
-	viewPort: ViewPortData | null;
+	viewport: ViewPortData;
 }
 
 export function setNodes(
@@ -244,9 +244,9 @@ export function onEdgeUpdate(
 export function setViewPort(
 	set: SetState<FlowStore>,
 	_: GetState<FlowStore>,
-): (viewPort: ViewPortData) => void {
-	return (viewPort: ViewPortData) => {
-		set({ viewPort });
+): (viewport: ViewPortData) => void {
+	return (viewport: ViewPortData) => {
+		set({ viewport });
 	};
 }
 
@@ -268,7 +268,7 @@ export const useDesignCanvasStore = create<FlowStore>((set, get) => ({
 	setNodes: setNodes(set, get),
 	updateNodeData: updateNodeData(set, get),
 	setViewPort: setViewPort(set, get),
-	viewPort: null,
+	viewport: { x: 0, y: 0, zoom: 0.5 },
 }));
 
 export const useConfiguredNode = () =>

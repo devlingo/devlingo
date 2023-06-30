@@ -23,7 +23,11 @@ export const DesignFactory = new TypeFactory<Design>((i) => ({
 export const VersionFactory = new TypeFactory<Version>(() => ({
 	id: faker.string.uuid(),
 	designId: faker.string.uuid(),
-	data: {},
+	data: {
+		nodes: [],
+		edges: [],
+		viewport: { x: 0, y: 0, zoom: 1 },
+	},
 	createdAt: new Date(),
 }));
 

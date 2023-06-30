@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
 	IsArray,
 	IsBoolean,
@@ -12,7 +13,6 @@ import type {
 	VersionData,
 	ViewPortData,
 } from 'shared/types';
-import { Type } from 'class-transformer';
 
 export class ProjectCreateDTO {
 	@IsString()
@@ -48,7 +48,7 @@ export class VersionDTO implements VersionData {
 	edges!: EdgeData[];
 
 	@IsObject()
-	viewPort!: ViewPortData;
+	viewport!: ViewPortData;
 }
 
 export class PromptRequestDTO {

@@ -43,7 +43,7 @@ export interface ViewPortData {
 export interface VersionData {
 	nodes: NodeData[];
 	edges: EdgeData[];
-	viewPort: ViewPortData;
+	viewport: ViewPortData;
 }
 
 export type VersionResponse = Omit<Version, 'data'> & {

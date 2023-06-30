@@ -38,7 +38,6 @@ export async function fetcher<T>({
 		body: data ? JSON.stringify(data) : undefined,
 	}) satisfies RequestInit;
 
-	request.body && console.log('data', request.body);
 	const path = new URL(
 		`v${version}/${url}`,
 		process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
