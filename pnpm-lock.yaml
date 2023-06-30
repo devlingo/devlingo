@@ -10,9 +10,6 @@ importers:
             '@prisma/client':
                 specifier: 4.16.1
                 version: 4.16.1(prisma@4.16.1)
-            '@tool-belt/type-predicates':
-                specifier: ^1.2.2
-                version: 1.2.2
             deepmerge-ts:
                 specifier: ^5.1.0
                 version: 5.1.0
@@ -5080,6 +5077,7 @@ packages:
             {
                 integrity: sha512-IuUa3c0fOEJ6YnzMvfPA5BZ2gLafPgSU9YJmXV3hozlxbQGNPMVHrTiMoAERklhssxVQ5AtfEUI6r+6kS4npKw==,
             }
+        dev: true
 
     /@tootallnate/once@2.0.0:
         resolution:
