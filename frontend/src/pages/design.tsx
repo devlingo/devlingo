@@ -5,26 +5,25 @@ import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
 import { retrieveVersionById } from '@/api';
-import { Flow } from '@/components/design-canvas-page/flow/flow';
+import { FlowContainer } from '@/components/design-canvas-page/flow/flow-container';
 import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
 import { SideRail } from '@/components/design-canvas-page/side-menu/side-rail';
 import { Navigation } from '@/constants';
-import {
-	useCurrentDesign,
-	useCurrentVersion,
-	useSetCurrentVersion,
-} from '@/hooks/use-api-store';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
+import { useIsClientSide } from '@/hooks/use-is-client-side';
+import { useCurrentDesign } from '@/stores/api-store';
 import {
 	useConfiguredNode,
 	useExpandedNode,
 	useInsertNode,
 	useSetConfiguredNode,
-} from '@/hooks/use-design-canvas-store';
-import { useIsClientSide } from '@/hooks/use-is-client-side';
+	useSetEdges,
+	useSetNodes,
+	useSetViewPort,
+} from '@/stores/design-store';
 import { createNode } from '@/utils/node';
 import { sortByDateProp } from '@/utils/time';
 
@@ -57,29 +56,33 @@ export default function DesignCanvasPage() {
 		useState<ReactFlowInstance | null>(null);
 
 	// design
-
 	const currentDesign = useCurrentDesign();
-	const currentVersion = useCurrentVersion();
-	const setCurrentVersion = useSetCurrentVersion();
+	const setNodes = useSetNodes();
+	const setEdges = useSetEdges();
+	const setViewPort = useSetViewPort();
 
 	useEffect(() => {
 		if (!currentDesign) {
 			void router.push(Navigation.Base);
 			return;
 		}
-		if (currentDesign.versions.length && !currentVersion) {
+		if (currentDesign.versions.length) {
 			(async () => {
 				try {
 					setIsLoading(true);
 					const { id: versionId } = sortByDateProp(
 						currentDesign.versions,
 					)('createdAt', 'desc')[0];
-					const version = await retrieveVersionById({
+					const {
+						data: { nodes, edges, viewport },
+					} = await retrieveVersionById({
 						designId: currentDesign.id,
 						projectId: currentDesign.projectId,
 						versionId,
 					});
-					setCurrentVersion(version);
+					setNodes(nodes);
+					setEdges(edges);
+					setViewPort(viewport);
 				} finally {
 					setIsLoading(false);
 				}
@@ -138,7 +141,8 @@ export default function DesignCanvasPage() {
 							<InternalFlowHeader {...expandedNode.data} />
 						)}
 						{isClientSide && (
-							<Flow
+							<FlowContainer
+								currentDesign={currentDesign!}
 								connectionMode={ConnectionMode.Loose}
 								dndRef={dndRef}
 								isExpandedNode={!!expandedNode}

@@ -12,7 +12,7 @@ import {
 	useDisplayNodes,
 	useSetEdges,
 	useSetNodes,
-} from '@/hooks/use-design-canvas-store';
+} from '@/stores/design-store';
 import { NormalizeEdges } from '@/utils/edge';
 import { wait } from '@/utils/time';
 

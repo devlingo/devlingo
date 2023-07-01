@@ -16,7 +16,10 @@ describe('versions api tests', () => {
 				json: () => Promise.resolve(version),
 			});
 
-			const data = await retrieveDesignById({ designId: design.id });
+			const data = await retrieveDesignById({
+				designId: design.id,
+				projectId: design.projectId,
+			});
 			expect(data).toEqual(version);
 			expect(mockFetch).toHaveBeenCalledWith(
 				new URL(

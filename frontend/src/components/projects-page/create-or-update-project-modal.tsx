@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ProjectResponseData } from 'shared/types';
 
 import { createProject, updateProject } from '@/api';
-import { useSetProjects } from '@/hooks/use-api-store';
+import { useSetProjects } from '@/stores/api-store';
 import { handleChange } from '@/utils/helpers';
 
 export function CreateOrUpdateProjectModal({

@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { getUserProfile } from '@/api';
 import { Navigation } from '@/constants';
-import { useSetUser } from '@/hooks/use-api-store';
+import { useSetUser } from '@/stores/api-store';
 import { getFirebaseAuth } from '@/utils/firebase';
 
 const firebaseUIConfig = {

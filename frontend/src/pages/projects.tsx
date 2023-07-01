@@ -17,7 +17,7 @@ import {
 	useProjects,
 	useSetCurrentDesign,
 	useSetProjects,
-} from '@/hooks/use-api-store';
+} from '@/stores/api-store';
 import { formatDate } from '@/utils/time';
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -74,8 +74,10 @@ export default function Projects() {
 	const handleProjectSelect = async (project: ProjectResponseData) => {
 		setIsLoading(true);
 		try {
-			const { id: designId } = project.designs.find((d) => d.isDefault)!;
-			const design = await retrieveDesignById({ designId });
+			const { id: designId, projectId } = project.designs.find(
+				(d) => d.isDefault,
+			)!;
+			const design = await retrieveDesignById({ designId, projectId });
 			setCurrentDesign(design);
 
 			void router.push({

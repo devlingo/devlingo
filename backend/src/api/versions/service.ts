@@ -9,17 +9,24 @@ export class VersionsService {
 	constructor(private prisma: PrismaService) {}
 
 	async createVersion({
-		data,
 		designId,
-	}: VersionDTO & { designId: string }): Promise<Version> {
+		nodes,
+		edges,
+		viewport,
+	}: VersionDTO & { designId: string }): Promise<Omit<Version, 'data'>> {
 		await this.prisma.design.findUniqueOrThrow({
 			where: { id: designId },
 		});
 
 		return await this.prisma.version.create({
 			data: {
-				data,
+				data: JSON.stringify({ nodes, edges, viewport }),
 				designId,
+			},
+			select: {
+				id: true,
+				designId: true,
+				createdAt: true,
 			},
 		});
 	}
@@ -29,9 +36,15 @@ export class VersionsService {
 	}: {
 		versionId: string;
 	}): Promise<Version> {
-		return await this.prisma.version.findUniqueOrThrow({
+		const { data, ...rest } = await this.prisma.version.findUniqueOrThrow({
 			where: { id: versionId },
 		});
+		return {
+			data: data
+				? (JSON.parse(data as string) as Record<string, any>)
+				: null,
+			...rest,
+		};
 	}
 
 	async deleteVersionById({

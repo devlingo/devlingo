@@ -5,7 +5,7 @@ import { beforeEach } from 'vitest';
 import { mockReset } from 'vitest-mock-extended';
 
 import { CreateOrUpdateProjectModal } from '@/components/projects-page/create-or-update-project-modal';
-import * as apiStore from '@/hooks/use-api-store';
+import * as apiStore from '@/stores/api-store';
 
 describe('CreateOrUpdateProjectModal tests', () => {
 	const mockSetProjects = vi.fn();

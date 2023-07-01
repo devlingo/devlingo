@@ -49,15 +49,17 @@ export function AppWrapper({
 	dndBackend,
 	children,
 }: {
-	children: string | JSX.Element | JSX.Element[];
+	children: string | React.ReactElement | React.ReactElement[];
 	dndBackend: BackendFactory;
 }) {
 	const [theme, setTheme] = useState(DEFAULT_THEME);
+	const [backgroundColor, setBackgroundColor] = useState('yellow');
 	const [materialTheme, setMaterialTheme] = useState(darkMaterialTheme);
 
 	const handleThemeChange = (themeName: string) => {
-		setTheme(themeName);
+		document.querySelector('html')?.setAttribute('data-theme', theme);
 
+		setTheme(themeName);
 		if (lightThemes.includes(themeName)) {
 			setMaterialTheme(lightMaterialTheme);
 		} else {
@@ -66,7 +68,9 @@ export function AppWrapper({
 	};
 
 	useEffect(() => {
-		document.querySelector('html')?.setAttribute('data-theme', theme);
+		const root = document.querySelector(':root');
+		const color = root && getComputedStyle(root).getPropertyValue('--s');
+		setBackgroundColor(color ? `hsl(${color})` : 'yellow');
 	}, [theme]);
 
 	return (
@@ -79,7 +83,11 @@ export function AppWrapper({
 			{/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
 			<DndProvider backend={dndBackend}>
 				<ThemeContext.Provider
-					value={{ currentTheme: theme, setTheme: handleThemeChange }}
+					value={{
+						backgroundColor,
+						currentTheme: theme,
+						setTheme: handleThemeChange,
+					}}
 				>
 					<MaterialThemeProvider theme={materialTheme}>
 						{children}

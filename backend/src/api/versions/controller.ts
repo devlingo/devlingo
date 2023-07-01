@@ -28,7 +28,7 @@ export class VersionsController {
 	async createVersion(
 		@Param() designId: DesignIdParam,
 		@Body() data: VersionDTO,
-	): Promise<Version> {
+	): Promise<Omit<Version, 'data'>> {
 		return await this.designService.createVersion({ ...data, ...designId });
 	}
 

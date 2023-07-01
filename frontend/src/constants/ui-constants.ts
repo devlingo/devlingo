@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-duplicate-enum-values */
-export const DEFAULT_FLOW_HEIGHT = 1024;
+export const DEFAULT_FLOW_HEIGHT = 1080;
+export const DEFAULT_FLOW_WIDTH = 1920;
 export enum Dimensions {
 	// standard values
 	OnePixel = 1,

@@ -17,7 +17,7 @@ import {
 	NodeCategory,
 	ServiceNodeType,
 } from '@/constants';
-import { useDisplayNodes } from '@/hooks/use-design-canvas-store';
+import { useDisplayNodes } from '@/stores/design-store';
 import { ImageType } from '@/types';
 import { downloadFile } from '@/utils/file';
 import { convertNodesToImageString } from '@/utils/node';
@@ -165,7 +165,7 @@ export function ExportFlowCanvasToImage() {
 		});
 
 		// FIXME: filenames should be meaningful. For now this works though.
-		downloadFile({ dataUrl, filename: new Date().getTime().toString() });
+		downloadFile({ dataUrl, filename: Date.now().toString() });
 	};
 
 	return (

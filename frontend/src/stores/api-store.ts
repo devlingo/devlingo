@@ -1,17 +1,11 @@
 import { User } from '@prisma/client';
-import {
-	DesignResponseData,
-	ProjectResponseData,
-	VersionResponse,
-} from 'shared/types';
+import { DesignResponseData, ProjectResponseData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
 
 export interface ApiStore {
 	currentDesign: DesignResponseData | null;
-	currentVersion: VersionResponse | null;
 	projects: ProjectResponseData[];
 	setCurrentDesign: (design: DesignResponseData | null) => void;
-	setCurrentVersion: (version: VersionResponse | null) => void;
 	setProjects: (projects: ProjectResponseData[]) => void;
 	setUser: (user: User) => void;
 	user: User | null;
@@ -44,21 +38,10 @@ export function setCurrentDesign(
 	};
 }
 
-export function setCurrentVersion(
-	set: SetState<ApiStore>,
-	_: GetState<ApiStore>,
-) {
-	return (version: VersionResponse | null) => {
-		set({ currentVersion: version });
-	};
-}
-
 export const useApiStore = create<ApiStore>((set, get) => ({
 	currentDesign: null,
-	currentVersion: null,
 	projects: [],
 	setCurrentDesign: setCurrentDesign(set, get),
-	setCurrentVersion: setCurrentVersion(set, get),
 	setProjects: setProjects(set, get),
 	setUser: setUser(set, get),
 	user: null,
@@ -74,8 +57,3 @@ export const useProject = (projectId: string) => {
 };
 export const useSetCurrentDesign = () => useApiStore((s) => s.setCurrentDesign);
 export const useCurrentDesign = () => useApiStore((s) => s.currentDesign);
-
-export const useSetCurrentVersion = () =>
-	useApiStore((s) => s.setCurrentVersion);
-
-export const useCurrentVersion = () => useApiStore((s) => s.currentVersion);

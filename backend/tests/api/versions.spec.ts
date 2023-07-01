@@ -35,31 +35,36 @@ describe('Versions Controller Tests', () => {
 
 	describe('POST :projectId/:designId/versions', () => {
 		it('creates a version', async () => {
-			const data = await VersionFactory.build();
+			const version = await VersionFactory.build();
 
 			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
 				{ type: PermissionType.OWNER } as any,
 			);
 			prisma.design.findUniqueOrThrow.mockResolvedValueOnce({
-				id: data.designId,
+				id: version.designId,
 			} as any);
-			prisma.version.create.mockResolvedValueOnce(data);
+			prisma.version.create.mockResolvedValueOnce(version);
 
 			const response = await request
-				.post(`/${project.id}/${data.designId}/versions`)
-				.send({ data: data.data });
+				.post(`/${project.id}/${version.designId}/versions`)
+				.send(version.data);
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(prisma.version.create).toHaveBeenCalledWith({
 				data: {
-					data: data.data,
-					designId: data.designId,
+					data: JSON.stringify(version.data),
+					designId: version.designId,
+				},
+				select: {
+					id: true,
+					designId: true,
+					createdAt: true,
 				},
 			});
 		});
 
 		it('returns an informative error when no design is found', async () => {
-			const data = await VersionFactory.build();
+			const version = await VersionFactory.build();
 
 			prisma.userProjectPermission.findUniqueOrThrow.mockResolvedValueOnce(
 				{ type: PermissionType.OWNER } as any,
@@ -70,15 +75,15 @@ describe('Versions Controller Tests', () => {
 			}) as any);
 
 			const response = await request
-				.post(`/${project.id}/${data.designId}/versions`)
-				.send(data);
+				.post(`/${project.id}/${version.designId}/versions`)
+				.send(version.data);
 
 			expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
 			expect(response.body.message).toBe('No Design found');
 		});
 
 		it("forbids operation for users with 'viewer' permission", async () => {
-			const data = await VersionFactory.build();
+			const version = await VersionFactory.build();
 
 			prisma.userProjectPermission.findFirstOrThrow.mockImplementationOnce(
 				() => {
@@ -90,7 +95,7 @@ describe('Versions Controller Tests', () => {
 
 			const response = await request
 				.post(`/${project.id}/designs`)
-				.send(data);
+				.send(version.data);
 
 			expect(response.statusCode).toEqual(HttpStatus.FORBIDDEN);
 		});
@@ -100,7 +105,10 @@ describe('Versions Controller Tests', () => {
 		it('retrieves a version by ID', async () => {
 			const version = await VersionFactory.build();
 
-			prisma.version.findUniqueOrThrow.mockResolvedValueOnce(version);
+			prisma.version.findUniqueOrThrow.mockResolvedValueOnce({
+				...version,
+				data: JSON.stringify(version.data),
+			});
 
 			const response = await request.get(
 				`/${project.id}/${version.designId}/versions/${version.id}`,
