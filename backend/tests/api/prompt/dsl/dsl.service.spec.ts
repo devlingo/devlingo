@@ -1,18 +1,22 @@
+import { expect } from 'vitest';
+
 import { DSLService } from '@/api/prompt/dsl/dsl-service';
 import { DesignData } from '@/api/prompt/types';
 
 describe('DSLService class', () => {
 	it('executeCommands add new node per proper command', () => {
 		const commands = new DSLService(
-			softwareArchitecture,
+			createSoftwareArchitecture(),
 			edgeTypes,
 			nodesTypes,
 		);
-		commands.executeCommands('A_N db1 DynamoDB Database 200 200');
-
-		const newNode = softwareArchitecture.nodes.find(
+		const nodePreExecute = commands.design.nodes.find(
 			(node) => node.id === 'db1',
 		);
+		expect(nodePreExecute).toBeFalsy();
+		commands.executeCommands('A_N db1 DynamoDB Database 200 200');
+
+		const newNode = commands.design.nodes.find((node) => node.id === 'db1');
 
 		expect(newNode).toBeDefined();
 		expect(newNode?.data.nodeType).toBe('DynamoDB');
@@ -24,15 +28,13 @@ describe('DSLService class', () => {
 
 	it('executeCommands add new node even if command is not first word', () => {
 		const commands = new DSLService(
-			softwareArchitecture,
+			createSoftwareArchitecture(),
 			edgeTypes,
 			nodesTypes,
 		);
 		commands.executeCommands('bla A_N db1 DynamoDB Database 200 200');
 
-		const newNode = softwareArchitecture.nodes.find(
-			(node) => node.id === 'db1',
-		);
+		const newNode = commands.design.nodes.find((node) => node.id === 'db1');
 
 		expect(newNode).toBeDefined();
 		expect(newNode?.data.nodeType).toBe('DynamoDB');
@@ -41,9 +43,96 @@ describe('DSLService class', () => {
 		expect(newNode?.position.y).toBe(200);
 		expect(newNode?.type).toBe('DynamoDB');
 	});
-});
+	it('executeCommands add new MongoDB node and associated edge per proper command', () => {
+		const commands = new DSLService(
+			createSoftwareArchitecture(),
+			edgeTypes,
+			nodesTypes,
+		);
+		commands.executeCommands(
+			'A_N 5a6c3b5a-9c3a-4687-8199-c2ba25f480a2 MongoDB Database 700 500 A_E 9f4c2e95-d916-4a5d-9afc-caa405396d4c 5a6c3b5a-9c3a-4687-8199-c2ba25f480a2 54b111d0-9c3a-4687-8199-c2ba25f480a2 default',
+		);
 
-const softwareArchitecture: DesignData = {
+		const newNode = commands.design.nodes.find(
+			(node) => node.id === '5a6c3b5a-9c3a-4687-8199-c2ba25f480a2',
+		);
+		expect(newNode).toBeDefined();
+		expect(newNode?.data.nodeType).toBe('MongoDB');
+		expect(newNode?.data.formData.nodeName).toBe('Database');
+		expect(newNode?.position.x).toBe(700);
+		expect(newNode?.position.y).toBe(500);
+		expect(newNode?.type).toBe('MongoDB');
+
+		const newEdge = commands.design.edges.find(
+			(edge) => edge.id === '9f4c2e95-d916-4a5d-9afc-caa405396d4c',
+		);
+		expect(newEdge).toBeDefined();
+		expect(newEdge?.source).toBe('5a6c3b5a-9c3a-4687-8199-c2ba25f480a2');
+		expect(newEdge?.target).toBe('54b111d0-9c3a-4687-8199-c2ba25f480a2');
+		expect(newEdge?.type).toBe('default');
+	});
+	it('executeCommands adds new node and edge per combined commands', () => {
+		const softwareArchitecture = createSoftwareArchitecture();
+
+		const commands = new DSLService(
+			softwareArchitecture,
+			edgeTypes,
+			nodesTypes,
+		);
+		// Add new node and new edge commands
+		commands.executeCommands(
+			'A_N 9b3c6d1a-5d8f-4d8d-9b1a-3e7d2d2d4d0c MongoDB Database 1000 300 A_E b01e8d2c-bd71-4f2a-883b-b06d22c581e8 9b3c6d1a-5d8f-4d8d-9b1a-3e7d2d2d4d0c node2 default',
+		);
+
+		const newNode = commands.design.nodes.find(
+			(node) => node.id === '9b3c6d1a-5d8f-4d8d-9b1a-3e7d2d2d4d0c',
+		);
+
+		expect(newNode).toBeDefined();
+		expect(newNode?.data.nodeType).toBe('MongoDB');
+		expect(newNode?.data.formData.nodeName).toBe('Database');
+		expect(newNode?.position.x).toBe(1000);
+		expect(newNode?.position.y).toBe(300);
+		expect(newNode?.type).toBe('MongoDB');
+
+		const newEdge = commands.design.edges.find(
+			(edge) => edge.id === 'b01e8d2c-bd71-4f2a-883b-b06d22c581e8',
+		);
+
+		expect(newEdge).toBeDefined();
+		expect(newEdge?.source).toBe('9b3c6d1a-5d8f-4d8d-9b1a-3e7d2d2d4d0c');
+		expect(newEdge?.target).toBe('node2');
+		expect(newEdge?.type).toBe('default');
+	});
+
+	it('executeCommands adds new node and edge with commands on new line without spacing', () => {
+		const commands = new DSLService(
+			createSoftwareArchitecture(),
+			edgeTypes,
+			nodesTypes,
+		);
+		// Add new node and new edge commands
+		commands.executeCommands(
+			'A_N 1 MongoDB Database 1000 50\nA_E 13 1 f71e7e23-0238-4d7a-a60c-c4ac919b2b58 default',
+		);
+
+		const newNode = commands.design.nodes.find((node) => node.id === '1');
+
+		expect(newNode).toBeDefined();
+		expect(newNode?.data.nodeType).toBe('MongoDB');
+		expect(newNode?.data.formData.nodeName).toBe('Database');
+		expect(newNode?.position.x).toBe(1000);
+		expect(newNode?.position.y).toBe(50);
+		expect(newNode?.type).toBe('MongoDB');
+
+		const newEdge = commands.design.edges.find((edge) => edge.id === '13');
+		expect(newEdge).toBeDefined();
+		expect(newEdge?.source).toBe('1');
+		expect(newEdge?.target).toBe('f71e7e23-0238-4d7a-a60c-c4ac919b2b58');
+		expect(newEdge?.type).toBe('default');
+	});
+});
+const createSoftwareArchitecture = (): DesignData => ({
 	nodes: [
 		{
 			data: {
@@ -82,7 +171,7 @@ const softwareArchitecture: DesignData = {
 			type: 'BezierEdge',
 		},
 	],
-};
+});
 const nodesTypes = [
 	'Angular',
 	'API',
@@ -327,9 +416,11 @@ const nodesTypes = [
 	'Google Cloud Data Transfer',
 	'Azure Data Factory',
 ];
-const edgeTypes: string[] = [
-	'BezierEdge',
-	'StraightEdge',
-	'StepEdge',
-	'SmoothStepEdge',
-];
+enum EdgeTypes {
+	BezierEdge = 'default',
+	StraightEdge = 'straight',
+	StepEdge = 'step',
+	SmoothStepEdg = 'smoothstep',
+	SimpleBezier = 'simplebezier',
+}
+const edgeTypes: string[] = Object.values<string>(EdgeTypes);

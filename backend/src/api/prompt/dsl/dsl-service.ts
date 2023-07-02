@@ -1,6 +1,11 @@
+import { Logger } from '@nestjs/common';
+
+import { PromptService } from '@/api/prompt/service';
 import { DesignData, NodeData } from '@/api/prompt/types';
 
 export class DSLService {
+	private readonly logger = new Logger(PromptService.name);
+
 	commands = ['A_N', 'R_N', 'U_N', 'A_E', 'R_E', 'U_E'];
 	design: DesignData;
 	edgeTypes: string[];
@@ -14,33 +19,44 @@ export class DSLService {
 		this.design = designData;
 		this.edgeTypes = edgeTypes;
 		this.nodeTypes = nodeTypes;
+		this.logger.log('DSLService was initialized');
 	}
 
-	executeCommands(commandsString: string) {
-		// Split the string into words
-		const words = commandsString.split(' ');
+	executeCommands(commandsString: string): void {
+		this.logger.log(
+			'DSLService got the following commands String:',
+			commandsString,
+		);
+		let words: string[] = commandsString
+			.replace(/\n/g, ' ')
+			.split(' ')
+			.map((word: string) => word.trim())
+			.filter(Boolean);
+		this.logger.log(
+			'DSLService turned commands into the following words:',
+			words,
+		);
+		words = words.slice(
+			words.findIndex((word: string) => this.isCommand(word)),
+		);
+		this.logger.log(
+			'DSLService spliced words into the following words nafter emoving text before :',
+			words,
+		);
+		const commandBlocks: string[][] = words.reduce(
+			(acc: string[][], word: string) => {
+				if (this.isCommand(word)) {
+					acc.push([word]);
+				} else {
+					acc[acc.length - 1].push(word);
+				}
+				return acc;
+			},
+			[],
+		);
 
-		// Collect commands with their arguments
-		const commandsWithArgs: string[][] = [];
-		let currentCommand: string[] = [];
-		for (const word of words) {
-			if (this.isCommand(word)) {
-				if (currentCommand.length > 0) {
-					commandsWithArgs.push(currentCommand);
-				}
-				currentCommand = [word];
-			} else {
-				if (currentCommand.length > 0) {
-					currentCommand.push(word);
-				}
-			}
-		}
-		if (currentCommand.length > 0) {
-			commandsWithArgs.push(currentCommand);
-		}
-		// Execute each command with its arguments
-		for (const commandWithArgs of commandsWithArgs) {
-			this.executeCommand(commandWithArgs);
+		for (const block of commandBlocks) {
+			this.executeCommand(block);
 		}
 	}
 
@@ -82,6 +98,7 @@ export class DSLService {
 
 	// Add Node operation
 	private addNode(args: string[]) {
+		this.logger.log('Adding node', args);
 		const [id, nodeType, nodeName, x, y] = args;
 
 		// Validate node type
@@ -137,6 +154,8 @@ export class DSLService {
 
 	// Add Edge operation
 	private addEdge(args: string[]) {
+		this.logger.log('Adding edges', args);
+
 		const [id, source, target, edgeType] = args;
 		// Validate edge type
 		if (!this.edgeTypes.includes(edgeType)) {
@@ -177,7 +196,6 @@ export class DSLService {
 		);
 	}
 
-	// Helper function to update properties on an object from a list of property-value pairs
 	private updateProperties(
 		object: any,
 		propValPairs: string[],
@@ -203,8 +221,7 @@ export class DSLService {
 		}
 	}
 
-	// Helper function to find an item by id in an array and remove it
-	private findAndRemove(id: string, array: any[]) {
+	private findAndRemove(id: string, array: { id: string }[]) {
 		const index = array.findIndex((item) => item.id === id);
 		if (index === -1) {
 			throw new Error(`Item with id ${id} not found`);

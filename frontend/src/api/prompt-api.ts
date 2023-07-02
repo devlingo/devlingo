@@ -8,36 +8,36 @@ import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
 	promptContent: string;
-	designData: {
-		nodes: {
-			data: {
-				nodeType: string;
-				formData: {
-					nodeName: string;
-				};
-			};
-			id: string;
-			position: {
-				x: number;
-				y: number;
-			};
-			type: string;
-		}[];
-		edges: {
-			id: string;
-			source: string;
-			target: string;
-			type: string;
-		}[];
-	};
+	designData: DesignData;
 	nodeTypes: string[];
 	edgeTypes: string[];
 }
-export interface PromptResponse {
-	answer: string;
-	design: { nodes: Node[]; edges: Edge[] };
+export interface DesignData {
+	nodes: NodeData[];
+	edges: EdgeData[];
 }
 
+export interface NodeData {
+	data: {
+		nodeType: string;
+		formData: {
+			nodeName: string;
+		};
+	};
+	id: string;
+	position: {
+		x: number;
+		y: number;
+	};
+	type: string;
+}
+
+export interface EdgeData {
+	id: string;
+	source: string;
+	target: string;
+	type: string;
+}
 export function parsePromptData({
 	promptContent,
 	nodes,
@@ -103,14 +103,12 @@ export async function requestPrompt({
 	nodes: Node[];
 	edges: Edge[];
 }> {
-	const { design } = await fetcher<PromptResponse>({
+	const design = await fetcher<DesignData>({
 		url: `prompt/${projectId}/${designId}`,
 		method: HttpMethod.Post,
 		data: parsePromptData(data),
 	});
-
 	const edges = mergeEdges(data.edges, design.edges);
 	const nodes = mergeNodes(data.nodes, design.nodes);
-
 	return { nodes, edges };
 }

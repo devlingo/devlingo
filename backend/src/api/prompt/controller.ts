@@ -17,7 +17,10 @@ export class PromptController {
 		@Param() designId: DesignIdParam,
 		@Body() data: PromptRequestDTO,
 	): Promise<DesignData> {
-		this.logger.log(projectId, designId, data);
+		this.logger.debug(data.nodeTypes);
+		this.logger.debug(data.edgeTypes);
+		this.logger.debug(data.designData);
+		this.logger.log(projectId, designId);
 		return await this.promptService.requestPrompt(data);
 	}
 }

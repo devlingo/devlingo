@@ -17,7 +17,6 @@ export class PromptService {
 	) {}
 
 	async requestPrompt(promptRequest: PromptRequestDTO): Promise<DesignData> {
-		this.logger.log('requestPrompt is called');
 		const dslService = new DSLService(
 			promptRequest.designData,
 			promptRequest.edgeTypes,
@@ -26,7 +25,7 @@ export class PromptService {
 		this.logger.log('dslService design: ', dslService.design);
 		const model = new OpenAI({
 			modelName: promptRequest.modelName,
-			temperature: 0.1,
+			temperature: 0.2,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
 		});
 		const prompt = await promptTemplate.format({
@@ -35,21 +34,19 @@ export class PromptService {
 			designData: JSON.stringify(promptRequest.designData),
 			userInput: promptRequest.promptContent,
 		});
-		this.logger.log('prompt: ', prompt);
 		try {
-			this.logger.log('calling openAI api');
 			const response = await model.call(prompt);
-			this.logger.log('going to dsl service with response: ', response);
+			this.logger.log(response);
 			dslService.executeCommands(response);
-			this.logger.log('dsl service executed successfully');
+			this.logger.log(dslService.design);
+			return dslService.design;
 		} catch (e) {
 			this.logger.error('communication error with OpenAPI %o', e);
+			this.logger.error(e);
 			throw new HttpException(
 				'error communicating with OpenAPI',
 				HttpStatus.INTERNAL_SERVER_ERROR,
 			);
 		}
-		this.logger.log('final design: ', dslService.design);
-		return dslService.design;
 	}
 }
