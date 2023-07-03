@@ -1,11 +1,6 @@
-import { Logger } from '@nestjs/common';
-
-import { PromptService } from '@/api/prompt/service';
 import { DesignData, NodeData } from '@/api/prompt/types';
 
 export class DSLService {
-	private readonly logger = new Logger(PromptService.name);
-
 	commands = ['A_N', 'R_N', 'U_N', 'A_E', 'R_E', 'U_E'];
 	design: DesignData;
 	edgeTypes: string[];
@@ -19,30 +14,18 @@ export class DSLService {
 		this.design = designData;
 		this.edgeTypes = edgeTypes;
 		this.nodeTypes = nodeTypes;
-		this.logger.log('DSLService was initialized');
 	}
 
 	executeCommands(commandsString: string): void {
-		this.logger.log(
-			'DSLService got the following commands String:',
-			commandsString,
-		);
 		let words: string[] = commandsString
 			.replace(/\n/g, ' ')
 			.split(' ')
 			.map((word: string) => word.trim())
 			.filter(Boolean);
-		this.logger.log(
-			'DSLService turned commands into the following words:',
-			words,
-		);
 		words = words.slice(
 			words.findIndex((word: string) => this.isCommand(word)),
 		);
-		this.logger.log(
-			'DSLService spliced words into the following words nafter emoving text before :',
-			words,
-		);
+
 		const commandBlocks: string[][] = words.reduce(
 			(acc: string[][], word: string) => {
 				if (this.isCommand(word)) {
@@ -98,7 +81,6 @@ export class DSLService {
 
 	// Add Node operation
 	private addNode(args: string[]) {
-		this.logger.log('Adding node', args);
 		const [id, nodeType, nodeName, x, y] = args;
 
 		// Validate node type
@@ -154,8 +136,6 @@ export class DSLService {
 
 	// Add Edge operation
 	private addEdge(args: string[]) {
-		this.logger.log('Adding edges', args);
-
 		const [id, source, target, edgeType] = args;
 		// Validate edge type
 		if (!this.edgeTypes.includes(edgeType)) {
