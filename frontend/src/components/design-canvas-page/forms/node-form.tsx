@@ -5,14 +5,20 @@ import {
 	materialRenderers,
 } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
+import { deepmerge } from 'deepmerge-ts';
 import { useState } from 'react';
+import { NodeType } from 'shared/types';
 
 import {
 	DefaultSchemas,
 	typeSchemaMap,
 } from '@/components/design-canvas-page/forms/form-schemas';
-import { useConfiguredNode, useUpdateNodeData } from '@/stores/design-store';
-import { FormData, NodeType } from '@/types';
+import {
+	useConfiguredNode,
+	useNodes,
+	useSetNodes,
+} from '@/stores/design-store';
+import { CustomNodeData, FormData } from '@/types';
 
 const handleDefaultsAjv = createAjv({ useDefaults: true });
 export interface NodeFormProps {
@@ -21,7 +27,8 @@ export interface NodeFormProps {
 
 export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 	const configuredNode = useConfiguredNode()!;
-	const updateNodeData = useUpdateNodeData();
+	const nodes = useNodes();
+	const setNodes = useSetNodes();
 
 	const [formData, setFormData] = useState(configuredNode.data.formData);
 
@@ -38,6 +45,23 @@ export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 	}
 
 	const [schema, uiSchema] = schemas as [JsonSchema, UISchemaElement];
+
+	const handleAccept = () => {
+		setNodes(
+			nodes.map((node) => {
+				if (node.id === configuredNode.id) {
+					return {
+						...node,
+						data: deepmerge(node.data, {
+							formData,
+						}) as CustomNodeData,
+					};
+				}
+				return node;
+			}),
+		);
+		closeMenuHandler();
+	};
 
 	return (
 		<div className="rounded h-fit w-6/12 m-auto p-4 bg-base-300 text-base-content border-2 border-accent overflow-y-auto">
@@ -61,10 +85,7 @@ export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 				<div className="join join-horizontal">
 					<button
 						className="text-success"
-						onClick={() => {
-							updateNodeData(configuredNode.id, { formData });
-							closeMenuHandler();
-						}}
+						onClick={handleAccept}
 						data-testid={`node-form-save-button-${
 							configuredNode.type as NodeType
 						}`}

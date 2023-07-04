@@ -24,11 +24,7 @@ import {
 	ConnectionLine,
 	HttpRestEdge,
 } from '@/components/design-canvas-page/flow/edges';
-import {
-	ContainerNode,
-	InternalNode,
-	ServiceNode,
-} from '@/components/design-canvas-page/flow/nodes';
+import { CanvasNodeComponent } from '@/components/design-canvas-page/flow/nodes';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	DEFAULT_FLOW_WIDTH,
@@ -43,15 +39,11 @@ export interface FlowProps {
 	connectionMode: ConnectionMode;
 	currentDesign: DesignResponseData;
 	dndRef: (element: HTMLDivElement) => void;
-	isExpandedNode: boolean;
 	isFullWidth: boolean;
 	setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
-	showBackground: boolean;
 }
 
 export const flowStateSelector = (state: FlowStore) => ({
-	allEdges: state.allEdges,
-	allNodes: state.allNodes,
 	edges: state.edges,
 	nodes: state.nodes,
 	onConnect: state.onConnect,
@@ -62,23 +54,15 @@ export const flowStateSelector = (state: FlowStore) => ({
 });
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
-	ServiceNode: memo(ServiceNode),
-	InternalNode: memo(InternalNode),
-	ContainerNode: memo(ContainerNode),
+	CustomNode: memo(CanvasNodeComponent),
 };
 
 const edgeTypes: Record<string, MemoExoticComponent<any>> = {
 	HttpRestEdge: memo(HttpRestEdge),
 };
 
-export const calculateFlowHeight = (
-	windowHeight: number,
-	isExpandedNode: boolean,
-): number => {
-	const flowHeight =
-		windowHeight -
-		(isExpandedNode ? Dimensions.ThirtySix : Dimensions.Sixteen);
-
+export const calculateFlowHeight = (windowHeight: number): number => {
+	const flowHeight = windowHeight - Dimensions.Sixteen;
 	return flowHeight >= 0 ? flowHeight : DEFAULT_FLOW_HEIGHT;
 };
 
@@ -94,17 +78,13 @@ export const calculateFlowWidth = (
 export function FlowContainer({
 	connectionMode,
 	isFullWidth,
-	isExpandedNode,
 	dndRef,
 	setReactFlowInstance,
-	showBackground,
 	currentDesign,
 }: FlowProps) {
 	const theme = useContext(ThemeContext);
 
 	const {
-		allNodes,
-		allEdges,
 		nodes,
 		edges,
 		onNodesChange,
@@ -119,15 +99,15 @@ export function FlowContainer({
 	// flow container sizing
 	const [windowHeight, windowWidth] = useWindowsDimensions();
 	const [flowHeight, setFlowHeight] = useState(
-		calculateFlowHeight(windowHeight, isExpandedNode),
+		calculateFlowHeight(windowHeight),
 	);
 	const [flowWidth, setFlowWidth] = useState(
 		calculateFlowWidth(windowWidth, isFullWidth),
 	);
 
 	useEffect(() => {
-		setFlowHeight(calculateFlowHeight(windowHeight, isExpandedNode));
-	}, [windowHeight, isExpandedNode]);
+		setFlowHeight(calculateFlowHeight(windowHeight));
+	}, [windowHeight]);
 
 	useEffect(() => {
 		setFlowWidth(calculateFlowWidth(windowWidth, isFullWidth));
@@ -137,8 +117,8 @@ export function FlowContainer({
 		saveCheckInterval: TimeUnit.OneSecondInMilliseconds,
 		debounceThreshold: TimeUnit.OneSecondInMilliseconds * 3,
 		saveDelay: TimeUnit.OneSecondInMilliseconds * 3,
-		nodes: allNodes,
-		edges: allEdges,
+		nodes,
+		edges,
 		viewport: getViewport(),
 		currentDesign,
 	});
@@ -205,13 +185,11 @@ export function FlowContainer({
 				zoomOnPinch={false}
 			>
 				<Controls className="bg-accent focus:bg-accent-content border-black" />
-				{showBackground && (
-					<Background
-						variant={BackgroundVariant.Dots}
-						color={theme.backgroundColor}
-						size={1.5}
-					/>
-				)}
+				<Background
+					variant={BackgroundVariant.Dots}
+					color={theme.backgroundColor}
+					size={1.5}
+				/>
 				<Panel position="bottom-right">
 					<div
 						className={`loading loading-lg loading-infinity transition-opacity ease-in-out duration-[3000ms] ${

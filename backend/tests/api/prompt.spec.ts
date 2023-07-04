@@ -71,7 +71,7 @@ describe('Prompt Controller Tests', () => {
 							x: 1300,
 							y: 50,
 						},
-						type: 'ServiceNode',
+						type: 'CanvasNodeComponent',
 					},
 					{
 						data: {
@@ -85,7 +85,7 @@ describe('Prompt Controller Tests', () => {
 							x: 700,
 							y: 50,
 						},
-						type: 'ServiceNode',
+						type: 'CanvasNodeComponent',
 					},
 				],
 				edges: [
@@ -164,7 +164,7 @@ describe('Prompt Controller Tests', () => {
 								x: 1300,
 								y: 50,
 							},
-							type: 'ServiceNode',
+							type: 'CanvasNodeComponent',
 						},
 						{
 							data: {
@@ -178,7 +178,7 @@ describe('Prompt Controller Tests', () => {
 								x: 700,
 								y: 50,
 							},
-							type: 'ServiceNode',
+							type: 'CanvasNodeComponent',
 						},
 						{
 							data: {
@@ -192,7 +192,7 @@ describe('Prompt Controller Tests', () => {
 								x: 1000,
 								y: 50,
 							},
-							type: 'ServiceNode',
+							type: 'CanvasNodeComponent',
 						},
 					],
 					edges: [

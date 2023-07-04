@@ -1,51 +1,46 @@
 import { User } from '@prisma/client';
 import { DesignResponseData, ProjectResponseData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
+import { StateCreator } from 'zustand/vanilla';
+
+import { sortByDateProp } from '@/utils/time';
 
 export interface ApiStore {
-	currentDesign: DesignResponseData | null;
-	projects: ProjectResponseData[];
-	setCurrentDesign: (design: DesignResponseData | null) => void;
-	setProjects: (projects: ProjectResponseData[]) => void;
-	setUser: (user: User) => void;
+	// user
 	user: User | null;
+	setUser: (user: User) => void;
+	// projects
+	projects: ProjectResponseData[];
+	setProjects: (projects: ProjectResponseData[]) => void;
+	// currentDesign
+	currentDesign: DesignResponseData | null;
+	setCurrentDesign: (design: DesignResponseData | null) => void;
 }
 
-export function setUser(set: SetState<ApiStore>, _: GetState<ApiStore>) {
-	return (user: User) => {
-		set({ user });
-	};
-}
-
-export function setProjects(set: SetState<ApiStore>, _: GetState<ApiStore>) {
-	return (projects: ProjectResponseData[]) => {
-		set({
-			projects: projects.sort(
-				(a, b) =>
-					new Date(a.createdAt).getTime() -
-					new Date(b.createdAt).getTime(),
-			),
-		});
-	};
-}
-
-export function setCurrentDesign(
+export const apiStoreStateCreator: StateCreator<ApiStore> = (
 	set: SetState<ApiStore>,
 	_: GetState<ApiStore>,
-) {
-	return (design: DesignResponseData | null) => {
-		set({ currentDesign: design });
-	};
-}
-
-export const useApiStore = create<ApiStore>((set, get) => ({
-	currentDesign: null,
-	projects: [],
-	setCurrentDesign: setCurrentDesign(set, get),
-	setProjects: setProjects(set, get),
-	setUser: setUser(set, get),
+) => ({
+	// user
 	user: null,
-}));
+	setUser: (user: User) => {
+		set({ user });
+	},
+	// projects
+	projects: [],
+	setProjects: (projects: ProjectResponseData[]) => {
+		set({
+			projects: sortByDateProp(projects)('createdAt', 'desc'),
+		});
+	},
+	// currentDesign
+	currentDesign: null,
+	setCurrentDesign: (currentDesign: DesignResponseData | null) => {
+		set({ currentDesign });
+	},
+});
+
+export const useApiStore = create(apiStoreStateCreator);
 
 export const useSetUser = () => useApiStore((s) => s.setUser);
 export const useUser = () => useApiStore((s) => s.user);

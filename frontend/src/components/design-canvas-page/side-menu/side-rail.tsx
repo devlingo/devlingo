@@ -6,52 +6,47 @@ import {
 	ShareIcon,
 } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
+import { ServiceType } from 'shared/constants';
+import { NodeType } from 'shared/types';
 
 import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
-import {
-	ContainerNodeType,
-	Dimensions,
-	InternalNodeType,
-	MenuItemType,
-	NodeCategory,
-	ServiceNodeType,
-} from '@/constants';
+import { Dimensions, MenuCategory, MenuItemType } from '@/constants';
 import { useDisplayNodes } from '@/stores/design-store';
 import { ImageType } from '@/types';
 import { downloadFile } from '@/utils/file';
 import { convertNodesToImageString } from '@/utils/node';
 
-interface MenuCategory {
-	category: NodeCategory;
-	nodes: (ServiceNodeType | ContainerNodeType | InternalNodeType)[];
+interface MenuCategoryWithNodes {
+	category: MenuCategory;
+	nodes: NodeType[];
 }
 
 const menuItems: {
 	icon: React.ComponentType<React.SVGProps<SVGElement>>;
-	categories: MenuCategory[];
+	categories: MenuCategoryWithNodes[];
 }[] = [
 	{
 		icon: TypeSVGMap[MenuItemType.Frontend].SVG,
 		categories: [
 			{
-				category: NodeCategory.Javascript,
+				category: MenuCategory.Javascript,
 				nodes: [
-					ServiceNodeType.NextJs,
-					ServiceNodeType.React,
-					ServiceNodeType.Angular,
-					ServiceNodeType.Vue,
-					ServiceNodeType.Svelte,
-					ServiceNodeType.Solid,
+					ServiceType.NextJs,
+					ServiceType.React,
+					ServiceType.Angular,
+					ServiceType.Vue,
+					ServiceType.Svelte,
+					ServiceType.Solid,
 				],
 			},
 			{
-				category: NodeCategory.Mobile,
+				category: MenuCategory.Mobile,
 				nodes: [
-					ServiceNodeType.IOS,
-					ServiceNodeType.Android,
-					ServiceNodeType.Flutter,
-					ServiceNodeType.ReactNative,
+					ServiceType.IOS,
+					ServiceType.Android,
+					ServiceType.Flutter,
+					ServiceType.ReactNative,
 				],
 			},
 		],
@@ -60,34 +55,34 @@ const menuItems: {
 		icon: TypeSVGMap[MenuItemType.Backend].SVG,
 		categories: [
 			{
-				category: NodeCategory.Javascript,
+				category: MenuCategory.Javascript,
 				nodes: [
-					ServiceNodeType.NestJs,
-					ServiceNodeType.ExpressJs,
-					ServiceNodeType.Fastify,
-					ServiceNodeType.HapiJs,
-					ServiceNodeType.KoaJs,
+					ServiceType.NestJs,
+					ServiceType.ExpressJs,
+					ServiceType.Fastify,
+					ServiceType.HapiJs,
+					ServiceType.KoaJs,
 				],
 			},
 			{
-				category: NodeCategory.Python,
+				category: MenuCategory.Python,
 				nodes: [
-					ServiceNodeType.Django,
-					ServiceNodeType.Litestar,
-					ServiceNodeType.Flask,
-					ServiceNodeType.FastAPI,
+					ServiceType.Django,
+					ServiceType.Litestar,
+					ServiceType.Flask,
+					ServiceType.FastAPI,
 				],
 			},
 			{
-				category: NodeCategory.Java,
+				category: MenuCategory.Java,
 				nodes: [],
 			},
 			{
-				category: NodeCategory.Go,
+				category: MenuCategory.Go,
 				nodes: [],
 			},
 			{
-				category: NodeCategory.DotNet,
+				category: MenuCategory.DotNet,
 				nodes: [],
 			},
 		],
@@ -96,37 +91,37 @@ const menuItems: {
 		icon: TypeSVGMap[MenuItemType.Database].SVG,
 		categories: [
 			{
-				category: NodeCategory.NoSQL,
+				category: MenuCategory.NoSQL,
 				nodes: [
-					ServiceNodeType.Redis,
-					ServiceNodeType.Firestore,
-					ServiceNodeType.DynamoDB,
-					ServiceNodeType.CosmosDB,
-					ServiceNodeType.Cassandra,
+					ServiceType.Redis,
+					ServiceType.Firestore,
+					ServiceType.DynamoDB,
+					ServiceType.CosmosDB,
+					ServiceType.Cassandra,
 				],
 			},
 			{
-				category: NodeCategory.SQL,
+				category: MenuCategory.SQL,
 				nodes: [
-					ServiceNodeType.PostgresSQL,
-					ServiceNodeType.Oracle,
-					ServiceNodeType.MariaDB,
-					ServiceNodeType.SQLite,
-					ServiceNodeType.MySQL,
-					ServiceNodeType.MicrosoftSQL,
-					ServiceNodeType.Firebird,
+					ServiceType.PostgresSQL,
+					ServiceType.Oracle,
+					ServiceType.MariaDB,
+					ServiceType.SQLite,
+					ServiceType.MySQL,
+					ServiceType.MicrosoftSQL,
+					ServiceType.Firebird,
 				],
 			},
 			{
-				category: NodeCategory.Graph,
+				category: MenuCategory.Graph,
 				nodes: [],
 			},
 			{
-				category: NodeCategory.Warehouse,
+				category: MenuCategory.Warehouse,
 				nodes: [],
 			},
 			{
-				category: NodeCategory.Vector,
+				category: MenuCategory.Vector,
 				nodes: [],
 			},
 		],
@@ -139,14 +134,14 @@ const menuItems: {
 		icon: TypeSVGMap[MenuItemType.API].SVG,
 		categories: [
 			{
-				category: NodeCategory.Marketing,
-				nodes: [ServiceNodeType.SendGrid, ServiceNodeType.MailGun],
+				category: MenuCategory.Marketing,
+				nodes: [ServiceType.SendGrid, ServiceType.MailGun],
 			},
 			{
-				category: NodeCategory.AI,
-				nodes: [ServiceNodeType.OpenAi],
+				category: MenuCategory.AI,
+				nodes: [ServiceType.OpenAi],
 			},
-			{ category: NodeCategory.Payment, nodes: [ServiceNodeType.Stripe] },
+			{ category: MenuCategory.Payment, nodes: [ServiceType.Stripe] },
 		],
 	},
 ];
@@ -265,7 +260,7 @@ export function RailExpandedMenu({
 	categories,
 	closeMenuHandler,
 }: {
-	categories: MenuCategory[];
+	categories: MenuCategoryWithNodes[];
 	closeMenuHandler: () => void;
 }) {
 	return (

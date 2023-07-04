@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { Design, Version, Project, User } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
+import { CustomNodeType } from '../../../frontend/src/types';
+import { EdgeType, ServiceType } from 'shared/constants';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
 	id: faker.string.uuid(),
@@ -40,3 +42,35 @@ export const UserFactory = new TypeFactory<User>(() => ({
 	createdAt: new Date(),
 	updatedAt: new Date(),
 }));
+
+export const NodeFactory = new TypeFactory<CustomNodeType>(() => ({
+	id: faker.string.uuid(),
+	position: {
+		x: faker.number.int({ min: 0, max: 1000 }),
+		y: faker.number.int({ min: 0, max: 1000 }),
+	},
+	data: {
+		formData: {
+			nodeName: TypeFactory.iterate(
+				Object.values(ServiceType).map((v) => v + 'Service'),
+			),
+		},
+		nodeType: TypeFactory.iterate(Object.values(ServiceType)),
+	},
+}));
+
+export const EdgeFactory = new TypeFactory<{
+	id: string;
+	type: EdgeType;
+	source: string;
+	target: string;
+}>(() => {
+	const source = faker.string.uuid();
+	const target = faker.string.uuid();
+	return {
+		id: faker.string.uuid(),
+		type: TypeFactory.iterate(Object.values(EdgeType)),
+		source,
+		target,
+	};
+});

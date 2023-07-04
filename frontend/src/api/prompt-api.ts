@@ -1,9 +1,8 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Edge, Node } from 'reactflow';
-import { HttpMethod } from 'shared/constants';
+import { EdgeType, HttpMethod, ServiceType } from 'shared/constants';
 
 import { fetcher } from '@/api/fetcher';
-import { EdgeTypes, ServiceNodeType } from '@/constants';
 import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
@@ -49,8 +48,8 @@ export function parsePromptData({
 }): PromptRequest {
 	return {
 		promptContent,
-		nodeTypes: Object.values(ServiceNodeType),
-		edgeTypes: Object.values(EdgeTypes),
+		nodeTypes: Object.values(ServiceType),
+		edgeTypes: Object.values(EdgeType),
 		designData: {
 			nodes: nodes.map(
 				({ data: { nodeType, formData }, id, position, type }) => ({

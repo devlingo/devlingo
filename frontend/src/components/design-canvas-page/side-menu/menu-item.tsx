@@ -1,17 +1,12 @@
 import { useTranslation } from 'next-i18next';
 import { useDrag } from 'react-dnd';
+import { NodeType } from 'shared/types';
 
 import { TypeSVGMap } from '@/assets';
-import {
-	ContainerNodeType,
-	Dimensions,
-	InternalNodeType,
-	ServiceNodeType,
-	TypeTagMap,
-} from '@/constants';
+import { Dimensions, TypeTagMap } from '@/constants';
 
 export interface MenuItemProps {
-	nodeType: ServiceNodeType | InternalNodeType | ContainerNodeType;
+	nodeType: NodeType;
 }
 
 export function MenuItem({ nodeType }: MenuItemProps) {

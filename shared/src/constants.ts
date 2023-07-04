@@ -20,3 +20,58 @@ export enum HttpMethod {
 	Put = 'PUT',
 	Delete = 'DELETE',
 }
+
+export enum ServiceType {
+	NestJs = 'NestJS',
+	NextJs = 'NextJS',
+	MongoDB = 'MongoDB',
+	Firestore = 'Firestore',
+	Cassandra = 'Cassandra',
+	DynamoDB = 'DynamoDB',
+	Redis = 'Redis',
+	Hbase = 'Hbase',
+	CosmosDB = 'CosmosDB',
+	MySQL = 'MySQL',
+	PostgresSQL = 'Postgres',
+	MicrosoftSQL = 'SQL Server',
+	MariaDB = 'MariaDB',
+	Firebird = 'Firebird',
+	SQLite = 'SQLite',
+	Oracle = 'Oracle',
+	ExpressJs = 'Express.js',
+	KoaJs = 'Koa.js',
+	HapiJs = 'Hapi.js',
+	Fastify = 'Fastify',
+	Litestar = 'Litestar',
+	Django = 'Django',
+	Flask = 'Flask',
+	FastAPI = 'FastAPI',
+	Angular = 'Angular',
+	React = 'React',
+	Solid = 'Solid',
+	Svelte = 'Svelte',
+	Vue = 'Vue',
+	Android = 'Android',
+	IOS = 'IOS',
+	Flutter = 'Flutter',
+	ReactNative = 'ReactNative',
+	MailGun = 'Mailgun',
+	OpenAi = 'OpenAI',
+	SendGrid = 'Sendgrid',
+	Stripe = 'Stripe',
+}
+
+export enum SystemComponentType {
+	Module = 'Module',
+	Controller = 'Controller',
+	Endpoint = 'Endpoint',
+	Service = 'Service',
+}
+
+export enum EdgeType {
+	BezierEdge = 'default',
+	StraightEdge = 'straight',
+	StepEdge = 'step',
+	SmoothStepEdg = 'smoothstep',
+	SimpleBezier = 'simplebezier',
+}
