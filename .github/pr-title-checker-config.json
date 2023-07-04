@@ -1,0 +1,15 @@
+{
+	"LABEL": {
+		"name": "PR title requires formatting",
+		"color": "EEEEEE"
+	},
+	"CHECKS": {
+		"regexp": "DEVLINGO-[0-9]* \\((infra|doc|chore|fix|feat)\\): [a-zA-Z].*",
+		"regexpFlags": "i"
+    },
+	"MESSAGES": {
+		"success": "PR title matches the required regex",
+		"failure": "PR title does not match the required regex",
+		"notice": ""
+	}
+}
