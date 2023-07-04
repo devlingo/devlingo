@@ -33,6 +33,18 @@ FIREBASE_PRIVATE_KEY=<secret>
 
 The `<secret>` values should be given to you by someone with access and communicated securely.
 
+## Git
+
+### Commits
+
+The repository follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) which are enforced using
+[CommitLint](https://github.com/conventional-changelog/commitlint) (executed via husky on commit).
+
+### Branches
+
+Branches should follow the format `<issue-id>-some-title`, for example `DEVLINGO-1-my-issue`. This should also be the
+format of the PR title - this is enforced using a github action.
+
 ## Commands
 
 ### Test commands:
