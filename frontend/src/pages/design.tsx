@@ -16,7 +16,7 @@ import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { useCurrentDesign } from '@/stores/api-store';
 import {
 	useConfiguredNode,
-	useInsertNode,
+	useNodes,
 	useSetConfiguredNode,
 	useSetEdges,
 	useSetNodes,
@@ -42,7 +42,6 @@ export default function DesignCanvasPage() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const configuredNode = useConfiguredNode();
-	const insertNode = useInsertNode();
 	const isClientSide = useIsClientSide();
 	const setConfiguredNode = useSetConfiguredNode();
 
@@ -54,6 +53,7 @@ export default function DesignCanvasPage() {
 
 	// design
 	const currentDesign = useCurrentDesign();
+	const nodes = useNodes();
 	const setNodes = useSetNodes();
 	const setEdges = useSetEdges();
 	const setViewPort = useSetViewPort();
@@ -93,7 +93,8 @@ export default function DesignCanvasPage() {
 		if (dndDropData && reactFlowInstance) {
 			const { nodeType, x, y } = dndDropData;
 
-			insertNode(
+			setNodes([
+				...nodes,
 				createNode({
 					position: reactFlowInstance.project({ x, y }),
 					data: {
@@ -101,7 +102,7 @@ export default function DesignCanvasPage() {
 						formData: { nodeName: 'Unnamed' },
 					},
 				}),
-			);
+			]);
 		}
 	}, [dndDropData, reactFlowInstance]);
 

@@ -3,7 +3,7 @@ import { Edge, Node } from 'reactflow';
 import { HttpMethod } from 'shared/constants';
 
 import { fetcher } from '@/api/fetcher';
-import { EdgeTypes, ServiceType } from '@/constants';
+import { EdgeType, ServiceType } from '@/constants';
 import { createNode } from '@/utils/node';
 
 export interface PromptRequest {
@@ -50,7 +50,7 @@ export function parsePromptData({
 	return {
 		promptContent,
 		nodeTypes: Object.values(ServiceType),
-		edgeTypes: Object.values(EdgeTypes),
+		edgeTypes: Object.values(EdgeType),
 		designData: {
 			nodes: nodes.map(
 				({ data: { nodeType, formData }, id, position, type }) => ({

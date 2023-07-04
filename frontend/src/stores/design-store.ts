@@ -1,5 +1,3 @@
-import { OnEdgeUpdateFunc } from '@reactflow/core';
-import { deepmerge } from 'deepmerge-ts';
 import {
 	addEdge,
 	applyEdgeChanges,
@@ -10,6 +8,7 @@ import {
 	NodeChange,
 	OnConnect,
 	OnEdgesChange,
+	OnEdgeUpdateFunc,
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
@@ -17,7 +16,7 @@ import { ViewPortData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
 import { StateCreator } from 'zustand/vanilla';
 
-import { CustomNodeData, CustomNodeType } from '@/types';
+import { CustomNodeType } from '@/types';
 
 export interface FlowStore {
 	// reactflow internals
@@ -33,11 +32,9 @@ export interface FlowStore {
 	configuredNode: CustomNodeType | null;
 	setConfiguredNode: (nodeId: string | null) => void;
 	// state handling
-	insertNode: (node: CustomNodeType) => void;
 	setEdges: (edges: Edge[]) => void;
 	setNodes: (nodes: CustomNodeType[]) => void;
 	setViewPort: (viewport: ViewPortData) => void;
-	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
@@ -75,9 +72,6 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 		});
 	},
 	// state handling
-	insertNode: (node: CustomNodeType) => {
-		get().setNodes([...get().nodes, node]);
-	},
 	setEdges: (edges: Edge[]) => {
 		set({
 			edges: [...edges],
@@ -91,19 +85,6 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	setViewPort: (viewport: ViewPortData) => {
 		set({ viewport });
 	},
-	updateNode: (nodeId: string, data: Record<string, any>) => {
-		set({
-			nodes: get().nodes.map((node) => {
-				if (node.id === nodeId) {
-					return {
-						...node,
-						data: deepmerge(node.data, data) as CustomNodeData,
-					};
-				}
-				return node;
-			}),
-		});
-	},
 });
 
 export const useDesignCanvasStore = create(flowStoreStateCreator);
@@ -112,11 +93,10 @@ export const useConfiguredNode = () =>
 	useDesignCanvasStore((s) => s.configuredNode);
 export const useDisplayEdges = () => useDesignCanvasStore((s) => s.edges);
 export const useDisplayNodes = () => useDesignCanvasStore((s) => s.nodes);
-export const useInsertNode = () => useDesignCanvasStore((s) => s.insertNode);
 export const useSetConfiguredNode = () =>
 	useDesignCanvasStore((s) => s.setConfiguredNode);
 export const useSetEdges = () => useDesignCanvasStore((s) => s.setEdges);
 export const useSetNodes = () => useDesignCanvasStore((s) => s.setNodes);
-export const useUpdateNodeData = () =>
-	useDesignCanvasStore((s) => s.updateNode);
 export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);
+export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
+export const useEdges = () => useDesignCanvasStore((s) => s.nodes);

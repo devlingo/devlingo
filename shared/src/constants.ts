@@ -68,7 +68,7 @@ export enum SystemComponentType {
 	Service = 'Service',
 }
 
-export enum EdgeTypes {
+export enum EdgeType {
 	BezierEdge = 'default',
 	StraightEdge = 'straight',
 	StepEdge = 'step',
