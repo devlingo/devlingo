@@ -19,7 +19,7 @@ Content-Type: application/json
           "x": 1300,
           "y": 50
         },
-        "type": "ServiceNode"
+        "type": "CanvasNodeComponent"
       },
       {
         "data": {
@@ -33,7 +33,7 @@ Content-Type: application/json
           "x": 700,
           "y": 50
         },
-        "type": "ServiceNode"
+        "type": "CanvasNodeComponent"
       }
     ],
     "edges": [

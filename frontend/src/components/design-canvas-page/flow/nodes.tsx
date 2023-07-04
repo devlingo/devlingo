@@ -1,20 +1,11 @@
-import {
-	ChevronRightIcon,
-	Cog8ToothIcon,
-	ListBulletIcon,
-} from '@heroicons/react/24/solid';
-import { NodeResizer } from '@reactflow/node-resizer';
+import { Cog8ToothIcon, ListBulletIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
 import { Handle, HandleProps, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
-import { ServiceNodeAllowedInternalNodesMap, TypeTagMap } from '@/constants';
-import {
-	useDisplayNodes,
-	useSetConfiguredNode,
-	useSetExpandedNode,
-} from '@/stores/design-store';
-import { ContainerNodeData, InternalNodeData, ServiceNodeData } from '@/types';
+import { TypeTagMap } from '@/constants';
+import { useSetConfiguredNode } from '@/stores/design-store';
+import { CustomNodeData } from '@/types';
 
 export function NodeHandles({
 	nodeId,
@@ -61,13 +52,11 @@ function NodeButton({
 	);
 }
 
-export function ServiceNode({
+export function CanvasNodeComponent({
 	data: { nodeType, formData },
-}: Partial<NodeProps<ServiceNodeData>> & { data: ServiceNodeData }) {
+}: Partial<NodeProps<CustomNodeData>> & { data: CustomNodeData }) {
 	const setConfiguredNode = useSetConfiguredNode();
-	const setExpandedNode = useSetExpandedNode();
 
-	const internalNodeTypes = ServiceNodeAllowedInternalNodesMap[nodeType];
 	const nodeId = useNodeId()!;
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
@@ -112,133 +101,6 @@ export function ServiceNode({
 						}}
 					/>
 				</div>
-				{internalNodeTypes?.length && (
-					<NodeButton
-						Icon={ChevronRightIcon}
-						data-testid={`expand-btn-${nodeId}`}
-						onClick={() => {
-							setExpandedNode(nodeId);
-						}}
-					/>
-				)}
-			</div>
-		</div>
-	);
-}
-
-export function ContainerNode({
-	selected,
-	data: { nodeType, formData },
-}: Partial<NodeProps<ContainerNodeData>> & { data: ContainerNodeData }) {
-	const displayNodes = useDisplayNodes();
-	const setConfiguredNode = useSetConfiguredNode();
-
-	const nodeId = useNodeId()!;
-	const { SVG, props } = TypeSVGMap[nodeType];
-	const { t } = useTranslation('assets');
-
-	const { width: minWidth, height: minHeight } = (displayNodes.find(
-		(n) => n.id === nodeId,
-	)?.style ?? {
-		width: 208,
-		height: 96,
-	}) as {
-		width: number;
-		height: number;
-	};
-
-	return (
-		<div
-			className="bg-base-300 shadow-xl flex-col rounded border-neutral border-2 p-1 h-full w-full"
-			data-testid={`node-${nodeId}`}
-		>
-			<NodeResizer
-				isVisible={selected}
-				keepAspectRatio
-				minWidth={minWidth}
-				minHeight={minHeight}
-			/>
-			<NodeHandles nodeId={nodeId} />
-			<div className="flex justify-evenly items-end border-b border-neutral gap-10 p-2">
-				<figure>
-					<SVG
-						className="text-base-content w-12 h-12"
-						data-testid={`svg-${nodeId}`}
-						{...props}
-					/>
-				</figure>
-				<div className="flex-col gap-0">
-					<h2 className="text-base-content text-md truncate">
-						{formData.nodeName}
-					</h2>
-					<span
-						className="text-base-content text-sm"
-						data-testid={`type-tag-${nodeId}`}
-					>
-						{t(TypeTagMap[nodeType])}
-					</span>
-				</div>
-				<div className="flex-end">
-					<NodeButton
-						Icon={Cog8ToothIcon}
-						color="text-base-content"
-						data-testid={`config-btn-${nodeId}`}
-						hoverColor="text-neutral-content"
-						onClick={() => {
-							setConfiguredNode(nodeId);
-						}}
-					/>
-				</div>
-			</div>
-		</div>
-	);
-}
-
-export function InternalNode({
-	data: { nodeType, formData },
-}: Partial<NodeProps<InternalNodeData>> & { data: InternalNodeData }) {
-	const setConfiguredNode = useSetConfiguredNode();
-
-	const nodeId = useNodeId()!;
-	const { SVG, props } = TypeSVGMap[nodeType];
-	const { t } = useTranslation('assets');
-
-	return (
-		<div
-			className="bg-accent shadow-xl flex-col rounded border-neutral border-2 p-1 h-24 w-52"
-			data-testid={`node-${nodeId}`}
-		>
-			<NodeHandles nodeId={nodeId} />
-			<div className="flex justify-evenly border-b border-neutral gap-10 p-2">
-				<figure>
-					<SVG
-						className="text-accent-content w-10 h-10"
-						data-testid={`svg-${nodeId}`}
-						{...props}
-					/>
-				</figure>
-				<div className="flex-col gap-0">
-					<h2 className="text-accent-content text-sm truncate">
-						{formData.nodeName}
-					</h2>
-					<span
-						className="text-accent-content text-xs"
-						data-testid={`type-tag-${nodeId}`}
-					>
-						{t(TypeTagMap[nodeType])}
-					</span>
-				</div>
-			</div>
-			<div className="flex justify-end pr-3 pt-1">
-				<NodeButton
-					Icon={Cog8ToothIcon}
-					color="text-accent-content"
-					data-testid={`config-btn-${nodeId}`}
-					hoverColor="text-neutral-content"
-					onClick={() => {
-						setConfiguredNode(nodeId);
-					}}
-				/>
 			</div>
 		</div>
 	);

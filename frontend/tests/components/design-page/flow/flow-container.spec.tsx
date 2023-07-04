@@ -52,31 +52,15 @@ vi.mock(
 
 describe('FlowContainer tests', () => {
 	describe('calculateFlowHeight tests', () => {
-		it('returns the expected value when "isExpandedNode" is false', () => {
+		it('returns the expected value', () => {
 			const windowHeight = 500;
-			const isExpandedNode = false;
-			const result = calculateFlowHeight(windowHeight, isExpandedNode);
+			const result = calculateFlowHeight(windowHeight);
 			expect(result).toEqual(windowHeight - Dimensions.Sixteen);
 		});
 
-		it('returns the expected value when "isExpandedNode" is false and value is smaller than 0', () => {
+		it('returns the expected value when value is smaller than 0', () => {
 			const windowHeight = 0;
-			const isExpandedNode = false;
-			const result = calculateFlowHeight(windowHeight, isExpandedNode);
-			expect(result).toEqual(DEFAULT_FLOW_HEIGHT);
-		});
-
-		it('returns the expected value when "isExpandedNode" is true', () => {
-			const windowHeight = 500;
-			const isExpandedNode = true;
-			const result = calculateFlowHeight(windowHeight, isExpandedNode);
-			expect(result).toEqual(windowHeight - Dimensions.ThirtySix);
-		});
-
-		it('returns the expected value when "isExpandedNode" is true and value is smaller than 0', () => {
-			const windowHeight = 0;
-			const isExpandedNode = true;
-			const result = calculateFlowHeight(windowHeight, isExpandedNode);
+			const result = calculateFlowHeight(windowHeight);
 			expect(result).toEqual(DEFAULT_FLOW_HEIGHT);
 		});
 	});
@@ -123,10 +107,8 @@ describe('FlowContainer tests', () => {
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={false}
-					isExpandedNode={false}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={mockSetReactFlowInstance}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>,
 			);
@@ -151,10 +133,8 @@ describe('FlowContainer tests', () => {
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={false}
-					isExpandedNode={false}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={vi.fn()}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>
 			);
@@ -177,15 +157,13 @@ describe('FlowContainer tests', () => {
 			});
 		});
 
-		it('resizes the container when "isExpandedNode"', async () => {
+		it('resizes the container', async () => {
 			const component = (
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={false}
-					isExpandedNode={false}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={vi.fn()}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>
 			);
@@ -193,7 +171,7 @@ describe('FlowContainer tests', () => {
 			const { rerender } = renderWithFlowProvider(component);
 
 			expect(screen.getByTestId('react-flow-container')).toHaveStyle({
-				height: `${calculateFlowHeight(window.innerHeight, false)}px`,
+				height: `${calculateFlowHeight(window.innerHeight)}px`,
 				width: `${calculateFlowWidth(window.innerWidth, false)}px`,
 			});
 
@@ -201,20 +179,15 @@ describe('FlowContainer tests', () => {
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={false}
-					isExpandedNode={true}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={vi.fn()}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>,
 			);
 
 			await waitFor(() => {
 				expect(screen.getByTestId('react-flow-container')).toHaveStyle({
-					height: `${calculateFlowHeight(
-						window.innerHeight,
-						true,
-					)}px`,
+					height: `${calculateFlowHeight(window.innerHeight)}px`,
 					width: `${calculateFlowWidth(window.innerWidth, false)}px`,
 				});
 			});
@@ -225,10 +198,8 @@ describe('FlowContainer tests', () => {
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={false}
-					isExpandedNode={false}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={vi.fn()}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>
 			);
@@ -236,7 +207,7 @@ describe('FlowContainer tests', () => {
 			const { rerender } = renderWithFlowProvider(component);
 
 			expect(screen.getByTestId('react-flow-container')).toHaveStyle({
-				height: `${calculateFlowHeight(window.innerHeight, false)}px`,
+				height: `${calculateFlowHeight(window.innerHeight)}px`,
 				width: `${calculateFlowWidth(window.innerWidth, false)}px`,
 			});
 
@@ -244,20 +215,15 @@ describe('FlowContainer tests', () => {
 				<FlowContainer
 					connectionMode={ConnectionMode.Strict}
 					isFullWidth={true}
-					isExpandedNode={false}
 					dndRef={vi.fn(() => ({}))}
 					setReactFlowInstance={vi.fn()}
-					showBackground={true}
 					currentDesign={currentDesign}
 				/>,
 			);
 
 			await waitFor(() => {
 				expect(screen.getByTestId('react-flow-container')).toHaveStyle({
-					height: `${calculateFlowHeight(
-						window.innerHeight,
-						false,
-					)}px`,
+					height: `${calculateFlowHeight(window.innerHeight)}px`,
 					width: `${calculateFlowWidth(window.innerWidth, true)}px`,
 				});
 			});

@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { NodeType } from 'shared/types';
+
 import Controller from '@/assets/internal-nodes/controller.svg';
 import Endpoint from '@/assets/internal-nodes/endpoint.svg';
 import Module from '@/assets/internal-nodes/module.svg';
@@ -46,12 +48,7 @@ import Android from '@/assets/services-nodes/mobile-frameworks/android.svg';
 import Flutter from '@/assets/services-nodes/mobile-frameworks/flutter.svg';
 import Ios from '@/assets/services-nodes/mobile-frameworks/ios.svg';
 import ReactNative from '@/assets/services-nodes/mobile-frameworks/reactnative.svg';
-import {
-	ContainerNodeType,
-	InternalNodeType,
-	MenuItemType,
-	ServiceNodeType,
-} from '@/constants';
+import { MenuItemType, ServiceType, SystemComponentType } from '@/constants';
 
 export {
 	Android,
@@ -102,7 +99,7 @@ export {
 const defaultClassName = 'text-base-content h-12 w-12';
 
 export const TypeSVGMap: Record<
-	MenuItemType | ServiceNodeType | InternalNodeType | ContainerNodeType,
+	MenuItemType | NodeType,
 	{
 		SVG: React.ComponentType<React.SVGProps<SVGElement>>;
 		props?: Partial<React.SVGProps<SVGElement>>;
@@ -117,65 +114,65 @@ export const TypeSVGMap: Record<
 	[MenuItemType.API]: { SVG: API },
 
 	//front js
-	[ServiceNodeType.NextJs]: {
+	[ServiceType.NextJs]: {
 		SVG: NextJS,
 		props: { className: defaultClassName },
 	},
-	[ServiceNodeType.Angular]: { SVG: Angular },
-	[ServiceNodeType.React]: { SVG: ReactLogo },
-	[ServiceNodeType.Solid]: { SVG: Solid },
-	[ServiceNodeType.Svelte]: { SVG: Svelte },
-	[ServiceNodeType.Vue]: { SVG: Vue },
+	[ServiceType.Angular]: { SVG: Angular },
+	[ServiceType.React]: { SVG: ReactLogo },
+	[ServiceType.Solid]: { SVG: Solid },
+	[ServiceType.Svelte]: { SVG: Svelte },
+	[ServiceType.Vue]: { SVG: Vue },
 	//front mobile
-	[ServiceNodeType.ReactNative]: { SVG: ReactNative },
-	[ServiceNodeType.Flutter]: { SVG: Flutter },
-	[ServiceNodeType.IOS]: { SVG: Ios },
-	[ServiceNodeType.Android]: { SVG: Android },
+	[ServiceType.ReactNative]: { SVG: ReactNative },
+	[ServiceType.Flutter]: { SVG: Flutter },
+	[ServiceType.IOS]: { SVG: Ios },
+	[ServiceType.Android]: { SVG: Android },
 	// db-nosql
-	[ServiceNodeType.MongoDB]: { SVG: MongoDB },
-	[ServiceNodeType.Firestore]: { SVG: Firestore },
-	[ServiceNodeType.Cassandra]: { SVG: Cassandra },
-	[ServiceNodeType.DynamoDB]: { SVG: DynamoDB },
-	[ServiceNodeType.Redis]: { SVG: Redis },
-	[ServiceNodeType.Hbase]: { SVG: Hbase },
-	[ServiceNodeType.CosmosDB]: { SVG: CosmosDB },
+	[ServiceType.MongoDB]: { SVG: MongoDB },
+	[ServiceType.Firestore]: { SVG: Firestore },
+	[ServiceType.Cassandra]: { SVG: Cassandra },
+	[ServiceType.DynamoDB]: { SVG: DynamoDB },
+	[ServiceType.Redis]: { SVG: Redis },
+	[ServiceType.Hbase]: { SVG: Hbase },
+	[ServiceType.CosmosDB]: { SVG: CosmosDB },
 	// db-sql
-	[ServiceNodeType.MySQL]: { SVG: MySQL },
-	[ServiceNodeType.PostgresSQL]: { SVG: PostgresSQL },
-	[ServiceNodeType.MicrosoftSQL]: { SVG: MicrosoftSQL },
-	[ServiceNodeType.MariaDB]: { SVG: MariaDB },
-	[ServiceNodeType.Firebird]: { SVG: Firebird },
-	[ServiceNodeType.SQLite]: { SVG: SQLite },
-	[ServiceNodeType.Oracle]: { SVG: Oracle },
+	[ServiceType.MySQL]: { SVG: MySQL },
+	[ServiceType.PostgresSQL]: { SVG: PostgresSQL },
+	[ServiceType.MicrosoftSQL]: { SVG: MicrosoftSQL },
+	[ServiceType.MariaDB]: { SVG: MariaDB },
+	[ServiceType.Firebird]: { SVG: Firebird },
+	[ServiceType.SQLite]: { SVG: SQLite },
+	[ServiceType.Oracle]: { SVG: Oracle },
 	// server js
-	[ServiceNodeType.NestJs]: { SVG: NestJS },
-	[ServiceNodeType.ExpressJs]: {
+	[ServiceType.NestJs]: { SVG: NestJS },
+	[ServiceType.ExpressJs]: {
 		SVG: ExpressJS,
 		props: { className: defaultClassName },
 	},
-	[ServiceNodeType.KoaJs]: { SVG: KoaJS },
-	[ServiceNodeType.HapiJs]: { SVG: HapiJS },
-	[ServiceNodeType.Fastify]: { SVG: Fastify },
+	[ServiceType.KoaJs]: { SVG: KoaJS },
+	[ServiceType.HapiJs]: { SVG: HapiJS },
+	[ServiceType.Fastify]: { SVG: Fastify },
 	// server Python
-	[ServiceNodeType.Litestar]: {
+	[ServiceType.Litestar]: {
 		SVG: Litestar,
 		props: { className: 'h-12 w-12 p-0' },
 	},
-	[ServiceNodeType.Django]: { SVG: Django },
-	[ServiceNodeType.Flask]: {
+	[ServiceType.Django]: { SVG: Django },
+	[ServiceType.Flask]: {
 		SVG: Flask,
 		props: { className: defaultClassName },
 	},
-	[ServiceNodeType.FastAPI]: { SVG: FastAPI },
+	[ServiceType.FastAPI]: { SVG: FastAPI },
 	// api services
-	[ServiceNodeType.Stripe]: { SVG: Stripe },
-	[ServiceNodeType.OpenAi]: { SVG: OpenAi },
-	[ServiceNodeType.MailGun]: { SVG: MailGun },
-	[ServiceNodeType.SendGrid]: { SVG: SendGrid },
+	[ServiceType.Stripe]: { SVG: Stripe },
+	[ServiceType.OpenAi]: { SVG: OpenAi },
+	[ServiceType.MailGun]: { SVG: MailGun },
+	[ServiceType.SendGrid]: { SVG: SendGrid },
 
 	// internal nodes
-	[InternalNodeType.Controller]: { SVG: Controller },
-	[InternalNodeType.Endpoint]: { SVG: Endpoint },
-	[InternalNodeType.Service]: { SVG: Service },
-	[ContainerNodeType.Module]: { SVG: Module },
+	[SystemComponentType.Controller]: { SVG: Controller },
+	[SystemComponentType.Endpoint]: { SVG: Endpoint },
+	[SystemComponentType.Service]: { SVG: Service },
+	[SystemComponentType.Module]: { SVG: Module },
 };

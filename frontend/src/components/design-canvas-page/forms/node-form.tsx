@@ -6,13 +6,14 @@ import {
 } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
 import { useState } from 'react';
+import { NodeType } from 'shared/types';
 
 import {
 	DefaultSchemas,
 	typeSchemaMap,
 } from '@/components/design-canvas-page/forms/form-schemas';
 import { useConfiguredNode, useUpdateNodeData } from '@/stores/design-store';
-import { FormData, NodeType } from '@/types';
+import { FormData } from '@/types';
 
 const handleDefaultsAjv = createAjv({ useDefaults: true });
 export interface NodeFormProps {

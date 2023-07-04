@@ -4,6 +4,7 @@ import {
 	UserProjectPermission,
 	Version,
 } from '@prisma/client';
+import { NodeType } from 'shared/types/nodes';
 
 export type ProjectResponseData = Project & {
 	designs: Design[];
@@ -12,7 +13,7 @@ export type ProjectResponseData = Project & {
 
 export interface NodeData {
 	data: {
-		nodeType: string;
+		nodeType: NodeType;
 		formData: {
 			nodeName: string;
 		};

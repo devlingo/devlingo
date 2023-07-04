@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import {
-	DesignResponseData,
-	EdgeData,
-	NodeData,
-	VersionData,
-	ViewPortData,
-} from 'shared/types';
+import { Edge } from 'reactflow';
+import { DesignResponseData, VersionData, ViewPortData } from 'shared/types';
 
 import { createVersion } from '@/api';
+import { CustomNodeType } from '@/types';
 import { wait } from '@/utils/time';
 
 export interface UseSaveDesignProps {
 	currentDesign: DesignResponseData;
 	debounceThreshold: number;
-	edges: EdgeData[];
-	nodes: NodeData[];
+	edges: Edge[];
+	nodes: CustomNodeType[];
 	saveCheckInterval: number;
 	saveDelay: number;
 	viewport: ViewPortData;

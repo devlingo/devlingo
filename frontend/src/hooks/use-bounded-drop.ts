@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useDrop } from 'react-dnd';
 
-import { ServiceNodeType } from '@/constants';
+import { ServiceType } from '@/constants';
 import { DropTargetData } from '@/types';
 
 export function useBoundedDrop(): [
@@ -13,7 +13,7 @@ export function useBoundedDrop(): [
 	const [dropData, dropRef] = useDrop<any, any, DropTargetData | null>(
 		() => ({
 			accept: 'MenuItem',
-			drop: (item: { type: ServiceNodeType }, monitor) => {
+			drop: (item: { type: ServiceType }, monitor) => {
 				const offset = monitor.getSourceClientOffset();
 
 				if (offset && ref.current) {

@@ -1,13 +1,13 @@
 import { Position } from '@reactflow/core';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ServiceNodeType } from '@/constants';
+import { ServiceType } from '@/constants';
 import { createNode } from '@/utils/node';
 
 const nestService = createNode({
 	position: { x: 700, y: 50 },
 	data: {
-		nodeType: ServiceNodeType.NestJs,
+		nodeType: ServiceType.NestJs,
 		formData: { nodeName: 'Backend' },
 	},
 });
@@ -15,7 +15,7 @@ const nestService = createNode({
 const nextService = createNode({
 	position: { x: 1300, y: 50 },
 	data: {
-		nodeType: ServiceNodeType.NextJs,
+		nodeType: ServiceType.NextJs,
 		formData: { nodeName: 'Frontend' },
 	},
 });
@@ -23,7 +23,7 @@ const nextService = createNode({
 const flutterService = createNode({
 	position: { x: 1300, y: 500 },
 	data: {
-		nodeType: ServiceNodeType.Flutter,
+		nodeType: ServiceType.Flutter,
 		formData: { nodeName: 'Mobile' },
 	},
 });

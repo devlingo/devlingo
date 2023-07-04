@@ -6,7 +6,6 @@ import { ConnectionMode } from 'reactflow';
 
 import { retrieveVersionById } from '@/api';
 import { FlowContainer } from '@/components/design-canvas-page/flow/flow-container';
-import { InternalFlowHeader } from '@/components/design-canvas-page/flow/internal-flow-header';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
 import { PromptContainer } from '@/components/design-canvas-page/prompt/prompt-container';
@@ -17,7 +16,6 @@ import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { useCurrentDesign } from '@/stores/api-store';
 import {
 	useConfiguredNode,
-	useExpandedNode,
 	useInsertNode,
 	useSetConfiguredNode,
 	useSetEdges,
@@ -44,7 +42,6 @@ export default function DesignCanvasPage() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const configuredNode = useConfiguredNode();
-	const expandedNode = useExpandedNode();
 	const insertNode = useInsertNode();
 	const isClientSide = useIsClientSide();
 	const setConfiguredNode = useSetConfiguredNode();
@@ -131,24 +128,17 @@ export default function DesignCanvasPage() {
 					</div>
 				) : (
 					<div
-						className={`h-full transition-all duration-300 ease-in-out ${
-							expandedNode
-								? 'bg-base-100 rounded border-2 border-neutral'
-								: 'bg-base-300'
-						} ${isSideMenuOpen ? 'shrink' : 'grow'}`}
+						className={`h-full transition-all duration-300 ease-in-out bg-base-300 ${
+							isSideMenuOpen ? 'shrink' : 'grow'
+						}`}
 					>
-						{expandedNode && (
-							<InternalFlowHeader {...expandedNode.data} />
-						)}
 						{isClientSide && (
 							<FlowContainer
 								currentDesign={currentDesign!}
 								connectionMode={ConnectionMode.Loose}
 								dndRef={dndRef}
-								isExpandedNode={!!expandedNode}
 								isFullWidth={!isSideMenuOpen}
 								setReactFlowInstance={setReactFlowInstance}
-								showBackground={!expandedNode}
 							/>
 						)}
 					</div>

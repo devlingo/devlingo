@@ -19,7 +19,11 @@ describe('Navbar tests', () => {
 		render(<Navbar designName="Test Design" />, {
 			wrapper: ({ children }) => (
 				<ThemeContext.Provider
-					value={{ currentTheme: 'light', setTheme }}
+					value={{
+						currentTheme: 'light',
+						setTheme,
+						backgroundColor: '#fff',
+					}}
 				>
 					{children}
 				</ThemeContext.Provider>

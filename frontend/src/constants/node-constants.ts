@@ -1,3 +1,6 @@
+import { ServiceType, SystemComponentType } from 'shared/constants';
+import { NodeType } from 'shared/types';
+
 export enum MenuItemType {
 	Frontend = 'Frontend',
 	Backend = 'Backend',
@@ -7,132 +10,7 @@ export enum MenuItemType {
 	API = 'API',
 }
 
-export enum ServiceNodeType {
-	NestJs = 'NestJS',
-	NextJs = 'NextJS',
-	MongoDB = 'MongoDB',
-	Firestore = 'Firestore',
-	Cassandra = 'Cassandra',
-	DynamoDB = 'DynamoDB',
-	Redis = 'Redis',
-	Hbase = 'Hbase',
-	CosmosDB = 'CosmosDB',
-	MySQL = 'MySQL',
-	PostgresSQL = 'Postgres',
-	MicrosoftSQL = 'SQL Server',
-	MariaDB = 'MariaDB',
-	Firebird = 'Firebird',
-	SQLite = 'SQLite',
-	Oracle = 'Oracle',
-	ExpressJs = 'Express.js',
-	KoaJs = 'Koa.js',
-	HapiJs = 'Hapi.js',
-	Fastify = 'Fastify',
-	Litestar = 'Litestar',
-	Django = 'Django',
-	Flask = 'Flask',
-	FastAPI = 'FastAPI',
-	Angular = 'Angular',
-	React = 'React',
-	Solid = 'Solid',
-	Svelte = 'Svelte',
-	Vue = 'Vue',
-	Android = 'Android',
-	IOS = 'IOS',
-	Flutter = 'Flutter',
-	ReactNative = 'ReactNative',
-	MailGun = 'Mailgun',
-	OpenAi = 'OpenAI',
-	SendGrid = 'Sendgrid',
-	Stripe = 'Stripe',
-}
-
-export enum ContainerNodeType {
-	Module = 'Module',
-}
-
-export enum InternalNodeType {
-	Controller = 'Controller',
-	Endpoint = 'Endpoint',
-	Service = 'Service',
-}
-
-export const TypeTagMap: Record<
-	ServiceNodeType | InternalNodeType | ContainerNodeType,
-	string
-> = {
-	[ServiceNodeType.NextJs]: 'nextjs',
-	[ServiceNodeType.Angular]: 'angular',
-	[ServiceNodeType.React]: 'react',
-	[ServiceNodeType.Solid]: 'solid',
-	[ServiceNodeType.Svelte]: 'svelte',
-	[ServiceNodeType.Vue]: 'vue',
-	// mobile frameworks
-	[ServiceNodeType.ReactNative]: 'react-native',
-	[ServiceNodeType.Flutter]: 'flutter',
-	[ServiceNodeType.IOS]: 'ios',
-	[ServiceNodeType.Android]: 'android',
-	// db-nosql
-	[ServiceNodeType.MongoDB]: 'mongo',
-	[ServiceNodeType.Firestore]: 'firestore',
-	[ServiceNodeType.Cassandra]: 'cassandra',
-	[ServiceNodeType.DynamoDB]: 'dynamo',
-	[ServiceNodeType.Redis]: 'redis',
-	[ServiceNodeType.Hbase]: 'hbase',
-	[ServiceNodeType.CosmosDB]: 'cosmos',
-	// db-sql
-	[ServiceNodeType.MySQL]: 'mysql',
-	[ServiceNodeType.PostgresSQL]: 'postgres',
-	[ServiceNodeType.MicrosoftSQL]: 'sqlserver',
-	[ServiceNodeType.MariaDB]: 'mariadb',
-	[ServiceNodeType.Firebird]: 'firebird',
-	[ServiceNodeType.SQLite]: 'sqlite',
-	[ServiceNodeType.Oracle]: 'oracle',
-	// server js
-	[ServiceNodeType.NestJs]: 'nest',
-	[ServiceNodeType.ExpressJs]: 'express',
-	[ServiceNodeType.KoaJs]: 'koa',
-	[ServiceNodeType.HapiJs]: 'hapi',
-	[ServiceNodeType.Fastify]: 'fastify',
-	// server Python
-	[ServiceNodeType.Litestar]: 'litestar',
-	[ServiceNodeType.Django]: 'django',
-	[ServiceNodeType.Flask]: 'flask',
-	[ServiceNodeType.FastAPI]: 'fastapi',
-	// api services
-	[ServiceNodeType.OpenAi]: 'openai',
-	[ServiceNodeType.SendGrid]: 'sendgrid',
-	[ServiceNodeType.Stripe]: 'stripe',
-	[ServiceNodeType.MailGun]: 'mailgun',
-
-	// internal
-	[InternalNodeType.Controller]: 'controller',
-	[InternalNodeType.Service]: 'service',
-	[InternalNodeType.Endpoint]: 'endpoint',
-	// container
-	[ContainerNodeType.Module]: 'module',
-};
-
-export const ServiceNodeAllowedInternalNodesMap: Record<
-	string,
-	(InternalNodeType | ContainerNodeType)[] | undefined
-> = {
-	[ServiceNodeType.NestJs]: [
-		ContainerNodeType.Module,
-		InternalNodeType.Controller,
-		InternalNodeType.Service,
-		InternalNodeType.Endpoint,
-	],
-};
-export enum EdgeTypes {
-	BezierEdge = 'default',
-	StraightEdge = 'straight',
-	StepEdge = 'step',
-	SmoothStepEdg = 'smoothstep',
-	SimpleBezier = 'simplebezier',
-}
-
-export enum NodeCategory {
+export enum MenuCategory {
 	DotNet = '.Net',
 	Go = 'Go',
 	Graph = 'Graph',
@@ -148,3 +26,55 @@ export enum NodeCategory {
 	AI = 'AI',
 	Payment = 'Payment',
 }
+
+export const TypeTagMap: Record<NodeType, string> = {
+	[ServiceType.NextJs]: 'nextjs',
+	[ServiceType.Angular]: 'angular',
+	[ServiceType.React]: 'react',
+	[ServiceType.Solid]: 'solid',
+	[ServiceType.Svelte]: 'svelte',
+	[ServiceType.Vue]: 'vue',
+	// mobile frameworks
+	[ServiceType.ReactNative]: 'react-native',
+	[ServiceType.Flutter]: 'flutter',
+	[ServiceType.IOS]: 'ios',
+	[ServiceType.Android]: 'android',
+	// db-nosql
+	[ServiceType.MongoDB]: 'mongo',
+	[ServiceType.Firestore]: 'firestore',
+	[ServiceType.Cassandra]: 'cassandra',
+	[ServiceType.DynamoDB]: 'dynamo',
+	[ServiceType.Redis]: 'redis',
+	[ServiceType.Hbase]: 'hbase',
+	[ServiceType.CosmosDB]: 'cosmos',
+	// db-sql
+	[ServiceType.MySQL]: 'mysql',
+	[ServiceType.PostgresSQL]: 'postgres',
+	[ServiceType.MicrosoftSQL]: 'sqlserver',
+	[ServiceType.MariaDB]: 'mariadb',
+	[ServiceType.Firebird]: 'firebird',
+	[ServiceType.SQLite]: 'sqlite',
+	[ServiceType.Oracle]: 'oracle',
+	// server js
+	[ServiceType.NestJs]: 'nest',
+	[ServiceType.ExpressJs]: 'express',
+	[ServiceType.KoaJs]: 'koa',
+	[ServiceType.HapiJs]: 'hapi',
+	[ServiceType.Fastify]: 'fastify',
+	// server Python
+	[ServiceType.Litestar]: 'litestar',
+	[ServiceType.Django]: 'django',
+	[ServiceType.Flask]: 'flask',
+	[ServiceType.FastAPI]: 'fastapi',
+	// api services
+	[ServiceType.OpenAi]: 'openai',
+	[ServiceType.SendGrid]: 'sendgrid',
+	[ServiceType.Stripe]: 'stripe',
+	[ServiceType.MailGun]: 'mailgun',
+
+	// system
+	[SystemComponentType.Controller]: 'controller',
+	[SystemComponentType.Service]: 'service',
+	[SystemComponentType.Endpoint]: 'endpoint',
+	[SystemComponentType.Module]: 'module',
+};
