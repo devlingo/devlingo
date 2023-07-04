@@ -1,9 +1,8 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Edge, Node } from 'reactflow';
-import { HttpMethod } from 'shared/constants';
+import { EdgeType, HttpMethod, ServiceType } from 'shared/constants';
 
 import { fetcher } from '@/api/fetcher';
-import { EdgeType, ServiceType } from '@/constants';
 import { createNode } from '@/utils/node';
 
 export interface PromptRequest {

@@ -1,6 +1,5 @@
 import { JsonSchema, UISchemaElement } from '@jsonforms/core';
-
-import { ServiceType, SystemComponentType } from '@/constants';
+import { ServiceType, SystemComponentType } from 'shared/constants';
 
 export const NodeNameFormSchema = {
 	type: 'object',

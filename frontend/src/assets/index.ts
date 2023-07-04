@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { ServiceType, SystemComponentType } from 'shared/constants';
 import { NodeType } from 'shared/types';
 
 import Controller from '@/assets/internal-nodes/controller.svg';
@@ -48,7 +49,7 @@ import Android from '@/assets/services-nodes/mobile-frameworks/android.svg';
 import Flutter from '@/assets/services-nodes/mobile-frameworks/flutter.svg';
 import Ios from '@/assets/services-nodes/mobile-frameworks/ios.svg';
 import ReactNative from '@/assets/services-nodes/mobile-frameworks/reactnative.svg';
-import { MenuItemType, ServiceType, SystemComponentType } from '@/constants';
+import { MenuItemType } from '@/constants';
 
 export {
 	Android,

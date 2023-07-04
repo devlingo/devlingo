@@ -1,8 +1,8 @@
 import { toJpeg, toPng, toSvg } from 'html-to-image';
+import { ServiceType } from 'shared/constants';
 import { testData } from 'tests/test-data';
 import { expect } from 'vitest';
 
-import { ServiceType } from '@/constants';
 import { ImageType } from '@/types';
 import { convertNodesToImageString, createNode } from '@/utils/node';
 

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useDrop } from 'react-dnd';
+import { ServiceType } from 'shared/constants';
 
-import { ServiceType } from '@/constants';
 import { DropTargetData } from '@/types';
 
 export function useBoundedDrop(): [

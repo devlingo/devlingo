@@ -6,16 +6,12 @@ import {
 	ShareIcon,
 } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
+import { ServiceType } from 'shared/constants';
 import { NodeType } from 'shared/types';
 
 import { TypeSVGMap } from '@/assets';
 import { MenuItem } from '@/components/design-canvas-page/side-menu/menu-item';
-import {
-	Dimensions,
-	MenuCategory,
-	MenuItemType,
-	ServiceType,
-} from '@/constants';
+import { Dimensions, MenuCategory, MenuItemType } from '@/constants';
 import { useDisplayNodes } from '@/stores/design-store';
 import { ImageType } from '@/types';
 import { downloadFile } from '@/utils/file';
