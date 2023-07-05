@@ -177,7 +177,7 @@ export function FlowContainer({
 				onEdgesChange={withSetSave(onEdgesChange)}
 				onInit={setReactFlowInstance}
 				onNodesChange={withSetSave(onNodesChange)}
-				proOptions={{ hideAttribution: true }}
+				proOptions={{ account: 'paid-pro', hideAttribution: true }}
 				minZoom={0.1}
 				snapToGrid={true}
 				zoomOnScroll={false}

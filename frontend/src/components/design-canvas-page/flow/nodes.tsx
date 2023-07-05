@@ -1,124 +1,114 @@
-import { Cog8ToothIcon, ListBulletIcon } from '@heroicons/react/24/solid';
+import {
+	ArrowPathIcon,
+	Cog8ToothIcon,
+	ListBulletIcon,
+} from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
-import { Handle, HandleProps, NodeProps, Position, useNodeId } from 'reactflow';
+import {
+	Handle,
+	HandleProps,
+	NodeProps,
+	Position,
+	useNodeId,
+	useUpdateNodeInternals,
+} from 'reactflow';
 import { NodeShape } from 'shared/constants';
 import { CustomNodeData } from 'shared/types';
 
 import { TypeSVGMap } from '@/assets';
 import { TypeTagMap } from '@/constants';
+import {
+	useNodes,
+	useSetConfiguredNode,
+	useSetNodes,
+} from '@/stores/design-store';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
-import { useSetConfiguredNode } from '@/stores/design-store';
 
 export const ShapeComponents: Record<
 	NodeShape,
-	React.FC<
-		{
-			width: number;
-			height: number;
-			selected: boolean;
-		} & React.SVGProps<any>
-	>
+	React.FC<{
+		width: number;
+		height: number;
+	}>
 > = {
-	[NodeShape.ArrowRectangle]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M0,0 L${width - 10},0  L${width},${height / 2} L${
-				width - 10
-			},${height} L0,${height} z`}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.ArrowRectangle]: ({ width = 100, height = 100 }) => (
+		<svg height={height} width={width}>
+			<path
+				d={`M0,0 L${width - 10},0  L${width},${height / 2} L${
+					width - 10
+				},${height} L0,${height} z`}
+			/>
+		</svg>
 	),
-	[NodeShape.Circle]: ({ width, selected, ...rest }) => (
-		<circle
-			cx={width / 2}
-			cy={width / 2}
-			r={width}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Circle]: ({ width }) => (
+		<svg height={width} width={width}>
+			<circle cx={width / 2} cy={width / 2} r={width} />
+		</svg>
 	),
-	[NodeShape.Database]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M0,${height * 0.125}  L 0,${height - height * 0.125} A ${
-				width / 2
-			} ${height * 0.125} 0 1 0 ${width} ${
-				height - height * 0.125
-			} L ${width},${height * 0.125} A ${width / 2} ${
-				height * 0.125
-			} 0 1 1 0 ${height * 0.125} A ${width / 2} ${
-				height * 0.125
-			} 0 1 1 ${width} ${height * 0.125} A ${width / 2} ${
-				height * 0.125
-			} 0 1 1 0 ${height * 0.125} z`}
-			{...rest}
-			strokeWidth={selected ? 2 : 1}
-		/>
+	[NodeShape.Database]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<path
+				d={`M0,${height * 0.125}  L 0,${height - height * 0.125} A ${
+					width / 2
+				} ${height * 0.125} 0 1 0 ${width} ${
+					height - height * 0.125
+				} L ${width},${height * 0.125} A ${width / 2} ${
+					height * 0.125
+				} 0 1 1 0 ${height * 0.125} A ${width / 2} ${
+					height * 0.125
+				} 0 1 1 ${width} ${height * 0.125} A ${width / 2} ${
+					height * 0.125
+				} 0 1 1 0 ${height * 0.125} z`}
+			/>
+		</svg>
 	),
-	[NodeShape.Diamond]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M0,${height / 2} L${width / 2},0 L${width},${height / 2} L${
-				width / 2
-			},${height} z`}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Diamond]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<path
+				d={`M0,${height / 2} L${width / 2},0 L${width},${height / 2} L${
+					width / 2
+				},${height} z`}
+			/>
+		</svg>
 	),
-	[NodeShape.Ellipse]: ({ width, height, selected, ...rest }) => (
-		<ellipse
-			cx={width / 2}
-			cy={height / 2}
-			rx={width}
-			ry={height}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Ellipse]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} />
+		</svg>
 	),
-	[NodeShape.Hexagon]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M10,0 L${width - 10},0  L${width},${height / 2} L${
-				width - 10
-			},${height} L10,${height} L0,${height / 2} z`}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Hexagon]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<path
+				d={`M10,0 L${width - 10},0  L${width},${height / 2} L${
+					width - 10
+				},${height} L10,${height} L0,${height / 2} z`}
+			/>
+		</svg>
 	),
-	[NodeShape.Parallelogram]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M0,${height} L${width * 0.25},0 L${width},0 L${
-				width - width * 0.25
-			},${height} z`}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Parallelogram]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<path
+				d={`M0,${height} L${width * 0.25},0 L${width},0 L${
+					width - width * 0.25
+				},${height} z`}
+			/>
+		</svg>
 	),
-	[NodeShape.Rectangle]: ({ width, height, selected, ...rest }) => (
-		<rect
-			x={0}
-			y={0}
-			width={width}
-			height={height}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Rectangle]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<rect x={0} y={0} width={width} height={height} />
+		</svg>
 	),
-	[NodeShape.RoundedRectangle]: ({ width, height, selected, ...rest }) => (
-		<rect
-			x={0}
-			y={0}
-			rx={20}
-			width={width}
-			height={height}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.RoundedRectangle]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<rect x={0} y={0} rx={20} width={width} height={height} />
+		</svg>
 	),
-	[NodeShape.Triangle]: ({ width, height, selected, ...rest }) => (
-		<path
-			d={`M0,${height} L${width / 2},0 L${width},${height} z`}
-			strokeWidth={selected ? 2 : 0}
-			{...rest}
-		/>
+	[NodeShape.Triangle]: ({ width, height }) => (
+		<svg height={height} width={width}>
+			<path d={`M0,${height} L${width / 2},0 L${width},${height} z`} />
+		</svg>
 	),
 };
 
@@ -149,160 +139,119 @@ export function NodeHandles({
 	);
 }
 
-function NodeButton({
-	Icon,
-	color = 'text-base-content',
-	hoverColor = 'text-primary',
-	...props
-}: {
-	color?: string;
-	hoverColor?: string;
-	size?: number;
-	Icon: React.ComponentType<any>;
-} & Omit<React.ButtonHTMLAttributes<any>, 'className'>) {
-	return (
-		<button {...props}>
-			<Icon className={`h-5 w-5 ${color} hover:${hoverColor}`} />
-		</button>
-	);
-}
-
 export function CanvasNodeComponent({
 	data: { nodeType, formData, shape, height, width },
 	selected,
-}: Partial<NodeProps<CustomNodeData>> & { data: CustomNodeData }) {
+}: NodeProps<CustomNodeData>) {
 	const setConfiguredNode = useSetConfiguredNode();
-
 	const nodeId = useNodeId()!;
+	const nodes = useNodes();
+	const setNodes = useSetNodes();
+	const updateNodeInternals = useUpdateNodeInternals();
 	const onContextMenu = useContextMenu(ContextMenuType.CustomNode, nodeId);
 
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
+	console.log('shape', shape);
 	const Shape = ShapeComponents[shape];
+
+	const handleUpdateNodeShape = (): void => {
+		setNodes(
+			nodes.map((node) => {
+				if (node.id === nodeId) {
+					const shapes = Object.values(NodeShape);
+					const shapeIndex = shapes.findIndex(
+						(s) => node.data.shape === s,
+					);
+					console.log(shapeIndex);
+					const nextShape =
+						shapes[
+							shapeIndex === shapes.length - 1
+								? 0
+								: shapeIndex + 1
+						];
+					console.log('nextShape', nextShape);
+					const { data, ...rest } = node;
+					return { ...rest, data: { ...data, shape: nextShape } };
+				}
+				return node;
+			}),
+		);
+		updateNodeInternals(nodeId);
+	};
+
 	return (
-		<div data-testid={`node-${nodeId}`} onContextMenu={onContextMenu}>
+		<div className="relative" data-testid={`node-${nodeId}`} onContextMenu={onContextMenu}>
 			<NodeHandles
 				nodeId={nodeId}
 				className="bg-accent rounded opacity-0"
 			/>
-			<svg
-				style={{ display: 'block', overflow: 'visible' }}
-				height={height}
-				width={width}
+			<figure
+				className={`border-2 block overflow-visible ${
+					selected ? 'border-accent' : 'border-neutral'
+				}`}
 			>
-				<Shape
-					width={width}
-					height={height}
-					selected={selected ?? false}
-					className="bg-base-100"
-				/>
-			</svg>
-			<div className="flex justify-start p-4 border-b-2 border-b-neutral gap-8">
-				<figure>
-					<SVG
-						className="max-w-12 max-h-12 h-full w-full"
-						data-testid={`svg-${nodeId}`}
-						{...props}
-					/>
-				</figure>
-				<div>
-					<h2 className="text-base-content text-lg">
-						{formData.nodeName}
-					</h2>
-					<p
-						className="text-base-content text-sm"
-						data-testid={`type-tag-${nodeId}`}
-					>
-						{t(TypeTagMap[nodeType])}
-					</p>
+				<Shape width={width} height={height} />
+			</figure>
+			<div className="flex flex-col justify-center items-center absolute h-full w-full left-0 top-0">
+				<div className="flex justify-start p-4 border-b-2 border-b-neutral gap-4">
+					<figure>
+						<SVG
+							height={height / 4}
+							width={height / 4}
+							data-testid={`svg-${nodeId}`}
+							className="z-10"
+							{...props}
+						/>
+					</figure>
+					<div>
+						<h2 className="text-base-content text-lg">
+							{formData.nodeName}
+						</h2>
+						<p
+							className="text-base-content text-sm"
+							data-testid={`type-tag-${nodeId}`}
+						>
+							{t(TypeTagMap[nodeType])}
+						</p>
+					</div>
 				</div>
-			</div>
-			<div className="flex justify-between p-3">
-				<div className="join join-horizontal gap-2">
-					<NodeButton
-						Icon={ListBulletIcon}
-						data-testid={`todo-btn-${nodeId}`}
-					/>
-					<NodeButton
-						Icon={Cog8ToothIcon}
-						data-testid={`config-btn-${nodeId}`}
-						onClick={() => {
-							setConfiguredNode(nodeId);
-						}}
-					/>
+				<div className="flex justify-between w-full p-4">
+					<div className="join join-horizontal gap-2">
+						<button
+							className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
+							data-testid={`todo-btn-${nodeId}`}
+						>
+							<ListBulletIcon
+								height={height / 12}
+								width={height / 12}
+							/>
+						</button>
+						<button
+							className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
+							data-testid={`config-btn-${nodeId}`}
+							onClick={() => {
+								setConfiguredNode(nodeId);
+							}}
+						>
+							<Cog8ToothIcon
+								height={height / 12}
+								width={height / 12}
+							/>
+						</button>
+					</div>
+					<button
+						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
+						data-testid={`switch-shape-btn-${nodeId}`}
+						onClick={handleUpdateNodeShape}
+					>
+						<ArrowPathIcon
+							height={height / 12}
+							width={height / 12}
+						/>
+					</button>
 				</div>
 			</div>
 		</div>
 	);
 }
-
-// function ShapeNode({ data, selected }: NodeProps) {
-// 	const width = data?.width || 100;
-// 	const height = data?.height || 100;
-// 	const shape = useShape({
-// 		type: data?.shape,
-// 		width,
-// 		height,
-// 		color: data?.color,
-// 		selected,
-// 	});
-//
-// 	return (
-// 		<div style={{ position: 'relative' }}>
-// 			<Handle
-// 				id="top"
-// 				style={handleStyle}
-// 				position={Position.Top}
-// 				type="source"
-// 			/>
-// 			<Handle
-// 				id="right"
-// 				style={handleStyle}
-// 				position={Position.Right}
-// 				type="source"
-// 			/>
-// 			<Handle
-// 				id="bottom"
-// 				style={handleStyle}
-// 				position={Position.Bottom}
-// 				type="source"
-// 			/>
-// 			<Handle
-// 				id="left"
-// 				style={handleStyle}
-// 				position={Position.Left}
-// 				type="source"
-// 			/>
-// 			<svg
-// 				style={{ display: 'block', overflow: 'visible' }}
-// 				width={width}
-// 				height={height}
-// 			>
-// 				{shape}
-// 			</svg>
-// 			<div
-// 				style={{
-// 					display: 'flex',
-// 					justifyContent: 'center',
-// 					alignItems: 'center',
-// 					position: 'absolute',
-// 					top: 0,
-// 					left: 0,
-// 					width: '100%',
-// 					height: '100%',
-// 				}}
-// 			>
-// 				<div
-// 					style={{
-// 						fontFamily: 'monospace',
-// 						fontWeight: 'bold',
-// 						color: 'white',
-// 						fontSize: 12,
-// 					}}
-// 				>
-// 					{data?.label}
-// 				</div>
-// 			</div>
-// 		</div>
-// 	);
-// }
