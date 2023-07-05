@@ -7,7 +7,7 @@ import {
 import { JsonForms } from '@jsonforms/react';
 import { deepmerge } from 'deepmerge-ts';
 import { useState } from 'react';
-import { NodeType } from 'shared/types';
+import { CustomNodeData, FormData, NodeType } from 'shared//types';
 
 import {
 	DefaultSchemas,
@@ -18,7 +18,6 @@ import {
 	useNodes,
 	useSetNodes,
 } from '@/stores/design-store';
-import { CustomNodeData, FormData } from '@/types';
 
 const handleDefaultsAjv = createAjv({ useDefaults: true });
 export interface NodeFormProps {
