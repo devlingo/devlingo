@@ -84,9 +84,12 @@ export class PromptService {
 				},
 			},
 		});
-		const designData = structuredClone(
-			versions.length ? versions[0]?.data ?? {} : {},
-		) as unknown as DesignData;
+		const designData = (
+			versions.length && versions[0].data
+				? JSON.parse(versions[0].data as string) ?? {}
+				: {}
+		) as DesignData;
+
 		const promptResponse = await this.makePromptRequest(
 			designData,
 			useInput,
