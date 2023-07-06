@@ -1,9 +1,8 @@
 import { Position } from '@reactflow/core';
 import { Edge, Node } from 'reactflow';
 import { ServiceType } from 'shared/constants';
+import { createNode } from 'shared/utils/node';
 import { v4 as uuidv4 } from 'uuid';
-
-import { createNode } from '@/utils/node';
 
 export const nestService = createNode({
 	position: { x: 700, y: 50 },

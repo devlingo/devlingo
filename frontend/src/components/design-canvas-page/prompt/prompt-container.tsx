@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 import { TimeUnit } from 'shared/constants';
-import { v4 as uuidv4 } from 'uuid';
 
 import { requestPrompt } from '@/api/prompt-api';
 import { PromptState } from '@/components/design-canvas-page/prompt/constants';
 import { PromptAnswerDialogue } from '@/components/design-canvas-page/prompt/prompt-answer-dialogue';
 import { PromptModal } from '@/components/design-canvas-page/prompt/prompt-modal';
 import { PromptStatusPopup } from '@/components/design-canvas-page/prompt/prompt-status-popup';
+import { useCurrentDesign } from '@/stores/api-store';
 import {
 	useDisplayEdges,
 	useDisplayNodes,
@@ -25,6 +25,8 @@ export function PromptContainer({
 	closePromptModal,
 	isPromptModalOpen,
 }: PromptContainerProps) {
+	const currentDesign = useCurrentDesign()!;
+
 	const setNodes = useSetNodes();
 	const setEdges = useSetEdges();
 	const displayNodes = useDisplayNodes();
@@ -40,17 +42,14 @@ export function PromptContainer({
 		[displayEdges, displayNodes],
 	);
 
-	const handlePromptSubmit = async (promptContent: string) => {
+	const handlePromptSubmit = async (useInput: string) => {
 		closePromptModal();
 		setPromptState(PromptState.Loading);
 		try {
 			const { nodes, edges } = await requestPrompt({
-				edges: displayEdges,
-				nodes: displayNodes,
-				promptContent,
-				//FIXME: replace designId and projectId with real values
-				designId: uuidv4(),
-				projectId: uuidv4(),
+				useInput,
+				designId: currentDesign.id,
+				projectId: currentDesign.projectId,
 			});
 			setNodes(nodes);
 			setEdges(NormalizeEdges(edges, nodes));

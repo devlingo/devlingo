@@ -2,30 +2,9 @@ import { getRectOfNodes, getTransformForBounds } from '@reactflow/core';
 import { toJpeg, toPng, toSvg } from 'html-to-image';
 import { Options as HtmlToImageOptions } from 'html-to-image/lib/types';
 import { Node } from 'reactflow';
-import { v4 as uuidv4 } from 'uuid';
 
 import { Dimensions } from '@/constants';
-import { CustomNodeData, CustomNodeType, ImageType } from '@/types';
-
-export type CreateNodeParams = {
-	data: CustomNodeData;
-	position: { x: number; y: number };
-} & Omit<Partial<Node<CustomNodeData>>, 'data' | 'type' | 'className'>;
-
-export function createNode({
-	id,
-	data,
-	position,
-	...props
-}: CreateNodeParams): CustomNodeType {
-	return {
-		...props,
-		data,
-		id: id ?? uuidv4(),
-		position,
-		type: 'CustomNode',
-	} as CustomNodeType;
-}
+import { ImageType } from '@/types';
 
 const imageWidth = 1024;
 const imageHeight = 768;

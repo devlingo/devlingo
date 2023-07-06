@@ -1,19 +1,22 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
+import { DesignData } from 'shared/types';
 
 import { PromptService } from '@/api/prompt/service';
-import { DesignData } from '@/api/prompt/types';
 import { PromptRequestDTO } from '@/dtos/body';
+import { DesignIdParam } from '@/dtos/parameter';
 
-@Controller('prompt')
+@Controller(':projectId/:designId/prompt')
 export class PromptController {
 	constructor(private readonly promptService: PromptService) {}
 
-	@Post(':projectId/:designId')
+	@Post()
 	async createPrompt(
-		// @Param() projectId: ProjectIdParam,
-		// @Param() designId: DesignIdParam,
+		@Param() designId: DesignIdParam,
 		@Body() data: PromptRequestDTO,
 	): Promise<DesignData> {
-		return await this.promptService.requestPrompt(data);
+		return await this.promptService.requestPrompt({
+			...designId,
+			...data,
+		});
 	}
 }

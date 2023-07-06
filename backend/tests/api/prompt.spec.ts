@@ -54,8 +54,7 @@ describe('Prompt Controller Tests', () => {
 
 	describe('POST prompt/:projectId/:designId', () => {
 		const requestData = {
-			promptContent:
-				'Please add a mysql database connected to my backend.',
+			useInput: 'Please add a mysql database connected to my backend.',
 			designData: {
 				nodes: [
 					{

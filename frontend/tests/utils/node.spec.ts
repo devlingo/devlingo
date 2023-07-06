@@ -1,10 +1,11 @@
 import { toJpeg, toPng, toSvg } from 'html-to-image';
 import { ServiceType } from 'shared/constants';
+import { createNode } from 'shared/utils/node';
 import { testData } from 'tests/test-data';
 import { expect } from 'vitest';
 
 import { ImageType } from '@/types';
-import { convertNodesToImageString, createNode } from '@/utils/node';
+import { convertNodesToImageString } from '@/utils/node';
 
 vi.mock('html-to-image', () => ({
 	toPng: vi.fn(),

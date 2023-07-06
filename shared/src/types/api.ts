@@ -41,9 +41,12 @@ export interface ViewPortData {
 	zoom: number;
 }
 
-export interface VersionData {
+export interface DesignData {
 	nodes: NodeData[];
 	edges: EdgeData[];
+}
+
+export interface VersionData extends DesignData {
 	viewport: ViewPortData;
 }
 

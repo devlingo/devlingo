@@ -45,7 +45,7 @@ The repository follows [conventional commits](https://www.conventionalcommits.or
 Branches should follow the format `<issue-id>-some-title`, for example `DEVLINGO-1-my-issue`. This should also be the
 format of the PR title - this is enforced using a github action.
 
-## Commands
+## PromptCommand
 
 ### Test commands:
 

@@ -1,11 +1,6 @@
 import { mockFetch } from 'tests/mocks';
 
-import {
-	mergeEdges,
-	mergeNodes,
-	parsePromptData,
-	requestPrompt,
-} from '@/api/prompt-api';
+import { mergeEdges, mergeNodes, requestPrompt } from '@/api/prompt-api';
 
 describe('requestPrompt tests', () => {
 	it('handles success response', async () => {
@@ -21,16 +16,7 @@ describe('requestPrompt tests', () => {
 			edges: [{ id: '1', source: '1', target: '2', type: 'default' }],
 		};
 		const mockData = {
-			promptContent: 'test prompt',
-			nodes: [
-				{
-					id: '1',
-					data: { nodeType: 'test' },
-					position: { x: 0, y: 0 },
-					type: 'default',
-				},
-			],
-			edges: [{ id: '1', source: '1', target: '2', type: 'default' }],
+			useInput: 'test prompt',
 			designId: 'testDesignId',
 			projectId: 'testProjectId',
 		};
@@ -47,7 +33,7 @@ describe('requestPrompt tests', () => {
 			),
 			{
 				method: 'POST',
-				body: JSON.stringify(parsePromptData(mockData)),
+				body: JSON.stringify(mockData),
 				headers: {
 					'Authorization': 'Bearer test_token',
 					'Content-Type': 'application/json',
@@ -106,7 +92,7 @@ describe('requestPrompt tests', () => {
 
 	it('handles an error correctly', async () => {
 		const mockData = {
-			promptContent: 'test prompt',
+			useInput: 'test prompt',
 			nodes: [],
 			edges: [],
 			designId: 'testDesignId',
