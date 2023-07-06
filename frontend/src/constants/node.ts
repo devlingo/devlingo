@@ -1,6 +1,10 @@
 import { ServiceType, SystemComponentType } from 'shared/constants';
 import { NodeType } from 'shared/types';
 
+import { Dimensions } from '@/constants/ui';
+
+export const NodeDefaultSizePX = Dimensions.SixtyFour;
+
 export const TypeTagMap: Record<NodeType, string> = {
 	[ServiceType.NextJs]: 'nextjs',
 	[ServiceType.Angular]: 'angular',

@@ -4,36 +4,35 @@ import {
 	ListBulletIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
+import { useEffect, useRef, useState } from 'react';
 import {
 	Handle,
 	HandleProps,
 	NodeProps,
+	NodeResizer,
 	Position,
 	useNodeId,
-	useUpdateNodeInternals,
 } from 'reactflow';
 import { NodeShape } from 'shared/constants';
 import { CustomNodeData } from 'shared/types';
 
 import { TypeSVGMap } from '@/assets';
-import { TypeTagMap } from '@/constants';
-import {
-	useNodes,
-	useSetConfiguredNode,
-	useSetNodes,
-} from '@/stores/design-store';
+import { Dimensions, NodeDefaultSizePX, TypeTagMap } from '@/constants';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
+import { useSetConfiguredNode, useUpdateNode } from '@/stores/design-store';
 
 export const ShapeComponents: Record<
 	NodeShape,
-	React.FC<{
-		width: number;
-		height: number;
-	}>
+	React.FC<
+		{
+			width: number;
+			height: number;
+		} & React.SVGProps<any>
+	>
 > = {
-	[NodeShape.ArrowRectangle]: ({ width = 100, height = 100 }) => (
-		<svg height={height} width={width}>
+	[NodeShape.ArrowRectangle]: ({ width = 100, height = 100, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M0,0 L${width - 10},0  L${width},${height / 2} L${
 					width - 10
@@ -41,13 +40,13 @@ export const ShapeComponents: Record<
 			/>
 		</svg>
 	),
-	[NodeShape.Circle]: ({ width }) => (
-		<svg height={width} width={width}>
+	[NodeShape.Circle]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<circle cx={width / 2} cy={width / 2} r={width} />
 		</svg>
 	),
-	[NodeShape.Database]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Database]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M0,${height * 0.125}  L 0,${height - height * 0.125} A ${
 					width / 2
@@ -63,8 +62,8 @@ export const ShapeComponents: Record<
 			/>
 		</svg>
 	),
-	[NodeShape.Diamond]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Diamond]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M0,${height / 2} L${width / 2},0 L${width},${height / 2} L${
 					width / 2
@@ -72,13 +71,13 @@ export const ShapeComponents: Record<
 			/>
 		</svg>
 	),
-	[NodeShape.Ellipse]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Ellipse]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} />
 		</svg>
 	),
-	[NodeShape.Hexagon]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Hexagon]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M10,0 L${width - 10},0  L${width},${height / 2} L${
 					width - 10
@@ -86,8 +85,8 @@ export const ShapeComponents: Record<
 			/>
 		</svg>
 	),
-	[NodeShape.Parallelogram]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Parallelogram]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M0,${height} L${width * 0.25},0 L${width},0 L${
 					width - width * 0.25
@@ -95,18 +94,18 @@ export const ShapeComponents: Record<
 			/>
 		</svg>
 	),
-	[NodeShape.Rectangle]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Rectangle]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<rect x={0} y={0} width={width} height={height} />
 		</svg>
 	),
-	[NodeShape.RoundedRectangle]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.RoundedRectangle]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<rect x={0} y={0} rx={20} width={width} height={height} />
 		</svg>
 	),
-	[NodeShape.Triangle]: ({ width, height }) => (
-		<svg height={height} width={width}>
+	[NodeShape.Triangle]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path d={`M0,${height} L${width / 2},0 L${width},${height} z`} />
 		</svg>
 	),
@@ -139,115 +138,189 @@ export function NodeHandles({
 	);
 }
 
+export function calculateMinimalContentDimensions(childNodes: HTMLElement[]) {
+	return childNodes.reduce<{
+		minWidth: number;
+		minHeight: number;
+	}>(
+		(acc, cur) => {
+			const { width, height } = cur.getBoundingClientRect();
+			acc.minWidth =
+				width / 2 + Dimensions.Half > acc.minWidth
+					? width / 2 + Dimensions.Half
+					: acc.minWidth;
+			acc.minHeight =
+				height / 2 + Dimensions.Half > acc.minHeight
+					? height / 2 + Dimensions.Half
+					: acc.minHeight;
+
+			return acc;
+		},
+		{
+			minWidth: 0,
+			minHeight: 0,
+		},
+	);
+}
+
+export function useNodeResize({
+	width,
+	height,
+}: {
+	width: number;
+	height: number;
+}) {
+	const [minWidth, setMinWidth] = useState(0);
+	const [minHeight, setMinHeight] = useState(0);
+	const [resizeFactor, setResizeFactor] = useState(1.0);
+
+	const contentRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (contentRef.current) {
+			const result = calculateMinimalContentDimensions(
+				Array.from(contentRef.current.childNodes) as HTMLElement[],
+			);
+			setMinWidth(result.minWidth);
+			setMinHeight(result.minHeight);
+		}
+	}, [contentRef.current, width, height]);
+
+	useEffect(() => {
+		setResizeFactor(height / NodeDefaultSizePX);
+	}, [height, width]);
+
+	return {
+		contentRef,
+		resizeFactor,
+		minWidth,
+		minHeight,
+	};
+}
+
 export function CanvasNodeComponent({
-	data: { nodeType, formData, shape, height, width },
+	data: { nodeType, formData, shape, width, height },
 	selected,
 }: NodeProps<CustomNodeData>) {
-	const setConfiguredNode = useSetConfiguredNode();
 	const nodeId = useNodeId()!;
-	const nodes = useNodes();
-	const setNodes = useSetNodes();
-	const updateNodeInternals = useUpdateNodeInternals();
+	const updateNode = useUpdateNode();
+	const setConfiguredNode = useSetConfiguredNode();
 	const onContextMenu = useContextMenu(ContextMenuType.CustomNode, nodeId);
 
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
-	console.log('shape', shape);
 	const Shape = ShapeComponents[shape];
 
 	const handleUpdateNodeShape = (): void => {
-		setNodes(
-			nodes.map((node) => {
-				if (node.id === nodeId) {
-					const shapes = Object.values(NodeShape);
-					const shapeIndex = shapes.findIndex(
-						(s) => node.data.shape === s,
-					);
-					console.log(shapeIndex);
-					const nextShape =
-						shapes[
-							shapeIndex === shapes.length - 1
-								? 0
-								: shapeIndex + 1
-						];
-					console.log('nextShape', nextShape);
-					const { data, ...rest } = node;
-					return { ...rest, data: { ...data, shape: nextShape } };
-				}
-				return node;
-			}),
-		);
-		updateNodeInternals(nodeId);
+		const shapes = Object.values(NodeShape);
+		const shapeIndex = shapes.findIndex((s) => shape === s);
+
+		const nextShape =
+			shapes[shapeIndex === shapes.length - 1 ? 0 : shapeIndex + 1];
+		updateNode(nodeId, { shape: nextShape });
 	};
 
+	const { minWidth, minHeight, contentRef, resizeFactor } = useNodeResize({
+		width,
+		height,
+	});
+
+	const baseFontSize = Math.abs(Dimensions.Rem * resizeFactor);
+
 	return (
-		<div className="relative" data-testid={`node-${nodeId}`} onContextMenu={onContextMenu}>
+		<div
+			className="relative text-base-100"
+			data-testid={`node-${nodeId}`}
+			onContextMenu={onContextMenu}
+		>
+			<NodeResizer
+				onResize={(_, params) => {
+					updateNode(nodeId, {
+						width: params.width,
+						height: params.height,
+					});
+				}}
+				minHeight={minHeight}
+				minWidth={minWidth}
+				keepAspectRatio={true}
+			/>
 			<NodeHandles
 				nodeId={nodeId}
 				className="bg-accent rounded opacity-0"
 			/>
-			<figure
-				className={`border-2 block overflow-visible ${
-					selected ? 'border-accent' : 'border-neutral'
-				}`}
+			<Shape
+				width={width}
+				height={height}
+				strokeWidth={selected ? 2 : 0}
+				stroke={'#fff'}
+			/>
+			<div
+				className="flex flex-col justify-center items-center absolute h-full w-full left-0 top-0 text-base-content"
+				ref={contentRef}
 			>
-				<Shape width={width} height={height} />
-			</figure>
-			<div className="flex flex-col justify-center items-center absolute h-full w-full left-0 top-0">
-				<div className="flex justify-start p-4 border-b-2 border-b-neutral gap-4">
+				<div
+					id={`${nodeId}-node-content`}
+					className="flex justify-center gap-3"
+				>
 					<figure>
 						<SVG
-							height={height / 4}
-							width={height / 4}
+							height={baseFontSize * 3.35}
+							width={baseFontSize * 3.25}
 							data-testid={`svg-${nodeId}`}
 							className="z-10"
 							{...props}
 						/>
 					</figure>
 					<div>
-						<h2 className="text-base-content text-lg">
+						<h2
+							className="text-base-content"
+							style={{ fontSize: baseFontSize * 1.25 }}
+							data-testid={`node-name-${nodeId}`}
+						>
 							{formData.nodeName}
 						</h2>
 						<p
-							className="text-base-content text-sm"
+							className="text-base-content"
+							style={{ fontSize: baseFontSize }}
 							data-testid={`type-tag-${nodeId}`}
 						>
 							{t(TypeTagMap[nodeType])}
 						</p>
 					</div>
 				</div>
-				<div className="flex justify-between w-full p-4">
-					<div className="join join-horizontal gap-2">
-						<button
-							className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
-							data-testid={`todo-btn-${nodeId}`}
-						>
-							<ListBulletIcon
-								height={height / 12}
-								width={height / 12}
-							/>
-						</button>
-						<button
-							className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
-							data-testid={`config-btn-${nodeId}`}
-							onClick={() => {
-								setConfiguredNode(nodeId);
-							}}
-						>
-							<Cog8ToothIcon
-								height={height / 12}
-								width={height / 12}
-							/>
-						</button>
-					</div>
+				<div
+					id={`${nodeId}-node-actions`}
+					className="flex justify-center gap-2"
+				>
+					<button
+						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
+						data-testid={`todo-btn-${nodeId}`}
+					>
+						<ListBulletIcon
+							height={baseFontSize * 1.5}
+							width={baseFontSize * 1.5}
+						/>
+					</button>
+					<button
+						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
+						data-testid={`config-btn-${nodeId}`}
+						onClick={() => {
+							setConfiguredNode(nodeId);
+						}}
+					>
+						<Cog8ToothIcon
+							height={baseFontSize * 1.5}
+							width={baseFontSize * 1.5}
+						/>
+					</button>
 					<button
 						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
 						data-testid={`switch-shape-btn-${nodeId}`}
 						onClick={handleUpdateNodeShape}
 					>
 						<ArrowPathIcon
-							height={height / 12}
-							width={height / 12}
+							height={baseFontSize * 1.5}
+							width={baseFontSize * 1.5}
 						/>
 					</button>
 				</div>

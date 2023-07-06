@@ -1,5 +1,5 @@
 import { createNode } from 'shared/utils';
-import { ServiceType } from 'shared/constants';
+import { NodeShape, ServiceType } from 'shared/constants';
 import { expect } from 'vitest';
 
 describe('node utils tests', () => {
@@ -10,6 +10,9 @@ describe('node utils tests', () => {
 				data: {
 					nodeType: ServiceType.NextJs,
 					formData: { nodeName: 'Frontend' },
+					shape: NodeShape.Rectangle,
+					height: 250,
+					width: 250,
 				},
 			});
 			expect(node.id).toBeTypeOf('string');
