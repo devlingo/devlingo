@@ -1,20 +1,15 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
 
 import { PromptState } from '@/components/design-canvas-page/prompt/constants';
 
 export function PromptAnswerDialogue({
 	handleUserDecision,
-	promptAnswer,
 }: {
 	handleUserDecision: (
 		decision: PromptState.Accept | PromptState.Decline,
 	) => Promise<void>;
-	promptAnswer: string;
 }) {
 	const { t } = useTranslation('prompt');
-	const [isDialogueOpen, setIsDialogueOpen] = useState(true);
 
 	return (
 		<div
@@ -42,25 +37,6 @@ export function PromptAnswerDialogue({
 					>
 						{t('accept')}
 					</button>
-				</div>
-				<div className="pt-3">
-					<button
-						data-testid="prompt-toggle-answer-button"
-						onClick={() => {
-							setIsDialogueOpen(!isDialogueOpen);
-						}}
-					>
-						{isDialogueOpen ? (
-							<ChevronUpIcon className="w-5" />
-						) : (
-							<ChevronDownIcon className="w-5" />
-						)}
-					</button>
-					{isDialogueOpen && (
-						<div data-testid="prompt-answer-text">
-							&quot;{promptAnswer}&quot;
-						</div>
-					)}
 				</div>
 			</div>
 		</div>

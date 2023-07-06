@@ -1,14 +1,12 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { OpenAI } from 'langchain';
 
+import { executeCommands } from '@/api/prompt/dsl-service';
+import { promptTemplate } from '@/api/prompt/template';
+import { DesignData } from '@/api/prompt/types';
 import { PromptRequestDTO } from '@/dtos/body';
-import { DesignIdParam, ProjectIdParam } from '@/dtos/parameter';
 import { EnvironmentVariables } from '@/utils/env';
-import { cleanResponse, getOrCreateOpenAIChain } from '@/utils/prompt';
-
-export type RequestPromptParams = PromptRequestDTO &
-	DesignIdParam &
-	ProjectIdParam;
 
 @Injectable()
 export class PromptService {
@@ -18,31 +16,29 @@ export class PromptService {
 		private configService: ConfigService<EnvironmentVariables, true>,
 	) {}
 
-	async requestPrompt({
-		designData,
-		promptContent,
-		...rest
-	}: RequestPromptParams): Promise<{
-		answer: string;
-		design: Record<string, any>;
-	}> {
-		const chain = getOrCreateOpenAIChain({
-			...rest,
+	async requestPrompt(promptRequest: PromptRequestDTO): Promise<DesignData> {
+		const model = new OpenAI({
+			modelName: promptRequest.modelName,
+			temperature: 0.2,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
-			redisConnectionString: this.configService.get<string>(
-				'REDIS_CONNECTION_STRING',
-			),
 		});
-
+		const prompt = await promptTemplate.format({
+			edgeTypes: promptRequest.edgeTypes.toString(),
+			nodeTypes: promptRequest.nodeTypes.toString(),
+			designData: JSON.stringify(promptRequest.designData),
+			userInput: promptRequest.promptContent,
+		});
 		try {
-			const { response } = (await chain.call({
-				input: `This is the existing design JSON ${JSON.stringify(
-					designData,
-				)}. ${promptContent}`,
-			})) as { response: 'string' };
-			return cleanResponse(response);
+			const response = await model.call(prompt);
+			return executeCommands(
+				promptRequest.designData,
+				promptRequest.edgeTypes,
+				promptRequest.nodeTypes,
+				response,
+			);
 		} catch (e) {
 			this.logger.error('communication error with OpenAPI %o', e);
+			this.logger.error(e);
 			throw new HttpException(
 				'error communicating with OpenAPI',
 				HttpStatus.INTERNAL_SERVER_ERROR,

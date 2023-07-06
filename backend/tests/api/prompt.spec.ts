@@ -1,6 +1,6 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Design, Project } from '@prisma/client';
-import { ConversationChain } from 'langchain/chains';
+import { OpenAI } from 'langchain';
 import { DesignFactory, ProjectFactory } from 'shared/testing';
 import type { SuperTest } from 'supertest';
 import { OpenAIResponse } from 'tests/test-data';
@@ -11,18 +11,18 @@ import { PromptModule } from '@/api/prompt';
 import { AppModule } from '@/app';
 
 vi.mock(
-	'langchain/chains',
+	'langchain',
 	async (originalModule: () => Promise<Record<string, any>>) => {
 		const actual = await originalModule();
-		const ConversationChain = vi.fn();
-		ConversationChain.prototype.call = vi.fn();
+		const OpenAI = vi.fn();
+		OpenAI.prototype.call = vi.fn();
 
-		return { ...actual, ConversationChain };
+		return { ...actual, OpenAI: OpenAI };
 	},
 );
 
 describe('Prompt Controller Tests', () => {
-	const mockChainCall = ConversationChain.prototype.call as Mock;
+	const mockOpenAICall = OpenAI.prototype.call as Mock;
 	const env = process.env;
 	let app: INestApplication;
 	let request: SuperTest<any>;
@@ -141,79 +141,71 @@ describe('Prompt Controller Tests', () => {
 			],
 		};
 		it('sends a prompt request and returns the expected response', async () => {
-			mockChainCall.mockResolvedValueOnce(OpenAIResponse);
+			mockOpenAICall.mockResolvedValueOnce(OpenAIResponse);
 			const response = await request
 				.post(`/prompt/${project.id}/${design.id}`)
 				.send(requestData);
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body).toEqual({
-				answer: 'To add a MySQL database connected to the backend, we need to add a new node of type MySQL and connect it to the NestJS backend node using an edge of type default. This will allow the backend to communicate with the MySQL database and perform CRUD operations.',
-				design: {
-					nodes: [
-						{
-							data: {
-								nodeType: 'NextJS',
-								formData: {
-									nodeName: 'Frontend',
-								},
-								childNodes: [],
+				nodes: [
+					{
+						data: {
+							nodeType: 'NextJS',
+							formData: {
+								nodeName: 'Frontend',
 							},
-							id: 'QMGfvyzBBhF-2BiDdIOGe',
-							position: {
-								x: 1300,
-								y: 50,
-							},
-							type: 'CanvasNodeComponent',
+							childNodes: [],
 						},
-						{
-							data: {
-								nodeType: 'NestJS',
-								formData: {
-									nodeName: 'Backend',
-								},
-							},
-							id: 'KZA-U5dr_r7L4AJK4A9Xd',
-							position: {
-								x: 700,
-								y: 50,
-							},
-							type: 'CanvasNodeComponent',
+						id: 'QMGfvyzBBhF-2BiDdIOGe',
+						position: {
+							x: 1300,
+							y: 50,
 						},
-						{
-							data: {
-								nodeType: 'MySQL',
-								formData: {
-									nodeName: 'Database',
-								},
+						type: 'CanvasNodeComponent',
+					},
+					{
+						data: {
+							nodeType: 'NestJS',
+							formData: {
+								nodeName: 'Backend',
 							},
-							id: 'JZa-U5dr_r7L4AJK4A9Xd',
-							position: {
-								x: 1000,
-								y: 50,
-							},
-							type: 'CanvasNodeComponent',
 						},
-					],
-					edges: [
-						{
-							id: 'edge-1',
-							source: 'QMGfvyzBBhF-2BiDdIOGe',
-							target: 'KZA-U5dr_r7L4AJK4A9Xd',
-							type: 'smoothstep',
+						id: 'KZA-U5dr_r7L4AJK4A9Xd',
+						position: {
+							x: 700,
+							y: 50,
 						},
-						{
-							id: 'edge-2',
-							source: 'KZA-U5dr_r7L4AJK4A9Xd',
-							target: 'JZa-U5dr_r7L4AJK4A9Xd',
-							type: 'default',
+						type: 'CanvasNodeComponent',
+					},
+					{
+						data: {
+							nodeType: 'MongoDB',
+							formData: { nodeName: 'Database' },
 						},
-					],
-				},
+						id: '5a6c3b5a-9c3a-4687-8199-c2ba25f480a2',
+						position: { x: 700, y: 500 },
+						type: 'MongoDB',
+					},
+				],
+				edges: [
+					{
+						id: 'edge-1',
+						source: 'QMGfvyzBBhF-2BiDdIOGe',
+						target: 'KZA-U5dr_r7L4AJK4A9Xd',
+						type: 'smoothstep',
+					},
+					{
+						id: '9f4c2e95-d916-4a5d-9afc-caa405396d4c',
+						source: '5a6c3b5a-9c3a-4687-8199-c2ba25f480a2',
+						target: '54b111d0-9c3a-4687-8199-c2ba25f480a2',
+						type: 'default',
+					},
+				],
 			});
 		});
 		it('returns a 500 status response on receiving an error', async () => {
-			mockChainCall.mockImplementationOnce(() => {
+			mockOpenAICall.mockImplementationOnce(() => {
 				throw new Error();
 			});
 			const response = await request

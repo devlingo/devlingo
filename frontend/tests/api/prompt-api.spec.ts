@@ -10,18 +10,15 @@ import {
 describe('requestPrompt tests', () => {
 	it('handles success response', async () => {
 		const mockResponse = {
-			answer: 'test answer',
-			design: {
-				nodes: [
-					{
-						id: '1',
-						data: { nodeType: 'test' },
-						position: { x: 0, y: 0 },
-						type: 'default',
-					},
-				],
-				edges: [{ id: '1', source: '1', target: '2', type: 'default' }],
-			},
+			nodes: [
+				{
+					id: '1',
+					data: { nodeType: 'test' },
+					position: { x: 0, y: 0 },
+					type: 'default',
+				},
+			],
+			edges: [{ id: '1', source: '1', target: '2', type: 'default' }],
 		};
 		const mockData = {
 			promptContent: 'test prompt',
@@ -58,9 +55,8 @@ describe('requestPrompt tests', () => {
 				},
 			},
 		);
-		expect(result.answer).toEqual(mockResponse.answer);
-		expect(result.nodes).toEqual(mockResponse.design.nodes);
-		expect(result.edges).toEqual(mockResponse.design.edges);
+		expect(result.nodes).toEqual(mockResponse.nodes);
+		expect(result.edges).toEqual(mockResponse.edges);
 	});
 
 	it('merges edges', () => {
