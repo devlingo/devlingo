@@ -37,6 +37,7 @@ export function parsePromptResponseIntoCommands(
 			parameters.push(word);
 		}
 	}
+
 	if (currentCommand) {
 		commands.push([currentCommand, [...parameters]]);
 	}
@@ -77,6 +78,9 @@ export function removeNode([id]: string[], designData: DesignData) {
 		throw new Error(`Node with id ${id} not found`);
 	}
 	designData.nodes.splice(index, 1);
+	designData.edges = designData.edges.filter(
+		(e) => e.source !== id && e.target !== id,
+	);
 }
 
 export function updateNode([id, ...props]: string[], designData: DesignData) {
