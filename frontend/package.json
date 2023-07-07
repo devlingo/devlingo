@@ -26,7 +26,6 @@
 		"@reactflow/node-resizer": "^2.1.1",
 		"ajv": "^8.12.0",
 		"daisyui": "^3.2.1",
-		"dayjs": "^1.11.9",
 		"dnd-core": "^16.0.1",
 		"firebase": "^10.0.0",
 		"firebaseui": "^6.0.2",

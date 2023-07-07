@@ -37,6 +37,9 @@ export function parsePromptResponseIntoCommands(
 			parameters.push(word);
 		}
 	}
+	if (currentCommand) {
+		commands.push([currentCommand, [...parameters]]);
+	}
 
 	return commands;
 }
@@ -50,21 +53,22 @@ export function addNode(
 	) {
 		throw new Error(`Invalid node type: ${nodeType}`);
 	}
-	designData.nodes.push(
-		createNode({
-			id,
-			data: {
-				nodeType: nodeType as ServiceType,
-				formData: {
-					nodeName,
-				},
+
+	const node = createNode({
+		id,
+		data: {
+			nodeType: nodeType as ServiceType,
+			formData: {
+				nodeName,
 			},
-			position: {
-				x: parseInt(xPos),
-				y: parseInt(yPos),
-			},
-		}),
-	);
+		},
+		position: {
+			x: parseInt(xPos),
+			y: parseInt(yPos),
+		},
+	});
+
+	designData.nodes.push(node);
 }
 
 export function removeNode([id]: string[], designData: DesignData) {

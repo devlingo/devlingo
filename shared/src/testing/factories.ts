@@ -26,8 +26,8 @@ export const VersionFactory = new TypeFactory<Version>(() => ({
 	id: faker.string.uuid(),
 	designId: faker.string.uuid(),
 	data: {
-		nodes: [],
-		edges: [],
+		nodes: TypeFactory.use(async (i) => NodeFactory.batch(i + 1)),
+		edges: TypeFactory.use(async (i) => EdgeFactory.batch(i + 1)),
 		viewport: { x: 0, y: 0, zoom: 1 },
 	},
 	createdAt: new Date(),

@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OpenAI } from 'langchain';
-import { DesignData } from 'shared/types';
+import { DesignData, VersionData } from 'shared/types';
 
-import { PromptCommand } from '@/api/prompt/constants';
+import { ExampleInterface, PromptCommand } from '@/api/prompt/constants';
 import { promptTemplate } from '@/api/prompt/template';
 import {
 	addEdge,
@@ -54,6 +54,7 @@ export class PromptService {
 		const prompt = await promptTemplate.format({
 			designData: JSON.stringify(designData),
 			userInput,
+			example: ExampleInterface,
 		});
 		try {
 			return await this.model.call(prompt);
@@ -84,11 +85,18 @@ export class PromptService {
 				},
 			},
 		});
-		const designData = (
+		const { nodes, edges } = (
 			versions.length && versions[0].data
-				? JSON.parse(versions[0].data as string) ?? {}
+				? typeof versions[0].data === 'string'
+					? JSON.parse(versions[0].data)
+					: versions[0].data
 				: {}
-		) as DesignData;
+		) as VersionData;
+
+		const designData = structuredClone({
+			nodes,
+			edges,
+		}) satisfies DesignData;
 
 		const promptResponse = await this.makePromptRequest(
 			designData,

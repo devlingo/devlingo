@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@prisma/client": "4.16.2",
+		"dayjs": "^1.11.9",
 		"deepmerge-ts": "^5.1.0",
 		"uuid": "^9.0.0"
 	},
