@@ -6,13 +6,13 @@ import { DesignData } from 'shared/types';
 import { PromptCommand } from '@/api/prompt/constants';
 import { promptTemplate } from '@/api/prompt/template';
 import {
-	executeAddEdge,
-	executeAddNode,
-	executeRemoveEdge,
-	executeRemoveNode,
-	executeUpdateEdge,
-	executeUpdateNode,
+	addEdge,
+	addNode,
 	parsePromptResponseIntoCommands,
+	removeEdge,
+	removeNode,
+	updateEdge,
+	updateNode,
 } from '@/api/prompt/utils';
 import { PromptRequestDTO } from '@/dtos/body';
 import { DesignIdParam } from '@/dtos/parameter';
@@ -23,12 +23,12 @@ const commandMapping: Record<
 	PromptCommand,
 	(parameters: string[], designData: DesignData) => void
 > = {
-	[PromptCommand.AddNode]: executeAddNode,
-	[PromptCommand.RemoveNode]: executeRemoveNode,
-	[PromptCommand.UpdateNode]: executeUpdateNode,
-	[PromptCommand.AddEdge]: executeAddEdge,
-	[PromptCommand.RemoveEdge]: executeRemoveEdge,
-	[PromptCommand.UpdateEdge]: executeUpdateEdge,
+	[PromptCommand.AddNode]: addNode,
+	[PromptCommand.RemoveNode]: removeNode,
+	[PromptCommand.UpdateNode]: updateNode,
+	[PromptCommand.AddEdge]: addEdge,
+	[PromptCommand.RemoveEdge]: removeEdge,
+	[PromptCommand.UpdateEdge]: updateEdge,
 };
 
 @Injectable()

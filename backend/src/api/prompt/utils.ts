@@ -1,5 +1,6 @@
+import { deepmerge } from 'deepmerge-ts';
 import { EdgeType, ServiceType } from 'shared/constants';
-import { DesignData, NodeData } from 'shared/types';
+import { DesignData, EdgeData, NodeData } from 'shared/types';
 import { createNode } from 'shared/utils';
 
 import { PromptCommand } from '@/api/prompt/constants';
@@ -40,16 +41,16 @@ export function parsePromptResponseIntoCommands(
 	return commands;
 }
 
-export function executeAddNode(
+export function addNode(
 	[id, nodeType, nodeName, xPos, yPos]: string[],
-	newDesign: DesignData,
+	designData: DesignData,
 ) {
 	if (
 		!Object.values(ServiceType).includes(nodeType as unknown as ServiceType)
 	) {
 		throw new Error(`Invalid node type: ${nodeType}`);
 	}
-	newDesign.nodes.push(
+	designData.nodes.push(
 		createNode({
 			id,
 			data: {
@@ -66,37 +67,41 @@ export function executeAddNode(
 	);
 }
 
-export function executeRemoveNode([id]: string[], newDesign: DesignData) {
-	const index = newDesign.nodes.findIndex((item) => item.id === id);
+export function removeNode([id]: string[], designData: DesignData) {
+	const index = designData.nodes.findIndex((node) => node.id === id);
 	if (index === -1) {
 		throw new Error(`Node with id ${id} not found`);
 	}
-	newDesign.nodes.splice(index, 1);
+	designData.nodes.splice(index, 1);
 }
 
-export function executeUpdateNode(
-	[id, ...props]: string[],
-	newDesign: DesignData,
-) {
-	const node = newDesign.nodes.find((node: NodeData) => node.id === id);
-	if (!node) {
+export function updateNode([id, ...props]: string[], designData: DesignData) {
+	const index = designData.nodes.findIndex((node) => node.id === id);
+	if (index === -1) {
 		throw new Error(`Node with id ${id} not found`);
 	}
+
+	const params: Record<string, any> = {};
+
 	for (let i = 0; i < props.length; i += 2) {
 		const key = props[i];
-		const value = props[i + 1];
-		Reflect.set(node, key, value);
+		params[key] = props[i + 1];
 	}
+
+	designData.nodes[index] = deepmerge(
+		designData.nodes[index],
+		params as NodeData,
+	);
 }
 
-export function executeAddEdge(
+export function addEdge(
 	[id, source, target, type]: string[],
-	newDesign: DesignData,
+	designData: DesignData,
 ) {
 	if (!Object.values(EdgeType).includes(type as unknown as EdgeType)) {
 		throw new Error(`Invalid edge type: ${type}`);
 	}
-	newDesign.edges.push({
+	designData.edges.push({
 		id,
 		source,
 		target,
@@ -104,25 +109,28 @@ export function executeAddEdge(
 	});
 }
 
-export function executeRemoveEdge([id]: string[], newDesign: DesignData) {
-	const index = newDesign.edges.findIndex((item) => item.id === id);
+export function removeEdge([id]: string[], designData: DesignData) {
+	const index = designData.edges.findIndex((edge) => edge.id === id);
 	if (index === -1) {
-		throw new Error(`Item with id ${id}`);
-	}
-	newDesign.edges.splice(index, 1);
-}
-
-export function executeUpdateEdge(
-	[id, ...props]: string[],
-	newDesign: DesignData,
-) {
-	const edge = newDesign.edges.find((edge) => edge.id === id);
-	if (!edge) {
 		throw new Error(`Edge with id ${id} not found`);
 	}
+	designData.edges.splice(index, 1);
+}
+
+export function updateEdge([id, ...props]: string[], designData: DesignData) {
+	const index = designData.edges.findIndex((edge) => edge.id === id);
+	if (index === -1) {
+		throw new Error(`Edge with id ${id} not found`);
+	}
+	const params: Record<string, any> = {};
+
 	for (let i = 0; i < props.length; i += 2) {
 		const key = props[i];
-		const value = props[i + 1];
-		Reflect.set(edge, key, value);
+		params[key] = props[i + 1];
 	}
+
+	designData.edges[index] = deepmerge(
+		designData.edges[index],
+		params as EdgeData,
+	);
 }
