@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
 
 import { retrieveVersionById } from '@/api';
+import { ContextMenu } from '@/components/design-canvas-page/context-menu/context-menu';
 import { FlowContainer } from '@/components/design-canvas-page/flow/flow-container';
 import { NodeForm } from '@/components/design-canvas-page/forms/node-form';
 import { Navbar } from '@/components/design-canvas-page/navbar';
@@ -14,6 +15,7 @@ import { Navigation } from '@/constants';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { useCurrentDesign } from '@/stores/api-store';
+import { useContextMenuStore } from '@/stores/context-menu-store';
 import {
 	useConfiguredNode,
 	useNodes,
@@ -32,6 +34,7 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 				'assets',
 				'prompt',
 				'common',
+				'contextMenu',
 			])),
 		},
 	};
@@ -87,6 +90,7 @@ export default function DesignCanvasPage() {
 		}
 	}, []);
 
+	const contextMenuStore = useContextMenuStore();
 	// drag and drop
 	const [dndDropData, dndRef] = useBoundedDrop();
 	useEffect(() => {
@@ -153,6 +157,7 @@ export default function DesignCanvasPage() {
 						/>
 					</div>
 				)}
+				{contextMenuStore.isClicked && <ContextMenu />}
 			</main>
 		</ReactFlowProvider>
 	);

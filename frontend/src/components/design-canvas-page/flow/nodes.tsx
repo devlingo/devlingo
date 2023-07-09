@@ -4,6 +4,8 @@ import { Handle, HandleProps, NodeProps, Position, useNodeId } from 'reactflow';
 
 import { TypeSVGMap } from '@/assets';
 import { TypeTagMap } from '@/constants';
+import { ContextMenuType } from '@/constants/context-menu.constants';
+import { useContextMenu } from '@/hooks/use-context-menu';
 import { useSetConfiguredNode } from '@/stores/design-store';
 import { CustomNodeData } from '@/types';
 
@@ -58,6 +60,8 @@ export function CanvasNodeComponent({
 	const setConfiguredNode = useSetConfiguredNode();
 
 	const nodeId = useNodeId()!;
+	const onContextMenu = useContextMenu(ContextMenuType.CustomNode, nodeId);
+
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
 
@@ -65,6 +69,7 @@ export function CanvasNodeComponent({
 		<div
 			className="bg-base-100 shadow-2xl flex-col justify-between rounded border-2 border-neutral h-32 w-60"
 			data-testid={`node-${nodeId}`}
+			onContextMenu={onContextMenu}
 		>
 			<NodeHandles nodeId={nodeId} />
 			<div className="flex justify-start p-4 border-b-2 border-b-neutral gap-8">
