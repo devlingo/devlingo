@@ -3,7 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { OpenAI } from 'langchain';
 import { DesignData, VersionData } from 'shared/types';
 
-import { ExampleInterface, PromptCommand } from '@/api/prompt/constants';
+import {
+	ExampleInterface,
+	OpenAPIModelName,
+	PromptCommand,
+} from '@/api/prompt/constants';
 import { promptTemplate } from '@/api/prompt/template';
 import {
 	addEdge,
@@ -42,7 +46,7 @@ export class PromptService {
 		private prisma: PrismaService,
 	) {
 		this.model = new OpenAI({
-			modelName: 'gpt-3.5-turbo',
+			modelName: OpenAPIModelName,
 			temperature: 0.2,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
 		});

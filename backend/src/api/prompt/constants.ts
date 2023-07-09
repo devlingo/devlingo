@@ -9,6 +9,8 @@ export enum PromptCommand {
 	UpdateNode = 'U_N',
 }
 
+export const OpenAPIModelName = 'gpt-3.5-turbo';
+
 export const ExampleInterface = `
 interface DesignData {
 	nodes: {
