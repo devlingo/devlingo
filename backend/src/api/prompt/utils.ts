@@ -1,9 +1,45 @@
-import { deepmerge } from 'deepmerge-ts';
-import { EdgeType, ServiceType } from 'shared/constants';
-import { DesignData, EdgeData, NodeData } from 'shared/types';
+import { EdgeType, ServiceType, SystemComponentType } from 'shared/constants';
+import { DesignData, EdgeData } from 'shared/types';
 import { createNode } from 'shared/utils';
 
 import { PromptCommand } from '@/api/prompt/constants';
+
+export interface FlatNode {
+	id: string;
+	nodeType: ServiceType | SystemComponentType;
+	nodeName: string;
+	xPos: number;
+	yPos: number;
+}
+
+export type PromptDesignInterface = Pick<DesignData, 'edges'> & {
+	nodes: FlatNode[];
+};
+
+export function mapDesignDataToPromptInterface({
+	nodes,
+	edges,
+}: DesignData): PromptDesignInterface {
+	return {
+		nodes: nodes.map(
+			({
+				id,
+				data: {
+					nodeType,
+					formData: { nodeName },
+				},
+				position: { x: xPos, y: yPos },
+			}) => ({
+				id,
+				nodeType,
+				nodeName,
+				xPos,
+				yPos,
+			}),
+		),
+		edges,
+	};
+}
 
 export function parsePromptResponseIntoCommands(
 	promptResponse: string,
@@ -89,17 +125,30 @@ export function updateNode([id, ...props]: string[], designData: DesignData) {
 		throw new Error(`Node with id ${id} not found`);
 	}
 
-	const params: Record<string, any> = {};
+	const nodeData = designData.nodes[index];
 
 	for (let i = 0; i < props.length; i += 2) {
-		const key = props[i];
-		params[key] = props[i + 1];
+		const key = props[i] as keyof FlatNode;
+		const value = props[i + 1];
+		switch (key) {
+			case 'xPos':
+				nodeData.position.x = parseInt(value);
+				break;
+			case 'yPos':
+				nodeData.position.y = parseInt(value);
+				break;
+			case 'nodeType':
+				nodeData.data.nodeType = value as
+					| ServiceType
+					| SystemComponentType;
+				break;
+			case 'nodeName':
+				nodeData.data.formData.nodeName = value;
+				break;
+			default:
+				throw new Error(`Invalid node property: ${key}`);
+		}
 	}
-
-	designData.nodes[index] = deepmerge(
-		designData.nodes[index],
-		params as NodeData,
-	);
 }
 
 export function addEdge(
@@ -130,15 +179,10 @@ export function updateEdge([id, ...props]: string[], designData: DesignData) {
 	if (index === -1) {
 		throw new Error(`Edge with id ${id} not found`);
 	}
-	const params: Record<string, any> = {};
+	const edgeData = designData.edges[index];
 
 	for (let i = 0; i < props.length; i += 2) {
-		const key = props[i];
-		params[key] = props[i + 1];
+		const key = props[i] as keyof EdgeData;
+		edgeData[key] = props[i + 1];
 	}
-
-	designData.edges[index] = deepmerge(
-		designData.edges[index],
-		params as EdgeData,
-	);
 }

@@ -8,6 +8,7 @@ import { promptTemplate } from '@/api/prompt/template';
 import {
 	addEdge,
 	addNode,
+	mapDesignDataToPromptInterface,
 	parsePromptResponseIntoCommands,
 	removeEdge,
 	removeNode,
@@ -52,7 +53,9 @@ export class PromptService {
 		userInput: string,
 	): Promise<string> {
 		const prompt = await promptTemplate.format({
-			designData: JSON.stringify(designData),
+			designData: JSON.stringify(
+				mapDesignDataToPromptInterface(designData),
+			),
 			userInput,
 			example: ExampleInterface,
 		});

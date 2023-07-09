@@ -1,4 +1,4 @@
-import { EdgeType, ServiceType } from 'shared/constants';
+import { EdgeType, ServiceType, SystemComponentType } from 'shared/constants';
 
 export enum PromptCommand {
 	AddEdge = 'A_E',
@@ -12,17 +12,14 @@ export enum PromptCommand {
 export const ExampleInterface = `
 interface DesignData {
 	nodes: {
-		data: {
-			nodeType: ${Object.values(ServiceType).join(' | ')};
-			formData: {
-				nodeName: string;
-			};
-		};
+		nodeType: ${[
+			...Object.values(ServiceType),
+			...Object.values(SystemComponentType),
+		].join(' | ')};
+		nodeName: string;
 		id: string;
-		position: {
-			x: number;
-			ty: number;
-		};
+		xPos: number;
+		yPos: number;
 	}[]
 	edges: {
 		id: string;

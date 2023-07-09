@@ -3,7 +3,7 @@ import {
 	HumanMessagePromptTemplate,
 	SystemMessagePromptTemplate,
 } from 'langchain/prompts';
-import { EdgeType, ServiceType } from 'shared/constants';
+import { EdgeType, ServiceType, SystemComponentType } from 'shared/constants';
 
 const DESIGN_DATA = `This is the interface of the design data object and represents the 
 architecture of the software as a typescript interface:
@@ -12,12 +12,12 @@ architecture of the software as a typescript interface:
 `;
 
 const ADD_NODE = `Add Node Command Guide (A_N) - This command allows you to add a new 
-node to the design. The command follows the format: A_N <id> <type> <name> <x> <y>. for the command to work you must 
-replace all the parameters with values: Parameters: <id>: A UUID4 identifier for the node. <type>: The type of the node.
- The type must be present in the provided list of node types. if not present, find one a custom nodeType that is similar 
- <name>: The name of the node, keep it short. <x>: The x position of the node. <y>: the y position  of the node. all the 
- fields are mandatory and you must provide real values for all of the fields. once you add a new node, make sure to write 
- a command to add a new edge to connect it to another node.`;
+node to the design. The command follows the format: A_N <id> <nodeType> <nodeName> <xPos> <yPos>. for the command to 
+work you must replace all the parameters with values: Parameters: <id>: A UUID4 identifier for the node. <nodeType>: 
+The type of the node. The type must be present in the provided list of node types. <nodeName>: The name of the node, 
+keep it short. <xPos>: The x position of the node. <yPos>: the y position  of the node. all the fields are mandatory 
+and you must provide real values for all of the fields. once you add a new node, make sure to write a command to add 
+a new edge to connect it to another node.`;
 
 const REMOVE_NODE = `Remove Node Command Guide (R_N) - This command allows you to 
 remove a node from the design. The command follows the format: R_N <id>. Parameters: <id>: The unique identifier of 
@@ -26,14 +26,15 @@ the node to be removed. all the fields are mandatory and you must provide real v
 const UPDATE_NODE = `Update Node Command Guide (U_N) - This command allows you to 
 update the properties of a node. The command follows the format: U_N <id> <key1> <val1> <key2> <val2> .... Parameters: 
 <id>: The unique identifier of the node to be updated. <key> and <val> pairs: The properties to be updated and their 
-new values. The following properties can be updated: t: type (must be present in the provided list of node types), n: 
-name, x and y: position. all the fields are mandatory and you must provide real values for all of the fields`;
+new values. The following properties can be updated: <nodeType>: The type of the node. The type must be present in the 
+provided list of node types. <nodeName>: The name of the node, keep it short. <xPos>: The x position of the node. 
+<yPos>: the y position  of the node.`;
 
 const ADD_EDGE = `Add Edge Command Guide (A_E) - This command allows you to add a new 
-edge to the design. The command follows the format: A_E <id> <src> <tgt> <type>. Parameters: <id>: A unique identifier 
-for the edge. <src> and <tgt>: The source and target nodes of the edge. <type>: The type of the edge. The type must be 
-present in the provided list of edge types. all the fields are mandatory and you must provide real values for all of 
-the fields`;
+edge to the design. The command follows the format: A_E <id> <source> <target> <type>. Parameters: <id>: A unique 
+identifier for the edge. <source> and <target>: The source and target nodes of the edge. <type>: The type of the edge. 
+The type must be present in the provided list of edge types. all the fields are mandatory and you must provide real 
+values for all of the fields`;
 
 const REMOVE_EDGE = `Remove Edge Command Guide (R_E) - This command allows you to 
 remove an edge from the design. The command follows the format: R_E <id>. for the command to work you must replace 
@@ -43,8 +44,9 @@ mandatory and you must provide real values for all of the fields`;
 const UPDATE_EDGE = `Update Edge Command Guide (U_E) - This command allows you to 
 update the properties of an edge. The command follows the format: U_E <id> <key1> <val1> <key2> <val2> .... Parameters:
 <id>: The unique identifier of the edge to be updated. <key> and <val> pairs: The properties to be updated and their 
-new values. The following properties can be updated: s: source, t: target, ty: type (must be present in the provided 
-list of edge types). all the fields are mandatory and you must provide real values for all of the fields`;
+new values. <source> and <target>: The source and target nodes of the edge. <type>: The type of the edge. 
+The type must be present in the provided list of edge types. all the fields are mandatory and you must provide real 
+values for all of the fields`;
 
 const systemMessages = [
 	`As an AI system designer, your have world class expertise in software architecture design. You are a system 
@@ -61,13 +63,16 @@ with values, never write any text that is not a DSL commands`,
 	`To add edge: ${ADD_EDGE}`,
 	`To update edge: ${UPDATE_EDGE}`,
 	`To remove edge: ${REMOVE_EDGE}`,
-	`Use nodes only from this list: ${Object.values(ServiceType).join(',')}`,
+	`Use nodes only from this list: ${[
+		...Object.values(ServiceType),
+		...Object.values(SystemComponentType),
+	].join(',')}`,
 	`Use edges only from this list: ${Object.values(EdgeType).join(',')}.`,
 	`Help the user design a better system diagram by using DSL commands to add/remove/updates the nodes
 and edges required to achieve the best software architecture design possible per the user input.`,
 	`Don't write anything but commands with proper values. Never write the user any text other then proper production 
 ready commands and never use placeholders.`,
-	`you can write as many commands as needed to reach the best software architecture design`,
+	`You can write as many commands as needed to reach the best software architecture design`,
 ];
 
 export const promptTemplate = ChatPromptTemplate.fromPromptMessages([
@@ -76,7 +81,7 @@ export const promptTemplate = ChatPromptTemplate.fromPromptMessages([
 	),
 
 	HumanMessagePromptTemplate.fromTemplate(
-		`this is my system architecture: {designData}. and this is my prompt: {userInput}. Please write back 
-		commands with values.`,
+		`This is the system design architecture: {designData}. and this is the user prompt: {userInput}. Please 
+		write back commands with values.`,
 	),
 ]);
