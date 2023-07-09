@@ -14,8 +14,6 @@ import type {
 	ViewPortData,
 } from 'shared/types';
 
-import type { DesignData } from '@/api/prompt/types';
-
 export class ProjectCreateDTO {
 	@IsString()
 	@IsNotEmpty()
@@ -56,23 +54,7 @@ export class VersionDTO implements VersionData {
 export class PromptRequestDTO {
 	@IsString()
 	@IsNotEmpty()
-	promptContent!: string;
-
-	@IsObject()
-	@IsNotEmpty()
-	designData!: DesignData;
-
-	@IsArray()
-	@IsNotEmpty()
-	nodeTypes!: string[];
-
-	@IsArray()
-	@IsNotEmpty()
-	edgeTypes!: string[];
-
-	@IsString()
-	@IsOptional()
-	modelName = 'gpt-3.5-turbo';
+	useInput!: string;
 }
 
 export class UserUpdateDTO {

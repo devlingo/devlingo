@@ -31,11 +31,7 @@ export class VersionsService {
 		});
 	}
 
-	async retrieveVersionById({
-		versionId,
-	}: {
-		versionId: string;
-	}): Promise<Version> {
+	async retrieveVersionById({ versionId }: { versionId: string }) {
 		const { data, ...rest } = await this.prisma.version.findUniqueOrThrow({
 			where: { id: versionId },
 		});

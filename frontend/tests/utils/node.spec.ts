@@ -1,10 +1,9 @@
 import { toJpeg, toPng, toSvg } from 'html-to-image';
-import { ServiceType } from 'shared/constants';
 import { testData } from 'tests/test-data';
 import { expect } from 'vitest';
 
 import { ImageType } from '@/types';
-import { convertNodesToImageString, createNode } from '@/utils/node';
+import { convertNodesToImageString } from '@/utils/node';
 
 vi.mock('html-to-image', () => ({
 	toPng: vi.fn(),
@@ -13,21 +12,6 @@ vi.mock('html-to-image', () => ({
 }));
 
 describe('Node Utils Tests', () => {
-	describe('createNode Tests', () => {
-		it('creates a CanvasNodeComponent correctly', () => {
-			const node = createNode({
-				position: { x: 1000, y: 50 },
-				data: {
-					nodeType: ServiceType.NextJs,
-					formData: { nodeName: 'Frontend' },
-				},
-			});
-			expect(node.id).toBeTypeOf('string');
-			expect(node.type).toBe('CustomNode');
-			expect(node.data.nodeType).toEqual(ServiceType.NextJs);
-			expect(node.position).toEqual({ x: 1000, y: 50 });
-		});
-	});
 	describe('convertNodesToImageString', () => {
 		it.each(['png', 'jpeg', 'svg'] as ImageType[])(
 			'converts to %s',

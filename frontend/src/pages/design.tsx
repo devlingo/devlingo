@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
+import { createNode } from 'shared/utils/node';
 
 import { retrieveVersionById } from '@/api';
 import { ContextMenu } from '@/components/design-canvas-page/context-menu/context-menu';
@@ -24,7 +25,6 @@ import {
 	useSetNodes,
 	useSetViewPort,
 } from '@/stores/design-store';
-import { createNode } from '@/utils/node';
 import { sortByDateProp } from '@/utils/time';
 
 export async function getServerSideProps({ locale }: { locale: string }) {

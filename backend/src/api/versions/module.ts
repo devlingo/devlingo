@@ -7,5 +7,6 @@ import { VersionsService } from './service';
 	imports: [],
 	controllers: [VersionsController],
 	providers: [VersionsService],
+	exports: [VersionsService],
 })
 export class VersionsModule {}
