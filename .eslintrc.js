@@ -37,7 +37,6 @@ module.exports = {
 			extends: [
 				'@tool-belt/eslint-config/react',
 				'plugin:@next/next/recommended',
-				'next/core-web-vitals',
 			],
 			rules: {
 				...rules,
