@@ -4,7 +4,7 @@ import { expect } from 'vitest';
 
 describe('node utils tests', () => {
 	describe('createNode Tests', () => {
-		it('creates a CanvasNodeComponent correctly', () => {
+		it('creates a CustomNode correctly', () => {
 			const node = createNode({
 				position: { x: 1000, y: 50 },
 				data: {

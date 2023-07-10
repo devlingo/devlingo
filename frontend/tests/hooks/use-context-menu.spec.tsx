@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { act, renderHook } from 'tests/test-utils';
 
 import { ContextMenuType } from '@/constants/context-menu.constants';
@@ -5,7 +6,7 @@ import { useContextMenu } from '@/hooks/use-context-menu';
 import { useContextMenuStore } from '@/stores/context-menu-store';
 
 describe('contextMenuStore tests', () => {
-	const NODE_ID = 1;
+	const nodeId = faker.string.uuid();
 	const mouseEvent = {
 		preventDefault: vi.fn(),
 		pageX: 100,
@@ -13,14 +14,14 @@ describe('contextMenuStore tests', () => {
 	};
 	it('returns a callback function', () => {
 		const { result } = renderHook(() =>
-			useContextMenu(ContextMenuType.CustomNode, NODE_ID),
+			useContextMenu(ContextMenuType.CustomNode, nodeId),
 		);
 		expect(typeof result.current).toBe('function');
 	});
 
 	it('sets relevant values to open a context menu', () => {
 		const { result } = renderHook(() =>
-			useContextMenu(ContextMenuType.CustomNode, NODE_ID),
+			useContextMenu(ContextMenuType.CustomNode, nodeId),
 		);
 		act(() => {
 			result.current(mouseEvent);
@@ -33,7 +34,7 @@ describe('contextMenuStore tests', () => {
 		expect(contextMenuData.isClicked).toBe(true);
 		expect(contextMenuData.position.x).toBe(mouseEvent.pageX);
 		expect(contextMenuData.position.y).toBe(mouseEvent.pageY);
-		expect(contextMenuData.nodeData).toBe(NODE_ID);
+		expect(contextMenuData.nodeData).toBe(nodeId);
 		expect(contextMenuData.menuType).toBe(ContextMenuType.CustomNode);
 	});
 });

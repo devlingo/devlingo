@@ -73,7 +73,7 @@ describe('Prompt Controller Tests', () => {
 							x: 1300,
 							y: 50,
 						},
-						type: 'CanvasNodeComponent',
+						type: 'CustomNode',
 					},
 					{
 						data: {
@@ -87,7 +87,7 @@ describe('Prompt Controller Tests', () => {
 							x: 700,
 							y: 50,
 						},
-						type: 'CanvasNodeComponent',
+						type: 'CustomNode',
 					},
 				],
 				edges: [

@@ -36,7 +36,7 @@ export interface FlowStore {
 	setNodes: (nodes: CustomNodeType[]) => void;
 	setViewPort: (viewport: ViewPortData) => void;
 	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
-	handleNodeDelete: (nodeId: string) => void;
+	deleteNode: (nodeId: string) => void;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
@@ -89,7 +89,7 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	setViewPort: (viewport: ViewPortData) => {
 		set({ viewport });
 	},
-	handleNodeDelete: (nodeId: string) => {
+	deleteNode: (nodeId: string) => {
 		set({ nodes: get().nodes.filter((node) => node.id !== nodeId) });
 	},
 	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => {
@@ -124,5 +124,4 @@ export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);
 export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
 export const useEdges = () => useDesignCanvasStore((s) => s.nodes);
 export const useUpdateNode = () => useDesignCanvasStore((s) => s.updateNode);
-export const useHandleNodeDelete = () =>
-	useDesignCanvasStore((s) => s.handleNodeDelete);
+export const useDeleteNode = () => useDesignCanvasStore((s) => s.deleteNode);

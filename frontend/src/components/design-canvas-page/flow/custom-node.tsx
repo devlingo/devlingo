@@ -1,8 +1,3 @@
-import {
-	ArrowPathIcon,
-	Cog8ToothIcon,
-	ListBulletIcon,
-} from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -20,7 +15,7 @@ import { TypeSVGMap } from '@/assets';
 import { Dimensions, NodeDefaultSizePX, TypeTagMap } from '@/constants';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
-import { useSetConfiguredNode, useUpdateNode } from '@/stores/design-store';
+import { useUpdateNode } from '@/stores/design-store';
 
 export const ShapeComponents: Record<
 	NodeShape,
@@ -223,27 +218,17 @@ export function useNodeResize({
 	};
 }
 
-export function CanvasNodeComponent({
+export function CustomNode({
 	data: { nodeType, formData, shape, width, height },
 	selected,
 }: NodeProps<CustomNodeData>) {
 	const nodeId = useNodeId()!;
 	const updateNode = useUpdateNode();
-	const setConfiguredNode = useSetConfiguredNode();
 	const onContextMenu = useContextMenu(ContextMenuType.CustomNode, nodeId);
 
 	const { SVG, props } = TypeSVGMap[nodeType];
 	const { t } = useTranslation('assets');
 	const Shape = ShapeComponents[shape];
-
-	const handleUpdateNodeShape = (): void => {
-		const shapes = Object.values(NodeShape);
-		const shapeIndex = shapes.findIndex((s) => shape === s);
-
-		const nextShape =
-			shapes[shapeIndex === shapes.length - 1 ? 0 : shapeIndex + 1];
-		updateNode(nodeId, { shape: nextShape });
-	};
 
 	const { minWidth, minHeight, contentRef, resizeFactor } = useNodeResize({
 		width,
@@ -287,71 +272,38 @@ export function CanvasNodeComponent({
 				}`}
 				ref={contentRef}
 			>
-				<div
-					id={`${nodeId}-node-content`}
-					className="flex justify-center gap-3"
-				>
-					<figure>
-						<SVG
-							height={baseFontSize * 3.35}
-							width={baseFontSize * 3.25}
-							data-testid={`svg-${nodeId}`}
-							className="z-10"
-							{...props}
-						/>
-					</figure>
-					<div>
-						<h2
-							className="text-base-content"
-							style={{ fontSize: baseFontSize * 1.25 }}
-							data-testid={`node-name-${nodeId}`}
-						>
-							{formData.nodeName}
-						</h2>
+				<div>
+					<div
+						id={`${nodeId}-node-content`}
+						className="flex justify-center items-end gap-3"
+					>
+						<figure>
+							<SVG
+								height={baseFontSize * 2}
+								width={baseFontSize * 2}
+								data-testid={`svg-${nodeId}`}
+								className="z-10"
+								{...props}
+							/>
+						</figure>
 						<p
 							className="text-base-content"
-							style={{ fontSize: baseFontSize }}
+							style={{ fontSize: baseFontSize * 0.75 }}
 							data-testid={`type-tag-${nodeId}`}
 						>
 							{t(TypeTagMap[nodeType])}
 						</p>
 					</div>
+					<div className="divider mt-0 mb-0" />
 				</div>
-				<div
-					id={`${nodeId}-node-actions`}
-					className="flex justify-center gap-2"
-				>
-					<button
-						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
-						data-testid={`todo-btn-${nodeId}`}
+				<div>
+					<h2
+						className="text-base-content"
+						style={{ fontSize: baseFontSize * 1.25 }}
+						data-testid={`node-name-${nodeId}`}
 					>
-						<ListBulletIcon
-							height={baseFontSize * 1.5}
-							width={baseFontSize * 1.5}
-						/>
-					</button>
-					<button
-						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
-						data-testid={`config-btn-${nodeId}`}
-						onClick={() => {
-							setConfiguredNode(nodeId);
-						}}
-					>
-						<Cog8ToothIcon
-							height={baseFontSize * 1.5}
-							width={baseFontSize * 1.5}
-						/>
-					</button>
-					<button
-						className="btn btn-xs btn-ghost text-accent hover:text-primary-content"
-						data-testid={`switch-shape-btn-${nodeId}`}
-						onClick={handleUpdateNodeShape}
-					>
-						<ArrowPathIcon
-							height={baseFontSize * 1.5}
-							width={baseFontSize * 1.5}
-						/>
-					</button>
+						{formData.nodeName}
+					</h2>
 				</div>
 			</div>
 		</div>

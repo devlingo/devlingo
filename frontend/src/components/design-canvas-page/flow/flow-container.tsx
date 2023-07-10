@@ -20,11 +20,11 @@ import { TimeUnit } from 'shared/constants';
 import { DesignResponseData } from 'shared/types';
 import { shallow } from 'zustand/shallow';
 
+import { CustomNode } from '@/components/design-canvas-page/flow/custom-node';
 import {
 	ConnectionLine,
 	HttpRestEdge,
 } from '@/components/design-canvas-page/flow/edges';
-import { CanvasNodeComponent } from '@/components/design-canvas-page/flow/nodes';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	DEFAULT_FLOW_WIDTH,
@@ -54,7 +54,7 @@ export const flowStateSelector = (state: FlowStore) => ({
 });
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
-	CustomNode: memo(CanvasNodeComponent),
+	CustomNode: memo(CustomNode),
 };
 
 const edgeTypes: Record<string, MemoExoticComponent<any>> = {

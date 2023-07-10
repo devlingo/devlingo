@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { act, render, renderHook, screen } from 'tests/test-utils';
 import { expect } from 'vitest';
 
@@ -6,7 +7,7 @@ import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
 
 describe('ContextMenu', () => {
-	const NODE_ID = 1;
+	const nodeId = faker.string.uuid();
 	const mouseEvent = {
 		preventDefault: vi.fn(),
 		pageX: 100,
@@ -20,7 +21,7 @@ describe('ContextMenu', () => {
 
 	it('renders service node context menu', () => {
 		const { result } = renderHook(() =>
-			useContextMenu(ContextMenuType.CustomNode, NODE_ID),
+			useContextMenu(ContextMenuType.CustomNode, nodeId),
 		);
 		act(() => {
 			result.current(mouseEvent);

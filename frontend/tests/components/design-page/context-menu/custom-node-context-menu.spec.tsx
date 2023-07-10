@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { act, fireEvent, render, renderHook, screen } from 'tests/test-utils';
 import { expect } from 'vitest';
 
@@ -8,7 +9,7 @@ import { useContextMenu } from '@/hooks/use-context-menu';
 import { useNodes, useSetNodes } from '@/stores/design-store';
 
 describe('ServiceNodeContextMenu', () => {
-	const NODE_ID = 1;
+	const nodeId = faker.string.uuid();
 	const mouseEvent = {
 		preventDefault: vi.fn(),
 		pageX: 100,
@@ -22,14 +23,14 @@ describe('ServiceNodeContextMenu', () => {
 
 	it('handles node deletion and closes context menu', () => {
 		const { result } = renderHook(() =>
-			useContextMenu(ContextMenuType.CustomNode, NODE_ID),
+			useContextMenu(ContextMenuType.CustomNode, nodeId),
 		);
 		const { result: setNodesResult } = renderHook(() => useSetNodes());
 		const { result: useNodesResult } = renderHook(() => useNodes());
 
 		act(() => {
 			result.current(mouseEvent);
-			setNodesResult.current([{ id: NODE_ID }]);
+			setNodesResult.current([{ id: nodeId }]);
 		});
 
 		render(<ContextMenu />);

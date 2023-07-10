@@ -20,7 +20,7 @@ export function ContextMenu() {
 			className="absolute dropdown"
 			style={containerStyle}
 		>
-			<ul className="p-3 shadow z-[1] bg-base-200 border-neutral-focus border rounded">
+			<ul className="p-3 shadow z-10 bg-base-200 border-neutral-focus border-2 rounded">
 				{menuType === ContextMenuType.CustomNode && (
 					<CustomNodeContextMenu />
 				)}

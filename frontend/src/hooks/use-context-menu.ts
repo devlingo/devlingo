@@ -1,22 +1,22 @@
 import { MouseEvent, useEffect } from 'react';
 
 import { ContextMenuType } from '@/constants/context-menu.constants';
-import { useContextMenuStore } from '@/stores/context-menu-store';
+import { useContextMenuStore, useSetNodeId } from '@/stores/context-menu-store';
 
-export const useContextMenu = <T>(menuType: ContextMenuType, nodeData: T) => {
+export const useContextMenu = (menuType: ContextMenuType, nodeId: string) => {
 	const setIsClicked = useContextMenuStore((state) => state.setIsClicked);
 	const setPosition = useContextMenuStore((state) => state.setPosition);
-	const setNodeData = useContextMenuStore((state) => state.setNodeData);
+	const setNodeId = useSetNodeId();
 	const setContextMenuType = useContextMenuStore(
 		(state) => state.setContextMenuType,
 	);
 
-	function closeContextMenu() {
+	const closeContextMenu = () => {
 		setIsClicked(false);
 		setPosition(null);
-		setNodeData(null);
+		setNodeId(null);
 		setContextMenuType(null);
-	}
+	};
 
 	useEffect(() => {
 		document.addEventListener('click', closeContextMenu);
@@ -32,7 +32,7 @@ export const useContextMenu = <T>(menuType: ContextMenuType, nodeData: T) => {
 			x: e.pageX,
 			y: e.pageY,
 		});
-		setNodeData(nodeData);
+		setNodeId(nodeId);
 		setContextMenuType(menuType);
 	};
 };

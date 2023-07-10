@@ -13,12 +13,12 @@ import { firebaseUIConfig, getFirebaseAuth } from '@/utils/firebase';
 export async function getServerSideProps({ locale }: { locale: string }) {
 	return {
 		props: {
-			...(await serverSideTranslations(locale, ['sign-in'])),
+			...(await serverSideTranslations(locale, ['signIn'])),
 		},
 	};
 }
 export default function Index() {
-	const { t } = useTranslation('sign-in');
+	const { t } = useTranslation('signIn');
 	const [uiRendered, setIsUIRendered] = useState(false);
 	const [isSignedIn, setIsSignedIn] = useState(false);
 
