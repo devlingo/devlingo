@@ -1,3 +1,8 @@
+import {
+	// EmailAuthProvider,
+	GithubAuthProvider,
+	GoogleAuthProvider,
+} from '@firebase/auth';
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app';
 import { Auth, browserLocalPersistence, getAuth } from 'firebase/auth';
 
@@ -46,3 +51,27 @@ export async function getFirebaseAuth(): Promise<Auth> {
 
 	return instanceRef.auth;
 }
+export const firebaseUIConfig = {
+	signInFlow: 'popup',
+	popupMode: true,
+	siteName: 'Devlingo',
+	tosUrl: 'terms-of-service',
+	// Privacy policy url.
+	privacyPolicyUrl: 'privacy-policy',
+	signInOptions: [
+		GithubAuthProvider.PROVIDER_ID,
+		GoogleAuthProvider.PROVIDER_ID,
+		{
+			provider: 'microsoft.com',
+			providerName: 'Microsoft',
+			buttonColor: '#00a2ed',
+			iconUrl:
+				'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
+			customParameters: {
+				prompt: 'consent',
+				tenant: process.env.NEXT_PUBLIC_FIREBASE_MICROSOFT_TENANT_ID,
+			},
+		},
+		// EmailAuthProvider.PROVIDER_ID,
+	],
+};
