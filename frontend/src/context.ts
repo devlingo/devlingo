@@ -1,11 +1,13 @@
 import { createContext } from 'react';
 
+import { ThemeColors } from '@/types';
+
 export const ThemeContext = createContext<{
 	currentTheme: string;
 	setTheme: (theme: string) => void;
-	backgroundColor: string;
+	themeColors?: ThemeColors;
 }>({
 	currentTheme: 'dracula',
 	setTheme: () => undefined,
-	backgroundColor: 'yellow',
+	themeColors: undefined,
 });

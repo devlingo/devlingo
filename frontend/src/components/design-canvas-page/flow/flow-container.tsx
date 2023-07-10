@@ -187,7 +187,7 @@ export function FlowContainer({
 				<Controls className="bg-accent focus:bg-accent-content border-black" />
 				<Background
 					variant={BackgroundVariant.Dots}
-					color={theme.backgroundColor}
+					color={theme.themeColors?.secondary ?? 'yellow'}
 					size={1.5}
 				/>
 				<Panel position="bottom-right">

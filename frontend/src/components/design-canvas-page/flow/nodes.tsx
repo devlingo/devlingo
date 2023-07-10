@@ -31,18 +31,27 @@ export const ShapeComponents: Record<
 		} & React.SVGProps<any>
 	>
 > = {
-	[NodeShape.ArrowRectangle]: ({ width = 100, height = 100, ...props }) => (
+	[NodeShape.ArrowRight]: ({ width = 100, height = 100, ...props }) => (
 		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
-				d={`M0,0 L${width - 10},0  L${width},${height / 2} L${
-					width - 10
+				d={`M0,0 L${width - 55},0  L${width},${height / 2} L${
+					width - 55
 				},${height} L0,${height} z`}
+			/>
+		</svg>
+	),
+	[NodeShape.ArrowLeft]: ({ width = 100, height = 100, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
+			<path
+				d={`M0,${
+					height / 2
+				} L55,0  L${width},0 L${width},${height} L55,${height} z`}
 			/>
 		</svg>
 	),
 	[NodeShape.Circle]: ({ width, height, ...props }) => (
 		<svg height={height} width={width} fill="currentColor" {...props}>
-			<circle cx={width / 2} cy={width / 2} r={width} />
+			<circle cx={width / 2} cy={width / 2} r={width / 2} />
 		</svg>
 	),
 	[NodeShape.Database]: ({ width, height, ...props }) => (
@@ -73,24 +82,40 @@ export const ShapeComponents: Record<
 	),
 	[NodeShape.Ellipse]: ({ width, height, ...props }) => (
 		<svg height={height} width={width} fill="currentColor" {...props}>
-			<ellipse cx={width / 2} cy={height / 2} rx={width} ry={height} />
+			<ellipse
+				cx={width / 2}
+				cy={height / 2}
+				rx={width / 2}
+				ry={height / 3}
+			/>
 		</svg>
 	),
 	[NodeShape.Hexagon]: ({ width, height, ...props }) => (
 		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
-				d={`M10,0 L${width - 10},0  L${width},${height / 2} L${
-					width - 10
-				},${height} L10,${height} L0,${height / 2} z`}
+				d={`M${width * 0.25},0 L${width * 0.75},0  L${width},${
+					height / 2
+				} L${width * 0.75},${height} L${width * 0.25},${height} L0,${
+					height / 2
+				} z`}
 			/>
 		</svg>
 	),
-	[NodeShape.Parallelogram]: ({ width, height, ...props }) => (
+	[NodeShape.ParallelogramRight]: ({ width, height, ...props }) => (
 		<svg height={height} width={width} fill="currentColor" {...props}>
 			<path
 				d={`M0,${height} L${width * 0.25},0 L${width},0 L${
 					width - width * 0.25
 				},${height} z`}
+			/>
+		</svg>
+	),
+	[NodeShape.ParallelogramLeft]: ({ width, height, ...props }) => (
+		<svg height={height} width={width} fill="currentColor" {...props}>
+			<path
+				d={`M${width * 0.25},${height} L0,0 L${width},0 L${
+					width - width * 0.25
+				},0 L${width}, ${height} z`}
 			/>
 		</svg>
 	),
@@ -251,11 +276,15 @@ export function CanvasNodeComponent({
 			<Shape
 				width={width}
 				height={height}
-				strokeWidth={selected ? 2 : 0}
+				strokeWidth={selected ? 2 : 1}
 				stroke={'#fff'}
 			/>
 			<div
-				className="flex flex-col justify-center items-center absolute h-full w-full left-0 top-0 text-base-content"
+				className={`flex flex-col items-center absolute h-full w-full left-0 top-0 text-base-content ${
+					shape === NodeShape.Triangle
+						? 'justify-end pb-3'
+						: 'justify-center'
+				}`}
 				ref={contentRef}
 			>
 				<div
