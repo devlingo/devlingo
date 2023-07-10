@@ -164,6 +164,9 @@ describe('Prompt Util Tests', () => {
 						nodeName: 'node1',
 					},
 					nodeType: ServiceType.NestJs,
+					height: 256,
+					shape: 'rect',
+					width: 256,
 				},
 				id: '1',
 				position: {

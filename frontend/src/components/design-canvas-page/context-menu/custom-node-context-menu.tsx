@@ -53,7 +53,7 @@ export function CustomNodeContextMenu() {
 		<>
 			<li>
 				<button
-					data-testid="context-menu-config-node-btn"
+					data-testid="context-menu-rename-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
 					onClick={() => {
 						setConfiguredNode(node.id);

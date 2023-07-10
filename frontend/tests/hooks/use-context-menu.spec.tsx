@@ -34,7 +34,7 @@ describe('contextMenuStore tests', () => {
 		expect(contextMenuData.isClicked).toBe(true);
 		expect(contextMenuData.position.x).toBe(mouseEvent.pageX);
 		expect(contextMenuData.position.y).toBe(mouseEvent.pageY);
-		expect(contextMenuData.nodeData).toBe(nodeId);
+		expect(contextMenuData.nodeId).toBe(nodeId);
 		expect(contextMenuData.menuType).toBe(ContextMenuType.CustomNode);
 	});
 });

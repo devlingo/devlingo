@@ -35,7 +35,7 @@ describe('ServiceNodeContextMenu', () => {
 
 		render(<ContextMenu />);
 
-		const deleteButton = screen.getByTestId('delete-node-context-item');
+		const deleteButton = screen.getByTestId('context-menu-delete-node-btn');
 		fireEvent.click(deleteButton);
 
 		expect(useNodesResult.current.length).toBe(0);

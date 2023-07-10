@@ -52,7 +52,7 @@ export const NodeFactory = new TypeFactory<CustomNodeType>(() => ({
 	data: {
 		formData: {
 			nodeName: TypeFactory.iterate(
-				Object.values(ServiceType).map((v) => v + 'Service'),
+				Object.values(ServiceType).map((v) => v + ' Service'),
 			),
 		},
 		nodeType: TypeFactory.iterate(Object.values(ServiceType)),
