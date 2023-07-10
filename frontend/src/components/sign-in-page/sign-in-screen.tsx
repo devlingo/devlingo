@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 
 import { getUserProfile } from '@/api';
@@ -7,6 +8,7 @@ import { useSetUser } from '@/stores/api-store';
 import { firebaseUIConfig, getFirebaseAuth } from '@/utils/firebase';
 
 export function SignInScreen() {
+	const { t } = useTranslation('sign-in');
 	const [uiRendered, setIsUIRendered] = useState(false);
 	const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -57,7 +59,7 @@ export function SignInScreen() {
 			const tosMessage = document.querySelector('.firebaseui-tos');
 
 			if (footer) {
-				footer.classList.add('mt-12');
+				footer.classList.add('mb-16');
 			}
 			if (tosMessage) {
 				tosMessage.classList.add('text-base-content');
@@ -66,25 +68,21 @@ export function SignInScreen() {
 	}, [uiRendered]);
 
 	return (
-		<main className="h-screen w-screen bg-base-100 flex items-center">
-			<div
-				className="mx-auto p-4 bg-base-100  rounded-box w-fit h-fit "
-				id="firebaseui-auth-container"
-			>
-				<div className="m-12">
-					<h1 className="text-2xl md:text-4xl  2xl:text-5xl font-bold text-center text-base-content mb-2">
-						Welcome to Devlingo
-					</h1>
-					<p className="text-center text-base-content">
-						<span>Get started - it&apos;s free. </span>
-						<span className="hidden md:inline">
-							No credit card needed.
-						</span>
-					</p>
+		<main className="h-screen w-screen bg-base-200 flex items-center">
+			<div className="mx-auto p-16 bg-base-100 border-1  rounded-box shadow transition-all duration-700 ease-in-out">
+				<div id="firebaseui-auth-container">
+					<div className={`m-10 ${uiRendered ? '' : 'hidden'}`}>
+						<h1 className="text-2xl md:text-4xl  2xl:text-5xl font-bold text-center text-base-content mb-2">
+							{t('auth_header')}
+						</h1>
+						<p className="text-center text-base-content">
+							<span>{t('auth_subtitle')} </span>
+							<span className="hidden md:inline">
+								{t('auth_subtitle_larger')}
+							</span>
+						</p>
+					</div>
 				</div>
-				{(!uiRendered || isSignedIn) && (
-					<div className="loading loading-ring" />
-				)}
 			</div>
 		</main>
 	);
