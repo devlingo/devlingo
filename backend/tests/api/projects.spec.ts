@@ -42,7 +42,7 @@ describe('Projects Controller Tests', () => {
 					({
 						...project,
 						...data,
-					} as any),
+					}) as any,
 			);
 			const response = await request
 				.post('/projects')
@@ -171,7 +171,7 @@ describe('Projects Controller Tests', () => {
 					({
 						...project,
 						...data,
-					} as any),
+					}) as any,
 			);
 
 			const response = await request

@@ -13,7 +13,10 @@ import { PrismaService } from '@/modules/prisma/service';
 
 @Injectable()
 export class UserPermissionsGuard implements CanActivate {
-	constructor(private reflector: Reflector, private prisma: PrismaService) {}
+	constructor(
+		private reflector: Reflector,
+		private prisma: PrismaService,
+	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		const permissions = this.reflector.get<PermissionType[] | undefined>(
