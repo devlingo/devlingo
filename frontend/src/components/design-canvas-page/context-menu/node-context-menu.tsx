@@ -4,9 +4,11 @@ import {
 	TrashIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
+import { MouseEvent, useState } from 'react';
 import { NodeShape } from 'shared/constants';
 import { shallow } from 'zustand/shallow';
 
+import { ShapeComponents } from '@/components/design-canvas-page/shapes';
 import {
 	ContextMenuStore,
 	useCloseContextMenu,
@@ -19,7 +21,36 @@ import {
 	useUpdateNode,
 } from '@/stores/design-store';
 
-export function CustomNodeContextMenu() {
+export function NodeShapeDropdown({
+	onClickHandler,
+}: {
+	onClickHandler: (shape: NodeShape) => void;
+}) {
+	return (
+		<div className="dropdown dropdown-right dropdown-open">
+			<ul className="dropdown-content z-30 flex flex-wrap w-80 p-2 shadow bg-base-100 rounded-box">
+				{Object.entries(ShapeComponents).map(
+					([shape, Component], i) => (
+						<li
+							key={i}
+							data-testid={`${shape}-dropdown-component`}
+							onClick={() => onClickHandler(shape as NodeShape)}
+							className="text-primary-content p-2"
+						>
+							<Component
+								height={20}
+								width={20}
+								className="w-full h-full"
+							/>
+						</li>
+					),
+				)}
+			</ul>
+		</div>
+	);
+}
+
+export function NodeContextMenu() {
 	const { t } = useTranslation('contextMenu');
 
 	const { itemId } = useContextMenuStore(
@@ -33,14 +64,14 @@ export function CustomNodeContextMenu() {
 	const updateNode = useUpdateNode();
 	const node = useNodes().find((n) => n.id === itemId)!;
 
-	const handleUpdateNodeShape = (): void => {
-		const shapes = Object.values(NodeShape);
-		const shapeIndex = shapes.findIndex((s) => node.data.shape === s);
+	const [isShapeDropdownOpen, setIsShapeDropdownOpen] = useState(false);
 
-		const nextShape =
-			shapes[shapeIndex === shapes.length - 1 ? 0 : shapeIndex + 1];
-		updateNode(itemId!, { shape: nextShape });
-		closeContextMenu();
+	const withCloseMenu = (cb: () => void) => {
+		return (e: MouseEvent) => {
+			e.stopPropagation();
+			cb();
+			closeContextMenu();
+		};
 	};
 
 	return (
@@ -49,10 +80,7 @@ export function CustomNodeContextMenu() {
 				<button
 					data-testid="context-menu-rename-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={() => {
-						setConfiguredNode(node.id);
-						closeContextMenu();
-					}}
+					onClick={withCloseMenu(() => setConfiguredNode(node.id))}
 				>
 					<span className="flex gap-2 items-center">
 						<PencilIcon className="h-4" />
@@ -64,22 +92,30 @@ export function CustomNodeContextMenu() {
 				<button
 					data-testid="context-menu-shape-menu-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={handleUpdateNodeShape}
+					onClick={(e: MouseEvent) => {
+						e.stopPropagation();
+						setIsShapeDropdownOpen(true);
+					}}
 				>
 					<span className="flex gap-2 items-center">
 						<ArrowPathIcon className="h-4" />
 						<span>{t('changeShape')}</span>
 					</span>
+					{isShapeDropdownOpen && (
+						<NodeShapeDropdown
+							onClickHandler={(shape) => {
+								updateNode(itemId!, { shape });
+								closeContextMenu();
+							}}
+						/>
+					)}
 				</button>
 			</li>
-			<li data-testid="custom-node-context-menu">
+			<li>
 				<button
 					data-testid="context-menu-delete-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={() => {
-						deleteNode(node.id);
-						closeContextMenu();
-					}}
+					onClick={withCloseMenu(() => deleteNode(node.id))}
 				>
 					<span className="flex gap-2 items-center">
 						<TrashIcon className="h-4" />

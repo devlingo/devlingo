@@ -16,7 +16,6 @@ import { Navigation } from '@/constants';
 import { useBoundedDrop } from '@/hooks/use-bounded-drop';
 import { useIsClientSide } from '@/hooks/use-is-client-side';
 import { useCurrentDesign } from '@/stores/api-store';
-import { useContextMenuStore } from '@/stores/context-menu-store';
 import {
 	useConfiguredNode,
 	useNodes,
@@ -90,7 +89,6 @@ export default function DesignCanvasPage() {
 		}
 	}, []);
 
-	const contextMenuStore = useContextMenuStore();
 	// drag and drop
 	const [dndDropData, dndRef] = useBoundedDrop();
 	useEffect(() => {
@@ -157,7 +155,7 @@ export default function DesignCanvasPage() {
 						/>
 					</div>
 				)}
-				{contextMenuStore.isContextMenuOpen && <ContextMenu />}
+				<ContextMenu />
 			</main>
 		</ReactFlowProvider>
 	);
