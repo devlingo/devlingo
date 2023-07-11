@@ -310,6 +310,9 @@ importers:
             tailwindcss:
                 specifier: 3.3.2
                 version: 3.3.2(ts-node@10.9.1)
+            tailwindcss-elevation:
+                specifier: ^2.0.0
+                version: 2.0.0(tailwindcss@3.3.2)
 
 packages:
     /@aashutoshrathi/word-wrap@1.2.6:
@@ -12402,6 +12405,14 @@ packages:
             source-map: 0.7.4
         dev: false
 
+    /hex-rgb@4.3.0:
+        resolution:
+            {
+                integrity: sha512-Ox1pJVrDCyGHMG9CFg1tmrRUMRPRsAWYc/PinY0XzJU4K7y7vjNoLKIQ7BR5UJMCxNN8EM1MNDmHWA/B3aZUuw==,
+            }
+        engines: { node: '>=6' }
+        dev: true
+
     /hexoid@1.0.0:
         resolution:
             {
@@ -19108,6 +19119,18 @@ packages:
         dependencies:
             '@pkgr/utils': 2.4.2
             tslib: 2.6.0
+        dev: true
+
+    /tailwindcss-elevation@2.0.0(tailwindcss@3.3.2):
+        resolution:
+            {
+                integrity: sha512-ejQ9bCTiilb/aOF2l9fLF9sWGc2QvxepePTGlLIxGZzJpRYKODf1tJlIN51W9ho4tXD2GKbBb10jd3bKm3THKQ==,
+            }
+        peerDependencies:
+            tailwindcss: ^3.0.1
+        dependencies:
+            hex-rgb: 4.3.0
+            tailwindcss: 3.3.2(ts-node@10.9.1)
         dev: true
 
     /tailwindcss@3.3.2(ts-node@10.9.1):

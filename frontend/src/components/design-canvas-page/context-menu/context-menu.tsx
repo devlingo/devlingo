@@ -27,7 +27,7 @@ export function ContextMenu() {
 				display: isContextMenuOpen ? 'block' : 'none',
 			}}
 		>
-			<ul className="p-3 menu shadow z-10 bg-base-200 border-neutral-focus border-2 rounded">
+			<ul className="list-none m-0 p-1 menu shadow z-10 bg-base-200 border-neutral-focus elevation-8 rounded-box">
 				{menuType === ContextMenuType.CustomNode && <NodeContextMenu />}
 			</ul>
 		</div>

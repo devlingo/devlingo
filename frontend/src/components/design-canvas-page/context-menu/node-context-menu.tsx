@@ -1,10 +1,11 @@
 import {
 	ArrowPathIcon,
+	ChevronRightIcon,
 	PencilIcon,
 	TrashIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import { NodeShape } from 'shared/constants';
 import { shallow } from 'zustand/shallow';
 
@@ -20,6 +21,7 @@ import {
 	useSetConfiguredNode,
 	useUpdateNode,
 } from '@/stores/design-store';
+import { handleChange } from '@/utils/helpers';
 
 export function NodeShapeDropdown({
 	onClickHandler,
@@ -27,8 +29,8 @@ export function NodeShapeDropdown({
 	onClickHandler: (shape: NodeShape) => void;
 }) {
 	return (
-		<div className="dropdown dropdown-right dropdown-open">
-			<ul className="dropdown-content z-30 flex flex-wrap w-80 p-2 shadow bg-base-100 rounded-box">
+		<div className="elevation-15 dropdown dropdown-right dropdown-open">
+			<ul className="dropdown-content ml-14 border-2 border-neutral z-30 flex flex-wrap w-72 shadow bg-base-100 rounded-box">
 				{Object.entries(ShapeComponents).map(
 					([shape, Component], i) => (
 						<li
@@ -66,36 +68,16 @@ export function NodeContextMenu() {
 
 	const [isShapeDropdownOpen, setIsShapeDropdownOpen] = useState(false);
 
-	const withCloseMenu = (cb: () => void) => {
-		return (e: MouseEvent) => {
-			e.stopPropagation();
-			cb();
-			closeContextMenu();
-		};
-	};
-
 	return (
 		<>
-			<li>
-				<button
-					data-testid="context-menu-rename-node-btn"
-					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={withCloseMenu(() => setConfiguredNode(node.id))}
-				>
-					<span className="flex gap-2 items-center">
-						<PencilIcon className="h-4" />
-						<span>{t('renameNode')}</span>
-					</span>
-				</button>
-			</li>
-			<li>
+			<li className="border-b-2 p-1 border-accent border-opacity-30">
 				<button
 					data-testid="context-menu-shape-menu-btn"
-					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={(e: MouseEvent) => {
-						e.stopPropagation();
-						setIsShapeDropdownOpen(true);
-					}}
+					className="btn btn-sm btn-ghost normal-case w-full justify-start items-center"
+					onClick={handleChange(
+						() => setIsShapeDropdownOpen(!isShapeDropdownOpen),
+						true,
+					)}
 				>
 					<span className="flex gap-2 items-center">
 						<ArrowPathIcon className="h-4" />
@@ -109,13 +91,33 @@ export function NodeContextMenu() {
 							}}
 						/>
 					)}
+					<ChevronRightIcon className="h-3 ml-2" />
 				</button>
 			</li>
-			<li>
+			<li className="border-b-2 p-1 border-accent border-opacity-30">
+				<button
+					data-testid="context-menu-rename-node-btn"
+					className="btn btn-sm btn-ghost normal-case w-full justify-start"
+					onClick={handleChange(() => {
+						setConfiguredNode(node.id);
+						closeContextMenu();
+					})}
+				>
+					<span className="flex gap-2 items-center">
+						<PencilIcon className="h-4" />
+						<span>{t('renameNode')}</span>
+					</span>
+				</button>
+			</li>
+
+			<li className="p-1">
 				<button
 					data-testid="context-menu-delete-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
-					onClick={withCloseMenu(() => deleteNode(node.id))}
+					onClick={handleChange(() => {
+						deleteNode(node.id);
+						closeContextMenu();
+					})}
 				>
 					<span className="flex gap-2 items-center">
 						<TrashIcon className="h-4" />
