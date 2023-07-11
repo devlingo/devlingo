@@ -157,7 +157,7 @@ export default function DesignCanvasPage() {
 						/>
 					</div>
 				)}
-				{contextMenuStore.isClicked && <ContextMenu />}
+				{contextMenuStore.isContextMenuOpen && <ContextMenu />}
 			</main>
 		</ReactFlowProvider>
 	);

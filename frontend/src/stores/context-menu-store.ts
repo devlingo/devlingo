@@ -2,45 +2,47 @@ import { create } from 'zustand';
 
 import { ContextMenuType } from '@/constants/context-menu.constants';
 
+export interface OpenContextMenuParams {
+	itemId: string;
+	menuType: ContextMenuType;
+	position: { x: number; y: number };
+}
+
 export interface ContextMenuStore {
-	isClicked: boolean;
+	isContextMenuOpen: boolean;
 	position: {
 		x: number;
 		y: number;
 	} | null;
-	nodeId: string | null;
+	itemId: string | null;
 	menuType: ContextMenuType | null;
-	setIsClicked: (isClicked: boolean) => void;
-	setPosition: (position: { x: number; y: number } | null) => void;
-	setNodeId: (nodeData: string | null) => void;
-	setContextMenuType: (menuType: ContextMenuType | null) => void;
+	openContextMenu: (params: OpenContextMenuParams) => void;
+	closeContextMenu: () => void;
 }
 
 export const useContextMenuStore = create<ContextMenuStore>((set) => ({
-	isClicked: false,
+	isContextMenuOpen: false,
 	position: null,
-	nodeId: null,
+	itemId: null,
 	menuType: null,
-	setIsClicked: (isClicked: boolean) => {
-		set({ isClicked });
+	openContextMenu: (params: {
+		itemId: string;
+		menuType: ContextMenuType;
+		position: { x: number; y: number };
+	}) => {
+		set({ ...params, isContextMenuOpen: true });
 	},
-	setPosition: (position: { x: number; y: number } | null) => {
-		set({ position });
-	},
-	setNodeId: (nodeId: string | null) => {
-		set({ nodeId });
-	},
-	setContextMenuType: (menuType: ContextMenuType | null) => {
-		set({ menuType });
+	closeContextMenu: () => {
+		set({
+			isContextMenuOpen: false,
+			position: null,
+			itemId: null,
+			menuType: null,
+		});
 	},
 }));
 
-export const useSetNodeId = () => useContextMenuStore((s) => s.setNodeId);
-export const useNodeId = () => useContextMenuStore((s) => s.nodeId);
-
-export const useSetContextMenuType = () =>
-	useContextMenuStore((s) => s.setContextMenuType);
-export const useContextMenuType = () => useContextMenuStore((s) => s.menuType);
-
-export const useContextMenuLocation = () =>
-	useContextMenuStore((s) => s.position);
+export const useOpenContextMenu = () =>
+	useContextMenuStore((state) => state.openContextMenu);
+export const useCloseContextMenu = () =>
+	useContextMenuStore((state) => state.closeContextMenu);

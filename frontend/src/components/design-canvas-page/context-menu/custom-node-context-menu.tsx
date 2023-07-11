@@ -5,12 +5,12 @@ import {
 } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
 import { NodeShape } from 'shared/constants';
+import { shallow } from 'zustand/shallow';
 
 import {
+	ContextMenuStore,
+	useCloseContextMenu,
 	useContextMenuStore,
-	useNodeId,
-	useSetContextMenuType,
-	useSetNodeId,
 } from '@/stores/context-menu-store';
 import {
 	useDeleteNode,
@@ -22,22 +22,16 @@ import {
 export function CustomNodeContextMenu() {
 	const { t } = useTranslation('contextMenu');
 
-	const deleteNode = useDeleteNode();
-	const nodeId = useNodeId()!;
-	const setConfiguredNode = useSetConfiguredNode();
-	const setContextMenuType = useSetContextMenuType();
-	const setIsClicked = useContextMenuStore((state) => state.setIsClicked);
-	const setNodeId = useSetNodeId();
-	const setPosition = useContextMenuStore((state) => state.setPosition);
-	const updateNode = useUpdateNode();
-	const node = useNodes().find((n) => n.id === nodeId)!;
+	const { itemId } = useContextMenuStore(
+		(state: ContextMenuStore) => ({ itemId: state.itemId }),
+		shallow,
+	);
 
-	const closeContextMenu = () => {
-		setIsClicked(false);
-		setPosition(null);
-		setNodeId(null);
-		setContextMenuType(null);
-	};
+	const deleteNode = useDeleteNode();
+	const setConfiguredNode = useSetConfiguredNode();
+	const closeContextMenu = useCloseContextMenu();
+	const updateNode = useUpdateNode();
+	const node = useNodes().find((n) => n.id === itemId)!;
 
 	const handleUpdateNodeShape = (): void => {
 		const shapes = Object.values(NodeShape);
@@ -45,7 +39,7 @@ export function CustomNodeContextMenu() {
 
 		const nextShape =
 			shapes[shapeIndex === shapes.length - 1 ? 0 : shapeIndex + 1];
-		updateNode(nodeId, { shape: nextShape });
+		updateNode(itemId!, { shape: nextShape });
 		closeContextMenu();
 	};
 

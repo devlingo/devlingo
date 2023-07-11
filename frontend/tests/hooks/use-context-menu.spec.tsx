@@ -12,6 +12,7 @@ describe('contextMenuStore tests', () => {
 		pageX: 100,
 		pageY: 200,
 	};
+
 	it('returns a callback function', () => {
 		const { result } = renderHook(() =>
 			useContextMenu(ContextMenuType.CustomNode, nodeId),
@@ -19,7 +20,7 @@ describe('contextMenuStore tests', () => {
 		expect(typeof result.current).toBe('function');
 	});
 
-	it('sets relevant values to open a context menu', () => {
+	it('sets the expected state when opening the context menu', () => {
 		const { result } = renderHook(() =>
 			useContextMenu(ContextMenuType.CustomNode, nodeId),
 		);
@@ -31,10 +32,10 @@ describe('contextMenuStore tests', () => {
 		} = renderHook(() => useContextMenuStore());
 
 		expect(mouseEvent.preventDefault).toHaveBeenCalled();
-		expect(contextMenuData.isClicked).toBe(true);
+		expect(contextMenuData.isContextMenuOpen).toBe(true);
 		expect(contextMenuData.position.x).toBe(mouseEvent.pageX);
 		expect(contextMenuData.position.y).toBe(mouseEvent.pageY);
-		expect(contextMenuData.nodeId).toBe(nodeId);
+		expect(contextMenuData.itemId).toBe(nodeId);
 		expect(contextMenuData.menuType).toBe(ContextMenuType.CustomNode);
 	});
 });
