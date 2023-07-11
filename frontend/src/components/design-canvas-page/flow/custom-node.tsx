@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
 	Handle,
 	HandleProps,
@@ -15,6 +15,7 @@ import { TypeSVGMap } from '@/assets';
 import { ShapeComponents } from '@/components/design-canvas-page/shapes';
 import { Dimensions, NodeDefaultSizePX, TypeTagMap } from '@/constants';
 import { ContextMenuType } from '@/constants/context-menu.constants';
+import { ThemeContext } from '@/context';
 import { useContextMenu } from '@/hooks/use-context-menu';
 import { useUpdateNode } from '@/stores/design-store';
 
@@ -110,6 +111,7 @@ export function CustomNode({
 	selected,
 }: NodeProps<CustomNodeData>) {
 	const nodeId = useNodeId()!;
+	const themeContext = useContext(ThemeContext);
 	const updateNode = useUpdateNode();
 	const onContextMenu = useContextMenu(ContextMenuType.CustomNode, nodeId);
 
@@ -140,6 +142,7 @@ export function CustomNode({
 				minHeight={minHeight}
 				minWidth={minWidth}
 				keepAspectRatio={true}
+				isVisible={selected}
 			/>
 			<NodeHandles
 				nodeId={nodeId}
@@ -149,10 +152,10 @@ export function CustomNode({
 				width={width}
 				height={height}
 				strokeWidth={selected ? 2 : 1}
-				stroke={'#fff'}
+				stroke={themeContext.themeColors?.primaryContent ?? '#fff'}
 			/>
 			<div
-				className={`flex flex-col items-center absolute h-full w-full left-0 top-0 text-base-content ${
+				className={`flex flex-col items-center absolute h-full w-full left-0 top-0 text-primary-content ${
 					shape === NodeShape.Triangle
 						? 'justify-end pb-3'
 						: 'justify-center'
@@ -174,7 +177,7 @@ export function CustomNode({
 							/>
 						</figure>
 						<p
-							className="text-base-content"
+							className="text-primary-content"
 							style={{ fontSize: baseFontSize * 0.75 }}
 							data-testid={`type-tag-${nodeId}`}
 						>
@@ -185,7 +188,7 @@ export function CustomNode({
 				</div>
 				<div>
 					<h2
-						className="text-base-content"
+						className="text-primary-content"
 						style={{ fontSize: baseFontSize * 1.25 }}
 						data-testid={`node-name-${nodeId}`}
 					>
