@@ -77,16 +77,16 @@ export enum EdgeType {
 }
 
 export enum NodeShape {
-	ArrowRight = 'arrow-right',
-	ArrowLeft = 'arrow-left',
+	ArrowRight = 'arrowRight',
+	ArrowLeft = 'arrowLeft',
 	Circle = 'circle',
 	Database = 'database',
 	Diamond = 'diamond',
 	Ellipse = 'ellipse',
 	Hexagon = 'hexagon',
-	ParallelogramRight = 'parallelogram',
-	ParallelogramLeft = 'parallelogram-left',
-	Rectangle = 'rect',
-	RoundedRectangle = 'round-rect',
+	ParallelogramRight = 'parallelogramRight',
+	ParallelogramLeft = 'parallelogramLeft',
+	Rectangle = 'rectangle',
+	RoundedRectangle = 'roundedRectangle',
 	Triangle = 'triangle',
 }

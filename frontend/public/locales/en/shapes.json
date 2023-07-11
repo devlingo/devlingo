@@ -1,0 +1,14 @@
+{
+	"arrowLeft": "Left Arrow",
+	"arrowRight": "Right Arrow",
+	"circle": "Circle",
+	"database": "Database",
+	"diamond": "Diamond",
+	"ellipse": "Ellipse",
+	"hexagon": "Hexagon",
+	"parallelogramLeft": "Right-to-Left Parallelogram",
+	"parallelogramRight": "Left-to-Right Parallelogram",
+	"rectangle": "Rectangle",
+	"roundedRectangle": "Rounded Rectangle",
+	"triangle": "Triangle"
+}

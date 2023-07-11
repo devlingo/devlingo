@@ -30,10 +30,11 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 	return {
 		props: {
 			...(await serverSideTranslations(locale, [
+				'shapes',
 				'assets',
-				'prompt',
 				'common',
 				'contextMenu',
+				'prompt',
 			])),
 		},
 	};

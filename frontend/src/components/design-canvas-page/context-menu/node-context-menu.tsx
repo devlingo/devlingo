@@ -28,23 +28,31 @@ export function NodeShapeDropdown({
 }: {
 	onClickHandler: (shape: NodeShape) => void;
 }) {
+	const { t } = useTranslation('shapes');
+
 	return (
-		<div className="elevation-15 dropdown dropdown-right dropdown-open">
+		<div
+			className="elevation-15 dropdown dropdown-right dropdown-open"
+			data-testid="context-menu-shape-dropdown"
+		>
 			<ul className="dropdown-content ml-14 border-2 border-neutral z-30 flex flex-wrap w-72 shadow bg-base-100 rounded-box">
 				{Object.entries(ShapeComponents).map(
 					([shape, Component], i) => (
-						<li
-							key={i}
-							data-testid={`${shape}-dropdown-component`}
-							onClick={() => onClickHandler(shape as NodeShape)}
-							className="text-primary-content p-2"
-						>
-							<Component
-								height={20}
-								width={20}
-								className="w-full h-full"
-							/>
-						</li>
+						<div key={i} className="tooltip" data-tip={t(shape)}>
+							<li
+								data-testid={`${shape}-dropdown-component`}
+								onClick={() =>
+									onClickHandler(shape as NodeShape)
+								}
+								className="text-primary-content p-2"
+							>
+								<Component
+									height={20}
+									width={20}
+									className="w-full h-full"
+								/>
+							</li>
+						</div>
 					),
 				)}
 			</ul>
