@@ -1,3 +1,5 @@
 {
-	"deleteNode": "Delete Node"
+	"changeShape": "Change Shape",
+	"deleteNode": "Delete Node",
+	"renameNode": "Rename Node"
 }

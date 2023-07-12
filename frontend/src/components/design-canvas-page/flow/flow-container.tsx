@@ -20,11 +20,11 @@ import { TimeUnit } from 'shared/constants';
 import { DesignResponseData } from 'shared/types';
 import { shallow } from 'zustand/shallow';
 
+import { CustomNode } from '@/components/design-canvas-page/flow/custom-node';
 import {
 	ConnectionLine,
 	HttpRestEdge,
 } from '@/components/design-canvas-page/flow/edges';
-import { CanvasNodeComponent } from '@/components/design-canvas-page/flow/nodes';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	DEFAULT_FLOW_WIDTH,
@@ -54,7 +54,7 @@ export const flowStateSelector = (state: FlowStore) => ({
 });
 
 const nodeTypes: Record<string, MemoExoticComponent<any>> = {
-	CustomNode: memo(CanvasNodeComponent),
+	CustomNode: memo(CustomNode),
 };
 
 const edgeTypes: Record<string, MemoExoticComponent<any>> = {
@@ -177,7 +177,7 @@ export function FlowContainer({
 				onEdgesChange={withSetSave(onEdgesChange)}
 				onInit={setReactFlowInstance}
 				onNodesChange={withSetSave(onNodesChange)}
-				proOptions={{ hideAttribution: true }}
+				proOptions={{ account: 'paid-pro', hideAttribution: true }}
 				minZoom={0.1}
 				snapToGrid={true}
 				zoomOnScroll={false}
@@ -187,7 +187,7 @@ export function FlowContainer({
 				<Controls className="bg-accent focus:bg-accent-content border-black" />
 				<Background
 					variant={BackgroundVariant.Dots}
-					color={theme.backgroundColor}
+					color={theme.themeColors?.secondary ?? 'yellow'}
 					size={1.5}
 				/>
 				<Panel position="bottom-right">

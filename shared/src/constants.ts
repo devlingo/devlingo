@@ -75,3 +75,18 @@ export enum EdgeType {
 	SmoothStepEdg = 'smoothstep',
 	SimpleBezier = 'simplebezier',
 }
+
+export enum NodeShape {
+	ArrowRight = 'arrowRight',
+	ArrowLeft = 'arrowLeft',
+	Circle = 'circle',
+	Database = 'database',
+	Diamond = 'diamond',
+	Ellipse = 'ellipse',
+	Hexagon = 'hexagon',
+	ParallelogramRight = 'parallelogramRight',
+	ParallelogramLeft = 'parallelogramLeft',
+	Rectangle = 'rectangle',
+	RoundedRectangle = 'roundedRectangle',
+	Triangle = 'triangle',
+}

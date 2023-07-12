@@ -22,7 +22,7 @@ describe('Navbar tests', () => {
 					value={{
 						currentTheme: 'light',
 						setTheme,
-						backgroundColor: '#fff',
+						themeColors: undefined,
 					}}
 				>
 					{children}

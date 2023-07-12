@@ -1,4 +1,4 @@
-import { EdgeType, ServiceType } from 'shared/constants';
+import { EdgeType, NodeShape, ServiceType } from 'shared/constants';
 import { EdgeFactory, NodeFactory } from 'shared/testing';
 import { DesignData } from 'shared/types';
 import { beforeEach, describe, expect } from 'vitest';
@@ -164,6 +164,9 @@ describe('Prompt Util Tests', () => {
 						nodeName: 'node1',
 					},
 					nodeType: ServiceType.NestJs,
+					height: 256,
+					shape: NodeShape.Rectangle,
+					width: 256,
 				},
 				id: '1',
 				position: {

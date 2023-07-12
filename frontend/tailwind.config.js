@@ -26,7 +26,11 @@ module.exports = {
 		'./src/components/**/*.{js,ts,jsx,tsx}',
 		'./src/app/**/*.{js,ts,jsx,tsx}',
 	],
-	plugins: [require('@tailwindcss/typography'), require('daisyui')],
+	plugins: [
+		require('@tailwindcss/typography'),
+		require('daisyui'),
+		require('tailwindcss-elevation'),
+	],
 	daisyui: {
 		logs: false,
 		themes: [...lightThemes, ...darkThemes],

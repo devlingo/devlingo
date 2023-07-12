@@ -2,50 +2,47 @@ import { create } from 'zustand';
 
 import { ContextMenuType } from '@/constants/context-menu.constants';
 
-export interface ContextMenuStore<T> {
-	isClicked: boolean;
+export interface OpenContextMenuParams {
+	itemId: string;
+	menuType: ContextMenuType;
+	position: { x: number; y: number };
+}
+
+export interface ContextMenuStore {
+	isContextMenuOpen: boolean;
 	position: {
 		x: number;
 		y: number;
 	} | null;
-	nodeData: T;
+	itemId: string | null;
 	menuType: ContextMenuType | null;
-	setIsClicked: (isClicked: boolean) => void;
-	setPosition: (position: { x: number; y: number } | null) => void;
-	setNodeData: (nodeData: T) => void;
-	setContextMenuType: (menuType: ContextMenuType | null) => void;
+	openContextMenu: (params: OpenContextMenuParams) => void;
+	closeContextMenu: () => void;
 }
 
-const INITIAL_STATE: Pick<
-	ContextMenuStore<any>,
-	'isClicked' | 'position' | 'nodeData' | 'menuType'
-> = {
-	isClicked: false,
+export const useContextMenuStore = create<ContextMenuStore>((set) => ({
+	isContextMenuOpen: false,
 	position: null,
-	nodeData: null,
+	itemId: null,
 	menuType: null,
-};
-
-export const useContextMenuStore = create<ContextMenuStore<any>>((set) => ({
-	...INITIAL_STATE,
-	setIsClicked: (isClicked: boolean) => {
-		set({ isClicked });
+	openContextMenu: (params: {
+		itemId: string;
+		menuType: ContextMenuType;
+		position: { x: number; y: number };
+	}) => {
+		set({ ...params, isContextMenuOpen: true });
 	},
-	setPosition: (position: { x: number; y: number } | null) => {
-		set({ position });
-	},
-	setNodeData: <T>(nodeData: T) => {
-		set({ nodeData });
-	},
-	setContextMenuType: (menuType: ContextMenuType | null) => {
-		set({ menuType });
+	closeContextMenu: () => {
+		set({
+			isContextMenuOpen: false,
+			position: null,
+			itemId: null,
+			menuType: null,
+		});
 	},
 }));
 
-export const useContextMenuNodeData = <T>() =>
-	useContextMenuStore((s) => s.nodeData as T);
-
-export const useContextMenuType = () => useContextMenuStore((s) => s.menuType);
-
-export const useContextMenuLocation = () =>
-	useContextMenuStore((s) => s.position);
+export const useOpenContextMenu = () =>
+	useContextMenuStore((state) => state.openContextMenu);
+export const useCloseContextMenu = () =>
+	useContextMenuStore((state) => state.closeContextMenu);

@@ -1,29 +1,34 @@
-import { CustomNodeContextMenu } from '@/components/design-canvas-page/context-menu/custom-node-context-menu';
+import { shallow } from 'zustand/shallow';
+
+import { NodeContextMenu } from '@/components/design-canvas-page/context-menu/node-context-menu';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import {
-	useContextMenuLocation,
-	useContextMenuType,
+	ContextMenuStore,
+	useContextMenuStore,
 } from '@/stores/context-menu-store';
 
 export function ContextMenu() {
-	const menuType = useContextMenuType();
-	const location = useContextMenuLocation();
-
-	const containerStyle = {
-		left: location?.x ?? 0,
-		top: location?.y ?? 0,
-	};
+	const { isContextMenuOpen, menuType, position } = useContextMenuStore(
+		(state: ContextMenuStore) => ({
+			position: state.position,
+			menuType: state.menuType,
+			isContextMenuOpen: state.isContextMenuOpen,
+		}),
+		shallow,
+	);
 
 	return (
 		<div
 			data-testid="context-menu-container"
-			className="absolute dropdown"
-			style={containerStyle}
+			className="absolute"
+			style={{
+				left: position?.x ?? 0,
+				top: position?.y ?? 0,
+				display: isContextMenuOpen ? 'block' : 'none',
+			}}
 		>
-			<ul className="p-3 shadow z-[1] bg-base-200 border-neutral-focus border rounded">
-				{menuType === ContextMenuType.CustomNode && (
-					<CustomNodeContextMenu />
-				)}
+			<ul className="list-none m-0 p-1 menu shadow z-10 bg-base-200 border-neutral-focus elevation-8 rounded-box">
+				{menuType === ContextMenuType.CustomNode && <NodeContextMenu />}
 			</ul>
 		</div>
 	);

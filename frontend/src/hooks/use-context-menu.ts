@@ -1,22 +1,14 @@
 import { MouseEvent, useEffect } from 'react';
 
 import { ContextMenuType } from '@/constants/context-menu.constants';
-import { useContextMenuStore } from '@/stores/context-menu-store';
+import {
+	useCloseContextMenu,
+	useOpenContextMenu,
+} from '@/stores/context-menu-store';
 
-export const useContextMenu = <T>(menuType: ContextMenuType, nodeData: T) => {
-	const setIsClicked = useContextMenuStore((state) => state.setIsClicked);
-	const setPosition = useContextMenuStore((state) => state.setPosition);
-	const setNodeData = useContextMenuStore((state) => state.setNodeData);
-	const setContextMenuType = useContextMenuStore(
-		(state) => state.setContextMenuType,
-	);
-
-	function closeContextMenu() {
-		setIsClicked(false);
-		setPosition(null);
-		setNodeData(null);
-		setContextMenuType(null);
-	}
+export const useContextMenu = (menuType: ContextMenuType, itemId: string) => {
+	const closeContextMenu = useCloseContextMenu();
+	const openContextMenu = useOpenContextMenu();
 
 	useEffect(() => {
 		document.addEventListener('click', closeContextMenu);
@@ -27,12 +19,13 @@ export const useContextMenu = <T>(menuType: ContextMenuType, nodeData: T) => {
 
 	return (e: MouseEvent) => {
 		e.preventDefault();
-		setIsClicked(true);
-		setPosition({
-			x: e.pageX,
-			y: e.pageY,
+		openContextMenu({
+			position: {
+				x: e.pageX,
+				y: e.pageY,
+			},
+			itemId,
+			menuType,
 		});
-		setNodeData(nodeData);
-		setContextMenuType(menuType);
 	};
 };

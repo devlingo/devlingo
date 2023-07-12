@@ -18,5 +18,4 @@ function App({ Component, pageProps }: AppProps): React.ReactElement {
 	);
 }
 
-// @ts-expect-error, typing discrepancy between next and next-i18next
 export default appWithTranslation(App);

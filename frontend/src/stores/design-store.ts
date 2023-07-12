@@ -12,7 +12,7 @@ import {
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
-import { ViewPortData } from 'shared/types';
+import { CustomNodeData, ViewPortData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
 import { StateCreator } from 'zustand/vanilla';
 
@@ -35,7 +35,8 @@ export interface FlowStore {
 	setEdges: (edges: Edge[]) => void;
 	setNodes: (nodes: CustomNodeType[]) => void;
 	setViewPort: (viewport: ViewPortData) => void;
-	handleNodeDelete: (nodeId: string) => void;
+	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
+	deleteNode: (nodeId: string) => void;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
@@ -61,7 +62,9 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 		});
 	},
 	onNodesChange: (changes: NodeChange[]) => {
-		set({ nodes: applyNodeChanges(changes, get().nodes) });
+		set({
+			nodes: applyNodeChanges(changes, get().nodes),
+		});
 	},
 	// form logic
 	configuredNode: null,
@@ -86,8 +89,24 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	setViewPort: (viewport: ViewPortData) => {
 		set({ viewport });
 	},
-	handleNodeDelete: (nodeId: string) => {
+	deleteNode: (nodeId: string) => {
 		set({ nodes: get().nodes.filter((node) => node.id !== nodeId) });
+	},
+	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => {
+		set({
+			nodes: get().nodes.map((node) => {
+				if (node.id === nodeId) {
+					return {
+						...node,
+						data: {
+							...node.data,
+							...data,
+						},
+					};
+				}
+				return node;
+			}),
+		});
 	},
 });
 
@@ -104,5 +123,5 @@ export const useSetNodes = () => useDesignCanvasStore((s) => s.setNodes);
 export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);
 export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
 export const useEdges = () => useDesignCanvasStore((s) => s.nodes);
-export const useHandleNodeDelete = () =>
-	useDesignCanvasStore((s) => s.handleNodeDelete);
+export const useUpdateNode = () => useDesignCanvasStore((s) => s.updateNode);
+export const useDeleteNode = () => useDesignCanvasStore((s) => s.deleteNode);

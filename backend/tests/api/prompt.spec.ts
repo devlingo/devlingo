@@ -1,6 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Design, PrismaClient, Project } from '@prisma/client';
 import { OpenAI } from 'langchain';
+import { NodeShape, ServiceType } from 'shared/constants';
 import { DesignFactory, ProjectFactory, VersionFactory } from 'shared/testing';
 import { DesignData } from 'shared/types';
 import type { SuperTest } from 'supertest';
@@ -73,7 +74,7 @@ describe('Prompt Controller Tests', () => {
 							x: 1300,
 							y: 50,
 						},
-						type: 'CanvasNodeComponent',
+						type: 'CustomNode',
 					},
 					{
 						data: {
@@ -87,7 +88,7 @@ describe('Prompt Controller Tests', () => {
 							x: 700,
 							y: 50,
 						},
-						type: 'CanvasNodeComponent',
+						type: 'CustomNode',
 					},
 				],
 				edges: [
@@ -163,7 +164,10 @@ describe('Prompt Controller Tests', () => {
 					...nodes,
 					{
 						data: {
-							nodeType: 'MongoDB',
+							nodeType: ServiceType.MongoDB,
+							height: 256,
+							shape: NodeShape.Rectangle,
+							width: 256,
 							formData: { nodeName: 'Database' },
 						},
 						id: '5a6c3b5a-9c3a-4687-8199-c2ba25f480a2',
