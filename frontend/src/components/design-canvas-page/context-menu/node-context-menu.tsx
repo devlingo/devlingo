@@ -33,7 +33,7 @@ export function NodeShapeDropdown({
 	return (
 		<div
 			className="elevation-15 dropdown dropdown-right dropdown-open"
-			data-testid="context-menu-shape-dropdown"
+			data-testid="custom-node-context-menu::shape-dropdown"
 		>
 			<ul className="dropdown-content ml-14 border-2 border-neutral z-30 flex flex-wrap w-72 shadow bg-base-100 rounded-box">
 				{Object.entries(ShapeComponents).map(
@@ -78,9 +78,12 @@ export function NodeContextMenu() {
 
 	return (
 		<>
-			<li className="border-b-2 p-1 border-accent border-opacity-30">
+			<li
+				className="border-b-2 p-1 border-accent border-opacity-30"
+				data-testid="custom-node-context-menu"
+			>
 				<button
-					data-testid="context-menu-shape-menu-btn"
+					data-testid="custom-node-context-menu::shape-menu-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start items-center"
 					onClick={handleChange(
 						() => setIsShapeDropdownOpen(!isShapeDropdownOpen),
@@ -104,7 +107,7 @@ export function NodeContextMenu() {
 			</li>
 			<li className="border-b-2 p-1 border-accent border-opacity-30">
 				<button
-					data-testid="context-menu-rename-node-btn"
+					data-testid="custom-node-context-menu::rename-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
 					onClick={handleChange(() => {
 						setConfiguredNode(node.id);
@@ -120,7 +123,7 @@ export function NodeContextMenu() {
 
 			<li className="p-1">
 				<button
-					data-testid="context-menu-delete-node-btn"
+					data-testid="custom-node-context-menu::delete-node-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start"
 					onClick={handleChange(() => {
 						deleteNode(node.id);

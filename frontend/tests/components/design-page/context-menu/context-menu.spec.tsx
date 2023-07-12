@@ -72,7 +72,7 @@ describe('ContextMenu tests', () => {
 				expect(useNodesResult.current).toHaveLength(1);
 
 				const deleteButton = screen.getByTestId(
-					'context-menu-delete-node-btn',
+					'custom-node-context-menu::delete-node-btn',
 				);
 				fireEvent.click(deleteButton);
 
@@ -105,12 +105,14 @@ describe('ContextMenu tests', () => {
 				expect(useNodesResult.current).toHaveLength(1);
 
 				const changeShapeButton = screen.getByTestId(
-					'context-menu-shape-menu-btn',
+					'custom-node-context-menu::shape-menu-btn',
 				);
 				fireEvent.click(changeShapeButton);
 
 				expect(
-					screen.getByTestId('context-menu-shape-dropdown'),
+					screen.getByTestId(
+						'custom-node-context-menu::shape-dropdown',
+					),
 				).toBeInTheDocument();
 			});
 			it('changes the node shape when a new shape is selected', async () => {
@@ -140,7 +142,7 @@ describe('ContextMenu tests', () => {
 				);
 
 				const changeShapeButton = screen.getByTestId(
-					'context-menu-shape-menu-btn',
+					'custom-node-context-menu::shape-menu-btn',
 				);
 				fireEvent.click(changeShapeButton);
 
@@ -176,12 +178,14 @@ describe('ContextMenu tests', () => {
 				expect(useNodesResult.current).toHaveLength(1);
 
 				const changeShapeButton = screen.getByTestId(
-					'context-menu-shape-menu-btn',
+					'custom-node-context-menu::shape-menu-btn',
 				);
 				fireEvent.click(changeShapeButton);
 
 				expect(
-					screen.getByTestId('context-menu-shape-dropdown'),
+					screen.getByTestId(
+						'custom-node-context-menu::shape-dropdown',
+					),
 				).toBeInTheDocument();
 
 				const shapeComponent = screen.getByTestId(
@@ -190,7 +194,9 @@ describe('ContextMenu tests', () => {
 				fireEvent.click(shapeComponent);
 
 				expect(
-					screen.queryByTestId('context-menu-shape-dropdown'),
+					screen.queryByTestId(
+						'custom-node-context-menu::shape-dropdown',
+					),
 				).toBeNull();
 				expect(
 					screen.queryByTestId('custom-node-context-menu'),
@@ -223,19 +229,23 @@ describe('ContextMenu tests', () => {
 				);
 
 				const changeShapeButton = screen.getByTestId(
-					'context-menu-shape-menu-btn',
+					'custom-node-context-menu::shape-menu-btn',
 				);
 				fireEvent.click(changeShapeButton);
 
 				expect(
-					screen.getByTestId('context-menu-shape-dropdown'),
+					screen.getByTestId(
+						'custom-node-context-menu::shape-dropdown',
+					),
 				).toBeInTheDocument();
 
 				const container = screen.getByTestId('context-menu-container');
 				fireEvent.click(container);
 
 				expect(
-					screen.queryByTestId('context-menu-shape-dropdown'),
+					screen.queryByTestId(
+						'custom-node-context-menu::shape-dropdown',
+					),
 				).toBeNull();
 				expect(
 					screen.queryByTestId('custom-node-context-menu'),
