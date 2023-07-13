@@ -27,6 +27,7 @@ import { setupValidationPipe } from './utils/configuration';
 	setupValidationPipe(app);
 
 	app.useGlobalFilters(new PrismaExceptionFilter());
+
 	const configService = app.get(ConfigService<EnvironmentVariables, true>);
 	const port = configService.get<number>('SERVER_PORT')!;
 

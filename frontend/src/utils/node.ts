@@ -3,11 +3,11 @@ import { toJpeg, toPng, toSvg } from 'html-to-image';
 import { Options as HtmlToImageOptions } from 'html-to-image/lib/types';
 import { Node } from 'reactflow';
 import { NodeShape } from 'shared/constants';
-import { CustomNodeData } from 'shared/types';
+import { CustomNodeData, CustomNodeType } from 'shared/types';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Dimensions, NodeDefaultSizePX } from '@/constants';
-import { CustomNodeType, ImageType } from '@/types';
+import { ImageType } from '@/types';
 
 export type CreateNodeParams = {
 	data: Pick<CustomNodeData, 'nodeType'> & {

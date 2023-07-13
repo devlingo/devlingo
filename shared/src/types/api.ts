@@ -4,7 +4,12 @@ import {
 	UserProjectPermission,
 	Version,
 } from '@prisma/client';
-import { CustomNodeData } from 'shared/types/nodes';
+import {
+	CustomEdgeData,
+	CustomEdgeType,
+	CustomNodeData,
+	CustomNodeType,
+} from 'shared/types/nodes';
 
 export type ProjectResponseData = Project & {
 	designs: Design[];
@@ -18,16 +23,17 @@ export interface NodeData {
 		x: number;
 		y: number;
 	};
-	type?: string;
+	type: 'CustomNode';
 }
 
 export interface EdgeData {
+	data: CustomEdgeData;
 	id: string;
 	source: string;
 	target: string;
 	sourceHandle?: string | null;
 	targetHandle?: string | null;
-	type?: string;
+	type: 'CustomEdge';
 }
 
 export interface ViewPortData {
@@ -37,8 +43,8 @@ export interface ViewPortData {
 }
 
 export interface DesignData {
-	nodes: NodeData[];
-	edges: EdgeData[];
+	nodes: CustomNodeType[];
+	edges: CustomEdgeType[];
 }
 
 export interface VersionData extends DesignData {

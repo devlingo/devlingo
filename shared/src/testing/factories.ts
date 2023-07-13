@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Design, Version, Project, User } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
-import { CustomNodeType } from '../../../frontend/src/types';
+import { CustomNodeType } from 'shared/types';
 import { EdgeType, ServiceType } from 'shared/constants';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({

@@ -12,11 +12,9 @@ import {
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
-import { CustomNodeData, ViewPortData } from 'shared/types';
+import { CustomNodeData, CustomNodeType, ViewPortData } from 'shared/types';
 import { create, GetState, SetState } from 'zustand';
 import { StateCreator } from 'zustand/vanilla';
-
-import { CustomNodeType } from '@/types';
 
 export interface FlowStore {
 	// reactflow internals

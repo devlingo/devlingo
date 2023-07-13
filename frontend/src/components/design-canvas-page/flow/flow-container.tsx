@@ -20,11 +20,9 @@ import { TimeUnit } from 'shared/constants';
 import { DesignResponseData } from 'shared/types';
 import { shallow } from 'zustand/shallow';
 
+import { ConnectionLine } from '@/components/design-canvas-page/flow/connection-line';
+import { CustomEdge } from '@/components/design-canvas-page/flow/custom-edge';
 import { CustomNode } from '@/components/design-canvas-page/flow/custom-node';
-import {
-	ConnectionLine,
-	HttpRestEdge,
-} from '@/components/design-canvas-page/flow/edges';
 import {
 	DEFAULT_FLOW_HEIGHT,
 	DEFAULT_FLOW_WIDTH,
@@ -58,7 +56,7 @@ const nodeTypes: Record<string, MemoExoticComponent<any>> = {
 };
 
 const edgeTypes: Record<string, MemoExoticComponent<any>> = {
-	HttpRestEdge: memo(HttpRestEdge),
+	CustomEdge: memo(CustomEdge),
 };
 
 export const calculateFlowHeight = (windowHeight: number): number => {
@@ -183,6 +181,7 @@ export function FlowContainer({
 				zoomOnScroll={false}
 				zoomOnDoubleClick={false}
 				zoomOnPinch={false}
+				elevateNodesOnSelect={true}
 			>
 				<Controls className="bg-accent focus:bg-accent-content border-black" />
 				<Background

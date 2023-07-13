@@ -1,5 +1,6 @@
 import type { ServiceType, SystemComponentType } from 'shared/constants';
-import { NodeShape } from 'shared/constants';
+import { EdgeType, NodeShape } from 'shared/constants';
+import type { Edge, Node } from 'reactflow';
 
 export type FormData = {
 	nodeName: string;
@@ -14,3 +15,10 @@ export interface CustomNodeData {
 	height: number;
 	width: number;
 }
+
+export interface CustomEdgeData {
+	edgeType: EdgeType;
+}
+
+export type CustomEdgeType = Edge<CustomEdgeData>;
+export type CustomNodeType = Node<CustomNodeData>;

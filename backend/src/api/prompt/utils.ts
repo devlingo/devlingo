@@ -1,5 +1,5 @@
 import { EdgeType, ServiceType, SystemComponentType } from 'shared/constants';
-import { DesignData, EdgeData } from 'shared/types';
+import { CustomEdgeType, DesignData } from 'shared/types';
 import { createNode } from 'shared/utils';
 
 import { PromptCommand } from '@/api/prompt/constants';
@@ -187,7 +187,7 @@ export function updateEdge([id, ...props]: string[], designData: DesignData) {
 	const edgeData = designData.edges[index];
 
 	for (let i = 0; i < props.length; i += 2) {
-		const key = props[i] as keyof EdgeData;
+		const key = props[i] as keyof CustomEdgeType;
 		Reflect.set(edgeData, key, props[i + 1]);
 	}
 }
