@@ -183,6 +183,6 @@ export function updateEdge([id, ...props]: string[], designData: DesignData) {
 
 	for (let i = 0; i < props.length; i += 2) {
 		const key = props[i] as keyof EdgeData;
-		edgeData[key] = props[i + 1];
+		Reflect.set(edgeData, key, props[i + 1]);
 	}
 }

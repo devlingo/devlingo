@@ -71,7 +71,7 @@ describe('Versions Controller Tests', () => {
 			);
 
 			prisma.design.findUniqueOrThrow.mockImplementationOnce((() => {
-				throw new Prisma.NotFoundError('No Design found');
+				throw new Prisma.NotFoundError('No Design found', '');
 			}) as any);
 
 			const response = await request
@@ -89,6 +89,7 @@ describe('Versions Controller Tests', () => {
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',
+						'',
 					);
 				},
 			);
@@ -125,7 +126,7 @@ describe('Versions Controller Tests', () => {
 		});
 		it('returns an informative error when no design version is found', async () => {
 			prisma.version.findUniqueOrThrow.mockImplementationOnce((() => {
-				throw new Prisma.NotFoundError('No Version found');
+				throw new Prisma.NotFoundError('No Version found', '');
 			}) as any);
 
 			const response = await request.get(
@@ -161,6 +162,7 @@ describe('Versions Controller Tests', () => {
 					() => {
 						throw new Prisma.NotFoundError(
 							'No UserProjectPermission found',
+							'',
 						);
 					},
 				);

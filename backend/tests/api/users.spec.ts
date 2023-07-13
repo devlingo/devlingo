@@ -48,7 +48,7 @@ describe('Users Controller Tests', () => {
 
 		it('returns an informative error when the user does not exist', async () => {
 			prisma.user.findUniqueOrThrow.mockImplementationOnce((() => {
-				throw new Prisma.NotFoundError('No User found');
+				throw new Prisma.NotFoundError('No User found', '');
 			}) as any);
 			const response = await request.get(`/users/${user.id}`);
 			expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
@@ -112,7 +112,7 @@ describe('Users Controller Tests', () => {
 			photoURL: 'https://example.com/avatar.png',
 		};
 		prisma.user.findUniqueOrThrow.mockImplementationOnce((() => {
-			throw new Prisma.NotFoundError('No User found');
+			throw new Prisma.NotFoundError('No User found', '');
 		}) as any);
 		mockFirebaseService.auth.getUser.mockResolvedValueOnce(
 			prismaUser as any,

@@ -67,6 +67,7 @@ describe('Designs Controller Tests', () => {
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',
+						'',
 					);
 				},
 			);
@@ -101,7 +102,7 @@ describe('Designs Controller Tests', () => {
 
 		it('returns an informative error when no design is found', async () => {
 			prisma.design.findMany.mockImplementationOnce((() => {
-				throw new Prisma.NotFoundError('No Designs found');
+				throw new Prisma.NotFoundError('No Designs found', '');
 			}) as any);
 
 			const response = await request.get(`/${project.id}/designs`);
@@ -151,7 +152,7 @@ describe('Designs Controller Tests', () => {
 
 		it('returns an informative error when no design is found', async () => {
 			prisma.design.findUniqueOrThrow.mockImplementationOnce((() => {
-				throw new Prisma.NotFoundError('No Design found');
+				throw new Prisma.NotFoundError('No Design found', '');
 			}) as any);
 
 			const response = await request.get(
@@ -189,6 +190,7 @@ describe('Designs Controller Tests', () => {
 					() => {
 						throw new Prisma.NotFoundError(
 							'No UserProjectPermission found',
+							'',
 						);
 					},
 				);
