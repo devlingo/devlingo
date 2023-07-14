@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { ConnectionMode } from 'reactflow';
-import { createNode } from 'shared/utils/node';
+import { createNode } from 'shared/utils/design';
 
 import { retrieveVersionById } from '@/api';
 import { ContextMenu } from '@/components/design-canvas-page/context-menu/context-menu';

@@ -23,12 +23,62 @@ export function NodeHandles({
 	nodeId,
 	className,
 	positions = Object.values(Position),
+	shape,
 	...props
 }: {
 	nodeId: string;
 	className?: string;
 	positions?: Position[];
+	shape: NodeShape;
 } & Omit<HandleProps, 'position' | 'type'>) {
+	if (shape === NodeShape.Triangle) {
+		return (
+			<>
+				<Handle
+					data-testid={`handle-${nodeId}-source-${Position.Top}`}
+					className={className}
+					id={Position.Top}
+					position={Position.Top}
+					type="source"
+					{...props}
+				/>
+
+				<Handle
+					data-testid={`handle-${nodeId}-source-${Position.Bottom}`}
+					className={className}
+					id={Position.Bottom}
+					position={Position.Bottom}
+					type="source"
+					{...props}
+				/>
+
+				<Handle
+					data-testid={`handle-${nodeId}-source-${Position.Left}`}
+					className={`self-start ${className}`}
+					id={Position.Left}
+					position={Position.Bottom}
+					type="source"
+					style={{
+						left: '0',
+					}}
+					{...props}
+				/>
+
+				<Handle
+					data-testid={`handle-${nodeId}-source-${Position.Right}`}
+					className={`self-start ${className}`}
+					id={Position.Right}
+					position={Position.Bottom}
+					type="source"
+					style={{
+						position: 'absolute',
+						left: '100%',
+					}}
+					{...props}
+				/>
+			</>
+		);
+	}
 	return (
 		<>
 			{positions.map((position, i) => (
@@ -127,11 +177,12 @@ export function CustomNode({
 	const baseFontSize = Math.abs(Dimensions.Rem * resizeFactor);
 
 	return (
-		<div
-			className="relative text-base-100"
-			data-testid={`node-${nodeId}`}
-			onContextMenu={onContextMenu}
-		>
+		<>
+			<NodeHandles
+				nodeId={nodeId}
+				className="bg-accent rounded z-20"
+				shape={shape}
+			/>
 			<NodeResizer
 				onResize={(_, params) => {
 					updateNode(nodeId, {
@@ -144,58 +195,61 @@ export function CustomNode({
 				keepAspectRatio={true}
 				isVisible={selected}
 			/>
-			<NodeHandles
-				nodeId={nodeId}
-				className="bg-accent rounded opacity-0"
-			/>
-			<Shape
-				width={width}
-				height={height}
-				strokeWidth={selected ? 2 : 1}
-				stroke={themeContext.themeColors?.primaryContent ?? '#fff'}
-			/>
 			<div
-				className={`flex flex-col items-center absolute h-full w-full left-0 top-0 text-primary-content ${
-					shape === NodeShape.Triangle
-						? 'justify-end pb-3'
-						: 'justify-center'
-				}`}
-				ref={contentRef}
+				className="relative text-base-100"
+				data-testid={`node-${nodeId}`}
+				onContextMenu={onContextMenu}
 			>
-				<div>
-					<div
-						id={`${nodeId}-node-content`}
-						className="flex justify-center items-end gap-3"
-					>
-						<figure>
-							<SVG
-								height={baseFontSize * 2}
-								width={baseFontSize * 2}
-								data-testid={`svg-${nodeId}`}
-								className="z-10"
-								{...props}
-							/>
-						</figure>
-						<p
-							className="text-primary-content"
-							style={{ fontSize: baseFontSize * 0.75 }}
-							data-testid={`type-tag-${nodeId}`}
+				<Shape
+					width={width}
+					height={height}
+					strokeWidth={selected ? 2 : 1}
+					stroke={themeContext.themeColors?.primaryContent ?? '#fff'}
+					id={`${nodeId}-${shape}`}
+				/>
+				<div
+					className={`flex flex-col items-center absolute h-full w-full left-0 top-0 text-primary-content ${
+						shape === NodeShape.Triangle
+							? 'justify-end pb-3'
+							: 'justify-center'
+					}`}
+					ref={contentRef}
+				>
+					<div>
+						<div
+							id={`${nodeId}-node-content`}
+							className="flex justify-center items-end gap-3"
 						>
-							{t(TypeTagMap[nodeType])}
-						</p>
+							<figure>
+								<SVG
+									height={baseFontSize * 2}
+									width={baseFontSize * 2}
+									data-testid={`svg-${nodeId}`}
+									className="z-10"
+									{...props}
+								/>
+							</figure>
+							<p
+								className="text-primary-content"
+								style={{ fontSize: baseFontSize * 0.75 }}
+								data-testid={`type-tag-${nodeId}`}
+							>
+								{t(TypeTagMap[nodeType])}
+							</p>
+						</div>
+						<div className="divider mt-0 mb-0" />
 					</div>
-					<div className="divider mt-0 mb-0" />
-				</div>
-				<div>
-					<h2
-						className="text-primary-content"
-						style={{ fontSize: baseFontSize * 1.25 }}
-						data-testid={`node-name-${nodeId}`}
-					>
-						{formData.nodeName}
-					</h2>
+					<div>
+						<h2
+							className="text-primary-content"
+							style={{ fontSize: baseFontSize * 1.25 }}
+							data-testid={`node-name-${nodeId}`}
+						>
+							{formData.nodeName}
+						</h2>
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }

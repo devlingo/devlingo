@@ -2,43 +2,8 @@ import { getRectOfNodes, getTransformForBounds } from '@reactflow/core';
 import { toJpeg, toPng, toSvg } from 'html-to-image';
 import { Options as HtmlToImageOptions } from 'html-to-image/lib/types';
 import { Node } from 'reactflow';
-import { NodeShape } from 'shared/constants';
-import { CustomNodeData, CustomNodeType } from 'shared/types';
-import { v4 as uuidv4 } from 'uuid';
-
-import { Dimensions, NodeDefaultSizePX } from '@/constants';
+import { Dimensions } from '@/constants';
 import { ImageType } from '@/types';
-
-export type CreateNodeParams = {
-	data: Pick<CustomNodeData, 'nodeType'> & {
-		formData?: Record<string, any>;
-		shape?: NodeShape;
-		height?: number;
-		width?: number;
-	};
-	position: { x: number; y: number };
-} & Omit<Partial<Node<CustomNodeData>>, 'data' | 'type' | 'className'>;
-
-export function createNode({
-	id,
-	data: { shape = NodeShape.Rectangle, formData, nodeType },
-	position,
-	...props
-}: Omit<CreateNodeParams, 'height' | 'width'>): CustomNodeType {
-	return {
-		...props,
-		data: {
-			height: NodeDefaultSizePX,
-			width: NodeDefaultSizePX,
-			shape,
-			nodeType,
-			formData: formData ?? { nodeName: 'Untitled' },
-		},
-		id: id ?? uuidv4(),
-		position,
-		type: 'CustomNode',
-	} as CustomNodeType;
-}
 
 const imageWidth = 1024;
 const imageHeight = 768;

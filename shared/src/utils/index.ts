@@ -1,2 +1,2 @@
-export * from './node';
+export * from './design';
 export * from './predicates';

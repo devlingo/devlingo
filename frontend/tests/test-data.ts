@@ -1,6 +1,6 @@
 import { Position } from '@reactflow/core';
 import { ServiceType } from 'shared/constants';
-import { createNode } from 'shared/utils/node';
+import { createNode } from 'shared/utils/design';
 import { v4 as uuidv4 } from 'uuid';
 
 const nestService = createNode({
