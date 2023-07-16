@@ -226,6 +226,7 @@ describe('Projects Controller Tests', () => {
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',
+						'',
 					);
 				},
 			);
@@ -266,6 +267,7 @@ describe('Projects Controller Tests', () => {
 					() => {
 						throw new Prisma.NotFoundError(
 							'No UserProjectPermission found',
+							'',
 						);
 					},
 				);
@@ -301,6 +303,7 @@ describe('Projects Controller Tests', () => {
 				() => {
 					throw new Prisma.NotFoundError(
 						'No UserProjectPermission found',
+						'',
 					);
 				},
 			);
