@@ -10,11 +10,11 @@ const lightThemes = [
 ];
 
 const darkThemes = [
+	'dracula',
 	'black',
 	'business',
 	'coffee',
 	'dark',
-	'dracula',
 	'halloween',
 	'luxury',
 	'synthwave',
@@ -33,7 +33,8 @@ module.exports = {
 	],
 	daisyui: {
 		logs: false,
-		themes: [...lightThemes, ...darkThemes],
+		themes: [...darkThemes, ...lightThemes],
+		darkTheme: 'dracula',
 	},
 	safelist: ['h-[calc(100vh-64px)]'],
 };
