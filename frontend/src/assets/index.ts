@@ -2,6 +2,7 @@
 import { ServiceType, SystemComponentType } from 'shared/constants';
 import { NodeType } from 'shared/types';
 
+import LogoTransparent from '@/assets/brand/logo_no_background.svg';
 import API from '@/assets/menu-icons/api.svg';
 import Backend from '@/assets/menu-icons/backend.svg';
 import Cloud from '@/assets/menu-icons/cloud.svg';
@@ -12,15 +13,15 @@ import OpenAi from '@/assets/services-types/api-services/ai/openai.svg';
 import MailGun from '@/assets/services-types/api-services/marketing/mailgun.svg';
 import SendGrid from '@/assets/services-types/api-services/marketing/sendgrid.svg';
 import Stripe from '@/assets/services-types/api-services/payment/stripe.svg';
-import ExpressJS from '@/assets/services-types/backend-frameworks/js/expressjs.svg';
-import Fastify from '@/assets/services-types/backend-frameworks/js/fastifyjs.svg';
-import HapiJS from '@/assets/services-types/backend-frameworks/js/hapijs.svg';
-import KoaJS from '@/assets/services-types/backend-frameworks/js/koajs.svg';
-import NestJS from '@/assets/services-types/backend-frameworks/js/nestjs.svg';
-import Django from '@/assets/services-types/backend-frameworks/python/django.svg';
-import FastAPI from '@/assets/services-types/backend-frameworks/python/fastapi.svg';
-import Flask from '@/assets/services-types/backend-frameworks/python/flask.svg';
-import Litestar from '@/assets/services-types/backend-frameworks/python/litestar.svg';
+import ExpressJS from '@/assets/services-types/backend/js/expressjs.svg';
+import Fastify from '@/assets/services-types/backend/js/fastifyjs.svg';
+import HapiJS from '@/assets/services-types/backend/js/hapijs.svg';
+import KoaJS from '@/assets/services-types/backend/js/koajs.svg';
+import NestJS from '@/assets/services-types/backend/js/nestjs.svg';
+import Django from '@/assets/services-types/backend/python/django.svg';
+import FastAPI from '@/assets/services-types/backend/python/fastapi.svg';
+import Flask from '@/assets/services-types/backend/python/flask.svg';
+import Litestar from '@/assets/services-types/backend/python/litestar.svg';
 import Cassandra from '@/assets/services-types/databases/no-sql/cassandra.svg';
 import CosmosDB from '@/assets/services-types/databases/no-sql/cosmosdb.svg';
 import DynamoDB from '@/assets/services-types/databases/no-sql/dynamodb.svg';
@@ -35,16 +36,16 @@ import Oracle from '@/assets/services-types/databases/sql/oracle.svg';
 import PostgresSQL from '@/assets/services-types/databases/sql/postgresql.svg';
 import MicrosoftSQL from '@/assets/services-types/databases/sql/sql-server.svg';
 import SQLite from '@/assets/services-types/databases/sql/sqlite.svg';
-import Angular from '@/assets/services-types/frontend-frameworks/js/angular.svg';
-import NextJS from '@/assets/services-types/frontend-frameworks/js/nextjs.svg';
-import ReactLogo from '@/assets/services-types/frontend-frameworks/js/react.svg';
-import Solid from '@/assets/services-types/frontend-frameworks/js/solid.svg';
-import Svelte from '@/assets/services-types/frontend-frameworks/js/svelte.svg';
-import Vue from '@/assets/services-types/frontend-frameworks/js/vue.svg';
-import Android from '@/assets/services-types/mobile-frameworks/android.svg';
-import Flutter from '@/assets/services-types/mobile-frameworks/flutter.svg';
-import Ios from '@/assets/services-types/mobile-frameworks/ios.svg';
-import ReactNative from '@/assets/services-types/mobile-frameworks/reactnative.svg';
+import Android from '@/assets/services-types/frontend/mobile/android.svg';
+import Flutter from '@/assets/services-types/frontend/mobile/flutter.svg';
+import Ios from '@/assets/services-types/frontend/mobile/ios.svg';
+import ReactNative from '@/assets/services-types/frontend/mobile/reactnative.svg';
+import Angular from '@/assets/services-types/frontend/web/angular.svg';
+import NextJS from '@/assets/services-types/frontend/web/nextjs.svg';
+import ReactLogo from '@/assets/services-types/frontend/web/react.svg';
+import Solid from '@/assets/services-types/frontend/web/solid.svg';
+import Svelte from '@/assets/services-types/frontend/web/svelte.svg';
+import Vue from '@/assets/services-types/frontend/web/vue.svg';
 import Controller from '@/assets/system-component-types/controller.svg';
 import Endpoint from '@/assets/system-component-types/endpoint.svg';
 import Module from '@/assets/system-component-types/module.svg';
@@ -73,6 +74,7 @@ export {
 	Hbase,
 	Ios,
 	Litestar,
+	LogoTransparent,
 	MailGun,
 	MariaDB,
 	Marketing,
@@ -124,7 +126,7 @@ export const TypeSVGMap: Record<
 	[ServiceType.Solid]: { SVG: Solid },
 	[ServiceType.Svelte]: { SVG: Svelte },
 	[ServiceType.Vue]: { SVG: Vue },
-	//front mobile
+	//front frontend/mobile
 	[ServiceType.ReactNative]: { SVG: ReactNative },
 	[ServiceType.Flutter]: { SVG: Flutter },
 	[ServiceType.IOS]: { SVG: Ios },
