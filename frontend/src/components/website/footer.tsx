@@ -7,7 +7,7 @@ export function Footer() {
 	const { t } = useTranslation(['website']);
 
 	return (
-		<footer className="footer py-10 pl-12 md:pl-24 lg:pl-48 bg-base-300 text-base-content">
+		<footer className="footer py-10 pl-12 md:pl-24 lg:pl-48 bg-base-200 border-t-neutral border-t-2 shadow text-base-content">
 			<a
 				className="btn btn-ghost btn-circle btn-lg"
 				href={Navigation.Base}

@@ -42,7 +42,7 @@ export function Navbar() {
 			<div className="navbar-center"></div>
 			<div className="navbar-end mx-2">
 				<button
-					className="btn btn-outline btn-secondary mt-3 p-4"
+					className="btn btn-outline btn-primary mt-3 p-4"
 					onClick={handleCtaClick}
 				>
 					{isUserSignedIn
