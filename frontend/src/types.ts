@@ -38,3 +38,7 @@ export interface ThemeColors {
 	error: string;
 	errorContent: string;
 }
+export interface LegalSection {
+	title: string;
+	content: string;
+}

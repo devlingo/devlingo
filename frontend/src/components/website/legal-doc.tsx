@@ -8,19 +8,23 @@ export function LegalDoc({
 	sections: { title: string; content: string }[];
 }) {
 	return (
-		<div className="bg-base-100 w-2/3">
+		<div className="px-12 md:px-24 lg:px-48 py-10 2xl:w-5/6">
 			<h1 className="text-3xl text-base-content">{title}</h1>
-			<p className="text-base-content ml-1 mb-4">{lastUpdated}</p>
-			{sections.map((section, index) => (
-				<div key={index}>
-					<h2 className="text-md text-base-content">
-						{section.title}
-					</h2>
-					<p className="text-base-content/80 text-sm mb-2">
-						{section.content}
-					</p>
-				</div>
-			))}
+			<p className="text-base-content/60 ml-1 mb-8">{lastUpdated}</p>
+			{sections.length > 0 &&
+				sections.map((section, index) => (
+					<div
+						key={section.title + index.toString()}
+						className="ml-2"
+					>
+						<h2 className="text-md text-base-content/90">
+							{section.title}
+						</h2>
+						<p className="text-base-content/70 text-sm mb-4">
+							{section.content}
+						</p>
+					</div>
+				))}
 		</div>
 	);
 }
