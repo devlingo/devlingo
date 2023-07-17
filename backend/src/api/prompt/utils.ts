@@ -45,7 +45,7 @@ export function parsePromptResponseIntoCommands(
 	promptResponse: string,
 ): [command: PromptCommand, parameters: string[]][] {
 	let words = promptResponse
-		.replace(/\n/g, ' ')
+		.replaceAll('\n', ' ')
 		.split(' ')
 		.map((word) => word.trim())
 		.filter(Boolean);
@@ -100,8 +100,8 @@ export function addNode(
 			},
 		},
 		position: {
-			x: parseInt(xPos),
-			y: parseInt(yPos),
+			x: Number.parseInt(xPos),
+			y: Number.parseInt(yPos),
 		},
 	});
 
@@ -131,22 +131,27 @@ export function updateNode([id, ...props]: string[], designData: DesignData) {
 		const key = props[i] as keyof FlatNode;
 		const value = props[i + 1];
 		switch (key) {
-			case 'xPos':
-				nodeData.position.x = parseInt(value);
+			case 'xPos': {
+				nodeData.position.x = Number.parseInt(value);
 				break;
-			case 'yPos':
-				nodeData.position.y = parseInt(value);
+			}
+			case 'yPos': {
+				nodeData.position.y = Number.parseInt(value);
 				break;
-			case 'nodeType':
+			}
+			case 'nodeType': {
 				nodeData.data.nodeType = value as
 					| ServiceType
 					| SystemComponentType;
 				break;
-			case 'nodeName':
+			}
+			case 'nodeName': {
 				nodeData.data.formData.nodeName = value;
 				break;
-			default:
+			}
+			default: {
 				throw new Error(`Invalid node property: ${key}`);
+			}
 		}
 	}
 }

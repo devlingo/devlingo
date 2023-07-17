@@ -108,6 +108,7 @@ describe('projects API tests', () => {
 				json: () => Promise.resolve(),
 			});
 
+			// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
 			const data = await deleteProject({ projectId: project.id });
 
 			expect(data).toBeUndefined();

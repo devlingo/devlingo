@@ -65,8 +65,8 @@ export class PromptService {
 		});
 		try {
 			return await this.model.call(prompt);
-		} catch (e) {
-			this.logger.error('communication error with OpenAPI %o', e);
+		} catch (error) {
+			this.logger.error('communication error with OpenAPI %o', error);
 			throw new HttpException(
 				'error communicating with OpenAPI',
 				HttpStatus.INTERNAL_SERVER_ERROR,
@@ -93,7 +93,7 @@ export class PromptService {
 			},
 		});
 		const { nodes, edges } = (
-			versions.length && versions[0].data
+			versions.length > 0 && versions[0].data
 				? typeof versions[0].data === 'string'
 					? JSON.parse(versions[0].data)
 					: versions[0].data

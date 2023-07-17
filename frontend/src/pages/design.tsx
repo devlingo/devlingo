@@ -66,7 +66,7 @@ export default function DesignCanvasPage() {
 			void router.push(Navigation.Base);
 			return;
 		}
-		if (currentDesign.versions.length) {
+		if (currentDesign.versions.length > 0) {
 			(async () => {
 				try {
 					setIsLoading(true);

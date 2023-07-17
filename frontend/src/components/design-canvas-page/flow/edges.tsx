@@ -48,7 +48,9 @@ export function HttpRestEdge({
 				>
 					<button
 						className="w-fit h-10 p-2 bg-accent text-accent-content cursor-pointer border rounded hover:shadow hover:bg-base-content hover:text-accent-content"
-						onClick={(event) => onEdgeClick(event, id)}
+						onClick={(event) => {
+							onEdgeClick(event, id);
+						}}
 					>
 						HTTP GET
 					</button>

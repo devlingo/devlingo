@@ -53,8 +53,8 @@ describe('PromptModal tests', () => {
 		fireEvent.change(textarea, { target: { value: 'test prompt' } });
 		const submitButton = screen.getByTestId('prompt-modal-submit-button');
 		fireEvent.click(submitButton);
-		await waitFor(() =>
-			expect(handlePromptSubmit).toHaveBeenCalledWith('test prompt'),
-		);
+		await waitFor(() => {
+			expect(handlePromptSubmit).toHaveBeenCalledWith('test prompt');
+		});
 	});
 });

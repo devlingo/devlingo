@@ -153,7 +153,7 @@ describe('useSaveDesign tests', () => {
 		);
 
 		act(() => {
-			result.current.setLastChangeTimestamp(new Date().getTime());
+			result.current.setLastChangeTimestamp(Date.now());
 			result.current.isSaving = true;
 		});
 

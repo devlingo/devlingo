@@ -59,8 +59,8 @@ export function useSaveDesign({
 							designId: currentDesign.id,
 							data,
 						});
-					} catch (e: unknown) {
-						setError(e as Error);
+					} catch (error_: unknown) {
+						setError(error_ as Error);
 					} finally {
 						// we artificially insert a delay here to ensure there is a nice looking animation for the loader
 						const timePassed = Date.now() - startTime;

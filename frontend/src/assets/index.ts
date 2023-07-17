@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable unicorn/prefer-export-from */
 import { ServiceType, SystemComponentType } from 'shared/constants';
 import { NodeType } from 'shared/types';
 

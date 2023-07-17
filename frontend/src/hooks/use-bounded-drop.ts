@@ -20,10 +20,9 @@ export function useBoundedDrop(): [
 					const { left, top } = ref.current.getBoundingClientRect();
 					return {
 						...item,
-						...{
-							x: offset.x - left,
-							y: offset.y - top,
-						},
+
+						x: offset.x - left,
+						y: offset.y - top,
 					};
 				}
 				return null;

@@ -27,11 +27,11 @@ export function CreateOrUpdateProjectModal({
 		try {
 			if (project) {
 				const updatedProject = await updateProject({
-					name: name !== project.name ? name : undefined,
+					name: name === project.name ? undefined : name,
 					description:
-						description !== project.description
-							? description
-							: undefined,
+						description === project.description
+							? undefined
+							: description,
 					projectId: project.id,
 				});
 				setProjects(
@@ -103,7 +103,7 @@ export function CreateOrUpdateProjectModal({
 							className="btn btn-primary"
 							data-testid="create-or-update-project-modal-submit-button"
 							disabled={
-								!name.length ||
+								name.length === 0 ||
 								(project?.name === name &&
 									project.description === description) ||
 								isSubmitting

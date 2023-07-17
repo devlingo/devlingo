@@ -11,6 +11,7 @@ import { AppModule } from './app';
 import { PrismaExceptionFilter } from './exception-filters/prisma-exception';
 import { setupValidationPipe } from './utils/configuration';
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 (async () => {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 		bufferLogs: true,

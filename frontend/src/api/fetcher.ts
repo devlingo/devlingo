@@ -45,9 +45,9 @@ export async function fetcher<T>({
 
 	const response = await fetch(path, request);
 	const body =
-		response.status !== 204
-			? ((await response.json()) as Record<string, any>)
-			: {};
+		response.status === 204
+			? {}
+			: ((await response.json()) as Record<string, any>);
 
 	if (!response.ok) {
 		throw new ApiError(

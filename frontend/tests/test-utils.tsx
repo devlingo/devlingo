@@ -1,6 +1,5 @@
 import { ReactFlowProvider } from '@reactflow/core';
 import {
-	act,
 	render,
 	renderHook,
 	RenderHookOptions,
@@ -86,8 +85,9 @@ const customRenderHook = (
 export * from '@testing-library/dom';
 
 export {
-	act,
 	customRender as render,
 	customRenderHook as renderHook,
 	renderWithFlowProvider,
 };
+
+export { act } from '@testing-library/react';

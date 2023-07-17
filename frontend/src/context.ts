@@ -8,6 +8,7 @@ export const ThemeContext = createContext<{
 	themeColors?: ThemeColors;
 }>({
 	currentTheme: 'dracula',
-	setTheme: () => undefined,
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	setTheme: () => {},
 	themeColors: undefined,
 });

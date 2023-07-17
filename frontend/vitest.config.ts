@@ -1,5 +1,6 @@
+import { resolve } from 'node:path';
+
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 import magicalSvg from 'vite-plugin-magical-svg';
 import { defineConfig } from 'vitest/config';
 

@@ -37,16 +37,15 @@ export default function Index() {
 			// noinspection JSUnusedGlobalSymbols
 			ui.start('#firebaseui-auth-container', {
 				...firebaseUIConfig,
-				...{
-					callbacks: {
-						uiShown: () => {
-							setIsUIRendered(true);
-						},
-						signInSuccessWithAuthResult: () => {
-							// prevent the UI from redirecting the user using a preconfigured redirect-url
-							setIsSignedIn(true);
-							return false;
-						},
+
+				callbacks: {
+					uiShown: () => {
+						setIsUIRendered(true);
+					},
+					signInSuccessWithAuthResult: () => {
+						// prevent the UI from redirecting the user using a preconfigured redirect-url
+						setIsSignedIn(true);
+						return false;
 					},
 				},
 			});

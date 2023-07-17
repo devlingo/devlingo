@@ -80,15 +80,15 @@ export function useNodeResize({
 }) {
 	const [minWidth, setMinWidth] = useState(0);
 	const [minHeight, setMinHeight] = useState(0);
-	const [resizeFactor, setResizeFactor] = useState(1.0);
+	const [resizeFactor, setResizeFactor] = useState(1);
 
 	const contentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (contentRef.current) {
-			const result = calculateMinimalContentDimensions(
-				Array.from(contentRef.current.childNodes) as HTMLElement[],
-			);
+			const result = calculateMinimalContentDimensions([
+				...contentRef.current.childNodes,
+			] as HTMLElement[]);
 			setMinWidth(result.minWidth);
 			setMinHeight(result.minHeight);
 		}

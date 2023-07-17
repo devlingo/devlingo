@@ -84,9 +84,7 @@ export function AppWrapper({
 	dndBackend: BackendFactory;
 }) {
 	const [theme, setTheme] = useState(DEFAULT_THEME);
-	const [themeColors, setThemeColors] = useState<ThemeColors | undefined>(
-		undefined,
-	);
+	const [themeColors, setThemeColors] = useState<ThemeColors | undefined>();
 	const [materialTheme, setMaterialTheme] = useState(darkMaterialTheme);
 
 	const handleThemeChange = (themeName: string) => {

@@ -10,7 +10,7 @@ import { validateEnv } from '@/utils/env';
 const DEFAULT_MODULES = [
 	PrismaModule,
 	ConfigModule.forRoot({
-		validate: !isTest() ? validateEnv : undefined,
+		validate: isTest() ? undefined : validateEnv,
 		isGlobal: true,
 		ignoreEnvFile: true,
 		cache: true,
@@ -45,4 +45,6 @@ if (!isTest()) {
 	);
 }
 
-export { DEFAULT_MODULES, PrismaModule };
+export { DEFAULT_MODULES };
+
+export { PrismaModule } from '@/modules/prisma/module';

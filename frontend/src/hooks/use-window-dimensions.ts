@@ -15,7 +15,9 @@ export function useWindowsDimensions(): [height: number, width: number] {
 		window.addEventListener('resize', updateDimensions);
 		updateDimensions();
 
-		return () => window.removeEventListener('resize', updateDimensions);
+		return () => {
+			window.removeEventListener('resize', updateDimensions);
+		};
 	}, []);
 
 	return [height, width];

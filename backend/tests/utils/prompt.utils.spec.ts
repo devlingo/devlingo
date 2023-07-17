@@ -181,9 +181,9 @@ describe('Prompt Util Tests', () => {
 			const designData = { nodes: [], edges: [] };
 			const input = ['1', 'invalid', 'node1', '10', '20'];
 
-			expect(() => addNode(input, designData)).toThrow(
-				'Invalid node type: invalid',
-			);
+			expect(() => {
+				addNode(input, designData);
+			}).toThrow('Invalid node type: invalid');
 		});
 	});
 
@@ -216,9 +216,9 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error when node index is not found', () => {
-			expect(() => removeNode(['abc'], designData)).toThrowError(
-				'Node with id abc not found',
-			);
+			expect(() => {
+				removeNode(['abc'], designData);
+			}).toThrowError('Node with id abc not found');
 		});
 	});
 
@@ -254,12 +254,12 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error when node index is not found', () => {
-			expect(() =>
+			expect(() => {
 				updateNode(
 					['abc', 'data', 'formData', 'nodeName', 'Node 2'],
 					designData,
-				),
-			).toThrow('Node with id abc not found');
+				);
+			}).toThrow('Node with id abc not found');
 		});
 	});
 
@@ -289,9 +289,9 @@ describe('Prompt Util Tests', () => {
 		it('throws an error on invalid edgeType', () => {
 			const designData = { nodes: [], edges: [] };
 			const edge = ['1', 'source', 'target', 'invalid_type'];
-			expect(() => addEdge(edge, designData)).toThrow(
-				'Invalid edge type: invalid_type',
-			);
+			expect(() => {
+				addEdge(edge, designData);
+			}).toThrow('Invalid edge type: invalid_type');
 		});
 	});
 
@@ -307,9 +307,9 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error when edge index is not found', () => {
-			expect(() => removeEdge(['abc'], designData)).toThrow(
-				`Edge with id abc not found`,
-			);
+			expect(() => {
+				removeEdge(['abc'], designData);
+			}).toThrow(`Edge with id abc not found`);
 		});
 	});
 
@@ -331,9 +331,9 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error when edge index is not found', () => {
-			expect(() =>
-				updateEdge(['2', 'type', EdgeType.StraightEdge], designData),
-			).toThrowError('Edge with id 2 not found');
+			expect(() => {
+				updateEdge(['2', 'type', EdgeType.StraightEdge], designData);
+			}).toThrowError('Edge with id 2 not found');
 		});
 	});
 });

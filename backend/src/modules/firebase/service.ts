@@ -63,14 +63,14 @@ export class FirebaseService implements OnModuleInit {
 
 		const token = authHeader.replace('Bearer ', '');
 
-		if (!token.length) {
+		if (token.length === 0) {
 			throw new Error('missing token');
 		}
 
 		try {
 			return await this.auth.verifyIdToken(token);
-		} catch (e) {
-			this.logger.error('invalid auth token %o', e);
+		} catch (error) {
+			this.logger.error('invalid auth token %o', error);
 			throw new Error('invalid token');
 		}
 	}

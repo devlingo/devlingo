@@ -23,11 +23,10 @@ describe('CreateOrUpdateProjectModal tests', () => {
 		mockFetch.mockImplementationOnce((_, { body }: { body: string }) => ({
 			ok: true,
 			status: 201,
-			json: async () =>
-				Promise.resolve({
-					...project,
-					...JSON.parse(body),
-				}),
+			json: async () => ({
+				...project,
+				...JSON.parse(body),
+			}),
 		}));
 
 		render(
@@ -52,15 +51,15 @@ describe('CreateOrUpdateProjectModal tests', () => {
 			target: { value: 'New Project Description' },
 		});
 		fireEvent.click(submitButton);
-		await waitFor(() =>
+		await waitFor(() => {
 			expect(mockSetProjects).toHaveBeenCalledWith([
 				{
 					...project,
 					name: 'New Project',
 					description: 'New Project Description',
 				},
-			]),
-		);
+			]);
+		});
 		expect(closeModal).toHaveBeenCalled();
 	});
 
@@ -71,11 +70,10 @@ describe('CreateOrUpdateProjectModal tests', () => {
 		mockFetch.mockImplementationOnce((_, { body }: { body: string }) => ({
 			ok: true,
 			status: 200,
-			json: async () =>
-				Promise.resolve({
-					...projects[0],
-					...JSON.parse(body),
-				}),
+			json: async () => ({
+				...projects[0],
+				...JSON.parse(body),
+			}),
 		}));
 
 		render(
@@ -100,15 +98,15 @@ describe('CreateOrUpdateProjectModal tests', () => {
 			target: { value: 'Updated Project Description' },
 		});
 		fireEvent.click(submitButton);
-		await waitFor(() =>
+		await waitFor(() => {
 			expect(mockSetProjects).toHaveBeenCalledWith([
 				{
 					...projects[0],
 					name: 'Updated Project',
 					description: 'Updated Project Description',
 				},
-			]),
-		);
+			]);
+		});
 		expect(closeModal).toHaveBeenCalled();
 	});
 
@@ -126,7 +124,9 @@ describe('CreateOrUpdateProjectModal tests', () => {
 			'create-or-update-project-modal-cancel-button',
 		);
 		fireEvent.click(cancelButton);
-		await waitFor(() => expect(setProjects).not.toHaveBeenCalled());
+		await waitFor(() => {
+			expect(setProjects).not.toHaveBeenCalled();
+		});
 		expect(closeModal).toHaveBeenCalled();
 	});
 });

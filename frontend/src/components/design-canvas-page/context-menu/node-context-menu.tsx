@@ -41,9 +41,9 @@ export function NodeShapeDropdown({
 						<div key={i} className="tooltip" data-tip={t(shape)}>
 							<li
 								data-testid={`${shape}-dropdown-component`}
-								onClick={() =>
-									onClickHandler(shape as NodeShape)
-								}
+								onClick={() => {
+									onClickHandler(shape as NodeShape);
+								}}
 								className="text-primary-content p-2"
 							>
 								<Component
@@ -85,10 +85,9 @@ export function NodeContextMenu() {
 				<button
 					data-testid="custom-node-context-menu::shape-menu-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start items-center"
-					onClick={handleChange(
-						() => setIsShapeDropdownOpen(!isShapeDropdownOpen),
-						true,
-					)}
+					onClick={handleChange(() => {
+						setIsShapeDropdownOpen(!isShapeDropdownOpen);
+					}, true)}
 				>
 					<span className="flex gap-2 items-center">
 						<ArrowPathIcon className="h-4" />

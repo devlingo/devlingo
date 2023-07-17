@@ -17,7 +17,7 @@ const env = {
 	NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: 'devlingo-demo.firebaseapp.com',
 	NEXT_PUBLIC_FIREBASE_PROJECT_ID: 'devlingo-demo',
 	NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: 'devlingo-demo.appspot.com',
-	NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID: 12345678910,
+	NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID: 12_345_678_910,
 	NEXT_PUBLIC_FIREBASE_APP_ID: uuidv4(),
 	NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: uuidv4(),
 	NEXT_PUBLIC_FIREBASE_MICROSOFT_TENANT_ID: uuidv4(),
@@ -90,8 +90,8 @@ global.ResizeObserver = ResizeObserver;
 class DOMMatrixReadOnly {
 	m22: number;
 	constructor(transform: string) {
-		const scale = transform.match(/scale\(([1-9.])\)/)?.[1];
-		this.m22 = scale !== undefined ? +scale : 1;
+		const scale = transform.match(/scale\(([.1-9])\)/)?.[1];
+		this.m22 = scale === undefined ? 1 : +scale;
 	}
 }
 
@@ -101,12 +101,12 @@ global.DOMMatrixReadOnly = DOMMatrixReadOnly;
 Object.defineProperties(global.HTMLElement.prototype, {
 	offsetHeight: {
 		get() {
-			return parseFloat(this.style.height) || 1;
+			return Number.parseFloat(this.style.height) || 1;
 		},
 	},
 	offsetWidth: {
 		get() {
-			return parseFloat(this.style.width) || 1;
+			return Number.parseFloat(this.style.width) || 1;
 		},
 	},
 });

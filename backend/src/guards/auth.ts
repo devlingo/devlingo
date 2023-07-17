@@ -21,8 +21,8 @@ export class AuthGuard implements CanActivate {
 			);
 			Reflect.set(request, 'firebaseId', uid);
 			return true;
-		} catch (e: unknown) {
-			throw new UnauthorizedException((e as Error).message);
+		} catch (error: unknown) {
+			throw new UnauthorizedException((error as Error).message);
 		}
 	}
 }

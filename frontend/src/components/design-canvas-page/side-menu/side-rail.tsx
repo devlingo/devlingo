@@ -228,7 +228,9 @@ export function RailBaseMenu({
 										? 'opacity-100'
 										: 'opacity-60'
 								}`}
-								onMouseEnter={() => handleItemHover(i)}
+								onMouseEnter={() => {
+									handleItemHover(i);
+								}}
 							>
 								<item.icon className="h-6 w-6 text-base-content" />
 							</figure>
