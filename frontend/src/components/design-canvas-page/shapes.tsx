@@ -108,7 +108,13 @@ export const ShapeComponents: Record<
 		</svg>
 	),
 	[NodeShape.Triangle]: ({ width, height, ...props }) => (
-		<svg height={height} width={width} fill="currentColor" {...props}>
+		<svg
+			viewBox={`0 0 ${height} ${width}`}
+			height={height}
+			width={width}
+			fill="currentColor"
+			{...props}
+		>
 			<path d={`M0,${height} L${width / 2},0 L${width},${height} z`} />
 		</svg>
 	),

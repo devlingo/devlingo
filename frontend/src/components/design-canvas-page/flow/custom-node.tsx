@@ -22,78 +22,47 @@ import { useUpdateNode } from '@/stores/design-store';
 export function NodeHandles({
 	nodeId,
 	className,
-	positions = Object.values(Position),
 	shape,
+	width,
+	height,
 	...props
 }: {
 	nodeId: string;
 	className?: string;
-	positions?: Position[];
 	shape: NodeShape;
+	width: number;
+	height: number;
 } & Omit<HandleProps, 'position' | 'type'>) {
-	if (shape === NodeShape.Triangle) {
+	const positions = Object.values(Position).map((position, i) => {
+		const style: Record<string, any> = {};
+		if (shape === NodeShape.Triangle) {
+			if (position === Position.Left) {
+				style.left = width * 0.23;
+			} else if (position === Position.Right) {
+				style.right = width * 0.23;
+			}
+		} else if (shape === NodeShape.Ellipse) {
+			if (position === Position.Top) {
+				style.top = height * 0.15;
+			} else if (position === Position.Bottom) {
+				style.bottom = height * 0.15;
+			}
+		}
 		return (
-			<>
-				<Handle
-					data-testid={`handle-${nodeId}-source-${Position.Top}`}
-					className={className}
-					id={Position.Top}
-					position={Position.Top}
-					type="source"
-					{...props}
-				/>
-
-				<Handle
-					data-testid={`handle-${nodeId}-source-${Position.Bottom}`}
-					className={className}
-					id={Position.Bottom}
-					position={Position.Bottom}
-					type="source"
-					{...props}
-				/>
-
-				<Handle
-					data-testid={`handle-${nodeId}-source-${Position.Left}`}
-					className={`self-start ${className}`}
-					id={Position.Left}
-					position={Position.Bottom}
-					type="source"
-					style={{
-						left: '0',
-					}}
-					{...props}
-				/>
-
-				<Handle
-					data-testid={`handle-${nodeId}-source-${Position.Right}`}
-					className={`self-start ${className}`}
-					id={Position.Right}
-					position={Position.Bottom}
-					type="source"
-					style={{
-						position: 'absolute',
-						left: '100%',
-					}}
-					{...props}
-				/>
-			</>
+			<Handle
+				data-testid={`handle-${nodeId}-source-${position}`}
+				key={i}
+				className={className}
+				id={position}
+				position={position}
+				type="source"
+				style={style}
+				{...props}
+			/>
 		);
-	}
-	return (
-		<>
-			{positions.map((position, i) => (
-				<Handle
-					data-testid={`handle-${nodeId}-source-${position}`}
-					className={className}
-					id={position}
-					key={i}
-					position={position}
-					type="source"
-					{...props}
-				/>
-			))}
-		</>
-	);
+	});
+
+	return <>{positions}</>;
 }
 
 export function calculateMinimalContentDimensions(childNodes: HTMLElement[]) {
@@ -179,6 +148,8 @@ export function CustomNode({
 	return (
 		<>
 			<NodeHandles
+				width={width}
+				height={height}
 				nodeId={nodeId}
 				className="bg-accent rounded z-20"
 				shape={shape}

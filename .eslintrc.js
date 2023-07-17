@@ -3,6 +3,7 @@ const rules = {
 	'react-hooks/exhaustive-deps': 0,
 	'@typescript-eslint/no-magic-numbers': 0,
 	'@typescript-eslint/no-extraneous-class': 0,
+	'sonarjs/elseif-without-else': 0,
 };
 
 const project = [
