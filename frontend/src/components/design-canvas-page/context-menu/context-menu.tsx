@@ -1,12 +1,12 @@
 import { shallow } from 'zustand/shallow';
 
+import { EdgeContextMenu } from '@/components/design-canvas-page/context-menu/edge-context-menu';
 import { NodeContextMenu } from '@/components/design-canvas-page/context-menu/node-context-menu';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import {
 	ContextMenuStore,
 	useContextMenuStore,
 } from '@/stores/context-menu-store';
-import { EdgeContextMenu } from '@/components/design-canvas-page/context-menu/edge-context-menu';
 
 const contextMenuComponents: Record<ContextMenuType, React.FC<any>> = {
 	[ContextMenuType.CustomNode]: NodeContextMenu,

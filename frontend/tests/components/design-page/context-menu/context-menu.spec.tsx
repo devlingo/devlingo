@@ -23,7 +23,15 @@ describe('ContextMenu tests', () => {
 	});
 
 	it('renders base context menu', () => {
+		const { result } = renderHook(() =>
+			useContextMenu(ContextMenuType.CustomNode, 'test'),
+		);
+		act(() => {
+			result.current(mouseEvent);
+		});
+
 		render(<ContextMenu />);
+
 		const container = screen.getByTestId('context-menu-container');
 		expect(container).toBeInTheDocument();
 	});

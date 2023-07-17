@@ -1,5 +1,7 @@
 import { ArrowPathIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'next-i18next';
+import { useState } from 'react';
+import { EdgeType } from 'shared/constants';
 import { shallow } from 'zustand/shallow';
 
 import {
@@ -7,10 +9,8 @@ import {
 	useCloseContextMenu,
 	useContextMenuStore,
 } from '@/stores/context-menu-store';
-import { EdgeType } from 'shared/constants';
-import { useState } from 'react';
-import { handleChange } from '@/utils/helpers';
 import { useUpdateEdge } from '@/stores/design-store';
+import { handleChange } from '@/utils/helpers';
 
 export function EdgeTypeDropdown({
 	onClickHandler,
@@ -29,7 +29,9 @@ export function EdgeTypeDropdown({
 					<div key={i} className="tooltip" data-tip={t(edgeType)}>
 						<li
 							data-testid={`${edgeType}-dropdown-component`}
-							onClick={() => onClickHandler(edgeType as EdgeType)}
+							onClick={() => {
+								onClickHandler(edgeType as EdgeType);
+							}}
 							className="text-primary-content p-2"
 						>
 							{edgeType}
@@ -63,11 +65,9 @@ export function EdgeContextMenu() {
 				<button
 					data-testid="custom-node-context-menu::shape-menu-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start items-center"
-					onClick={handleChange(
-						() =>
-							setIsEdgeTypeDropdownOpen(!isEdgeTypeDropdownOpen),
-						true,
-					)}
+					onClick={handleChange(() => {
+						setIsEdgeTypeDropdownOpen(!isEdgeTypeDropdownOpen);
+					}, true)}
 				>
 					<span className="flex gap-2 items-center">
 						<ArrowPathIcon className="h-4" />

@@ -1,4 +1,4 @@
 export enum ContextMenuType {
-	CustomNode,
-	CustomEdge,
+	CustomNode = 'CustomNode',
+	CustomEdge = 'CustomEdge',
 }

@@ -12,6 +12,7 @@ import {
 	OnNodesChange,
 	updateEdge,
 } from 'reactflow';
+import { EdgeType } from 'shared/constants';
 import {
 	CustomEdgeData,
 	CustomEdgeType,
@@ -19,10 +20,9 @@ import {
 	CustomNodeType,
 	ViewPortData,
 } from 'shared/types';
+import { createEdge } from 'shared/utils';
 import { create, GetState, SetState } from 'zustand';
 import { StateCreator } from 'zustand/vanilla';
-import { createEdge } from 'shared/utils';
-import { EdgeType } from 'shared/constants';
 
 export interface FlowStore {
 	// reactflow internals
@@ -122,7 +122,7 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 			}),
 		});
 	},
-	updateEdge: (edgeId: string, data: CustomEdgeData) => {
+	updateEdge: (edgeId: string, data: Partial<CustomEdgeData>) => {
 		set({
 			edges: get().edges.map((edge) => {
 				if (edge.id === edgeId) {
@@ -131,7 +131,7 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 						data: {
 							...edge.data,
 							...data,
-						},
+						} as CustomEdgeData,
 					};
 				}
 				return edge;
@@ -146,7 +146,6 @@ export const useConfiguredNode = () =>
 export const useDeleteNode = () => useDesignCanvasStore((s) => s.deleteNode);
 export const useDisplayEdges = () => useDesignCanvasStore((s) => s.edges);
 export const useDisplayNodes = () => useDesignCanvasStore((s) => s.nodes);
-export const useEdges = () => useDesignCanvasStore((s) => s.nodes);
 export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
 export const useSetConfiguredNode = () =>
 	useDesignCanvasStore((s) => s.setConfiguredNode);

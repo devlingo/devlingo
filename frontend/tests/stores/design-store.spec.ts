@@ -1,6 +1,8 @@
 import { NodeAddChange } from '@reactflow/core/dist/esm/types/changes';
 import { Connection, Edge, EdgeAddChange, EdgeChange } from 'reactflow';
+import { EdgeType } from 'shared/constants';
 import { EdgeFactory, NodeFactory } from 'shared/testing';
+import { createEdge } from 'shared/utils';
 
 import { flowStoreStateCreator } from '@/stores/design-store';
 
@@ -22,11 +24,12 @@ describe('flowStoreStateCreator tests', () => {
 		store.onConnect(connection);
 		expect(set).toHaveBeenCalledWith({
 			edges: [
-				{
+				createEdge({
+					data: { edgeType: EdgeType.BezierEdge },
 					id: `reactflow__edge-a-b`,
-					source: connection.source,
-					target: connection.target,
-				},
+					source: connection.source!,
+					target: connection.target!,
+				}),
 			],
 		});
 	});
