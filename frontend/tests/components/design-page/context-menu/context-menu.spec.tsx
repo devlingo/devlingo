@@ -1,11 +1,15 @@
 import React from 'react';
-import { NodeShape } from 'shared/constants';
+import { EdgeType, NodeShape } from 'shared/constants';
 import { NodeFactory } from 'shared/testing';
 import { act, fireEvent, render, renderHook, screen } from 'tests/test-utils';
 import { beforeEach, expect } from 'vitest';
 import { mockReset } from 'vitest-mock-extended';
 
 import { ContextMenu } from '@/components/design-canvas-page/context-menu/context-menu';
+import {
+	EdgeContextMenu,
+	EdgeTypeDropdown,
+} from '@/components/design-canvas-page/context-menu/edge-context-menu';
 import { NodeShapeDropdown } from '@/components/design-canvas-page/context-menu/node-context-menu';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
@@ -282,6 +286,57 @@ describe('ContextMenu tests', () => {
 				);
 				fireEvent.click(shapeComponent);
 				expect(onClickHandler).toHaveBeenCalledWith(NodeShape.Circle);
+			});
+		});
+	});
+	describe('EdgeContextMenu Tests', () => {
+		describe('EdgeTypeDropdown tests', () => {
+			it('renders dropdown', () => {
+				render(<EdgeTypeDropdown onClickHandler={vi.fn()} />);
+				const dropdown = screen.getByTestId(
+					'custom-edge-context-menu::shape-dropdown',
+				);
+				expect(dropdown).toBeInTheDocument();
+				expect(dropdown).toHaveClass('dropdown-right dropdown-open');
+			});
+
+			it('renders the correct options', () => {
+				render(<EdgeTypeDropdown onClickHandler={vi.fn()} />);
+				const options = screen.getAllByTestId(/-dropdown-component/);
+				expect(options.length).toBe(Object.values(EdgeType).length);
+				options.forEach((option, i) => {
+					expect(option).toHaveTextContent(
+						Object.values(EdgeType)[i],
+					);
+				});
+			});
+
+			it('sets an onClick handler', () => {
+				const onClickHandler = vi.fn();
+				render(<EdgeTypeDropdown onClickHandler={onClickHandler} />);
+				const option = screen.getByTestId(
+					`${Object.values(EdgeType)[0]}-dropdown-component`,
+				);
+				fireEvent.click(option);
+				expect(onClickHandler).toHaveBeenCalledTimes(1);
+				expect(onClickHandler).toHaveBeenCalledWith(
+					Object.values(EdgeType)[0],
+				);
+			});
+		});
+		describe('EdgeContextMenu tests', () => {
+			it('renders the context menu items', () => {
+				render(<EdgeContextMenu />);
+				fireEvent.click(
+					screen.getByTestId(
+						'custom-edge-context-menu::edge-type-menu-btn',
+					),
+				);
+				for (const edgeType of Object.values(EdgeType)) {
+					expect(
+						screen.getByTestId(`${edgeType}-dropdown-component`),
+					).toBeInTheDocument();
+				}
 			});
 		});
 	});

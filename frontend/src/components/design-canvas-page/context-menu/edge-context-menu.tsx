@@ -22,7 +22,7 @@ export function EdgeTypeDropdown({
 	return (
 		<div
 			className="elevation-15 dropdown dropdown-right dropdown-open"
-			data-testid="custom-node-context-menu::shape-dropdown"
+			data-testid="custom-edge-context-menu::shape-dropdown"
 		>
 			<ul className="dropdown-content ml-14 border-2 border-neutral z-30 flex flex-wrap w-72 shadow bg-base-100 rounded-box">
 				{Object.values(EdgeType).map((edgeType, i) => (
@@ -60,10 +60,10 @@ export function EdgeContextMenu() {
 		<>
 			<li
 				className="border-b-2 p-1 border-accent border-opacity-30"
-				data-testid="custom-node-context-menu"
+				data-testid="custom-edge-context-menu"
 			>
 				<button
-					data-testid="custom-node-context-menu::shape-menu-btn"
+					data-testid="custom-edge-context-menu::edge-type-menu-btn"
 					className="btn btn-sm btn-ghost normal-case w-full justify-start items-center"
 					onClick={handleChange(() => {
 						setIsEdgeTypeDropdownOpen(!isEdgeTypeDropdownOpen);
