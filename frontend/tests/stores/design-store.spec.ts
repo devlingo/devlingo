@@ -25,7 +25,7 @@ describe('flowStoreStateCreator tests', () => {
 		expect(set).toHaveBeenCalledWith({
 			edges: [
 				createEdge({
-					data: { edgeType: EdgeType.BezierEdge },
+					data: { edgeType: EdgeType.Bezier },
 					id: `reactflow__edge-a-b`,
 					source: connection.source!,
 					target: connection.target!,

@@ -44,6 +44,7 @@ export interface FlowStore {
 	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
 	deleteNode: (nodeId: string) => void;
 	updateEdge: (edgeId: string, data: Partial<CustomEdgeData>) => void;
+	deleteEdge: (edgeId: string) => void;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
@@ -62,7 +63,7 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 				...get().edges,
 				createEdge({
 					...edge,
-					data: { edgeType: EdgeType.BezierEdge },
+					data: { edgeType: EdgeType.Bezier },
 				}),
 			],
 		});
@@ -138,6 +139,9 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 			}),
 		});
 	},
+	deleteEdge: (edgeId: string) => {
+		set({ edges: get().edges.filter((edge) => edge.id !== edgeId) });
+	},
 });
 
 export const useDesignCanvasStore = create(flowStoreStateCreator);
@@ -147,6 +151,7 @@ export const useDeleteNode = () => useDesignCanvasStore((s) => s.deleteNode);
 export const useDisplayEdges = () => useDesignCanvasStore((s) => s.edges);
 export const useDisplayNodes = () => useDesignCanvasStore((s) => s.nodes);
 export const useNodes = () => useDesignCanvasStore((s) => s.nodes);
+export const useEdges = () => useDesignCanvasStore((s) => s.edges);
 export const useSetConfiguredNode = () =>
 	useDesignCanvasStore((s) => s.setConfiguredNode);
 export const useSetEdges = () => useDesignCanvasStore((s) => s.setEdges);
@@ -154,3 +159,4 @@ export const useSetNodes = () => useDesignCanvasStore((s) => s.setNodes);
 export const useSetViewPort = () => useDesignCanvasStore((s) => s.setViewPort);
 export const useUpdateEdge = () => useDesignCanvasStore((s) => s.updateEdge);
 export const useUpdateNode = () => useDesignCanvasStore((s) => s.updateNode);
+export const useDeleteEdge = () => useDesignCanvasStore((s) => s.deleteEdge);

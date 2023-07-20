@@ -7,7 +7,7 @@ import { useContextMenuStore } from '@/stores/context-menu-store';
 
 describe('CustomEdge tests', () => {
 	it('renders the edge component as expected', () => {
-		const edgeType = EdgeType.BezierEdge;
+		const edgeType = EdgeType.Bezier;
 		const edgeId = 'test-id';
 		render(
 			<CustomEdge
@@ -30,7 +30,7 @@ describe('CustomEdge tests', () => {
 	});
 
 	it('attaches a "contextMenu" event handler to the edge', () => {
-		const edgeType = EdgeType.BezierEdge;
+		const edgeType = EdgeType.Bezier;
 		const edgeId = 'test-id';
 
 		render(

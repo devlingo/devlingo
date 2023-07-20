@@ -1,5 +1,6 @@
 {
 	"changeShape": "Change Shape",
+	"deleteEdge": "Delete Edge",
 	"deleteNode": "Delete Node",
 	"renameNode": "Rename Node"
 }

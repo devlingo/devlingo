@@ -1,31 +1,17 @@
-import {
-	BezierEdge,
-	EdgeProps,
-	SimpleBezierEdge,
-	SmoothStepEdge,
-	StepEdge,
-	StraightEdge,
-} from 'reactflow';
+import { EdgeProps } from 'reactflow';
 import { EdgeType } from 'shared/constants';
 import { CustomEdgeData } from 'shared/types';
 
+import { EdgeTypeToEdgeComponentMap } from '@/components/design-canvas-page/constants';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
 
-const edgeTypeToEdgeComponentMap: Record<EdgeType, React.FC<EdgeProps>> = {
-	[EdgeType.StraightEdge]: StraightEdge,
-	[EdgeType.BezierEdge]: BezierEdge,
-	[EdgeType.StepEdge]: StepEdge,
-	[EdgeType.SmoothStepEdg]: SmoothStepEdge,
-	[EdgeType.SimpleBezier]: SimpleBezierEdge,
-};
-
 export function CustomEdge({
-	data: { edgeType } = { edgeType: EdgeType.BezierEdge },
+	data: { edgeType } = { edgeType: EdgeType.Bezier },
 	id: edgeId,
 	...props
 }: EdgeProps<CustomEdgeData>) {
-	const EdgeComponent = edgeTypeToEdgeComponentMap[edgeType];
+	const EdgeComponent = EdgeTypeToEdgeComponentMap[edgeType];
 	const onContextMenu = useContextMenu(ContextMenuType.CustomEdge, edgeId);
 
 	return (

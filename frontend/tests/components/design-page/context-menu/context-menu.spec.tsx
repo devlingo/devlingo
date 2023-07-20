@@ -1,15 +1,24 @@
 import React from 'react';
-import { NodeShape } from 'shared/constants';
-import { NodeFactory } from 'shared/testing';
+import { EdgeType, NodeShape } from 'shared/constants';
+import { EdgeFactory, NodeFactory } from 'shared/testing';
 import { act, fireEvent, render, renderHook, screen } from 'tests/test-utils';
 import { beforeEach, expect } from 'vitest';
 import { mockReset } from 'vitest-mock-extended';
 
 import { ContextMenu } from '@/components/design-canvas-page/context-menu/context-menu';
+import {
+	EdgeContextMenu,
+	EdgeTypeDropdown,
+} from '@/components/design-canvas-page/context-menu/edge-context-menu';
 import { NodeShapeDropdown } from '@/components/design-canvas-page/context-menu/node-context-menu';
 import { ContextMenuType } from '@/constants/context-menu.constants';
 import { useContextMenu } from '@/hooks/use-context-menu';
-import { useNodes, useSetNodes } from '@/stores/design-store';
+import {
+	useEdges,
+	useNodes,
+	useSetEdges,
+	useSetNodes,
+} from '@/stores/design-store';
 
 describe('ContextMenu tests', () => {
 	const preventDefaultMock = vi.fn();
@@ -282,6 +291,127 @@ describe('ContextMenu tests', () => {
 				);
 				fireEvent.click(shapeComponent);
 				expect(onClickHandler).toHaveBeenCalledWith(NodeShape.Circle);
+			});
+		});
+	});
+	describe('EdgeContextMenu Tests', () => {
+		describe('EdgeTypeDropdown tests', () => {
+			it('renders dropdown', () => {
+				render(
+					<EdgeTypeDropdown
+						onClickHandler={vi.fn()}
+						currentEdgeType={EdgeType.Bezier}
+					/>,
+				);
+				const dropdown = screen.getByTestId(
+					'custom-edge-context-menu::shape-dropdown',
+				);
+				expect(dropdown).toBeInTheDocument();
+				expect(dropdown).toHaveClass('dropdown-right dropdown-open');
+			});
+
+			it('renders the correct options', () => {
+				render(
+					<EdgeTypeDropdown
+						onClickHandler={vi.fn()}
+						currentEdgeType={EdgeType.Bezier}
+					/>,
+				);
+				const options = screen.getAllByTestId(/-dropdown-component/);
+				expect(options.length).toBe(Object.values(EdgeType).length);
+			});
+
+			it('sets an onClick handler', () => {
+				const onClickHandler = vi.fn();
+				render(
+					<EdgeTypeDropdown
+						onClickHandler={onClickHandler}
+						currentEdgeType={EdgeType.Bezier}
+					/>,
+				);
+				const option = screen.getByTestId(
+					`${Object.values(EdgeType)[0]}-dropdown-component`,
+				);
+				fireEvent.click(option);
+				expect(onClickHandler).toHaveBeenCalledTimes(1);
+				expect(onClickHandler).toHaveBeenCalledWith(
+					Object.values(EdgeType)[0],
+				);
+			});
+		});
+		describe('EdgeContextMenu tests', () => {
+			describe('change edge type button tests', () => {
+				it('renders the context menu items', async () => {
+					const edge = await EdgeFactory.build();
+
+					const { result: setEdgesResult } = renderHook(() =>
+						useSetEdges(),
+					);
+
+					act(() => {
+						setEdgesResult.current([edge]);
+					});
+
+					const { result } = renderHook(() =>
+						useContextMenu(ContextMenuType.CustomEdge, edge.id),
+					);
+
+					act(() => {
+						result.current(mouseEvent);
+					});
+
+					render(<EdgeContextMenu />);
+
+					fireEvent.click(
+						screen.getByTestId(
+							'custom-edge-context-menu::edge-type-menu-btn',
+						),
+					);
+
+					for (const edgeType of Object.values(EdgeType)) {
+						expect(
+							screen.getByTestId(
+								`${edgeType}-dropdown-component`,
+							),
+						).toBeInTheDocument();
+					}
+				});
+			});
+
+			describe('delete edge button tests', () => {
+				it('deletes the node and closes the context menu', async () => {
+					const edge = await EdgeFactory.build();
+
+					const { result } = renderHook(() =>
+						useContextMenu(ContextMenuType.CustomEdge, edge.id),
+					);
+					const { result: setEdgesResult } = renderHook(() =>
+						useSetEdges(),
+					);
+					const { result: useEdgesResult } = renderHook(() =>
+						useEdges(),
+					);
+
+					act(() => {
+						setEdgesResult.current([edge]);
+						result.current(mouseEvent);
+					});
+
+					expect(preventDefaultMock).toHaveBeenCalled();
+
+					render(<ContextMenu />);
+					expect(useEdgesResult.current).toHaveLength(1);
+
+					const deleteButton = screen.getByTestId(
+						'custom-edge-context-menu::delete-edge-btn',
+					);
+					fireEvent.click(deleteButton);
+
+					expect(useEdgesResult.current).toHaveLength(0);
+					expect(
+						screen.queryByTestId('delete-node-context-item'),
+					).toBeNull();
+				});
 			});
 		});
 	});
