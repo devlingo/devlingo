@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<svg
+	xmlns:svg="http://www.w3.org/2000/svg"
+	xmlns="http://www.w3.org/2000/svg"
+	height="64"
+	viewBox="0 0 25.6 25.6"
+	width="64"
+	version="1.1"
+	id="svg32"
+>
+  <defs id="defs36">
+    <style id="style610">
+      .cls-1 {
+        fill: #119dff;
+      }
+
+      .cls-2 {
+        fill: #25fefd;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <style
+		id="style2"
+	><![CDATA[.B{stroke-linecap:round}.C{stroke-linejoin:round}.D{stroke-linejoin:miter}.E{stroke-width:.716}]]></style>
+  <g id="symbol" transform="scale(0.19393939)">
+    <rect
+			id="rect616"
+			ry="6"
+			rx="6"
+			height="132"
+			width="132"
+			class="cls-1"
+			x="0"
+			y="0"
+			style="fill:#119dff"
+		/>
+    <circle
+			id="circle618"
+			r="6"
+			cy="54"
+			cx="78"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <circle
+			id="circle620"
+			r="6"
+			cy="30"
+			cx="102"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <circle
+			id="circle622"
+			r="6"
+			cy="30"
+			cx="78"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <circle
+			id="circle624"
+			r="6"
+			cy="30"
+			cx="54"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <circle
+			id="circle626"
+			r="6"
+			cy="30"
+			cx="30"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <circle
+			id="circle628"
+			r="6"
+			cy="54"
+			cx="30"
+			class="cls-2"
+			style="fill:#25fefd"
+		/>
+    <path
+			id="path630"
+			d="m 30,72 a 6,6 0 0 0 -6,6 v 24 a 6,6 0 0 0 12,0 V 78 a 6,6 0 0 0 -6,-6 z"
+			class="cls-3"
+			style="fill:#ffffff"
+		/>
+    <path
+			id="path632"
+			d="m 78,72 a 6,6 0 0 0 -6,6 v 24 a 6,6 0 0 0 12,0 V 78 a 6,6 0 0 0 -6,-6 z"
+			class="cls-3"
+			style="fill:#ffffff"
+		/>
+    <path
+			id="path634"
+			d="m 54,48 a 6,6 0 0 0 -6,6 v 48 a 6,6 0 0 0 12,0 V 54 a 6,6 0 0 0 -6,-6 z"
+			class="cls-3"
+			style="fill:#ffffff"
+		/>
+    <path
+			id="path636"
+			d="m 102,48 a 6,6 0 0 0 -6,6 v 48 a 6,6 0 0 0 12,0 V 54 a 6,6 0 0 0 -6,-6 z"
+			class="cls-3"
+			style="fill:#ffffff"
+		/>
+  </g>
+</svg>

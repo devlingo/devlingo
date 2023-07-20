@@ -1,0 +1,149 @@
+<svg
+	viewBox="0 0 512 335"
+	xmlns="http://www.w3.org/2000/svg"
+	fill-rule="evenodd"
+	clip-rule="evenodd"
+	stroke-linejoin="round"
+	stroke-miterlimit="2"
+><path fill="#29ab70" d="M511.995 0H401.289v64.609h110.706z" /><path
+		fill="url(#prefix___Linear1)"
+		d="M-.168-.39h1.336v.78H-.168z"
+		transform="translate(415.215 122.272) scale(82.8604)"
+	/><path
+		fill="url(#prefix___Linear2)"
+		d="M.067-.252h.865v.505H.067z"
+		transform="translate(392.662 212.193) scale(127.966)"
+	/><path
+		fill="url(#prefix___Linear3)"
+		d="M0-.292h1v.584H0z"
+		transform="translate(0 302.175) scale(110.701)"
+	/><path
+		fill="url(#prefix___Linear4)"
+		d="M0-.292h1v.584H0z"
+		transform="translate(133.75 302.175) scale(110.701)"
+	/><path
+		fill="url(#prefix___Linear5)"
+		d="M0-.292h1v.584H0z"
+		transform="translate(267.544 302.175) scale(110.701)"
+	/><path
+		fill="url(#prefix___Linear6)"
+		d="M0-.292h1v.584H0z"
+		transform="translate(401.295 302.175) scale(110.703)"
+	/><path
+		fill="url(#prefix___Linear7)"
+		d="M.055-.26h.89v.519h-.89z"
+		transform="translate(260.703 212.194) scale(124.382)"
+	/><path
+		fill="url(#prefix___Linear8)"
+		d="M.061-.256h.878v.512H.061z"
+		transform="translate(126.043 212.195) scale(126.117)"
+	/><path
+		fill="url(#prefix___Linear9)"
+		d="M.058-.258h.884v.516H.058z"
+		transform="translate(126.519 122.274) scale(125.164)"
+	/><defs><linearGradient
+			id="prefix___Linear1"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="scale(-1 1) rotate(-79.99 0 .596)"
+		><stop offset="0" stop-color="#2c8c9d" /><stop
+				offset=".04"
+				stop-color="#298e9a"
+			/><stop offset=".39" stop-color="#129c83" /><stop
+				offset=".72"
+				stop-color="#05a475"
+			/><stop
+				offset="1"
+				stop-color="#00a770"
+			/></linearGradient><linearGradient
+			id="prefix___Linear2"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="scale(1 -1) rotate(27.002 .5 0)"
+		><stop offset="0" stop-color="#2839ba" /><stop
+				offset="1"
+				stop-color="#148cb3"
+			/></linearGradient><linearGradient
+			id="prefix___Linear3"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="matrix(1 0 0 -1 0 0)"
+		><stop offset="0" stop-color="#f6a500" /><stop
+				offset="1"
+				stop-color="#f29100"
+			/></linearGradient><linearGradient
+			id="prefix___Linear4"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="matrix(1 0 0 -1 0 0)"
+		><stop offset="0" stop-color="#f29100" /><stop
+				offset="1"
+				stop-color="#d12f5f"
+			/></linearGradient><linearGradient
+			id="prefix___Linear5"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="matrix(1 0 0 -1 0 0)"
+		><stop offset="0" stop-color="#b4197c" /><stop
+				offset="1"
+				stop-color="#472ead"
+			/></linearGradient><linearGradient
+			id="prefix___Linear6"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="matrix(1 0 0 -1 0 0)"
+		><stop offset="0" stop-color="#2839ba" /><stop
+				offset="1"
+				stop-color="#3072b7"
+			/></linearGradient><linearGradient
+			id="prefix___Linear7"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="scale(1 -1) rotate(16.298 .5 0)"
+		><stop offset="0" stop-color="#b4197c" /><stop
+				offset="1"
+				stop-color="#373aac"
+			/></linearGradient><linearGradient
+			id="prefix___Linear8"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="scale(1 -1) rotate(-19.992 .5 0)"
+		><stop offset="0" stop-color="#ffcb00" /><stop
+				offset="1"
+				stop-color="#d12f5f"
+			/></linearGradient><linearGradient
+			id="prefix___Linear9"
+			x1="0"
+			y1="0"
+			x2="1"
+			y2="0"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="scale(1 -1) rotate(-42.705 .5 0)"
+		><stop offset="0" stop-color="#ffcf00" /><stop
+				offset="1"
+				stop-color="#ed743b"
+			/></linearGradient></defs></svg>

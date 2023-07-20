@@ -28,7 +28,7 @@ export const TypeTagMap: Record<NodeType, string> = {
 	// db-sql
 	[ServiceType.MySQL]: 'mysql',
 	[ServiceType.PostgresSQL]: 'postgres',
-	[ServiceType.MicrosoftSQL]: 'sqlserver',
+	[ServiceType.SQLServer]: 'sqlserver',
 	[ServiceType.MariaDB]: 'mariadb',
 	[ServiceType.Firebird]: 'firebird',
 	[ServiceType.SQLite]: 'sqlite',

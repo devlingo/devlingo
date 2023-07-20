@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg
+	version="1.0"
+	id="katman_1"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	x="0px"
+	y="0px"
+	viewBox="0 0 36.7 24.8"
+	style="enable-background:new 0 0 36.7 24.8;"
+	xml:space="preserve"
+>
+<style type="text/css">
+.st0 {
+	fill: #198ab3;
+}
+.st1 {
+	fill: url(#SVGID_1_);
+}
+.st2 {
+	fill: #32bedd;
+}
+	</style>
+<path class="st0" d="M25.1,20.9H11.5l-1.1-4.1h15.8L25.1,20.9z" />
+<linearGradient
+		id="SVGID_1_"
+		gradientUnits="userSpaceOnUse"
+		x1="10.4333"
+		y1="-145.6111"
+		x2="20.4533"
+		y2="-145.6111"
+		gradientTransform="matrix(1 0 0 -1 0 -133.2222)"
+	>
+	<stop offset="0" style="stop-color:#50C7E8" />
+	<stop offset="0.25" style="stop-color:#4CC3E4" />
+	<stop offset="0.51" style="stop-color:#41B6DA" />
+	<stop offset="0.77" style="stop-color:#2FA2C8" />
+	<stop offset="1" style="stop-color:#1989B2" />
+</linearGradient>
+<polygon
+		class="st1"
+		points="16.2,3.9 16.2,10.3 10.4,16.8 11.5,20.9 20.4,10.3 20.4,3.9 "
+	/>
+<path class="st2" d="M25.1,20.9l-6.2-6.4l2.6-3l4.7,5.3L25.1,20.9z" />
+</svg>

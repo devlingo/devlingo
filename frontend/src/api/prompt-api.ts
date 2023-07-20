@@ -16,6 +16,7 @@ export async function requestPrompt({
 	nodes: Node[];
 	edges: Edge[];
 }> {
+	console.log(data);
 	return await fetcher<DesignData>({
 		url: `${projectId}/${designId}/prompt`,
 		method: HttpMethod.Post,

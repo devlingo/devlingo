@@ -1,0 +1,98 @@
+<svg
+	version="1.1"
+	id="Layer_1"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	x="0px"
+	y="0px"
+	viewBox="-353.6 105.5 114.6 190.7"
+	style="enable-background:new -353.6 105.5 114.6 190.7;"
+	xml:space="preserve"
+>
+ <style type="text/css">
+.st0 {
+	fill: none;
+}
+.st1 {
+	fill: #8dd3e6;
+}
+.st2 {
+	fill: #343842;
+}
+.st3 {
+	fill: #2682c5;
+}
+	</style>
+ <g>
+  <polygon
+			class="st0"
+			points="-303.4,205.5 -288.7,200.6 -303.4,196.2 -318,200.6 	"
+		>
+  </polygon>
+  <polygon
+			class="st1"
+			points="-353.6,105.5 -353.6,137.7 -288.7,158.7 -239,142.6 -239,142.6 	"
+		>
+  </polygon>
+  <polygon
+			class="st1"
+			points="-353.6,147.5 -353.6,179.6 -353.6,179.6 -303.4,163.5 	"
+		>
+  </polygon>
+  <polygon
+			class="st1"
+			points="-288.7,200.6 -239,184.5 -239,184.5 -253.1,179.6 -303.4,196.2 	"
+		>
+  </polygon>
+  <polygon
+			class="st1"
+			points="-288.7,243 -239,226.5 -239,226.5 -253.1,222.1 -303.4,238.2 	"
+		>
+  </polygon>
+  <polygon
+			class="st1"
+			points="-318,200.6 -353.6,212.3 -353.6,221.6 -353.6,222.1 -303.4,205.5 	"
+		>
+  </polygon>
+  <polygon class="st2" points="-353.6,222.1 -353.6,254.2 -303.4,238.2 	">
+  </polygon>
+  <polygon
+			class="st2"
+			points="-303.4,205.5 -253.1,222.1 -239,217.2 -239,217.2 -288.7,200.6 	"
+		>
+  </polygon>
+  <polygon class="st3" points="-239,217.2 -239,184.5 -288.7,200.6 	">
+  </polygon>
+  <polygon
+			class="st3"
+			points="-353.6,222.1 -303.4,238.2 -253.1,222.1 -303.4,205.5 	"
+		>
+  </polygon>
+  <polygon
+			class="st2"
+			points="-353.6,264 -353.6,296.2 -239,259.1 -239,259.1 -288.7,243 	"
+		>
+  </polygon>
+  <polygon class="st3" points="-239,259.1 -239,226.5 -288.7,243 	">
+  </polygon>
+  <polygon
+			class="st2"
+			points="-303.4,163.5 -253.1,179.6 -239,175.2 -239,175.2 -288.7,158.7 	"
+		>
+  </polygon>
+  <polygon
+			class="st2"
+			points="-303.4,196.2 -353.6,179.6 -353.6,179.6 -353.6,189.4 -318,200.6 	"
+		>
+  </polygon>
+  <polygon class="st3" points="-239,175.2 -239,142.6 -288.7,158.7 	">
+  </polygon>
+  <polygon
+			class="st3"
+			points="-353.6,179.6 -303.4,196.2 -253.1,179.6 -303.4,163.5 	"
+		>
+  </polygon>
+  <polygon class="st3" points="-353.6,189.4 -353.6,212.3 -318,200.6 	">
+  </polygon>
+ </g>
+</svg>
