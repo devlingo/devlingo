@@ -69,11 +69,11 @@ export enum SystemComponentType {
 }
 
 export enum EdgeType {
-	BezierEdge = 'default',
-	StraightEdge = 'straight',
-	StepEdge = 'step',
-	SmoothStepEdg = 'smoothstep',
+	Bezier = 'default',
 	SimpleBezier = 'simplebezier',
+	Straight = 'straight',
+	Step = 'step',
+	SmoothStep = 'smoothstep',
 }
 
 export enum NodeShape {

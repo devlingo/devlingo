@@ -272,7 +272,7 @@ describe('Prompt Util Tests', () => {
 				'1',
 				firstNode.id,
 				secondNode.id,
-				EdgeType.SmoothStepEdg,
+				EdgeType.SmoothStep,
 			];
 
 			addEdge(input, designData);
@@ -282,7 +282,7 @@ describe('Prompt Util Tests', () => {
 				id: '1',
 				source: firstNode.id,
 				target: secondNode.id,
-				type: EdgeType.SmoothStepEdg,
+				type: EdgeType.SmoothStep,
 			});
 		});
 
@@ -316,10 +316,10 @@ describe('Prompt Util Tests', () => {
 	describe('updateEdge tests', () => {
 		it('updates an edge', () => {
 			const firstEdge = designData.edges[0];
-			const input = [firstEdge.id, 'type', EdgeType.StraightEdge];
+			const input = [firstEdge.id, 'type', EdgeType.Straight];
 
 			updateEdge(input, designData);
-			expect(designData.edges[0].type).toEqual(EdgeType.StraightEdge);
+			expect(designData.edges[0].type).toEqual(EdgeType.Straight);
 		});
 
 		it('does not modify the data if no properties are given', () => {
@@ -332,7 +332,7 @@ describe('Prompt Util Tests', () => {
 
 		it('throws an error when edge index is not found', () => {
 			expect(() => {
-				updateEdge(['2', 'type', EdgeType.StraightEdge], designData);
+				updateEdge(['2', 'type', EdgeType.Straight], designData);
 			}).toThrowError('Edge with id 2 not found');
 		});
 	});

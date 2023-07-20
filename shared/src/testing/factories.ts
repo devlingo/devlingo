@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { Design, Version, Project, User } from '@prisma/client';
+import { Design, Project, User, Version } from '@prisma/client';
 import { TypeFactory } from 'interface-forge';
-import { CustomNodeType } from 'shared/types';
+import { CustomEdgeType, CustomNodeType } from 'shared/types';
 import { EdgeType, ServiceType } from 'shared/constants';
 
 export const ProjectFactory = new TypeFactory<Project>(() => ({
@@ -59,17 +59,13 @@ export const NodeFactory = new TypeFactory<CustomNodeType>(() => ({
 	},
 }));
 
-export const EdgeFactory = new TypeFactory<{
-	id: string;
-	type: EdgeType;
-	source: string;
-	target: string;
-}>(() => {
+export const EdgeFactory = new TypeFactory<CustomEdgeType>(() => {
 	const source = faker.string.uuid();
 	const target = faker.string.uuid();
 	return {
 		id: faker.string.uuid(),
 		type: TypeFactory.iterate(Object.values(EdgeType)),
+		data: { edgeType: EdgeType.SmoothStep },
 		source,
 		target,
 	};

@@ -1,0 +1,7 @@
+{
+	"default": "Bezier",
+	"simplebezier": "Simple Bezier",
+	"smoothstep": "Smooth Step",
+	"step": "Step",
+	"straight": "Straight"
+}

@@ -35,6 +35,7 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 				'common',
 				'contextMenu',
 				'prompt',
+				'edges',
 			])),
 		},
 	};

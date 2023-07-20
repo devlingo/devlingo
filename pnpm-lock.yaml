@@ -249,6 +249,9 @@ importers:
             react:
                 specifier: 18.2.0
                 version: 18.2.0
+            react-colorful:
+                specifier: ^5.6.1
+                version: 5.6.1(react-dom@18.2.0)(react@18.2.0)
             react-dnd:
                 specifier: ^16.0.1
                 version: 16.0.1(@types/node@20.4.2)(@types/react@18.2.15)(react@18.2.0)
@@ -17412,6 +17415,19 @@ packages:
             http-errors: 2.0.0
             iconv-lite: 0.4.24
             unpipe: 1.0.0
+
+    /react-colorful@5.6.1(react-dom@18.2.0)(react@18.2.0):
+        resolution:
+            {
+                integrity: sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==,
+            }
+        peerDependencies:
+            react: '>=16.8.0'
+            react-dom: '>=16.8.0'
+        dependencies:
+            react: 18.2.0
+            react-dom: 18.2.0(react@18.2.0)
+        dev: false
 
     /react-devtools-core@4.28.0:
         resolution:
