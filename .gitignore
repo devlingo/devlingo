@@ -19,3 +19,5 @@
 coverage/
 dist/
 node_modules/
+.secrets/*
+!.secrets/README.md
