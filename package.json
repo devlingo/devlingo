@@ -1,5 +1,5 @@
 {
-	"name": "monorepo",
+	"name": "devlingo",
 	"version": "1.0.0",
 	"description": "",
 	"private": true,
@@ -20,7 +20,7 @@
 		"test:coverage": "vitest run --coverage"
 	},
 	"dependencies": {
-		"@prisma/client": "5.0.0",
+		"@prisma/client": "5.1.0",
 		"dayjs": "^1.11.9",
 		"deepmerge-ts": "^5.1.0",
 		"uuid": "^9.0.0"
@@ -29,37 +29,54 @@
 		"@commitlint/cli": "^17.6.7",
 		"@commitlint/config-conventional": "^17.6.7",
 		"@faker-js/faker": "^8.0.2",
-		"@next/eslint-plugin-next": "^13.4.10",
+		"@next/eslint-plugin-next": "^13.4.12",
 		"@prettier/plugin-xml": "^3.1.1",
 		"@swc/cli": "^0.1.62",
-		"@swc/core": "^1.3.70",
+		"@swc/core": "^1.3.73",
 		"@tool-belt/eslint-config": "^3.0.1",
-		"@types/node": "20.4.2",
+		"@types/node": "20.4.5",
 		"@types/uuid": "^9.0.2",
-		"@typescript-eslint/eslint-plugin": "^6.1.0",
-		"@typescript-eslint/parser": "^6.1.0",
-		"@vitejs/plugin-react": "^4.0.3",
-		"@vitest/coverage-v8": "^0.33.0",
-		"eslint": "^8.45.0",
-		"eslint-config-next": "13.4.10",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
+		"@vitejs/plugin-react": "^4.0.4",
+		"@vitest/coverage-v8": "^0.34.0",
+		"eslint": "^8.46.0",
+		"eslint-config-next": "13.4.12",
 		"eslint-import-resolver-typescript": "^3.5.5",
-		"eslint-plugin-vitest": "^0.2.6",
+		"eslint-plugin-vitest": "^0.2.8",
 		"husky": "^8.0.3",
 		"interface-forge": "^1.5.1",
 		"lint-staged": "^13.2.3",
 		"prettier": "^3.0.0",
-		"prisma": "^5.0.0",
+		"prisma": "^5.1.0",
 		"reactflow": "^11.7.4",
 		"rimraf": "^5.0.1",
 		"typescript": "^5.1.6",
 		"unplugin-swc": "^1.3.2",
 		"vite-plugin-magical-svg": "^1.0.3",
-		"vitest": "^0.33.0",
+		"vitest": "^0.34.0",
 		"vitest-mock-extended": "^1.1.4"
 	},
 	"keywords": [],
 	"author": "Devlingo",
-	"license": "UNLICENSED",
+	"contributors": [
+		{
+			"name": "Na'aman Hirschfeld",
+			"email": "nhirschfeld@gmail.com",
+			"url": "https://github.com/Goldziher"
+		},
+		{
+			"name": "Tom Cohen",
+			"email": "tomisaaccohen@gmail.com",
+			"url": "https://github.com/isaaclindenman"
+		},
+		{
+			"name": "Yatan Vesh",
+			"email": "yatan.vesh@gmail.com",
+			"url": "https://github.com/Yatanvesh"
+		}
+	],
+	"license": "MIT",
 	"lint-staged": {
 		"*.{ts,tsx}": "eslint --fix",
 		"*.{js,md,json,yaml,yml,xml,svg}": "prettier --write"
