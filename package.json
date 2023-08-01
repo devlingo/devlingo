@@ -4,6 +4,7 @@
 	"description": "",
 	"private": true,
 	"scripts": {
+		"preinstall": "npx only-allow pnpm",
 		"check": "eslint '**/*.{ts,tsx}' --max-warnings 0",
 		"format": "prettier --write '**/*.{yml,yaml,json,md,ts,html,svg,xml}'",
 		"lint": "eslint --fix '**/*.{ts,tsx}' --max-warnings 0",
