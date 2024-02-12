@@ -1,4 +1,12 @@
-# Backend Monorepo
+# Devlingo
+
+This project is a diagramming and design product that supports AI usage. We developed it until an early alpha version
+and then decided to pivot due to lack of interest from investors.
+
+You can see the landing page for an earlier version of the code in the repository here: https://devlingo.net
+
+The code is open sourced with the hope it will bring people value. If anyone is interested in taking over this project
+and continuing development, please feel free to contact us by opening an issue in the repository.
 
 ## Installation:
 
