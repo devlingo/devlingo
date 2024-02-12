@@ -16,10 +16,10 @@ export class PrismaExceptionFilter implements ExceptionFilter {
 		const request = ctx.getRequest<Request>();
 
 		response.status(HttpStatus.BAD_REQUEST).json({
+			message: exception.message,
+			path: request.url,
 			statusCode: HttpStatus.BAD_REQUEST,
 			timestamp: new Date().toISOString(),
-			path: request.url,
-			message: exception.message,
 		});
 	}
 }

@@ -31,8 +31,8 @@ export function sortByDateProp<
 					? -1
 					: 1
 				: dayjs(a[key]).isBefore(dayjs(b[key]))
-				? 1
-				: -1,
+					? 1
+					: -1,
 		);
 	};
 }

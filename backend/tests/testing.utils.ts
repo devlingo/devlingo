@@ -25,13 +25,13 @@ v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
 -----END RSA PRIVATE KEY-----`;
 
 export const testEnv: EnvironmentVariables = {
-	NODE_ENV: Environment.Development,
-	REDIS_CONNECTION_STRING: 'redis://localhost:6379',
-	OPENAI_KEY: 'my_openai_key',
-	SERVER_PORT: 3000,
-	FIREBASE_PROJECT_ID: 'my_firebase_project_id',
 	FIREBASE_CLIENT_EMAIL: 'my_firebase_client_email',
 	FIREBASE_PRIVATE_KEY: testPrivateKey,
+	FIREBASE_PROJECT_ID: 'my_firebase_project_id',
+	NODE_ENV: Environment.Development,
+	OPENAI_KEY: 'my_openai_key',
+	REDIS_CONNECTION_STRING: 'redis://localhost:6379',
+	SERVER_PORT: 3000,
 };
 
 export const mockPrisma = mockDeep<PrismaClient>();
@@ -42,8 +42,8 @@ export async function bootstrapIntegrationTest(
 	moduleMetadata: Partial<ModuleMetadata>,
 ): Promise<{
 	app: INestApplication;
-	request: SuperTest<any>;
 	prisma: DeepMockProxy<PrismaClient>;
+	request: SuperTest<any>;
 }> {
 	const moduleFixture = await Test.createTestingModule(moduleMetadata)
 		.overrideProvider(PrismaService)
@@ -66,7 +66,7 @@ export async function bootstrapIntegrationTest(
 
 	return {
 		app,
-		request: supertest(app.getHttpServer()),
 		prisma: mockPrisma,
+		request: supertest(app.getHttpServer()),
 	};
 }

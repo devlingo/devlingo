@@ -25,36 +25,48 @@ import { create, GetState, SetState } from 'zustand';
 import { StateCreator } from 'zustand/vanilla';
 
 export interface FlowStore {
+	// form logic
+	configuredNode: CustomNodeType | null;
+	deleteEdge: (edgeId: string) => void;
+	deleteNode: (nodeId: string) => void;
 	// reactflow internals
 	edges: CustomEdgeType[];
 	nodes: CustomNodeType[];
-	viewport: ViewPortData;
 	// reactflow handlers
 	onConnect: OnConnect;
 	onEdgeUpdate: OnEdgeUpdateFunc;
 	onEdgesChange: OnEdgesChange;
 	onNodesChange: OnNodesChange;
-	// form logic
-	configuredNode: CustomNodeType | null;
 	setConfiguredNode: (nodeId: string | null) => void;
 	// state handling
 	setEdges: (edges: Edge[]) => void;
 	setNodes: (nodes: CustomNodeType[]) => void;
 	setViewPort: (viewport: ViewPortData) => void;
-	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
-	deleteNode: (nodeId: string) => void;
 	updateEdge: (edgeId: string, data: Partial<CustomEdgeData>) => void;
-	deleteEdge: (edgeId: string) => void;
+	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => void;
+	viewport: ViewPortData;
 }
 
 export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	set: SetState<FlowStore>,
 	get: GetState<FlowStore>,
 ) => ({
+	// form logic
+	configuredNode: null,
+
+	deleteEdge: (edgeId: string) => {
+		set({ edges: get().edges.filter((edge) => edge.id !== edgeId) });
+	},
+
+	deleteNode: (nodeId: string) => {
+		set({ nodes: get().nodes.filter((node) => node.id !== nodeId) });
+	},
+
 	// reactflow internals
 	edges: [],
+
 	nodes: [],
-	viewport: { x: 0, y: 0, zoom: 0.5 },
+
 	// reactflow handlers
 	onConnect: (connection: Connection) => {
 		const [edge] = addEdge(connection, []);
@@ -68,9 +80,11 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 			],
 		});
 	},
+
 	onEdgeUpdate: (edge: Edge, connection: Connection) => {
 		set({ edges: updateEdge(edge, connection, get().edges) });
 	},
+
 	onEdgesChange: (changes: EdgeChange[]) => {
 		set({
 			edges: applyEdgeChanges(changes, get().edges),
@@ -81,8 +95,7 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 			nodes: applyNodeChanges(changes, get().nodes),
 		});
 	},
-	// form logic
-	configuredNode: null,
+
 	setConfiguredNode: (nodeId: string | null) => {
 		set({
 			configuredNode: nodeId
@@ -90,12 +103,14 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 				: null,
 		});
 	},
+
 	// state handling
 	setEdges: (edges: Edge[]) => {
 		set({
 			edges: [...edges],
 		});
 	},
+
 	setNodes: (nodes: CustomNodeType[]) => {
 		set({
 			nodes: [...nodes],
@@ -103,25 +118,6 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 	},
 	setViewPort: (viewport: ViewPortData) => {
 		set({ viewport });
-	},
-	deleteNode: (nodeId: string) => {
-		set({ nodes: get().nodes.filter((node) => node.id !== nodeId) });
-	},
-	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => {
-		set({
-			nodes: get().nodes.map((node) => {
-				if (node.id === nodeId) {
-					return {
-						...node,
-						data: {
-							...node.data,
-							...data,
-						},
-					};
-				}
-				return node;
-			}),
-		});
 	},
 	updateEdge: (edgeId: string, data: Partial<CustomEdgeData>) => {
 		set({
@@ -139,9 +135,23 @@ export const flowStoreStateCreator: StateCreator<FlowStore> = (
 			}),
 		});
 	},
-	deleteEdge: (edgeId: string) => {
-		set({ edges: get().edges.filter((edge) => edge.id !== edgeId) });
+	updateNode: (nodeId: string, data: Partial<CustomNodeData>) => {
+		set({
+			nodes: get().nodes.map((node) => {
+				if (node.id === nodeId) {
+					return {
+						...node,
+						data: {
+							...node.data,
+							...data,
+						},
+					};
+				}
+				return node;
+			}),
+		});
 	},
+	viewport: { x: 0, y: 0, zoom: 0.5 },
 });
 
 export const useDesignCanvasStore = create(flowStoreStateCreator);

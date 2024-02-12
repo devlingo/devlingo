@@ -13,6 +13,7 @@ export function useBoundedDrop(): [
 	const [dropData, dropRef] = useDrop<any, any, DropTargetData | null>(
 		() => ({
 			accept: 'MenuItem',
+			collect: (monitor) => monitor.getDropResult<DropTargetData>(),
 			drop: (item: { type: ServiceType }, monitor) => {
 				const offset = monitor.getSourceClientOffset();
 
@@ -27,7 +28,6 @@ export function useBoundedDrop(): [
 				}
 				return null;
 			},
-			collect: (monitor) => monitor.getDropResult<DropTargetData>(),
 		}),
 	);
 

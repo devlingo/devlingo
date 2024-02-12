@@ -8,9 +8,9 @@ import { useContextMenuStore } from '@/stores/context-menu-store';
 describe('contextMenuStore tests', () => {
 	const nodeId = faker.string.uuid();
 	const mouseEvent = {
-		preventDefault: vi.fn(),
 		pageX: 100,
 		pageY: 200,
+		preventDefault: vi.fn(),
 	};
 
 	it('returns a callback function', () => {

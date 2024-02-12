@@ -9,8 +9,8 @@ import { AppController } from './controller';
 import { AppService } from './service';
 
 @Module({
-	imports: [...DEFAULT_MODULES, ...API_MODULES],
 	controllers: [AppController],
+	imports: [...DEFAULT_MODULES, ...API_MODULES],
 	providers: [
 		AppService,
 		{

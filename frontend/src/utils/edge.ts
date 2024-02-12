@@ -2,8 +2,8 @@ import { Edge, Node, Position } from '@reactflow/core';
 
 enum RelativePosition {
 	Above = 'above',
-	Below = 'below',
 	Aligned = 'aligned',
+	Below = 'below',
 	Left = 'left',
 	Right = 'right',
 }
@@ -14,25 +14,25 @@ export function positionHandle({
 }: {
 	sourcePosition: { x: number; y: number };
 	targetPosition: { x: number; y: number };
-}): { targetHandle: Position; sourceHandle: Position } {
+}): { sourceHandle: Position; targetHandle: Position } {
 	const targetRelativeHorizontalPosition =
 		targetPosition.x === sourcePosition.x
 			? RelativePosition.Aligned
 			: targetPosition.x > sourcePosition.x
-			? RelativePosition.Right
-			: RelativePosition.Left;
+				? RelativePosition.Right
+				: RelativePosition.Left;
 
 	const targetRelativeVerticalPosition =
 		targetPosition.y === sourcePosition.y
 			? RelativePosition.Aligned
 			: targetPosition.y > sourcePosition.y
-			? RelativePosition.Above
-			: RelativePosition.Below;
+				? RelativePosition.Above
+				: RelativePosition.Below;
 
 	if (targetRelativeHorizontalPosition === RelativePosition.Aligned) {
 		return targetRelativeVerticalPosition === RelativePosition.Above
-			? { targetHandle: Position.Top, sourceHandle: Position.Bottom }
-			: { targetHandle: Position.Bottom, sourceHandle: Position.Top };
+			? { sourceHandle: Position.Bottom, targetHandle: Position.Top }
+			: { sourceHandle: Position.Top, targetHandle: Position.Bottom };
 	}
 
 	if (
@@ -41,13 +41,13 @@ export function positionHandle({
 			Math.abs(targetPosition.y - sourcePosition.y)
 	) {
 		return targetRelativeHorizontalPosition === RelativePosition.Right
-			? { targetHandle: Position.Left, sourceHandle: Position.Right }
-			: { targetHandle: Position.Right, sourceHandle: Position.Left };
+			? { sourceHandle: Position.Right, targetHandle: Position.Left }
+			: { sourceHandle: Position.Left, targetHandle: Position.Right };
 	}
 
 	return targetRelativeVerticalPosition === RelativePosition.Above
-		? { targetHandle: Position.Top, sourceHandle: Position.Bottom }
-		: { targetHandle: Position.Bottom, sourceHandle: Position.Top };
+		? { sourceHandle: Position.Bottom, targetHandle: Position.Top }
+		: { sourceHandle: Position.Top, targetHandle: Position.Bottom };
 }
 
 export function NormalizeEdges(edges: Edge[], nodes: Node[]): Edge[] {

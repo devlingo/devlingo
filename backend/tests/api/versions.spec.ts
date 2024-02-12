@@ -56,9 +56,9 @@ describe('Versions Controller Tests', () => {
 					designId: version.designId,
 				},
 				select: {
-					id: true,
-					designId: true,
 					createdAt: true,
+					designId: true,
+					id: true,
 				},
 			});
 		});

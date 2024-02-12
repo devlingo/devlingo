@@ -40,22 +40,22 @@ export class DesignService {
 		designId: string;
 	}): Promise<DesignResponseData> {
 		return await this.prisma.design.findUniqueOrThrow({
-			where: { id: designId },
 			select: {
-				id: true,
-				name: true,
-				description: true,
-				isDefault: true,
-				projectId: true,
 				createdAt: true,
+				description: true,
+				id: true,
+				isDefault: true,
+				name: true,
+				projectId: true,
 				updatedAt: true,
 				versions: {
 					select: {
-						id: true,
 						createdAt: true,
+						id: true,
 					},
 				},
 			},
+			where: { id: designId },
 		});
 	}
 

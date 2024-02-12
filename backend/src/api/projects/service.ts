@@ -10,32 +10,32 @@ import { PrismaService } from '@/modules/prisma/service';
 export const projectSelectArgs = (
 	firebaseId: string,
 ): Prisma.ProjectSelect => ({
-	id: true,
-	name: true,
-	description: true,
 	createdAt: true,
-	updatedAt: true,
-	userPermissions: {
-		select: {
-			userId: true,
-			type: true,
-		},
-		where: {
-			user: { is: { firebaseId } },
-		},
-	},
+	description: true,
 	designs: {
 		select: {
+			createdAt: true,
+			description: true,
 			id: true,
+			isDefault: true,
 			name: true,
 			projectId: true,
-			description: true,
-			isDefault: true,
-			createdAt: true,
 			updatedAt: true,
 		},
 		where: {
 			isDefault: true,
+		},
+	},
+	id: true,
+	name: true,
+	updatedAt: true,
+	userPermissions: {
+		select: {
+			type: true,
+			userId: true,
+		},
+		where: {
+			user: { is: { firebaseId } },
 		},
 	},
 });
@@ -65,8 +65,8 @@ export class ProjectsService {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
 		return (await this.prisma.project.findUniqueOrThrow({
-			where: { id: projectId },
 			select: projectSelectArgs(firebaseId),
+			where: { id: projectId },
 		})) as unknown as ProjectResponseData;
 	}
 
@@ -74,8 +74,8 @@ export class ProjectsService {
 		request,
 		data,
 	}: {
-		request: Request;
 		data: ProjectCreateDTO;
+		request: Request;
 	}): Promise<ProjectResponseData> {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
@@ -86,14 +86,14 @@ export class ProjectsService {
 		return (await this.prisma.project.create({
 			data: {
 				...data,
+				designs: {
+					create: { isDefault: true, name: 'Untitled Design' },
+				},
 				userPermissions: {
 					create: {
-						userId: userId,
 						type: PermissionType.OWNER,
+						userId,
 					},
-				},
-				designs: {
-					create: { name: 'Untitled Design', isDefault: true },
 				},
 			},
 			select: projectSelectArgs(firebaseId),
@@ -106,15 +106,15 @@ export class ProjectsService {
 		projectId,
 	}: {
 		data: Partial<ProjectCreateDTO>;
-		request: Request;
 		projectId: string;
+		request: Request;
 	}): Promise<ProjectResponseData> {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
 		return (await this.prisma.project.update({
-			where: { id: projectId },
 			data,
 			select: projectSelectArgs(firebaseId),
+			where: { id: projectId },
 		})) as unknown as ProjectResponseData;
 	}
 
@@ -126,15 +126,15 @@ export class ProjectsService {
 		const firebaseId = Reflect.get(request, 'firebaseId') as string;
 
 		return (await this.prisma.project.findMany({
+			orderBy: {
+				createdAt: 'asc',
+			},
+			select: projectSelectArgs(firebaseId),
 			where: {
 				userPermissions: {
 					some: { user: { is: { firebaseId } } },
 				},
 			},
-			orderBy: {
-				createdAt: 'asc',
-			},
-			select: projectSelectArgs(firebaseId),
 		})) as unknown as ProjectResponseData[];
 	}
 }

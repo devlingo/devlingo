@@ -21,12 +21,12 @@ describe('CreateOrUpdateProjectModal tests', () => {
 		const project = await ProjectFactory.build();
 
 		mockFetch.mockImplementationOnce((_, { body }: { body: string }) => ({
-			ok: true,
-			status: 201,
 			json: async () => ({
 				...project,
 				...JSON.parse(body),
 			}),
+			ok: true,
+			status: 201,
 		}));
 
 		render(
@@ -55,8 +55,8 @@ describe('CreateOrUpdateProjectModal tests', () => {
 			expect(mockSetProjects).toHaveBeenCalledWith([
 				{
 					...project,
-					name: 'New Project',
 					description: 'New Project Description',
+					name: 'New Project',
 				},
 			]);
 		});
@@ -68,12 +68,12 @@ describe('CreateOrUpdateProjectModal tests', () => {
 		const projects = await ProjectFactory.batch(1);
 
 		mockFetch.mockImplementationOnce((_, { body }: { body: string }) => ({
-			ok: true,
-			status: 200,
 			json: async () => ({
 				...projects[0],
 				...JSON.parse(body),
 			}),
+			ok: true,
+			status: 200,
 		}));
 
 		render(
@@ -102,8 +102,8 @@ describe('CreateOrUpdateProjectModal tests', () => {
 			expect(mockSetProjects).toHaveBeenCalledWith([
 				{
 					...projects[0],
-					name: 'Updated Project',
 					description: 'Updated Project Description',
+					name: 'Updated Project',
 				},
 			]);
 		});

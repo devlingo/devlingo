@@ -112,13 +112,13 @@ export function FlowContainer({
 	}, [windowWidth, isFullWidth]);
 
 	const { isSaving, setLastChangeTimestamp } = useSaveDesign({
-		saveCheckInterval: TimeUnit.OneSecondInMilliseconds,
-		debounceThreshold: TimeUnit.OneSecondInMilliseconds * 3,
-		saveDelay: TimeUnit.OneSecondInMilliseconds * 3,
-		nodes,
-		edges,
-		viewport: getViewport(),
 		currentDesign,
+		debounceThreshold: TimeUnit.OneSecondInMilliseconds * 3,
+		edges,
+		nodes,
+		saveCheckInterval: TimeUnit.OneSecondInMilliseconds,
+		saveDelay: TimeUnit.OneSecondInMilliseconds * 3,
+		viewport: getViewport(),
 	});
 
 	const withSetSave = (handler: (...args: any[]) => void) => {

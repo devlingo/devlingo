@@ -45,9 +45,9 @@ export class FirebaseService implements OnModuleInit {
 		const config = {
 			clientEmail: this.configService.get<string>(
 				'FIREBASE_CLIENT_EMAIL',
-			)!,
-			projectId: this.configService.get<string>('FIREBASE_PROJECT_ID')!,
-			privateKey: this.configService.get<string>('FIREBASE_PRIVATE_KEY')!,
+			),
+			privateKey: this.configService.get<string>('FIREBASE_PRIVATE_KEY'),
+			projectId: this.configService.get<string>('FIREBASE_PROJECT_ID'),
 		} satisfies ServiceAccount;
 
 		this.app = initializeApp({

@@ -47,8 +47,8 @@ export class PromptService {
 	) {
 		this.model = new OpenAI({
 			modelName: OpenAPIModelName,
-			temperature: 0.2,
 			openAIApiKey: this.configService.get<string>('OPENAI_KEY'),
+			temperature: 0.2,
 		});
 	}
 
@@ -60,8 +60,8 @@ export class PromptService {
 			designData: JSON.stringify(
 				mapDesignDataToPromptInterface(designData),
 			),
-			userInput,
 			example: ExampleInterface,
+			userInput,
 		});
 		try {
 			return await this.model.call(prompt);
@@ -79,18 +79,18 @@ export class PromptService {
 		useInput,
 	}: PromptRequestDTO & DesignIdParam): Promise<DesignData> {
 		const { versions } = await this.prisma.design.findUniqueOrThrow({
-			where: { id: designId },
 			select: {
 				versions: {
-					select: {
-						data: true,
-					},
 					orderBy: {
 						createdAt: 'desc',
+					},
+					select: {
+						data: true,
 					},
 					take: 1,
 				},
 			},
+			where: { id: designId },
 		});
 		const { nodes, edges } = (
 			versions.length > 0 && versions[0].data
@@ -101,8 +101,8 @@ export class PromptService {
 		) as VersionData;
 
 		const designData = structuredClone({
-			nodes,
 			edges,
+			nodes,
 		}) satisfies DesignData;
 
 		const promptResponse = await this.makePromptRequest(

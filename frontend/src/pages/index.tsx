@@ -39,13 +39,13 @@ export default function Index() {
 				...firebaseUIConfig,
 
 				callbacks: {
-					uiShown: () => {
-						setIsUIRendered(true);
-					},
 					signInSuccessWithAuthResult: () => {
 						// prevent the UI from redirecting the user using a preconfigured redirect-url
 						setIsSignedIn(true);
 						return false;
+					},
+					uiShown: () => {
+						setIsUIRendered(true);
 					},
 				},
 			});

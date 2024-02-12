@@ -49,9 +49,9 @@ describe('useSaveDesign tests', () => {
 
 	it('saves a design when debounce threshold is exceeded', async () => {
 		mockFetch.mockResolvedValueOnce({
+			json: () => Promise.resolve({}),
 			ok: true,
 			status: 201,
-			json: () => Promise.resolve({}),
 		});
 
 		const { result, rerender } = renderHook(() =>
@@ -91,9 +91,9 @@ describe('useSaveDesign tests', () => {
 
 	it('delays setting "isSaving" to "false" by the given delay', async () => {
 		mockFetch.mockResolvedValueOnce({
+			json: () => Promise.resolve({}),
 			ok: true,
 			status: 201,
-			json: () => Promise.resolve({}),
 		});
 
 		const { result, rerender } = renderHook(() =>
@@ -213,9 +213,9 @@ describe('useSaveDesign tests', () => {
 
 	it('does not save if "debounceThreshold" is not exceeded', async () => {
 		mockFetch.mockResolvedValueOnce({
+			json: () => Promise.resolve({}),
 			ok: true,
 			status: 201,
-			json: () => Promise.resolve({}),
 		});
 
 		const { result, rerender } = renderHook(() =>
@@ -253,9 +253,9 @@ describe('useSaveDesign tests', () => {
 
 	it('returns an error if an error is thrown', async () => {
 		mockFetch.mockResolvedValueOnce({
+			json: () => Promise.resolve({ message: 'oops' }),
 			ok: false,
 			status: 400,
-			json: () => Promise.resolve({ message: 'oops' }),
 		});
 
 		const { result, rerender } = renderHook(() =>

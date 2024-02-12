@@ -31,7 +31,6 @@ export function NodeForm({ closeMenuHandler }: NodeFormProps) {
 
 	const [formData, setFormData] = useState(configuredNode.data.formData);
 
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	let schemas = typeSchemaMap[configuredNode.type!] ?? DefaultSchemas;
 
 	const parentNodeType = Reflect.get(

@@ -53,15 +53,15 @@ export function useSaveDesign({
 					setIsSaving(true);
 					try {
 						const data = {
-							nodes,
 							edges,
+							nodes,
 							viewport,
 						} satisfies VersionData;
 
 						await createVersion({
-							projectId: currentDesign.projectId,
-							designId: currentDesign.id,
 							data,
+							designId: currentDesign.id,
+							projectId: currentDesign.projectId,
 						});
 					} catch (error_: unknown) {
 						setError(error_ as Error);

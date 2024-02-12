@@ -23,9 +23,9 @@ import {
 describe('ContextMenu tests', () => {
 	const preventDefaultMock = vi.fn();
 	const mouseEvent = {
-		preventDefault: preventDefaultMock,
 		pageX: 100,
 		pageY: 200,
+		preventDefault: preventDefaultMock,
 	};
 	beforeEach(() => {
 		mockReset(preventDefaultMock);

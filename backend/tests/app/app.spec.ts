@@ -7,10 +7,10 @@ import { Messages } from '@/constants';
 
 vi.mock('firebase-admin', () => {
 	return {
-		initializeApp: vi.fn(() => ({})),
 		auth: vi.fn().mockReturnValue({
 			verifyIdToken: vi.fn((value = 'abc') => ({ uid: value })),
 		}),
+		initializeApp: vi.fn(() => ({})),
 	};
 });
 

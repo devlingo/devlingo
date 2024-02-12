@@ -11,7 +11,7 @@ export async function retrieveDesignById({
 	projectId: string;
 }): Promise<DesignResponseData> {
 	return await fetcher<DesignResponseData>({
-		url: `${projectId}/designs/${designId}`,
 		method: HttpMethod.Get,
+		url: `${projectId}/designs/${designId}`,
 	});
 }

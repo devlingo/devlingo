@@ -5,7 +5,7 @@ import { fetcher } from '@/api/fetcher';
 
 export async function getUserProfile(): Promise<User> {
 	return await fetcher<User>({
-		url: 'users/profile',
 		method: HttpMethod.Get,
+		url: 'users/profile',
 	});
 }

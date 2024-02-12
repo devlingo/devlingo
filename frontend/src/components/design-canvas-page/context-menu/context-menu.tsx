@@ -16,9 +16,9 @@ const contextMenuComponents: Record<ContextMenuType, React.FC<any>> = {
 export function ContextMenu() {
 	const { isContextMenuOpen, menuType, position } = useContextMenuStore(
 		(state: ContextMenuStore) => ({
-			position: state.position,
-			menuType: state.menuType,
 			isContextMenuOpen: state.isContextMenuOpen,
+			menuType: state.menuType,
+			position: state.position,
 		}),
 		shallow,
 	);
@@ -34,9 +34,9 @@ export function ContextMenu() {
 			data-testid="context-menu-container"
 			className="absolute"
 			style={{
+				display: isContextMenuOpen ? 'block' : 'none',
 				left: position?.x ?? 0,
 				top: position?.y ?? 0,
-				display: isContextMenuOpen ? 'block' : 'none',
 			}}
 		>
 			<ul className="list-none m-0 p-1 menu shadow z-10 bg-base-200 border-neutral-focus elevation-8 rounded-box">

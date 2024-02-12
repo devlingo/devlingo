@@ -19,8 +19,8 @@ describe('projects API tests', () => {
 		it('returns a list of projects', async () => {
 			const projects = await ProjectFactory.batch(10);
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(projects),
+				ok: true,
 			});
 			const data = await getProjects();
 
@@ -43,12 +43,12 @@ describe('projects API tests', () => {
 		it('should create a project', async () => {
 			const project = await ProjectFactory.build();
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(project),
+				ok: true,
 			});
 			const body = {
-				name: project.name,
 				description: project.description,
+				name: project.name,
 			};
 			const data = await createProject(body);
 
@@ -72,12 +72,12 @@ describe('projects API tests', () => {
 		it('should update a project', async () => {
 			const project = await ProjectFactory.build();
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(project),
+				ok: true,
 			});
 			const body = {
-				name: project.name,
 				description: project.description,
+				name: project.name,
 			};
 			const data = await updateProject({
 				projectId: project.id,
@@ -104,8 +104,8 @@ describe('projects API tests', () => {
 		it('should delete a project', async () => {
 			const project = await ProjectFactory.build();
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(),
+				ok: true,
 			});
 
 			// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression

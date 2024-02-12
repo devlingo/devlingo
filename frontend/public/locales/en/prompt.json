@@ -1,13 +1,13 @@
 {
-	"promptModalTitle": "Design with AI",
-	"promptModalSubtitle": "Sparkle some LLM powder",
-	"promptModalExamples": "Examples of some prompts you can try",
-	"promptModalPlaceholder": "Write your prompt here",
+	"acceptChangesQuestion": "Do you want to accept these changes?",
+	"designAcceptedMessage": "The design has been updated!",
+	"designDeclinedMessage": "The changes have been declined and rolled-back",
+	"promptErrorMessage": "An error has occurred, please try again later",
 	"promptModalExample1": "\"Add user subscription to my diagram\"",
 	"promptModalExample2": "\"Add a no-sql database and connect to my backend node\"",
 	"promptModalExample3": "\"Create a design for a social media app for sharing videos\"",
-	"promptErrorMessage": "An error has occurred, please try again later",
-	"designDeclinedMessage": "The changes have been declined and rolled-back",
-	"designAcceptedMessage": "The design has been updated!",
-	"acceptChangesQuestion": "Do you want to accept these changes?"
+	"promptModalExamples": "Examples of some prompts you can try",
+	"promptModalPlaceholder": "Write your prompt here",
+	"promptModalSubtitle": "Sparkle some LLM powder",
+	"promptModalTitle": "Design with AI"
 }

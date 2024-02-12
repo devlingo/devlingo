@@ -2,73 +2,52 @@ import { JsonSchema, UISchemaElement } from '@jsonforms/core';
 import { ServiceType, SystemComponentType } from 'shared/constants';
 
 export const NodeNameFormSchema = {
-	type: 'object',
 	properties: {
 		nodeName: {
-			type: 'string',
 			minLength: 1,
+			type: 'string',
 		},
 	},
 	required: ['nodeName'],
+	type: 'object',
 };
 
 export const NodeNameFormUISchema = {
-	type: 'VerticalLayout',
 	elements: [
 		{
-			type: 'Control',
 			label: 'name',
 			scope: '#/properties/nodeName',
+			type: 'Control',
 		},
 	],
+	type: 'VerticalLayout',
 };
 
 export const DefaultSchemas = [NodeNameFormSchema, NodeNameFormUISchema];
 
 export const NestControllerSchema = {
-	type: 'object',
 	properties: {
-		nodeName: {
-			type: 'string',
-			minLength: 1,
-		},
-		path: {
-			type: 'string',
-			nullable: true,
-		},
 		endpoints: {
-			type: 'array',
 			items: {
-				type: 'object',
 				properties: {
-					name: {
-						type: 'string',
-						minLength: 1,
-					},
 					method: {
-						type: 'string',
-						enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'],
 						default: 'GET',
-					},
-					path: {
+						enum: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'],
 						type: 'string',
-						nullable: true,
 					},
-					statusCode: {
-						type: 'number',
-						default: 200,
+					name: {
+						minLength: 1,
+						type: 'string',
 					},
 					parameters: {
-						type: 'array',
 						items: {
-							type: 'object',
 							properties: {
 								name: {
-									type: 'string',
 									minLength: 1,
+									type: 'string',
 								},
 								parameterType: {
-									type: 'string',
+									default: 'QUERY',
 									enum: [
 										'PATH',
 										'QUERY',
@@ -76,10 +55,10 @@ export const NestControllerSchema = {
 										'HEADER',
 										'COOKIE',
 									],
-									default: 'QUERY',
+									type: 'string',
 								},
 								valueTypes: {
-									type: 'string',
+									default: 'string',
 									enum: [
 										'boolean',
 										'data',
@@ -92,40 +71,61 @@ export const NestControllerSchema = {
 										'time',
 										'uuid',
 									],
-									default: 'string',
+									type: 'string',
 								},
 							},
+							type: 'object',
 						},
+						type: 'array',
+					},
+					path: {
+						nullable: true,
+						type: 'string',
+					},
+					statusCode: {
+						default: 200,
+						type: 'number',
 					},
 				},
+				type: 'object',
 			},
+			type: 'array',
+		},
+		nodeName: {
+			minLength: 1,
+			type: 'string',
+		},
+		path: {
+			nullable: true,
+			type: 'string',
 		},
 	},
 	required: ['nodeName'],
+	type: 'object',
 };
 
 export const NestControllerUISchema = {
-	type: 'VerticalLayout',
 	elements: [
 		{
-			type: 'Control',
 			label: 'name',
 			scope: '#/properties/nodeName',
-		},
-		{
 			type: 'Control',
-			scope: '#/properties/path',
 		},
 		{
-			type: 'HorizontalLayout',
+			scope: '#/properties/path',
+			type: 'Control',
+		},
+		{
 			elements: [
 				{
-					type: 'Control',
 					scope: '#/properties/endpoints',
+					type: 'Control',
 				},
 			],
+			type: 'HorizontalLayout',
 		},
 	],
+	type: 'VerticalLayout',
 };
 
 export const typeSchemaMap: Record<

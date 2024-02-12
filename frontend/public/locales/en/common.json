@@ -1,8 +1,8 @@
 {
-	"submit": "Submit",
-	"cancel": "Cancel",
 	"accept": "Accept",
+	"cancel": "Cancel",
+	"continue": "Continue",
 	"decline": "Decline",
 	"open": "Open",
-	"continue": "Continue"
+	"submit": "Submit"
 }

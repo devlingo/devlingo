@@ -7,8 +7,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 10, y: 0 };
 		const expected = {
-			targetHandle: Position.Left,
 			sourceHandle: Position.Right,
+			targetHandle: Position.Left,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -18,8 +18,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 0, y: 10 };
 		const expected = {
-			targetHandle: Position.Top,
 			sourceHandle: Position.Bottom,
+			targetHandle: Position.Top,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -29,8 +29,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 0, y: 0 };
 		const expected = {
-			targetHandle: Position.Bottom,
 			sourceHandle: Position.Top,
+			targetHandle: Position.Bottom,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -41,8 +41,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 1, y: 0 };
 		const expected = {
-			targetHandle: Position.Left,
 			sourceHandle: Position.Right,
+			targetHandle: Position.Left,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -53,8 +53,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: -10, y: -10 };
 		const targetPosition = { x: -5, y: -10 };
 		const expected = {
-			targetHandle: Position.Left,
 			sourceHandle: Position.Right,
+			targetHandle: Position.Left,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -64,8 +64,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0.5, y: 0.5 };
 		const targetPosition = { x: 10.5, y: 0.5 };
 		const expected = {
-			targetHandle: Position.Left,
 			sourceHandle: Position.Right,
+			targetHandle: Position.Left,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -75,8 +75,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 0, y: -10 };
 		const expected = {
-			targetHandle: Position.Bottom,
 			sourceHandle: Position.Top,
+			targetHandle: Position.Bottom,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);
@@ -87,8 +87,8 @@ describe('positionHandle tests', () => {
 		const sourcePosition = { x: 0, y: 0 };
 		const targetPosition = { x: 0, y: 10 };
 		const expected = {
-			targetHandle: Position.Top,
 			sourceHandle: Position.Bottom,
+			targetHandle: Position.Top,
 		};
 		const result = positionHandle({ sourcePosition, targetPosition });
 		expect(result).toEqual(expected);

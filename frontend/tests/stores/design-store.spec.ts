@@ -48,8 +48,8 @@ describe('flowStoreStateCreator tests', () => {
 				{
 					id: 'reactflow__edge-a-c',
 					source: connection.source,
-					target: connection.target,
 					sourceHandle: undefined,
+					target: connection.target,
 					targetHandle: undefined,
 				},
 			],
@@ -64,7 +64,7 @@ describe('flowStoreStateCreator tests', () => {
 		const store = flowStoreStateCreator(set, get, {} as any);
 
 		const newEdge = await EdgeFactory.build();
-		const changes = [{ type: 'add', item: newEdge } as EdgeAddChange];
+		const changes = [{ item: newEdge, type: 'add' } as EdgeAddChange];
 		store.onEdgesChange(changes as unknown as EdgeChange[]);
 		expect(set).toHaveBeenCalledWith({
 			edges: [newEdge, existingEdge],
@@ -79,7 +79,7 @@ describe('flowStoreStateCreator tests', () => {
 		const store = flowStoreStateCreator(set, get, {} as any);
 
 		const node = await NodeFactory.build();
-		const changes = [{ type: 'add', item: node } satisfies NodeAddChange];
+		const changes = [{ item: node, type: 'add' } satisfies NodeAddChange];
 		store.onNodesChange(changes);
 		expect(set).toHaveBeenCalledWith({
 			nodes: [node, existingNode],
@@ -88,8 +88,8 @@ describe('flowStoreStateCreator tests', () => {
 
 	it('sets a configured node', () => {
 		get.mockReturnValueOnce({
-			nodes: [{ id: 'a', type: 'input' }],
 			configuredNode: null,
+			nodes: [{ id: 'a', type: 'input' }],
 		});
 		const store = flowStoreStateCreator(set, get, {} as any);
 

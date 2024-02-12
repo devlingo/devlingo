@@ -6,21 +6,21 @@ vi.mock('uuid', () => ({
 }));
 
 export const mockFetch = vi.fn().mockResolvedValue({
+	json: () => Promise.resolve({}),
 	ok: true,
 	status: 200,
-	json: () => Promise.resolve({}),
 });
 
 const env = {
 	NEXT_PUBLIC_BACKEND_BASE_URL: 'http://www.example.com',
 	NEXT_PUBLIC_FIREBASE_API_KEY: uuidv4(),
+	NEXT_PUBLIC_FIREBASE_APP_ID: uuidv4(),
 	NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: 'devlingo-demo.firebaseapp.com',
+	NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: uuidv4(),
+	NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID: 12_345_678_910,
+	NEXT_PUBLIC_FIREBASE_MICROSOFT_TENANT_ID: uuidv4(),
 	NEXT_PUBLIC_FIREBASE_PROJECT_ID: 'devlingo-demo',
 	NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: 'devlingo-demo.appspot.com',
-	NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID: 12_345_678_910,
-	NEXT_PUBLIC_FIREBASE_APP_ID: uuidv4(),
-	NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: uuidv4(),
-	NEXT_PUBLIC_FIREBASE_MICROSOFT_TENANT_ID: uuidv4(),
 };
 
 export const setEnv = (key: keyof typeof env, value: string) => {
@@ -29,13 +29,13 @@ export const setEnv = (key: keyof typeof env, value: string) => {
 
 const { initializeAppMock, getAuthMock } = vi.hoisted(() => {
 	return {
-		initializeAppMock: vi.fn().mockReturnValue({}),
 		getAuthMock: vi.fn().mockImplementation(() => ({
-			setPersistence: vi.fn(),
 			currentUser: {
 				getIdToken: vi.fn().mockResolvedValue('test_token'),
 			},
+			setPersistence: vi.fn(),
 		})),
+		initializeAppMock: vi.fn().mockReturnValue({}),
 	};
 });
 
@@ -54,8 +54,8 @@ vi.mock(
 
 		return {
 			...original,
-			getAuth: getAuthMock,
 			browserLocalPersistence: vi.fn(),
+			getAuth: getAuthMock,
 		};
 	},
 );
@@ -112,8 +112,8 @@ Object.defineProperties(global.HTMLElement.prototype, {
 });
 
 (global.SVGElement as any).prototype.getBBox = () => ({
+	height: 0,
+	width: 0,
 	x: 0,
 	y: 0,
-	width: 0,
-	height: 0,
 });

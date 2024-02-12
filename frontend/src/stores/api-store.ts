@@ -6,38 +6,42 @@ import { StateCreator } from 'zustand/vanilla';
 import { sortByDateProp } from '@/utils/time';
 
 export interface ApiStore {
-	// user
-	user: User | null;
-	setUser: (user: User) => void;
-	// projects
-	projects: ProjectResponseData[];
-	setProjects: (projects: ProjectResponseData[]) => void;
 	// currentDesign
 	currentDesign: DesignResponseData | null;
+	// projects
+	projects: ProjectResponseData[];
 	setCurrentDesign: (design: DesignResponseData | null) => void;
+	setProjects: (projects: ProjectResponseData[]) => void;
+	setUser: (user: User) => void;
+	// user
+	user: User | null;
 }
 
 export const apiStoreStateCreator: StateCreator<ApiStore> = (
 	set: SetState<ApiStore>,
 	_: GetState<ApiStore>,
 ) => ({
-	// user
-	user: null,
-	setUser: (user: User) => {
-		set({ user });
-	},
+	// currentDesign
+	currentDesign: null,
+
 	// projects
 	projects: [],
+
+	setCurrentDesign: (currentDesign: DesignResponseData | null) => {
+		set({ currentDesign });
+	},
+
 	setProjects: (projects: ProjectResponseData[]) => {
 		set({
 			projects: sortByDateProp(projects)('createdAt', 'desc'),
 		});
 	},
-	// currentDesign
-	currentDesign: null,
-	setCurrentDesign: (currentDesign: DesignResponseData | null) => {
-		set({ currentDesign });
+
+	setUser: (user: User) => {
+		set({ user });
 	},
+	// user
+	user: null,
 });
 
 export const useApiStore = create(apiStoreStateCreator);

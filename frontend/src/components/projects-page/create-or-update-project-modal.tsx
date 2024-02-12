@@ -27,11 +27,11 @@ export function CreateOrUpdateProjectModal({
 		try {
 			if (project) {
 				const updatedProject = await updateProject({
-					name: name === project.name ? undefined : name,
 					description:
 						description === project.description
 							? undefined
 							: description,
+					name: name === project.name ? undefined : name,
 					projectId: project.id,
 				});
 				setProjects(
@@ -41,8 +41,8 @@ export function CreateOrUpdateProjectModal({
 				);
 			} else {
 				const createdProject = await createProject({
-					name,
 					description: description || null,
+					name,
 				});
 				setProjects([...projects, createdProject]);
 			}
@@ -60,27 +60,27 @@ export function CreateOrUpdateProjectModal({
 			<div className="modal-box bg-base-100">
 				<h3 className="font-bold text-lg">
 					{project
-						? t('createProjectModalTitle')!
-						: t('updateProjectModalTitle')!}
+						? t('createProjectModalTitle')
+						: t('updateProjectModalTitle')}
 				</h3>
 				<form className="form-control">
 					<label className="label">
 						<span className="label-text">
-							{t('projectNameInputLabel')!}
+							{t('projectNameInputLabel')}
 						</span>
 					</label>
 					<input
 						type="text"
 						className="input input-bordered"
 						data-testid="create-or-update-project-modal-name-input"
-						placeholder={t('projectNameInputPlaceholder')!}
+						placeholder={t('projectNameInputPlaceholder')}
 						value={name}
 						onChange={handleChange(setName)}
 						disabled={isSubmitting}
 					/>
 					<label className="label">
 						<span className="label-text">
-							{t('projectDescriptionTextAreaLabel')!}
+							{t('projectDescriptionTextAreaLabel')}
 						</span>
 					</label>
 					<textarea

@@ -9,8 +9,8 @@ describe('users api tests', () => {
 		it('should return a user', async () => {
 			const user = await UserFactory.build();
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(user),
+				ok: true,
 			});
 
 			const data = await getUserProfile();

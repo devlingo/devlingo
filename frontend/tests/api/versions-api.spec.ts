@@ -12,8 +12,8 @@ describe('versions api tests', () => {
 			const version = await VersionFactory.build({ designId: design.id });
 
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(version),
+				ok: true,
 			});
 
 			const data = await retrieveDesignById({

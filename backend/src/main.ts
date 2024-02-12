@@ -19,8 +19,8 @@ import { setupValidationPipe } from './utils/configuration';
 	app.useLogger(app.get(Logger));
 
 	app.enableVersioning({
-		type: VersioningType.URI,
 		defaultVersion: ApiVersions.V1,
+		type: VersioningType.URI,
 	});
 	app.enableCors();
 
@@ -29,7 +29,7 @@ import { setupValidationPipe } from './utils/configuration';
 	app.useGlobalFilters(new PrismaExceptionFilter());
 
 	const configService = app.get(ConfigService<EnvironmentVariables, true>);
-	const port = configService.get<number>('SERVER_PORT')!;
+	const port = configService.get<number>('SERVER_PORT');
 
 	await app.listen(port);
 })();

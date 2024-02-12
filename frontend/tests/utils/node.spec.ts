@@ -6,8 +6,8 @@ import { ImageType } from '@/types';
 import { convertNodesToImageString } from '@/utils/node';
 
 vi.mock('html-to-image', () => ({
-	toPng: vi.fn(),
 	toJpeg: vi.fn(),
+	toPng: vi.fn(),
 	toSvg: vi.fn(),
 }));
 
@@ -20,8 +20,8 @@ describe('Node Utils Tests', () => {
 					imageType === 'jpeg'
 						? toJpeg
 						: imageType === 'png'
-						? toPng
-						: toSvg;
+							? toPng
+							: toSvg;
 				const { nodes } = testData;
 				const expected = {
 					backgroundColor: '#FFFFF',
@@ -35,9 +35,9 @@ describe('Node Utils Tests', () => {
 					width: 1024,
 				};
 				await convertNodesToImageString({
-					nodes,
-					imageType,
 					backgroundColor: '#FFFFF',
+					imageType,
+					nodes,
 				});
 				expect(mock).toHaveBeenCalledWith(null, expected);
 			},

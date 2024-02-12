@@ -1,18 +1,18 @@
 {
-	"extends": "../tsconfig.json",
-	"include": ["*.d.ts", "**/*.ts", "**/*.tsx", "*.ts"],
-	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"baseUrl": ".",
 		"importHelpers": true,
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "ESNext"],
-		"types": ["vitest/globals", "@testing-library/jest-dom"],
 		"paths": {
 			"@/*": ["src/*"],
-			"tests/*": ["tests/*"],
 			"public/*": ["public/*"],
-			"shared/*": ["../shared/src/*"]
-		}
-	}
+			"shared/*": ["../shared/src/*"],
+			"tests/*": ["tests/*"]
+		},
+		"types": ["vitest/globals", "@testing-library/jest-dom"]
+	},
+	"exclude": ["node_modules"],
+	"extends": "../tsconfig.json",
+	"include": ["*.d.ts", "**/*.ts", "**/*.tsx", "*.ts"]
 }

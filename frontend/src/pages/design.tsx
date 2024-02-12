@@ -100,11 +100,11 @@ export default function DesignCanvasPage() {
 			setNodes([
 				...nodes,
 				createNode({
-					position: reactFlowInstance.project({ x, y }),
 					data: {
-						nodeType,
 						formData: { nodeName: 'Unnamed' },
+						nodeType,
 					},
+					position: reactFlowInstance.project({ x, y }),
 				}),
 			]);
 		}

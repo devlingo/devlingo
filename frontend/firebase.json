@@ -3,9 +3,9 @@
 		"auth": {
 			"port": 9099
 		},
+		"singleProjectMode": true,
 		"ui": {
 			"enabled": true
-		},
-		"singleProjectMode": true
+		}
 	}
 }

@@ -11,8 +11,8 @@ describe('designs api tests', () => {
 			const design = await DesignFactory.build();
 
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(design),
+				ok: true,
 			});
 
 			const data = await retrieveDesignById({

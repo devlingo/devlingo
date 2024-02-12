@@ -45,8 +45,8 @@ export class UserPermissionsGuard implements CanActivate {
 			await this.prisma.userProjectPermission.findFirstOrThrow({
 				where: {
 					projectId,
-					user: { is: { firebaseId } },
 					type: { in: permissions },
+					user: { is: { firebaseId } },
 				},
 			});
 		} catch {

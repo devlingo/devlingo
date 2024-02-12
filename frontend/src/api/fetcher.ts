@@ -12,10 +12,10 @@ export async function fetcher<T>({
 	data,
 	...rest
 }: {
-	url: string;
-	method: HttpMethod;
-	version?: number;
 	data?: Record<string, any> | any[] | string | number;
+	method: HttpMethod;
+	url: string;
+	version?: number;
 } & Omit<RequestInit, 'method' | 'body'>): Promise<T> {
 	const auth = await getFirebaseAuth();
 	const token = await auth.currentUser?.getIdToken();
@@ -29,13 +29,13 @@ export async function fetcher<T>({
 	}
 
 	const request = deepmerge(rest, {
-		method,
+		body: data ? JSON.stringify(data) : undefined,
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json',
 			'X-Request-Id': uuidv4(),
 		},
-		body: data ? JSON.stringify(data) : undefined,
+		method,
 	}) satisfies RequestInit;
 
 	const path = new URL(
@@ -53,9 +53,9 @@ export async function fetcher<T>({
 		throw new ApiError(
 			(Reflect.get(body, 'message') ?? 'An API Error Occurred') as string,
 			{
+				context: { path },
 				statusCode: response.status,
 				statusText: response.statusText,
-				context: { path },
 			},
 		);
 	}

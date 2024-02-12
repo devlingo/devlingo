@@ -9,20 +9,27 @@ export interface OpenContextMenuParams {
 }
 
 export interface ContextMenuStore {
+	closeContextMenu: () => void;
 	isContextMenuOpen: boolean;
+	itemId: string | null;
+	menuType: ContextMenuType | null;
+	openContextMenu: (params: OpenContextMenuParams) => void;
 	position: {
 		x: number;
 		y: number;
 	} | null;
-	itemId: string | null;
-	menuType: ContextMenuType | null;
-	openContextMenu: (params: OpenContextMenuParams) => void;
-	closeContextMenu: () => void;
 }
 
 export const useContextMenuStore = create<ContextMenuStore>((set) => ({
+	closeContextMenu: () => {
+		set({
+			isContextMenuOpen: false,
+			itemId: null,
+			menuType: null,
+			position: null,
+		});
+	},
 	isContextMenuOpen: false,
-	position: null,
 	itemId: null,
 	menuType: null,
 	openContextMenu: (params: {
@@ -32,14 +39,7 @@ export const useContextMenuStore = create<ContextMenuStore>((set) => ({
 	}) => {
 		set({ ...params, isContextMenuOpen: true });
 	},
-	closeContextMenu: () => {
-		set({
-			isContextMenuOpen: false,
-			position: null,
-			itemId: null,
-			menuType: null,
-		});
-	},
+	position: null,
 }));
 
 export const useOpenContextMenu = () =>

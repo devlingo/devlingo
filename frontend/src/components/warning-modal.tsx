@@ -6,9 +6,9 @@ export function WarningModal({
 	closeModal,
 	onContinue,
 }: {
-	warningText: string;
 	closeModal: () => void;
 	onContinue: () => void;
+	warningText: string;
 }) {
 	const { t } = useTranslation('common');
 

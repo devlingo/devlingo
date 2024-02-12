@@ -6,8 +6,8 @@ import { PromptCommand } from '@/api/prompt/constants';
 
 export interface FlatNode {
 	id: string;
-	nodeType: ServiceType | SystemComponentType;
 	nodeName: string;
+	nodeType: ServiceType | SystemComponentType;
 	xPos: number;
 	yPos: number;
 }
@@ -21,6 +21,7 @@ export function mapDesignDataToPromptInterface({
 	edges,
 }: DesignData): PromptDesignInterface {
 	return {
+		edges,
 		nodes: nodes.map(
 			({
 				id,
@@ -31,13 +32,12 @@ export function mapDesignDataToPromptInterface({
 				position: { x: xPos, y: yPos },
 			}) => ({
 				id,
-				nodeType,
 				nodeName,
+				nodeType,
 				xPos,
 				yPos,
 			}),
 		),
-		edges,
 	};
 }
 
@@ -92,13 +92,13 @@ export function addNode(
 	}
 
 	const node = createNode({
-		id,
 		data: {
-			nodeType: nodeType as ServiceType,
 			formData: {
 				nodeName,
 			},
+			nodeType: nodeType as ServiceType,
 		},
+		id,
 		position: {
 			x: Number.parseInt(xPos),
 			y: Number.parseInt(yPos),

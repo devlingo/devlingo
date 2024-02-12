@@ -33,7 +33,7 @@ export class ProjectsController {
 		@Req() request: Request,
 		@Body() data: ProjectCreateDTO,
 	): Promise<Project> {
-		return await this.projectService.createProject({ request, data });
+		return await this.projectService.createProject({ data, request });
 	}
 
 	@Get()
@@ -66,8 +66,8 @@ export class ProjectsController {
 	): Promise<Project> {
 		return await this.projectService.updateProject({
 			...projectId,
-			request,
 			data,
+			request,
 		});
 	}
 

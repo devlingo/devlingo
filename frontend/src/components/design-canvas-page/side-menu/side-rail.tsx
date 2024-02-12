@@ -23,11 +23,10 @@ interface MenuCategoryWithNodes {
 }
 
 const menuItems: {
-	icon: React.ComponentType<React.SVGProps<SVGElement>>;
 	categories: MenuCategoryWithNodes[];
+	icon: React.ComponentType<React.SVGProps<SVGElement>>;
 }[] = [
 	{
-		icon: TypeSVGMap[MenuItemType.Frontend].SVG,
 		categories: [
 			{
 				category: MenuCategory.Javascript,
@@ -50,9 +49,9 @@ const menuItems: {
 				],
 			},
 		],
+		icon: TypeSVGMap[MenuItemType.Frontend].SVG,
 	},
 	{
-		icon: TypeSVGMap[MenuItemType.Backend].SVG,
 		categories: [
 			{
 				category: MenuCategory.Javascript,
@@ -86,9 +85,9 @@ const menuItems: {
 				nodes: [],
 			},
 		],
+		icon: TypeSVGMap[MenuItemType.Backend].SVG,
 	},
 	{
-		icon: TypeSVGMap[MenuItemType.Database].SVG,
 		categories: [
 			{
 				category: MenuCategory.NoSQL,
@@ -125,13 +124,13 @@ const menuItems: {
 				nodes: [],
 			},
 		],
+		icon: TypeSVGMap[MenuItemType.Database].SVG,
 	},
 	{
-		icon: TypeSVGMap[MenuItemType.Cloud].SVG,
 		categories: [],
+		icon: TypeSVGMap[MenuItemType.Cloud].SVG,
 	},
 	{
-		icon: TypeSVGMap[MenuItemType.API].SVG,
 		categories: [
 			{
 				category: MenuCategory.Marketing,
@@ -143,6 +142,7 @@ const menuItems: {
 			},
 			{ category: MenuCategory.Payment, nodes: [ServiceType.Stripe] },
 		],
+		icon: TypeSVGMap[MenuItemType.API].SVG,
 	},
 ];
 
@@ -154,9 +154,9 @@ export function ExportFlowCanvasToImage() {
 		).getPropertyValue('--b3')})`;
 
 		const dataUrl = await convertNodesToImageString({
-			nodes: displayNodes,
-			imageType,
 			backgroundColor,
+			imageType,
+			nodes: displayNodes,
 		});
 
 		// FIXME: filenames should be meaningful. For now this works though.

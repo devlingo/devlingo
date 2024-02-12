@@ -11,9 +11,9 @@ export interface MenuItemProps {
 
 export function MenuItem({ nodeType }: MenuItemProps) {
 	const [{ isDragging }, drag] = useDrag(() => ({
-		type: 'MenuItem',
-		item: { nodeType },
 		collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+		item: { nodeType },
+		type: 'MenuItem',
 	}));
 
 	const { t } = useTranslation('assets');

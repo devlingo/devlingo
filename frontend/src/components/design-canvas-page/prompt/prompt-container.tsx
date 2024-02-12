@@ -47,9 +47,9 @@ export function PromptContainer({
 		setPromptState(PromptState.Loading);
 		try {
 			const { nodes, edges } = await requestPrompt({
-				useInput,
 				designId: currentDesign.id,
 				projectId: currentDesign.projectId,
+				useInput,
 			});
 			setNodes(nodes);
 			setEdges(NormalizeEdges(edges, nodes));

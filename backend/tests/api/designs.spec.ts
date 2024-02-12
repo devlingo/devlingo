@@ -44,17 +44,17 @@ describe('Designs Controller Tests', () => {
 			prisma.design.create.mockResolvedValueOnce(data);
 
 			const response = await request.post(`/${project.id}/designs`).send({
-				name: data.name,
 				description: data.description,
 				isDefault: data.isDefault,
+				name: data.name,
 			});
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(prisma.design.create).toHaveBeenCalledWith({
 				data: {
-					name: data.name,
 					description: data.description,
 					isDefault: data.isDefault,
+					name: data.name,
 					projectId: project.id,
 				},
 			});
@@ -131,22 +131,22 @@ describe('Designs Controller Tests', () => {
 				updatedAt: design.updatedAt.toISOString(),
 			});
 			expect(prisma.design.findUniqueOrThrow).toHaveBeenCalledWith({
-				where: { id: design.id },
 				select: {
-					id: true,
-					name: true,
-					description: true,
-					isDefault: true,
-					projectId: true,
 					createdAt: true,
+					description: true,
+					id: true,
+					isDefault: true,
+					name: true,
+					projectId: true,
 					updatedAt: true,
 					versions: {
 						select: {
-							id: true,
 							createdAt: true,
+							id: true,
 						},
 					},
 				},
+				where: { id: design.id },
 			});
 		});
 

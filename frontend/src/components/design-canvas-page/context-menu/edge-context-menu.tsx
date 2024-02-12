@@ -22,8 +22,8 @@ export function EdgeTypeDropdown({
 	onClickHandler,
 	currentEdgeType,
 }: {
-	onClickHandler: (edgeType: EdgeType) => void;
 	currentEdgeType: EdgeType;
+	onClickHandler: (edgeType: EdgeType) => void;
 }) {
 	const { t } = useTranslation('edges');
 	return (
@@ -57,9 +57,9 @@ export function EdgeTypeDropdown({
 										style={{
 											color: 'currentColor',
 											height: 5,
-											width: 5,
-											padding: 0,
 											margin: 0,
+											padding: 0,
+											width: 5,
 										}}
 										sourceX={0}
 										sourceY={20}

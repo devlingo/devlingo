@@ -18,16 +18,16 @@ const defaultNS = 'assets';
 
 const resources = {
 	en: {
-		common: enCommon,
 		assets: enAssets,
+		common: enCommon,
 	},
 };
 
 void i18next.use(initReactI18next).init({
-	lng: 'en',
-	resources,
-	ns: [defaultNS],
 	defaultNS,
+	lng: 'en',
+	ns: [defaultNS],
+	resources,
 });
 
 const customRender = (

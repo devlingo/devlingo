@@ -10,10 +10,10 @@ import { validateEnv } from '@/utils/env';
 const DEFAULT_MODULES = [
 	PrismaModule,
 	ConfigModule.forRoot({
-		validate: isTest() ? undefined : validateEnv,
-		isGlobal: true,
-		ignoreEnvFile: true,
 		cache: true,
+		ignoreEnvFile: true,
+		isGlobal: true,
+		validate: isTest() ? undefined : validateEnv,
 	}),
 	FirebaseModule,
 ];
@@ -28,15 +28,15 @@ if (!isTest()) {
 			? {
 					level: 'info',
 					redact,
-			  }
+				}
 			: {
 					level: 'debug',
-					transport: {
-						target: 'pino-pretty',
-						options: { singleLine: true },
-					},
 					redact,
-			  };
+					transport: {
+						options: { singleLine: true },
+						target: 'pino-pretty',
+					},
+				};
 
 	DEFAULT_MODULES.push(
 		LoggerModule.forRoot({

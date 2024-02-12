@@ -13,8 +13,8 @@ const imageExporterMap: Record<
 	ImageType,
 	typeof toPng | typeof toJpeg | typeof toSvg
 > = {
-	png: toPng,
 	jpeg: toJpeg,
+	png: toPng,
 	svg: toSvg,
 };
 
@@ -24,8 +24,8 @@ export async function convertNodesToImageString({
 	backgroundColor,
 	...options
 }: {
-	nodes: Node[];
 	imageType: ImageType;
+	nodes: Node[];
 } & HtmlToImageOptions & { backgroundColor: string }) {
 	// we calculate a transform for the nodes so that all nodes are visible
 	// we then overwrite the transform of the `.react-flow__viewport` element
@@ -46,13 +46,13 @@ export async function convertNodesToImageString({
 		document.querySelector('.react-flow__viewport')! as HTMLElement,
 		{
 			backgroundColor,
-			width: options.width ?? imageWidth,
 			height: options.height ?? imageHeight,
 			style: {
-				width: (options.width ?? imageWidth).toString(),
 				height: (options.height ?? imageHeight).toString(),
 				transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+				width: (options.width ?? imageWidth).toString(),
 			},
+			width: options.width ?? imageWidth,
 			...options,
 		},
 	);

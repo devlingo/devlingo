@@ -20,13 +20,13 @@ export class VersionsService {
 
 		return await this.prisma.version.create({
 			data: {
-				data: JSON.stringify({ nodes, edges, viewport }),
+				data: JSON.stringify({ edges, nodes, viewport }),
 				designId,
 			},
 			select: {
-				id: true,
-				designId: true,
 				createdAt: true,
+				designId: true,
+				id: true,
 			},
 		});
 	}

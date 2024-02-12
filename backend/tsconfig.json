@@ -1,16 +1,16 @@
 {
-	"extends": "../tsconfig.json",
-	"include": ["*.d.ts", "**/*.ts", "**/*.tsx", "*.ts"],
-	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"baseUrl": ".",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
 			"@/*": ["src/*"],
-			"tests/*": ["tests/*"],
-			"shared/*": ["../shared/src/*"]
+			"shared/*": ["../shared/src/*"],
+			"tests/*": ["tests/*"]
 		},
 		"types": ["vitest/globals"]
-	}
+	},
+	"exclude": ["node_modules"],
+	"extends": "../tsconfig.json",
+	"include": ["*.d.ts", "**/*.ts", "**/*.tsx", "*.ts"]
 }

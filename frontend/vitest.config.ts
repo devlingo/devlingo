@@ -7,14 +7,14 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	plugins: [react(), magicalSvg({ target: 'react' })],
 	test: {
-		globals: true,
-		environment: 'jsdom',
 		alias: {
 			'@': resolve(__dirname, './src'),
-			'tests': resolve(__dirname, './tests'),
 			'public': resolve(__dirname, './public'),
 			'shared': resolve(__dirname, '../shared/src'),
+			'tests': resolve(__dirname, './tests'),
 		},
+		environment: 'jsdom',
+		globals: true,
 		setupFiles: ['./tests/vitest.setup.ts', './tests/mocks.ts'],
 	},
 });

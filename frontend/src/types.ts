@@ -10,28 +10,28 @@ export interface DropTargetData {
 export type ImageType = 'png' | 'jpeg' | 'svg';
 
 export interface ThemeColors {
-	primary: string;
-	primaryFocus: string;
-	primaryContent: string;
-	secondary: string;
-	secondaryFocus: string;
-	secondaryContent: string;
 	accent: string;
-	accentFocus: string;
 	accentContent: string;
-	neutral: string;
-	neutralFocus: string;
-	neutralContent: string;
+	accentFocus: string;
 	base100: string;
 	base200: string;
 	base300: string;
 	baseContent: string;
+	error: string;
+	errorContent: string;
 	info: string;
 	infoContent: string;
+	neutral: string;
+	neutralContent: string;
+	neutralFocus: string;
+	primary: string;
+	primaryContent: string;
+	primaryFocus: string;
+	secondary: string;
+	secondaryContent: string;
+	secondaryFocus: string;
 	success: string;
 	successContent: string;
 	warning: string;
 	warningContent: string;
-	error: string;
-	errorContent: string;
 }

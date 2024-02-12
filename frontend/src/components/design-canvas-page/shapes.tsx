@@ -4,8 +4,8 @@ export const ShapeComponents: Record<
 	NodeShape,
 	React.FC<
 		{
-			width: number;
 			height: number;
+			width: number;
 		} & React.SVGProps<any>
 	>
 > = {

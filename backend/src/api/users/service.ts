@@ -36,10 +36,10 @@ export class UsersService {
 
 		return await this.prisma.user.create({
 			data: {
-				firebaseId,
-				email,
-				name,
 				avatarUrl,
+				email,
+				firebaseId,
+				name,
 			},
 		});
 	}
@@ -70,10 +70,10 @@ export class UsersService {
 		...data
 	}: UserUpdateDTO & { userId: string }): Promise<User> {
 		const updatedUser = await this.prisma.user.update({
+			data,
 			where: {
 				id: userId,
 			},
-			data,
 		});
 
 		await this.firebaseService.auth.updateUser(updatedUser.firebaseId, {

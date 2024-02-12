@@ -4,48 +4,48 @@ import { createNode } from 'shared/utils/design';
 import { v4 as uuidv4 } from 'uuid';
 
 const nestService = createNode({
-	position: { x: 700, y: 50 },
 	data: {
-		nodeType: ServiceType.NestJs,
 		formData: { nodeName: 'Backend' },
+		nodeType: ServiceType.NestJs,
 	},
+	position: { x: 700, y: 50 },
 });
 
 const nextService = createNode({
-	position: { x: 1300, y: 50 },
 	data: {
-		nodeType: ServiceType.NextJs,
 		formData: { nodeName: 'Frontend' },
+		nodeType: ServiceType.NextJs,
 	},
+	position: { x: 1300, y: 50 },
 });
 
 const flutterService = createNode({
-	position: { x: 1300, y: 500 },
 	data: {
-		nodeType: ServiceType.Flutter,
 		formData: { nodeName: 'Mobile' },
+		nodeType: ServiceType.Flutter,
 	},
+	position: { x: 1300, y: 500 },
 });
 
 export const testData = {
-	nestService,
-	nextService,
-	flutterService,
-	nodes: [nestService, nextService, flutterService],
 	edges: [
 		{
 			id: uuidv4(),
 			source: nextService.id,
-			target: nestService.id,
 			sourceHandle: Position.Left,
+			target: nestService.id,
 			targetHandle: Position.Right,
 		},
 		{
 			id: uuidv4(),
 			source: flutterService.id,
-			target: nestService.id,
 			sourceHandle: Position.Left,
+			target: nestService.id,
 			targetHandle: Position.Right,
 		},
 	],
+	flutterService,
+	nestService,
+	nextService,
+	nodes: [nestService, nextService, flutterService],
 };

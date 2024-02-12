@@ -25,7 +25,7 @@ describe('Prompt Util Tests', () => {
 			return e;
 		});
 
-		designData = { nodes, edges };
+		designData = { edges, nodes };
 	});
 
 	describe('mapDesignDataToPromptInterface tests', () => {
@@ -163,8 +163,8 @@ describe('Prompt Util Tests', () => {
 					formData: {
 						nodeName: 'node1',
 					},
-					nodeType: ServiceType.NestJs,
 					height: 256,
+					nodeType: ServiceType.NestJs,
 					shape: NodeShape.Rectangle,
 					width: 256,
 				},
@@ -178,7 +178,7 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error on invalid nodeType', () => {
-			const designData = { nodes: [], edges: [] };
+			const designData = { edges: [], nodes: [] };
 			const input = ['1', 'invalid', 'node1', '10', '20'];
 
 			expect(() => {
@@ -287,7 +287,7 @@ describe('Prompt Util Tests', () => {
 		});
 
 		it('throws an error on invalid edgeType', () => {
-			const designData = { nodes: [], edges: [] };
+			const designData = { edges: [], nodes: [] };
 			const edge = ['1', 'source', 'target', 'invalid_type'];
 			expect(() => {
 				addEdge(edge, designData);

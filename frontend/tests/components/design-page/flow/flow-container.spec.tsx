@@ -23,17 +23,17 @@ const {
 	mockUseOnViewportChange,
 } = vi.hoisted(() => {
 	return {
-		mockUseReactFlow: vi.fn(() => ({
-			getViewport: vi.fn(() => ({ x: 0, y: 0, zoom: 1 })),
-			zoomTo: vi.fn(),
-			setViewport: vi.fn(),
-		})),
 		mockBackground: vi.fn(() => <div data-test-id="mock-background" />),
 		mockControls: vi.fn(() => <div data-test-id="mock-controls" />),
 		mockPanel: vi.fn(({ children }: any) => (
 			<div data-test-id="mock-panel">{children}</div>
 		)),
 		mockUseOnViewportChange: vi.fn(),
+		mockUseReactFlow: vi.fn(() => ({
+			getViewport: vi.fn(() => ({ x: 0, y: 0, zoom: 1 })),
+			setViewport: vi.fn(),
+			zoomTo: vi.fn(),
+		})),
 	};
 });
 vi.mock(
@@ -41,11 +41,11 @@ vi.mock(
 	async (importOriginal: () => Promise<Record<string, any>>) => {
 		return {
 			...(await importOriginal()),
-			useReactFlow: mockUseReactFlow,
 			Background: mockBackground,
 			Controls: mockControls,
 			Panel: mockPanel,
 			useOnViewportChange: mockUseOnViewportChange,
+			useReactFlow: mockUseReactFlow,
 		};
 	},
 );
@@ -125,8 +125,8 @@ describe('FlowContainer tests', () => {
 			const spy = vi
 				.spyOn(useSaveDesignModule, 'useSaveDesign')
 				.mockReturnValue({
-					setLastChangeTimestamp: mockSetLastChangeTimestamp,
 					isSaving: false,
+					setLastChangeTimestamp: mockSetLastChangeTimestamp,
 				} as any);
 
 			const component = (
@@ -145,8 +145,8 @@ describe('FlowContainer tests', () => {
 
 			act(() => {
 				spy.mockReturnValueOnce({
-					setLastChangeTimestamp: mockSetLastChangeTimestamp,
 					isSaving: true,
+					setLastChangeTimestamp: mockSetLastChangeTimestamp,
 				} as any);
 			});
 

@@ -6,8 +6,8 @@ import { fetcher } from '@/api/fetcher';
 
 export async function getProjects() {
 	return await fetcher<ProjectResponseData[]>({
-		url: 'projects/',
 		method: HttpMethod.Get,
+		url: 'projects/',
 	});
 }
 
@@ -15,9 +15,9 @@ export async function createProject(
 	data: Pick<Project, 'name' | 'description'>,
 ) {
 	return await fetcher<ProjectResponseData>({
-		url: 'projects/',
-		method: HttpMethod.Post,
 		data,
+		method: HttpMethod.Post,
+		url: 'projects/',
 	});
 }
 
@@ -26,15 +26,15 @@ export async function updateProject({
 	...data
 }: Partial<Pick<Project, 'name' | 'description'>> & { projectId: string }) {
 	return await fetcher<ProjectResponseData>({
-		url: `projects/${projectId}`,
-		method: HttpMethod.Patch,
 		data,
+		method: HttpMethod.Patch,
+		url: `projects/${projectId}`,
 	});
 }
 
 export async function deleteProject({ projectId }: { projectId: string }) {
 	await fetcher<undefined>({
-		url: `projects/${projectId}`,
 		method: HttpMethod.Delete,
+		url: `projects/${projectId}`,
 	});
 }

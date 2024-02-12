@@ -8,13 +8,13 @@ export async function retrieveVersionById({
 	projectId,
 	designId,
 }: {
-	projectId: string;
 	designId: string;
+	projectId: string;
 	versionId: string;
 }): Promise<VersionResponse> {
 	return await fetcher<VersionResponse>({
-		url: `${projectId}/${designId}/versions/${versionId}`,
 		method: HttpMethod.Get,
+		url: `${projectId}/${designId}/versions/${versionId}`,
 	});
 }
 
@@ -23,13 +23,13 @@ export async function createVersion({
 	designId,
 	data,
 }: {
-	projectId: string;
-	designId: string;
 	data: VersionData;
+	designId: string;
+	projectId: string;
 }): Promise<Omit<VersionResponse, 'data'>> {
 	return await fetcher<VersionResponse>({
-		url: `${projectId}/${designId}/versions/`,
-		method: HttpMethod.Post,
 		data,
+		method: HttpMethod.Post,
+		url: `${projectId}/${designId}/versions/`,
 	});
 }

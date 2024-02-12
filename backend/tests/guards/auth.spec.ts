@@ -10,8 +10,8 @@ import { EnvironmentVariables } from '@/utils/env';
 
 vi.mock('firebase-admin/app', () => {
 	return {
-		initializeApp: vi.fn(() => ({})),
 		cert: vi.fn(() => ({})),
+		initializeApp: vi.fn(() => ({})),
 	};
 });
 vi.mock('firebase-admin', () => {

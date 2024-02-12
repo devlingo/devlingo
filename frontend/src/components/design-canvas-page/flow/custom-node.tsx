@@ -27,11 +27,11 @@ export function NodeHandles({
 	height,
 	...props
 }: {
-	nodeId: string;
 	className?: string;
+	height: number;
+	nodeId: string;
 	shape: NodeShape;
 	width: number;
-	height: number;
 } & Omit<HandleProps, 'position' | 'type'>) {
 	const positions = Object.values(Position).map((position, i) => {
 		const style: Record<string, any> = {};
@@ -67,8 +67,8 @@ export function NodeHandles({
 
 export function calculateMinimalContentDimensions(childNodes: HTMLElement[]) {
 	return childNodes.reduce<{
-		minWidth: number;
 		minHeight: number;
+		minWidth: number;
 	}>(
 		(acc, cur) => {
 			const { width, height } = cur.getBoundingClientRect();
@@ -84,8 +84,8 @@ export function calculateMinimalContentDimensions(childNodes: HTMLElement[]) {
 			return acc;
 		},
 		{
-			minWidth: 0,
 			minHeight: 0,
+			minWidth: 0,
 		},
 	);
 }
@@ -94,8 +94,8 @@ export function useNodeResize({
 	width,
 	height,
 }: {
-	width: number;
 	height: number;
+	width: number;
 }) {
 	const [minWidth, setMinWidth] = useState(0);
 	const [minHeight, setMinHeight] = useState(0);
@@ -119,9 +119,9 @@ export function useNodeResize({
 
 	return {
 		contentRef,
-		resizeFactor,
-		minWidth,
 		minHeight,
+		minWidth,
+		resizeFactor,
 	};
 }
 
@@ -139,8 +139,8 @@ export function CustomNode({
 	const Shape = ShapeComponents[shape];
 
 	const { minWidth, minHeight, contentRef, resizeFactor } = useNodeResize({
-		width,
 		height,
+		width,
 	});
 
 	const baseFontSize = Math.abs(Dimensions.Rem * resizeFactor);
@@ -157,8 +157,8 @@ export function CustomNode({
 			<NodeResizer
 				onResize={(_, params) => {
 					updateNode(nodeId, {
-						width: params.width,
 						height: params.height,
+						width: params.width,
 					});
 				}}
 				minHeight={minHeight}

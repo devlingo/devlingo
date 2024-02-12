@@ -9,16 +9,16 @@ export async function requestPrompt({
 	projectId,
 	...data
 }: {
-	useInput: string;
 	designId: string;
 	projectId: string;
+	useInput: string;
 }): Promise<{
-	nodes: Node[];
 	edges: Edge[];
+	nodes: Node[];
 }> {
 	return await fetcher<DesignData>({
-		url: `${projectId}/${designId}/prompt`,
-		method: HttpMethod.Post,
 		data,
+		method: HttpMethod.Post,
+		url: `${projectId}/${designId}/prompt`,
 	});
 }

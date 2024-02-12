@@ -20,12 +20,12 @@ export const useContextMenu = (menuType: ContextMenuType, itemId: string) => {
 	return (e: MouseEvent) => {
 		e.preventDefault();
 		openContextMenu({
+			itemId,
+			menuType,
 			position: {
 				x: e.pageX,
 				y: e.pageY,
 			},
-			itemId,
-			menuType,
 		});
 	};
 };

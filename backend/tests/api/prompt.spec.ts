@@ -19,7 +19,7 @@ vi.mock(
 		const OpenAI = vi.fn();
 		OpenAI.prototype.call = vi.fn();
 
-		return { ...actual, OpenAI: OpenAI };
+		return { ...actual, OpenAI };
 	},
 );
 
@@ -58,16 +58,23 @@ describe('Prompt Controller Tests', () => {
 
 	describe('POST :projectId/:designId/prompt', () => {
 		const requestData = {
-			useInput: 'Please add a mysql database connected to my backend.',
 			designData: {
+				edges: [
+					{
+						id: 'edge-1',
+						source: 'QMGfvyzBBhF-2BiDdIOGe',
+						target: 'KZA-U5dr_r7L4AJK4A9Xd',
+						type: 'smoothstep',
+					},
+				],
 				nodes: [
 					{
 						data: {
-							nodeType: 'NextJS',
+							childNodes: [],
 							formData: {
 								nodeName: 'Frontend',
 							},
-							childNodes: [],
+							nodeType: 'NextJS',
 						},
 						id: 'QMGfvyzBBhF-2BiDdIOGe',
 						position: {
@@ -78,10 +85,10 @@ describe('Prompt Controller Tests', () => {
 					},
 					{
 						data: {
-							nodeType: 'NestJS',
 							formData: {
 								nodeName: 'Backend',
 							},
+							nodeType: 'NestJS',
 						},
 						id: 'KZA-U5dr_r7L4AJK4A9Xd',
 						position: {
@@ -91,15 +98,14 @@ describe('Prompt Controller Tests', () => {
 						type: 'CustomNode',
 					},
 				],
-				edges: [
-					{
-						id: 'edge-1',
-						source: 'QMGfvyzBBhF-2BiDdIOGe',
-						target: 'KZA-U5dr_r7L4AJK4A9Xd',
-						type: 'smoothstep',
-					},
-				],
 			},
+			edgeTypes: [
+				'default',
+				'straight',
+				'step',
+				'smoothstep',
+				'simplebezier',
+			],
 			nodeTypes: [
 				'NestJS',
 				'NextJS',
@@ -135,13 +141,7 @@ describe('Prompt Controller Tests', () => {
 				'Flutter',
 				'ReactNative',
 			],
-			edgeTypes: [
-				'default',
-				'straight',
-				'step',
-				'smoothstep',
-				'simplebezier',
-			],
+			useInput: 'Please add a mysql database connected to my backend.',
 		};
 		it('sends a prompt request and returns the expected response', async () => {
 			mockOpenAICall.mockResolvedValueOnce(
@@ -160,22 +160,22 @@ describe('Prompt Controller Tests', () => {
 
 			expect(response.statusCode).toEqual(HttpStatus.CREATED);
 			expect(response.body).toEqual({
+				edges,
 				nodes: [
 					...nodes,
 					{
 						data: {
-							nodeType: ServiceType.MongoDB,
+							formData: { nodeName: 'Database' },
 							height: 256,
+							nodeType: ServiceType.MongoDB,
 							shape: NodeShape.Rectangle,
 							width: 256,
-							formData: { nodeName: 'Database' },
 						},
 						id: '5a6c3b5a-9c3a-4687-8199-c2ba25f480a2',
 						position: { x: 700, y: 500 },
 						type: 'CustomNode',
 					},
 				],
-				edges,
 			});
 		});
 		it('returns a 500 status response on receiving an error', async () => {

@@ -11,7 +11,6 @@ import { AppWrapper } from '@/wrapper';
 
 function App({ Component, pageProps }: AppProps): React.ReactElement {
 	return (
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		<AppWrapper dndBackend={HTML5Backend}>
 			<Component {...pageProps} />
 		</AppWrapper>

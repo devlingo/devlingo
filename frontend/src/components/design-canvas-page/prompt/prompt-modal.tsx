@@ -9,8 +9,8 @@ export function PromptModal({
 	handlePromptSubmit,
 	handleModalClose,
 }: {
-	handlePromptSubmit: (prompt: string) => Promise<void>;
 	handleModalClose: () => void;
+	handlePromptSubmit: (prompt: string) => Promise<void>;
 }) {
 	const { t } = useTranslation('prompt');
 	const [prompt, setPrompt] = useState('');
@@ -35,7 +35,7 @@ export function PromptModal({
 				</div>
 				<div className="form-control">
 					<textarea
-						placeholder={t('promptModalPlaceholder')!}
+						placeholder={t('promptModalPlaceholder')}
 						className="textarea textarea-bordered textarea-md w-full"
 						value={prompt}
 						onChange={handleChange(setPrompt)}

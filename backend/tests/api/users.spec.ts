@@ -69,8 +69,8 @@ describe('Users Controller Tests', () => {
 	describe('PATCH /users/:userId', () => {
 		it('updates a user by ID', async () => {
 			const data: UserUpdateDTO = {
-				name: 'New Name',
 				avatarUrl: 'https://example.com/avatar.png',
+				name: 'New Name',
 			};
 			prisma.user.update.mockImplementationOnce(
 				({ data }) => Promise.resolve({ ...user, ...data }) as any,

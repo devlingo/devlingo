@@ -14,12 +14,12 @@ describe('prompt API tests', () => {
 		it('calls the expected URL and returns the expected data', async () => {
 			const design = await DesignFactory.build();
 			const responseData = {
-				nodes: [],
 				edges: [],
+				nodes: [],
 			};
 			mockFetch.mockResolvedValueOnce({
-				ok: true,
 				json: () => Promise.resolve(responseData),
+				ok: true,
 			});
 
 			const data = await requestPrompt({
